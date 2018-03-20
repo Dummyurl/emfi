@@ -315,5 +315,5 @@ function callCustomSP($str)
     // $pdo = $db->getPdo();
     $statement = $db->prepare($str);
     $statement->execute();
-    return $statement->fetchAll();
+    return $statement->fetchAll(\PDO::FETCH_ASSOC);
 }

@@ -1,0 +1,9 @@
+http://emfi.com/api/SelectMarkets
+
+http://emfi.com/api/TopMarketData
+
+http://emfi.com/api/TopGainer/['Market_id']
+
+http://emfi.com/api/TopLoser/['Market_id']
+
+http://emfi.com/api/HistoryChart/12/6
