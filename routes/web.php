@@ -104,6 +104,9 @@ Route::group(['prefix' => $ADMIN_PREFIX], function(){
 
  	Route::get('uplodaexcel','admin\SecuritiesController@upload')->name('uplodaexcel');
     Route::post('validate','admin\SecuritiesController@validateexcel')->name('validate');
-        
+    
+    // Only for mass upload data with excel
+	Route::get('massupload', 'admin\SecuritiesController@massupload')->name('massupload');
+	Route::post('massvalidate', 'admin\SecuritiesController@massinsert')->name('massvalidate');
     });    
 });
