@@ -25,7 +25,7 @@ var app = angular.module('graphs', []).controller('graphs-controller',  function
 		//console.log(response.data);
 		$scope.data_hidden=response.data;
 		var data_values=$scope.data_hidden;
-         console.log($scope.elementid);
+                console.log($scope.elementid);
 	 	google.charts.setOnLoadCallback(drawChartdynamic(data_values,$scope.elementid));
 	});
 	// reading values of $http i have done using hidden ng-model and storing in scope variable ..

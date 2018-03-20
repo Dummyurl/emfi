@@ -1,4 +1,16 @@
 $(document).ready(function(){
+
+        $(document).on("change","select#markets",function(){
+            $(".market-chart-title").html($(this).find("option:selected").text());            
+            if($.trim($(this).find("option:selected").text()) == "credit" || $.trim($(this).find("option:selected").text()) == "CREDIT")
+            {
+                $("#price-dropdown").show();
+            }   
+            else
+            {
+                $("#price-dropdown").hide();
+            }
+        });
     
         if( $(window).width() > 767) 
         {
