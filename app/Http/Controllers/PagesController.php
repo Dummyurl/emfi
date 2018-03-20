@@ -27,5 +27,11 @@ class PagesController extends Controller
     {                          
         $data = array();              
         return view('economics',$data);
+    }
+             
+    public function market(Request $request)
+    {                          
+        $data = array();              
+        return view('market',$data);
     }         
 }
