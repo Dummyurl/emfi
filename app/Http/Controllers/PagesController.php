@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use \App\Models\MarketType;
 use Validator;
 
 class PagesController extends Controller
@@ -25,13 +26,18 @@ class PagesController extends Controller
 
     public function economics(Request $request)
     {                          
-        $data = array();              
+        $data = array();            
+        $data['page_title'] = "EMFI: Economics";  
         return view('economics',$data);
     }
              
     public function market(Request $request)
     {                          
-        $data = array();              
+        $data = array();       
+        $data['page_title'] = "EMFI: Market";
+        $data['markets'] = MarketType::getArrayList();
+        $data['market_boxes'] = callCustomSP('CALL select_market()');
+        // dd($data['market_boxes']);          
         return view('market',$data);
     }         
 }

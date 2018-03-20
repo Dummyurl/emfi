@@ -7,31 +7,49 @@
             <div class="row">
                 <div class="col-md-6"><h2>Markets</h2></div>
                 <div class="col-md-6 select_r">
-                    <select name="markets">
-                        <option value="" selected="selected">Equity</option>
-                        <option value="Currency">Currency</option>
-                        <option value="Commodity">Commodity</option>
-                        <option value="Rates">Rates</option>
-                        <option value="Credits">Credits</option>                                                 
+                    <select name="markets">                        
+                        @foreach($markets as $val => $label)
+                        <option {{ $loop->first ? 'selected="selected"':'' }}value="{{ $val }}">{{ $label }}</option>
+                        @endforeach                                                 
                     </select>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-6 four_block">
-                <div class="inner_blue_box">
-                    <h3>Equities</h3>
-                    <span class="value">1200.12</span>
-                    <div class="botm clearfix">
-                        <div class="arrow"> <i class="up">
-                                <img src="{{ asset('themes/frontend/images/white-arrow-up.png') }}" alt=""></i> </div>
-                        <div class="value_num">
-                            <p>+75</p>
-                            <p>+1.00%</p>
+            @if(!empty($market_boxes))
+                @foreach($market_boxes as $row)
+                    @if(trim(strtolower($row['market_name'])) != 'credit')
+                        <div class="col-lg-3 col-md-3 col-sm-6 four_block">
+                            <div class="inner_blue_box">
+                                <h3>{{ $row['market_name'] or '' }}</h3>
+                                <span class="value">
+                                    {{ number_format($row['last_price'],2)  }}
+                                </span>
+                                <div class="botm clearfix">
+                                    <div class="arrow">                             
+                                        <i class="up">
+                                            @if($row['net_change'] > 0)
+                                            <img src="{{ asset('themes/frontend/images/white-arrow-up.png') }}" alt="" />
+                                            @else
+                                            <img src="{{ asset('themes/frontend/images/white-arrow-down.png') }}" alt="" />
+                                            @endif 
+                                        </i>
+                                    </div>
+                                    <div class="value_num">
+                                        <p>
+                                            {{ $row['net_change'] > 0 ? "+":""}}{{ number_format($row['net_change'],2)  }}
+                                        </p>
+                                        <p>
+                                            {{ $row['percentage_change'] > 0 ? "+":""}}{{ number_format($row['percentage_change'],2)  }}%
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    @endif    
+                @endforeach
+            @endif
+            <?php /*
             <div class="col-lg-3 col-md-3 col-sm-6 four_block">
                 <div class="inner_blue_box">
                     <h3>Currency</h3>
@@ -71,6 +89,7 @@
                     </div>
                 </div>
             </div>
+            */ ?>
         </div>
     </div>
 </section> 
