@@ -22,7 +22,7 @@
 
                     <div class="portlet-body">
                         <div class="form-body">
-                            {!! Form::open(['method' => "POST",'files' => true, 'route' => ['validatemass'],'class' => 'sky-form form form-group', 'id' => 'main-frm']) !!}
+                            {!! Form::open(['method' => "POST",'files' => true, 'route' => ['massvalidate'],'class' => 'sky-form form form-group', 'id' => 'main-frm']) !!}
                                 <div class="row ">
 
                                     <div class="col-md-4">
