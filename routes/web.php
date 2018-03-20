@@ -14,6 +14,7 @@ Route::model('user', 'App\Models\User');
 */
 
 Route::get('/', 'PagesController@home')->name("home");
+Route::get('market', 'PagesController@market')->name("market");
 Route::get('economics', 'PagesController@economics')->name("economics");
 // Route::get('/', 'admin\AdminLoginController@getLogin')->name("admin_login");
 
