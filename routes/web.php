@@ -103,7 +103,7 @@ Route::group(['prefix' => $ADMIN_PREFIX], function(){
  	Route::any('user-logs/data', 'admin\UserLogsController@data')->name('user-logs.data');
  	Route::resource('user-logs', 'admin\UserLogsController'); 
 
- 	Route::get('uplodaexcel','admin\SecuritiesController@upload')->name('uplodaexcel');
+ 	Route::get('uploadexcel','admin\SecuritiesController@upload')->name('uploadexcel');
     Route::post('validate','admin\SecuritiesController@validateexcel')->name('validate');
     
     // Only for mass upload data with excel
