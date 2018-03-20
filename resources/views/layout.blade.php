@@ -9,7 +9,7 @@
 		<!-- Bootstrap -->
 		<link href="{{ asset('themes/frontend/css/bootstrap.min.css') }}" rel="stylesheet">
 		<link href="{{ asset('themes/frontend/css/owl.carousel.min.css') }}" rel="stylesheet">
-		<link href="css/owl.theme.default.min.css" rel="stylesheet">
+		<link href="{{ asset('themes/frontend/css/owl.theme.default.min.css') }}" rel="stylesheet">
 		<link href="{{ asset('themes/frontend/css/fonts.css') }}" rel="stylesheet">
 		<link href="{{ asset('themes/frontend/css/style.css') }}" rel="stylesheet">
 		<link href="{{ asset('themes/frontend/css/responsive.css') }}" rel="stylesheet">
@@ -33,5 +33,8 @@
         <script src="{{ asset('themes/frontend/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('themes/frontend/js/owl.carousel.min.js') }}"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script src="{{ asset('themes/frontend/js/home.js') }}"></script>        
+        <script src="{{ asset('themes/frontend/js/parallax.min.js') }}"></script>
+        <script src="{{ asset('themes/frontend/js/home.js') }}"></script>
+        <script src="{{ asset('themes/frontend/js/app.js') }}"></script>
+        @yield('scripts')
 </html>	

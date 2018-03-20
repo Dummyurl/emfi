@@ -307,3 +307,13 @@ function getAdminUserTypes()
 
     return $array;
 }
+
+function callCustomSP($str)
+{
+    $db = new \PDO('mysql:host='.env('DB_HOST').';dbname='.env('DB_DATABASE').';charset=utf8',env("DB_USERNAME"), env('DB_PASSWORD'));
+    $db->setAttribute(\PDO::ATTR_EMULATE_PREPARES, true);
+    // $pdo = $db->getPdo();
+    $statement = $db->prepare($str);
+    $statement->execute();
+    return $statement->fetchAll();
+}

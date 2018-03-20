@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+Route::get('SelectMarkets', 'ApiController@SelectMarkets');
+Route::get('TopMarketData', 'ApiController@TopMarketData');
+Route::get('TopGainer/{market_id}', 'ApiController@TopGainer');
+Route::get('TopLoser/{market_id}', 'ApiController@TopLoser');
