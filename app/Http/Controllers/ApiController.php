@@ -51,5 +51,20 @@ class ApiController extends Controller
         return ['status' => 1,'msg' => "OK", "data" => $r_data];
     }
 
+    public function HistoryChart(Request $request)
+    {
+        $security_id = $request->get("security_id");
+        $month_id =  $request->get("month_id");
+        $benchmark =  $request->get("benchmark");
+
+        $market_data  = "CALL Select_Historical_Data(".$security_id.", ".$month_id.", ".$benchmark.")";
+        $data = callCustomSP($market_data);
+        echo "<pre>";
+        print_r($data);
+        exit();
+        $r_data = json_encode($data);
+        return ['status' => 1,'msg' => "OK", "data" => $r_data];
+    }
+
 
 }
