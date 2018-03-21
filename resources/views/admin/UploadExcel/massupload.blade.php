@@ -29,10 +29,12 @@
                                         <label class="control-label">Upload<span class="required">*</span></label>
                                         {!! Form::file('excelToUpload', ['class' => 'form-control', 'data-required' => true]) !!}
                                     </div>
+
                                 </div>
                                 <div class="clearfix">&nbsp;</div>
                                 <div class="row">
                                     <div class="col-md-12">
+                                        <a href="{{ asset('file/Sample.csv') }}" class="btn btn-primary">Sample File DownLoad</a>
                                         <input type="submit" value="Upload Excel/CSV" class="btn btn-success pull-right" />
                                     </div>
                                 </div>

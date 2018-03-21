@@ -22,17 +22,19 @@
 
                     <div class="portlet-body">
                         <div class="form-body">
-                            {!! Form::open(['method' => "POST",'files' => true, 'route' => ['validate'],'class' => 'sky-form form form-group', 'id' => 'main-frm']) !!}
+                            {!! Form::open(['method' => "POST",'files' => true, 'route' => ['massvalidate'],'class' => 'sky-form form form-group', 'id' => 'main-frm']) !!}
                                 <div class="row ">
 
                                     <div class="col-md-4">
                                         <label class="control-label">Upload<span class="required">*</span></label>
                                         {!! Form::file('excelToUpload', ['class' => 'form-control', 'data-required' => true]) !!}
                                     </div>
+
                                 </div>
                                 <div class="clearfix">&nbsp;</div>
                                 <div class="row">
                                     <div class="col-md-12">
+                                        <a href="{{ asset('file/Sample.csv') }}" class="btn btn-primary">Sample File DownLoad</a>
                                         <input type="submit" value="Upload Excel/CSV" class="btn btn-success pull-right" />
                                     </div>
                                 </div>
