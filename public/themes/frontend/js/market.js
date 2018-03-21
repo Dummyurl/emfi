@@ -1,16 +1,25 @@
 google.charts.load('current', {'packages': ['corechart','bar']});
 google.charts.setOnLoadCallback(initBarCharts);
+var global_line_graph_id;
 
 function drawBarChart(data_values, elementID, chartType) {
     var formatedData = [];
-    formatedData.push(["",""]);
     
     var counter = data_values.length;
     
-    for (var i in data_values)
+    if(counter > 0)
     {
-        formatedData.push([chartType + " " + counter,data_values[i]['percentage_change']]);
-        counter--;
+        formatedData.push(["",""]);    
+
+        for (var i in data_values)
+        {
+            formatedData.push([data_values[i]['title'],data_values[i]['percentage_change']]);        
+        }        
+    }
+    else
+    {
+        formatedData.push(["",""]);
+        formatedData.push(["",0]);        
     }
     
     var data = google.visualization.arrayToDataTable(formatedData);
@@ -42,14 +51,33 @@ function drawBarChart(data_values, elementID, chartType) {
 
 function drawChart(data_values, elementID)
 {
-    var data = google.visualization.arrayToDataTable([
-        ['Day', 'index'],
-        ['2004', 100],
-        ['2005', 570],
-        ['2006', 760],
-        ['2007', 1210],
-        ['2008', 1350]
-    ]);
+    var formatedData = [];
+    
+    var counter = data_values.length;
+    
+    if(counter > 0)
+    {
+        formatedData.push(["",""]);
+        var j = 1;
+        for (var i in data_values)
+        {
+            if(j == 1)
+            {
+                global_line_graph_id = data_values[i]['security_id'];
+            }                 
+            
+            formatedData.push([data_values[i]['created_format'],parseFloat(data_values[i]['last_price'])]);
+            
+            j++;
+        }            
+    }        
+    else
+    {
+        formatedData.push(["",""]);
+        formatedData.push(["",0]);
+    }
+    
+    var data = google.visualization.arrayToDataTable(formatedData);    
 
     var options = {
         title: '',
@@ -92,7 +120,13 @@ function initBarCharts()
             {                   
                 drawBarChart(result.data.top_gainer, "bar_chart", "Gainer");
                 drawBarChart(result.data.top_loser, "bar_chart2", "Loser");
-                drawChart(result.data.line_graph_data, 'curve_chart');
+                
+                if(result.data.gainer_history_data.length > 0)
+                    drawChart(result.data.gainer_history_data, 'curve_chart');
+                else if(result.data.loser_history_data.length > 0)
+                    drawChart(result.data.loser_history_data, 'curve_chart');
+                else
+                    drawChart([], 'curve_chart');
             }
             else
             {
@@ -110,10 +144,50 @@ function resetFields()
 {
     $("#period-month").val(1);
     $("#price-dropdown").val(1);
-    $("").html('');
+    // $("").html('');
 }
 
 $(document).ready(function () {
+    
+    $(document).on("change","select#period-month",function(){
+        $val = $(this).val();
+        
+        if($.trim($val) == '')
+        {
+            $val = 1;
+        }
+        
+        if (typeof global_line_graph_id !== 'undefined')
+        {
+            $url = "/api/market/get-marker-data/history";
+            $('#AjaxLoaderDiv').fadeIn('slow');
+            $.ajax({
+                type: "POST",
+                url: $url,
+                data: {security_id: global_line_graph_id, month_id: $val},
+                success: function (result)
+                {
+                    $('#AjaxLoaderDiv').fadeOut('slow');
+                    if (result.status == 1)
+                    {                   
+                    }
+                    else
+                    {
+                        $.bootstrapGrowl(result.msg, {type: 'danger', delay: 4000});
+                    }
+                },
+                error: function (error) {
+                    $('#AjaxLoaderDiv').fadeOut('slow');
+                    $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
+                }
+            });    
+            
+        }    
+        else
+        {
+            $.bootstrapGrowl("No Data Found !", {type: 'danger', delay: 3000});
+        }
+    });
     
     $(document).on("change","select#markets",function(){
         $(".market-chart-title").html($(this).find("option:selected").text());            

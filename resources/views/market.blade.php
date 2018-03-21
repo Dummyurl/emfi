@@ -129,7 +129,7 @@
                             <select id="period-month">
                                 <option value="1">Period</option>
                                 @for($i=1;$i<=12;$i++)
-                                <option value="{{ $i }}">{{ $i }}Month</option>
+                                <option value="{{ $i }}">{{ $i }} Month</option>
                                 @endfor
                             </select>
                         </div>
