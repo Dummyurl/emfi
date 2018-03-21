@@ -126,7 +126,7 @@
                 <div class="chart_dropdown clearfix">
                     <form>
                         <div class="col-md-4">
-                            <select name="">
+                            <select id="period-month">
                                 <option value="1">Period</option>
                                 @for($i=1;$i<=12;$i++)
                                 <option value="{{ $i }}">{{ $i }}Month</option>
@@ -141,7 +141,7 @@
                             </select>
                         </div>
                         <div class="col-md-4 pull-right">
-                            <select name="">
+                            <select id="benchmark-dropdown">
                                 <option selected>Add Benchmark</option>
                             </select>
                         </div>

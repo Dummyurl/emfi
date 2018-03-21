@@ -1,14 +1,16 @@
 google.charts.load('current', {'packages': ['corechart','bar']});
 google.charts.setOnLoadCallback(initBarCharts);
 
-function drawBarChart(data_values, elementID) {
+function drawBarChart(data_values, elementID, chartType) {
     var formatedData = [];
     formatedData.push(["",""]);
     
+    var counter = data_values.length;
+    
     for (var i in data_values)
     {
-        formatedData.push([data_values[i]['title'],data_values[i]['last_price']]);
-        drawChart();
+        formatedData.push([chartType + " " + counter,data_values[i]['percentage_change']]);
+        counter--;
     }
     
     var data = google.visualization.arrayToDataTable(formatedData);
@@ -38,7 +40,7 @@ function drawBarChart(data_values, elementID) {
     chart.draw(data, google.charts.Bar.convertOptions(options));
 }
 
-function drawChart()
+function drawChart(data_values, elementID)
 {
     var data = google.visualization.arrayToDataTable([
         ['Day', 'index'],
@@ -68,14 +70,14 @@ function drawChart()
             baselineColor: {color: "#39536b"}
         }
     };
-    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+    var chart = new google.visualization.LineChart(document.getElementById(elementID));
     chart.draw(data, options);
 }
 
 function initBarCharts()
 {
     $marketID = $("select#markets").val();
-    $url = "/api/market/get-marker-data/"+$marketID;
+    $url = "/api/market/get-market-data/"+$marketID;
     $('#AjaxLoaderDiv').fadeIn('slow');
     $.ajax({
         type: "POST",
@@ -88,8 +90,9 @@ function initBarCharts()
             $('#AjaxLoaderDiv').fadeOut('slow');
             if (result.status == 1)
             {                   
-                drawBarChart(result.data.top_gainer, "bar_chart")
-                drawBarChart(result.data.top_loser, "bar_chart2");                
+                drawBarChart(result.data.top_gainer, "bar_chart", "Gainer");
+                drawBarChart(result.data.top_loser, "bar_chart2", "Loser");
+                drawChart(result.data.line_graph_data, 'curve_chart');
             }
             else
             {
@@ -101,6 +104,13 @@ function initBarCharts()
             $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
         }
     });    
+}
+
+function resetFields()
+{
+    $("#period-month").val(1);
+    $("#price-dropdown").val(1);
+    $("").html('');
 }
 
 $(document).ready(function () {
@@ -115,6 +125,10 @@ $(document).ready(function () {
         {
             $("#price-dropdown").hide();
         }
+        
+        resetFields();
+        
+        initBarCharts();        
     });        
     
     $('.bg-2').parallax({
