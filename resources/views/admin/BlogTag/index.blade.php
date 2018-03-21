@@ -54,8 +54,7 @@
     
 
     $(document).ready(function(){
-
-
+        
         $("#search-frm").submit(function(){
             oTableCustom.draw();
             return false;

@@ -50,3 +50,9 @@ $(document).ready(function(){
             $(".home_carousel .owl-next").html('<i class="fa fa-angle-right"></i>');                    
         }    
 });
+
+$(document).ready(function() {
+  $('.top_bg').parallax({
+    imageSrc: 'themes/frontend/images/economics-bg.jpg'
+  });
+});

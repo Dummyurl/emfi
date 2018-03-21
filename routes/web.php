@@ -16,7 +16,9 @@ Route::model('user', 'App\Models\User');
 Route::get('/', 'PagesController@home')->name("home");
 Route::get('market', 'PagesController@market')->name("market");
 Route::get('economics', 'PagesController@economics')->name("economics");
-// Route::get('/', 'admin\AdminLoginController@getLogin')->name("admin_login");
+Route::get('analyzer', 'PagesController@analyzer')->name("analyzer");
+Route::get('about', 'PagesController@about')->name("about");
+Route::get('contact', 'PagesController@contact')->name("contact");
 
 Route::get('clear-cache', function () {
 	$exitCode = Artisan::call('cache:clear');

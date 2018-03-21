@@ -48,7 +48,7 @@
                 Economies
             </a>
             <ul class="dropdown-menu">
-              <li><a href="#">SOUTH AMERICA</a></li>
+              <li><a href="{{ route('economics')}}">SOUTH AMERICA</a></li>
               <li><a href="#">CENTRAL AMERICA</a></li>
               <li><a href="#">THE CARIBBEAN</a></li>
             </ul>
@@ -58,7 +58,7 @@
                 Analyzer
             </a>
             <ul class="dropdown-menu">
-              <li><a href="#">RELVAL</a></li>
+              <li><a href="{{ route('analyzer')}}">RELVAL</a></li>
               <li><a href="#">REGRESSION</a></li>
               <li><a href="#">SLOPE</a></li>
             </ul>
@@ -68,12 +68,12 @@
                 About
             </a>
             <ul class="dropdown-menu">
-              <li><a href="#">WHY EMFI</a></li>
+              <li><a href="{{ route('about')}}">WHY EMFI</a></li>
               <li><a href="#">SERVICES</a></li>
               <li><a href="#">PEOPLE</a></li>
             </ul>
           </li>
-          <li><a href="#">contact</a></li>
+          <li><a href="{{ route('contact')}}">contact</a></li>
           </li>
         </ul>
       </div>
