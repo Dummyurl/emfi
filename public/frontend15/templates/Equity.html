@@ -1,0 +1,66 @@
+<section class="chart_wrapper">
+  <div class="container">
+    <div class="title">
+      <h2>Equities</h2>
+      <span>Top 5 Gainer &amp; Loser</span></div>
+  </div>
+  <div class="container chart_section">
+    <div class="row">
+      <div class="col-lg-6">
+      <div class="sub_title"><h3>Top 5 Gainer</h3></div>
+        <div id="bar_chart_Equity" class="bar_chart" style="width: 100%; height: 400px"> </div>
+      </div>
+      <div class="col-lg-6">
+      <div class="sub_title"><h3>Top 5 Loser</h3></div>
+        <div id="bar_chart2_Equity" class="bar_chart" style="width: 100%; height: 400px"> </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="equities">
+  <div class="container">
+    <div class="title">
+      <h2>Equities</h2>
+      <span>Historical Chart</span> </div>
+  </div>
+  <div class="container chart_section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div id="curve_chart_Equity" class="bar_chart" style="width: 100%; height: 480px"> </div>
+        <div class="chart_dropdown clearfix">
+          <form>
+            <div class="col-md-6">
+              <input type="hidden" ng-model="data_hidden" value="this is for hidden data">
+               <input type="hidden" ng-model="elementid" value="this is for hidden data">
+              <select name="period" ng-change="periodchange('curve_chart_Equity')" ng-model="periodic">
+                 <option value="" >period</option>
+                 <option  ng-repeat="option in period" value="{{option}}">{{option}} month</option>
+              </select>
+            </div>
+            <!-- <div class="col-md-3">
+              <select name="">
+                <option selected>Price</option>
+                <option>Option 1</option>
+                <option>Option 2</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select name="">
+                <option selected>Duration</option>
+                <option>Option 1</option>
+                <option>Option 2</option>
+              </select>
+            </div> -->
+            <div class="col-md-6">
+              <select name="">
+                <option selected>Add Benchmark</option>
+                <option>Option 1</option>
+                <option>Option 2</option>
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

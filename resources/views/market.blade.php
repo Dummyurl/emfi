@@ -127,17 +127,17 @@
                     <form>
                         <div class="col-md-4">
                             <select id="period-month">
-                                <option value="1">Period</option>
+                                <option value="">Period</option>
                                 @for($i=1;$i<=12;$i++)
-                                <option value="{{ $i }}">{{ $i }} Month</option>
+                                <option {!! $i == 1 ? 'selected="selected"':'' !!} value="{{ $i }}">{{ $i }} Month</option>
                                 @endfor
                             </select>
                         </div>
                         <div class="col-md-4">
                             <select id="price-dropdown" style="display: none;">
                                 <option value="1">Price</option>
-                                <option value="2">Option 1</option>
-                                <option value="3">Option 2</option>
+                                <option value="2">YLD YTM MID</option>
+                                <option value="3">Z SPRD MID</option>
                             </select>
                         </div>
                         <div class="col-md-4 pull-right">
