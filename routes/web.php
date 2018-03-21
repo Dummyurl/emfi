@@ -29,13 +29,13 @@ Route::get('clear-cache', function () {
 
 /***************    Admin routes  **********************************/
 Route::group(['prefix' => $ADMIN_PREFIX], function(){
-    
+
     Route::get('/', 'admin\AdminLoginController@getLogin')->name("admin_login");
     Route::get('login', 'admin\AdminLoginController@getLogin')->name("admin_login");
     Route::post('login', 'admin\AdminLoginController@postLogin')->name("check_admin_login");
-    
+
     Route::group(['middleware' => 'admin_auth'], function(){
-        
+
         Route::get('logout', 'admin\AdminLoginController@getLogout')->name("admin_logout");
 
         Route::get('dashboard', 'admin\AdminController@index')->name("admin_dashboard");
@@ -45,40 +45,40 @@ Route::group(['prefix' => $ADMIN_PREFIX], function(){
 
         Route::get('profile', 'admin\AdminController@editProfile')->name("admin_edit_profile");
         Route::post('profile', 'admin\AdminController@updateProfile')->name("admin_update_profile");
-        
+
 	Route::get('user-type-rights', 'admin\AdminController@rights')->name("list-assign-rights");
-	Route::post('user-type-rights', 'admin\AdminController@rights')->name("assign-rights");        
+	Route::post('user-type-rights', 'admin\AdminController@rights')->name("assign-rights");
 
 	Route::any('modules/data', 'admin\AdminModulesController@data')->name('modules.data');
 	Route::resource('modules', 'admin\AdminModulesController');
-        
+
 	Route::any('module-pages/data', 'admin\AdminModulePagesController@data')->name('module-pages.data');
 	Route::resource('module-pages', 'admin\AdminModulePagesController');
 
 	Route::any('admin-actions/data', 'admin\AdminActionController@data')->name('admin-actions.data');
-	Route::resource('admin-actions', 'admin\AdminActionController'); 
+	Route::resource('admin-actions', 'admin\AdminActionController');
 
 	Route::any('admin-userlogs/data', 'admin\AdminUserLogsController@data')->name('admin-userlogs.data');
 	Route::resource('admin-userlogs', 'admin\AdminUserLogsController');
 
 	Route::any('user-actions/data', 'admin\UserActionController@data')->name('user-actions.data');
-	Route::resource('user-actions', 'admin\UserActionController'); 
+	Route::resource('user-actions', 'admin\UserActionController');
 
 	Route::any('countries/data', 'admin\CountriesController@data')->name('countries.data');
-	Route::resource('countries', 'admin\CountriesController'); 
+	Route::resource('countries', 'admin\CountriesController');
 
 	Route::any('states/data', 'admin\StatesController@data')->name('states.data');
-	Route::resource('states', 'admin\StatesController'); 
-        
+	Route::resource('states', 'admin\StatesController');
+
 	Route::any('cities/data', 'admin\CitiesController@data')->name('cities.data');
-	Route::resource('cities', 'admin\CitiesController');        
+	Route::resource('cities', 'admin\CitiesController');
 	Route::any('cities/getstates', 'admin\CitiesController@getstates')->name('getstates');
 
 	Route::any('admin-users/data', 'admin\AdminUserController@data')->name('admin-users.data');
 	Route::resource('admin-users', 'admin\AdminUserController');
 	Route::get('admin-users/changepassword/{id}', 'admin\AdminUserController@changePassword');
 	Route::put('admin-users/changepassword/{id}', 'admin\AdminUserController@postChangePassword');
-	
+
 	Route::any('users/data', 'admin\UsersController@data')->name('users.data');
  	Route::resource('users', 'admin\UsersController');
 
@@ -95,19 +95,21 @@ Route::group(['prefix' => $ADMIN_PREFIX], function(){
  	Route::resource('cms-pages', 'admin\CmsPagesController');
 
  	Route::any('cms-graphs/data', 'admin\CMSGraphsController@data')->name('cms-graphs.data');
- 	Route::resource('cms-graphs', 'admin\CMSGraphsController'); 
- 	
+ 	Route::resource('cms-graphs', 'admin\CMSGraphsController');
+
  	Route::any('cms-graph-sliders/data', 'admin\GraphSliderContoller@data')->name('cms-graph-sliders.data');
- 	Route::resource('cms-graph-sliders', 'admin\GraphSliderContoller'); 
- 	
+ 	Route::resource('cms-graph-sliders', 'admin\GraphSliderContoller');
+
  	Route::any('user-logs/data', 'admin\UserLogsController@data')->name('user-logs.data');
- 	Route::resource('user-logs', 'admin\UserLogsController'); 
+ 	Route::resource('user-logs', 'admin\UserLogsController');
 
  	Route::get('uploadexcel','admin\SecuritiesController@upload')->name('uploadexcel');
     Route::post('validate','admin\SecuritiesController@validateexcel')->name('validate');
-    
+	Route::get('testes', 'admin\SecuritiesController@index')->name('listsecurity');
+	Route::any('datasecurity', 'admin\SecuritiesController@data')->name('datasecurity');
+
     // Only for mass upload data with excel
-	Route::get('massupload', 'admin\SecuritiesController@massupload')->name('massupload');
-	Route::post('massvalidate', 'admin\SecuritiesController@massinsert')->name('massvalidate');
-    });    
+	// Route::get('massupload', 'admin\SecuritiesController@massupload')->name('massupload');
+	// Route::post('massvalidate', 'admin\SecuritiesController@massinsert')->name('massvalidate');
+    });
 });

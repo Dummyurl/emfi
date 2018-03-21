@@ -1,0 +1,11 @@
+CUSIP,MARKET,COUNTRY,TICKER,BENCHMARK, CPN ,SECURITY_NAME, MATURITY , DUR_ADJ_MID , PX_BID , PX_ASK , PX_LAST , PX_LOW , PX_HIGH , YLD_YTM_MID , Z_SPRD_MID , CHG_NET_1D , CHG_PCT_1D 
+SPX Index,CREDIT,VZ,SPX,,,S&P 500 Index1234,,,"1,801","2,776","2,747","2,714","2,748",,,43,1.6
+UKX Index,EQUITIES,GB,UKX,,,FTSE 100 Index,,, #N/A N/A , #N/A N/A ,"7,285","7,244","7,288",,,40,0.56
+IBOV Index,EQUITIES,BZ,IBOV,,,Ibovespa Brasil Sao Paulo Stoc,,, #N/A N/A , #N/A N/A ,"87,293","87,296","87,994",,,607,0.7
+COLCAP Index,EQUITIES,CO,COLCAP,,,Colombia COLCAP Index,,, #N/A N/A , #N/A N/A ,"1,533","1,533","1,533",,, -   , -   
+SPBLPGPT Index,CREDIT,PE,SPBLPGPT,,,S&P/BVL Peru General Total Ret,,, #N/A N/A , #N/A N/A ,"20,768","20,660","20,823",,,79,0.38
+MEXBOL Index,EQUITIES,MX,MEXBOL,,,S&P/BMV IPC,,, #N/A N/A , #N/A N/A ,"48,643","48,488","49,176",,,-326,-0.67
+IBVC Index,EQUITIES,VZ,IBVC,,,Caracas Stock Exchange Stock M,,, #N/A N/A , #N/A N/A ,"5,176","5,176","5,203",,, -   , -   
+MERVAL Index,EQUITIES,AR,MERVAL,,,Buenos Aires Stock Exchange Me,,, #N/A N/A , #N/A N/A ,"32,742","32,715","33,410",,,-382,-1.15
+JMSMX Index,CREDIT,JM,JMSMX,,,Jamaica Stock Exchange Market,,, #N/A N/A , #N/A N/A ,"290,881","290,881","290,881",,,-707,-0.24
+ECUINDEX Index,EQUITIES,ED,ECUINDEX,,,Ecuador Stock Market Index,,, #N/A N/A , #N/A N/A ,"1,252","1,252","1,252",,,3,0.21
