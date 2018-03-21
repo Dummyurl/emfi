@@ -67,16 +67,15 @@ class ApiController extends Controller
 
     public function HistoryChart(Request $request)
     {
-        $returnData = array();
-        $security_id = $request->get("security_id");
-        $month_id =  $request->get("month_id");
-        $history_data  = "CALL Select_Historical_Data(".$security_id.", ".$month_id.")";
-        $data = callCustomSP($history_data);
+        $returnData     = array();
+        $security_id    = $request->get("security_id");
+        $month_id       =  $request->get("month_id", 1);
+        $history_data   = "CALL Select_Historical_Data(".$security_id.", ".$month_id.")";
+        $data           = callCustomSP($history_data);
         $returnData['history_data'] = $data;
-        $banchmark_data  = "CALL Select_banchmark(".$security_id.")";
+        $banchmark_data     = "CALL Select_banchmark(".$security_id.")";
         $banchmark_data_arr = callCustomSP($banchmark_data);
         $returnData['arr_banchmark'] = $banchmark_data_arr;
-
         return ['status' => 1,'msg' => "OK", "data" => $returnData];
     }
 }
