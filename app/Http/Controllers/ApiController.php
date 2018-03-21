@@ -38,17 +38,15 @@ class ApiController extends Controller
     {
         $market_data  = "CALL select_Top_Gainer(".$market_id.")";
         $data = callCustomSP($market_data);
-        $r_data = json_encode($data);
+        $returnData['top_gainer'] = $data;
 
-        return ['status' => 1,'msg' => "OK", "data" => $r_data];
-    }
-
-    public function TopLoser(Request $request, $market_id = null)
-    {
         $market_data  = "CALL select_Top_Loser(".$market_id.")";
         $data = callCustomSP($market_data);
-        $r_data = json_encode($data);
-        return ['status' => 1,'msg' => "OK", "data" => $r_data];
+        $returnData['top_loser'] = $data;
+
+        $returnData['line_graph_data'] = [];
+
+        return ['status' => 1,'msg' => "OK", "data" => $returnData];
     }
 
     public function HistoryChart(Request $request)
@@ -59,12 +57,7 @@ class ApiController extends Controller
 
         $market_data  = "CALL Select_Historical_Data(".$security_id.", ".$month_id.", ".$benchmark.")";
         $data = callCustomSP($market_data);
-        echo "<pre>";
-        print_r($data);
-        exit();
         $r_data = json_encode($data);
         return ['status' => 1,'msg' => "OK", "data" => $r_data];
     }
-
-
 }

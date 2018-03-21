@@ -9,7 +9,7 @@
                 <div class="col-md-6 select_r">
                     <select name="markets" id="markets">                        
                         @foreach($markets as $val => $label)
-                        <option {{ $loop->first ? 'selected="selected"':'' }}value="{{ $val }}">{{ $label }}</option>
+                        <option {{ $loop->first ? 'selected="selected"':'' }} value="{{ $val }}">{{ $label }}</option>
                         @endforeach                                                 
                     </select>
                 </div>
@@ -204,6 +204,5 @@
 @stop
 
 @section('scripts')
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="{{ asset('themes/frontend/js/market.js') }}"></script>
 @stop

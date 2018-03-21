@@ -33,6 +33,7 @@
         <script src="{{ asset('themes/frontend/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('themes/frontend/js/owl.carousel.min.js') }}"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="{{ asset('/js/jquery.bootstrap-growl.min.js') }}"></script>
         <script src="{{ asset('themes/frontend/js/parallax.min.js') }}"></script>
         <script src="{{ asset('themes/frontend/js/home.js') }}"></script>
         <script src="{{ asset('themes/frontend/js/app.js') }}"></script>

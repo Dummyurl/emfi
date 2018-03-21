@@ -1,10 +1,17 @@
-google.charts.load('current', {'packages': ['corechart']});
-google.charts.load('current', {'packages': ['bar']});
+google.charts.load('current', {'packages': ['corechart','bar']});
+google.charts.setOnLoadCallback(initBarCharts);
 
-
-function drawBarChart(dataValues, elementID) {
+function drawBarChart(data_values, elementID) {
+    var formatedData = [];
+    formatedData.push(["",""]);
     
-    var data = google.visualization.arrayToDataTable(dataValues);
+    for (var i in data_values)
+    {
+        formatedData.push([data_values[i]['title'],data_values[i]['last_price']]);
+        drawChart();
+    }
+    
+    var data = google.visualization.arrayToDataTable(formatedData);
 
     var options = {
         chart: {
@@ -26,7 +33,7 @@ function drawBarChart(dataValues, elementID) {
             gridlines: {color: "#39536b"},
         }
     };
-
+    
     var chart = new google.charts.Bar(document.getElementById(elementID));
     chart.draw(data, google.charts.Bar.convertOptions(options));
 }
@@ -65,7 +72,51 @@ function drawChart()
     chart.draw(data, options);
 }
 
+function initBarCharts()
+{
+    $marketID = $("select#markets").val();
+    $url = "/api/market/get-marker-data/"+$marketID;
+    $('#AjaxLoaderDiv').fadeIn('slow');
+    $.ajax({
+        type: "POST",
+        url: $url,
+        contentType: false,
+        processData: false,
+        enctype: 'multipart/form-data',
+        success: function (result)
+        {
+            $('#AjaxLoaderDiv').fadeOut('slow');
+            if (result.status == 1)
+            {                   
+                drawBarChart(result.data.top_gainer, "bar_chart")
+                drawBarChart(result.data.top_loser, "bar_chart2");                
+            }
+            else
+            {
+                $.bootstrapGrowl(result.msg, {type: 'danger', delay: 4000});
+            }
+        },
+        error: function (error) {
+            $('#AjaxLoaderDiv').fadeOut('slow');
+            $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
+        }
+    });    
+}
+
 $(document).ready(function () {
+    
+    $(document).on("change","select#markets",function(){
+        $(".market-chart-title").html($(this).find("option:selected").text());            
+        if($.trim($(this).find("option:selected").text()) == "credit" || $.trim($(this).find("option:selected").text()) == "CREDIT")
+        {
+            $("#price-dropdown").show();
+        }   
+        else
+        {
+            $("#price-dropdown").hide();
+        }
+    });        
+    
     $('.bg-2').parallax({
         imageSrc: '/themes/frontend/images/bg-2.jpg'
     });

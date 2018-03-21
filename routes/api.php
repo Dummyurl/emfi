@@ -15,6 +15,5 @@ use Illuminate\Http\Request;
 
 Route::get('SelectMarkets', 'ApiController@SelectMarkets');
 Route::get('TopMarketData', 'ApiController@TopMarketData');
-Route::get('TopGainer/{market_id}', 'ApiController@TopGainer');
-Route::get('TopLoser/{market_id}', 'ApiController@TopLoser');
-Route::post('HistoryChart', 'ApiController@HistoryChart');
+Route::post('market/get-marker-data/{market_id}', 'ApiController@TopGainer');
+Route::post('market/get-marker-data/history', 'ApiController@HistoryChart');
