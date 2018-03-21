@@ -27,7 +27,7 @@ class PagesController extends Controller
     public function economics(Request $request)
     {                          
         $data = array();            
-        $data['page_title'] = "EMFI: Economics";  
+        $data['page_title'] = "EMFI: Economics";
         return view('economics',$data);
     }
              
