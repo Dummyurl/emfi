@@ -58,9 +58,6 @@ class SecuritiesController extends Controller
 						   ->join('market_type', 'securities.market_id','=','market_type.id');
 
 		return Datatables::eloquent($model)
-						 ->editColumn('action', function ($row){
-							 return "<a class='btn btn-primary btn-xs' onclick='edit(".$row->id.")'><i class='fa fa-edit'></i></a>";
-						 })
 						 ->filter( function ($query){
 							 $search_cusip = request()->get('search_cusip');
 							 $search_market = request()->get('search_market');
