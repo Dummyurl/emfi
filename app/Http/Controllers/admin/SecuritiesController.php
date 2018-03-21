@@ -8,6 +8,7 @@ use App\Models\MarketType;
 use App\Models\Securities;
 use Excel;
 use Validator;
+use Datatables;
 
 class SecuritiesController extends Controller
 {
@@ -39,6 +40,41 @@ class SecuritiesController extends Controller
 
         return view('admin.uploadExcel.upload', $data);
     }
+
+	public function index()
+	{
+		$data = [];
+		$data['page_title'] = "Manage Securities";
+		$data['MarketType'] = MarketType::getArrayList();
+		$data['benchmark_family_list'] = Securities::where('benchmark_family', "!=", "")
+												   ->groupBy('benchmark_family')
+												   ->pluck("benchmark_family","benchmark_family");
+		return view('admin.uploadExcel.index', $data);
+	}
+
+	public function data(Request $request)
+	{
+		$model = Securities::select('securities.*','market_type.market_name')
+						   ->join('market_type', 'securities.market_id','=','market_type.id');
+
+		return Datatables::eloquent($model)
+						 ->editColumn('action', function ($row){
+							 return "<a class='btn btn-primary btn-xs' onclick='edit(".$row->id.")'><i class='fa fa-edit'></i></a>";
+						 })
+						 ->filter( function ($query){
+							 $search_cusip = request()->get('search_cusip');
+							 $search_market = request()->get('search_market');
+
+							 if (!empty($search_cusip)) {
+							 	$query = $query->where('securities.CUSIP',"LIKE", $search_cusip);
+							 }
+							 if (!empty($search_benchmark)) {
+							 	$query = $query->where('securities.market_id', $search_market);
+							 }
+						 })
+						 ->make(true);
+	}
+
 
     public function validateexcel(Request $request)
     {

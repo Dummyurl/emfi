@@ -105,6 +105,8 @@ Route::group(['prefix' => $ADMIN_PREFIX], function(){
 
  	Route::get('uploadexcel','admin\SecuritiesController@upload')->name('uploadexcel');
     Route::post('validate','admin\SecuritiesController@validateexcel')->name('validate');
+	Route::get('testes', 'admin\SecuritiesController@index')->name('listsecurity');
+	Route::any('datasecurity', 'admin\SecuritiesController@data')->name('datasecurity');
 
     // Only for mass upload data with excel
 	// Route::get('massupload', 'admin\SecuritiesController@massupload')->name('massupload');
