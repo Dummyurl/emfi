@@ -103,6 +103,7 @@
 @stop
 
 @section('scripts')
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4se7HxOqOpUPcelVjD7Odc_BBP4qdqHE&callback=init"
+  type="text/javascript"></script>
 <script src="{{ asset('themes/frontend/js/contact.js') }}"></script>
 @stop
