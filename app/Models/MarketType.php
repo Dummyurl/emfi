@@ -10,6 +10,6 @@ class MarketType extends Model
 
     public static function getArrayList()
     {
-    	return self::orderBy("id")->pluck("market_name","id")->toArray();
+    	return self::orderBy("id")->pluck("market_name","id")->all();
     }
 }

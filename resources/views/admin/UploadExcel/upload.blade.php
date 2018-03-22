@@ -35,7 +35,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <a href="{{ asset('file/Sample.csv') }}" class="btn btn-primary">Sample File DownLoad</a>
-                                        <input type="submit" value="Upload Excel/CSV" class="btn btn-success pull-right" />
+                                        <input type="submit" value="Upload CSV" class="btn btn-success pull-right" />
                                     </div>
                                 </div>
                             {!! Form::close() !!}

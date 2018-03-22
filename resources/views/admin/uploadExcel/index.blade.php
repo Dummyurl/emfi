@@ -30,6 +30,7 @@
                                <th width="15%">Market Type</th>
 							   <th width="5%">Benchmark</th>
                                <th width="28%">Security Name</th>
+                               <th width="10%" data-orderable="false">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,6 +40,49 @@
             </div>
         </div>
     </div>
+	<div id="editForm" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Edit Security Benchmark</h4>
+          </div>
+          <div class="modal-body">
+                {!! Form::open(['method' => 'PUT','url' => '', 'files' => true,'class' => 'sky-form form form-group main-frm']) !!}
+                <input type="hidden" name="security_id" value="" />
+                <div class="form-group">
+                    <label for="">Add New Benchmark</label>
+                    <input type="text" class="form-control" name="new_benchmark">
+                </div>
+				<div class="form-group">
+					<label for="">Select Benchmark</label>
+					{!! Form::select('select_benchmark', [''=>'Select Benchmark'] + $benchmark_family_list, null, ['class' => 'form-control', 'id' => 'select_benchmark']) !!}
+				</div>
+				<div class="form-group ">
+					<label for="" class="mt-checkbox">
+					</label>
+				</div>
+				<div class="form-group">
+                    <div class="col-md-9">
+                        <div class="mt-checkbox-inline">
+                            <label class="mt-checkbox">
+								{!! Form::checkbox('set_benchmark', null, false, ['class' => 'form-control', 'id' => 'check']) !!}Benchmark Set
+								<span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success pull-right">Update</button>
+                </div>
+                {!! Form::close() !!}
+                <div class="clearfix"></div>
+                <div class="clearfix">&nbsp;</div>
+          </div>
+      </div>
+    </div>
+</div>
 </div>
 </div>
 @endsection
@@ -49,8 +93,20 @@
 
 @section('scripts')
     <script type="text/javascript">
-	function edit() {
+	function edit(id, benchmark, flag) {
+		var security = id;
+		flag = parseInt(flag);
+		alert(flag);
+		$('#main-frm').attr('action');
+		$('#main-frm #security_id').attr('value', id);
+		$('#select_benchmark').val(benchmark);
 
+		if(flag)
+		$("#check").prop('checked', true);
+		else
+		$("#check").prop('checked', false);
+
+		$('#editForm').modal();
 	}
 
     $(document).ready(function(){
@@ -84,6 +140,7 @@
                 { data: 'market_name', name: 'market_type.id'},
                 { data: 'benchmark_family', name: 'benchmark_family' },
                 { data: 'security_name', name: 'security_name' },
+                { data: 'action', orderable: false, searchable: false}
             ]
         });
     });
