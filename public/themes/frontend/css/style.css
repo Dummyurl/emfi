@@ -302,7 +302,7 @@ background-color:rgba(255, 255, 255, 0);
 /*-------- nav bar dropdown css end -------*/
 /* ----- nav bar css end ----- */
 .economics_bg {
-	/*-background: transparent url(../images/economics-bg.jpg) no-repeat fixed;*/
+	
 	-webkit-background-size: cover !important;
 	-moz-background-size: cover !important;
 	-o-background-size: cover !important;

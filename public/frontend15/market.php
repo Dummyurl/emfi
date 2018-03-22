@@ -467,7 +467,7 @@ $(function(){
 	});
 
 //	$('#section2').parallax({
-	//	imageSrc: 'images/background-3.jpg'
+	//	imageSrc: 'images/background-3.jpg'/
 	//});
 });
     </script>

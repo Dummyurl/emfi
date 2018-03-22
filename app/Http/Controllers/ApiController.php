@@ -138,8 +138,10 @@ class ApiController extends Controller
 
                 ksort($dataKeys);
 
-                $i = 1;
-                $finalData[0] = ["Date","Column 1","Column 2"];
+                $i = 0;
+
+                // $finalData[0] = ["Date","Column 1","Column 2"];
+
                 foreach($dataKeys as $key => $val)
                 {
                     if(!empty($dataKeys[$key]['date']))
@@ -150,10 +152,10 @@ class ApiController extends Controller
                     }    
                 }
 
-                if(empty($dataKeys))
-                {
-                    $finalData[0] = ["Date",0,0];
-                }
+                // if(empty($dataKeys))
+                // {
+                //     $finalData[0] = ["Date",0,0];
+                // }
 
                 // echo "<pre>";
                 // print_r($finalData);

@@ -262,6 +262,5 @@
 @stop
 
 @section('scripts')
-
-
+<script src="{{ asset('themes/frontend/js/about.js') }}"></script>
 @stop

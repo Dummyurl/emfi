@@ -341,7 +341,5 @@
 </section>
 @stop
 @section('scripts')
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="{{ asset('themes/frontend/js/economics.js') }}"></script>
-
 @stop

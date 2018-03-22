@@ -72,3 +72,9 @@ function drawChart2() {
 
     chart.draw(data, options);
 }
+
+$(document).ready(function() {
+    $('.top_bg').parallax({
+      imageSrc: '/themes/frontend/images/economics-bg.jpg'
+    });
+});

@@ -5,11 +5,14 @@
     <div class="container">
         <div class="title_belt">
             <div class="row">
-                <div class="col-md-6"><h2>Markets</h2></div>
+                <div class="col-md-6">
+                  <h2>Markets</h2>
+                  <span>{{ date('d F, Y') }}</span>
+                </div>
                 <div class="col-md-6 select_r">
                     <select name="markets" id="markets">                        
                         @foreach($markets as $val => $label)
-                        <option {{ $loop->first ? 'selected="selected"':'' }} value="{{ $val }}">{{ $label }}</option>
+                        <option {{ $selected_market == $val ? 'selected="selected"':'' }} value="{{ $val }}">{{ $label }}</option>
                         @endforeach                                                 
                     </select>
                 </div>
