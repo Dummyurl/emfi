@@ -26,22 +26,22 @@
                 <a class="navbar-brand white" href="#">
                     <img src="{{ asset('themes/frontend/images/emfi-logo.png') }}" alt="EMFI Securities">
                 </a> 
-                <a class="navbar-brand dark" href="#">
+                <a class="navbar-brand dark" href="{{ route('home') }}">
                     <img src="{{ asset('themes/frontend/images/emfi-logo-dark.png') }}" alt="EMFI Securities">
                 </a> 
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
+                    <li class="active"><a href="{{ route('home') }}">Home</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             Market
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ url('market/equities') }}">EQUITIES</a></li>                            
+                            <li><a href="{{ url('market/equities') }}">EQUITIES</a></li>
                             <li><a href="{{ url('market/currencies') }}">CURRENCIES</a></li>
                             <li><a href="{{ url('market/commodities') }}">COMMODITIES</a></li>
-                            <li><a href="{{ url('market/rates') }}">RATES</a></li>                            
+                            <li><a href="{{ url('market/rates') }}">RATES</a></li>
                             <li><a href="{{ url('market/credit') }}">CREDIT</a></li>
                         </ul>
                     </li>

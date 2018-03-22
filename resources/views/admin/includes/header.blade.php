@@ -6,7 +6,7 @@
             <!-- BEGIN LOGO -->
             <div class="page-logo">
                 <a href="{{ route('admin_dashboard') }}">
-                    <img src="{{ asset("images/logo.png")}}" alt="logo" class="logo-default" style="max-width: 200px;margin-top: 15px !important;">
+                    <img src="{{ asset('themes/frontend/images/emfi-logo-dark.png') }}" alt="logo" class="logo-default" style="max-width: 200px;margin-top: 15px !important;">
                 </a>
             </div>
             <!-- END LOGO -->
