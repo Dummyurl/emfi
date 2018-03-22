@@ -34,9 +34,9 @@ class SecuritiesController extends Controller
         {
             return $checkrights;
         }
-        $data['page_title'] = "Upload Data Excel";
+        $data['page_title'] = "Upload Data CSV";
         $data['validate_url'] = url('admin/validate');
-        $data['buttonText '] = "Upload Excel/CSV";
+        $data['buttonText '] = "Upload CSV";
 
         return view('admin.uploadExcel.upload', $data);
     }
@@ -48,7 +48,9 @@ class SecuritiesController extends Controller
 		$data['MarketType'] = MarketType::getArrayList();
 		$data['benchmark_family_list'] = Securities::where('benchmark_family', "!=", "")
 												   ->groupBy('benchmark_family')
-												   ->pluck("benchmark_family","benchmark_family");
+												   ->pluck("benchmark_family","benchmark_family")->all();
+
+		//dd($data['benchmark_family_list']);
 		return view('admin.uploadExcel.index', $data);
 	}
 
@@ -58,6 +60,15 @@ class SecuritiesController extends Controller
 						   ->join('market_type', 'securities.market_id','=','market_type.id');
 
 		return Datatables::eloquent($model)
+						 ->addColumn('action',  function ($row){
+							 $benchmark_family = 0;
+							 if(!empty($row->benchmark_family)){
+								$benchmark_family = $row->benchmark_family;
+							 }
+							 $str = "'$row->id','$benchmark_family','$row->benchmark'";
+							 return "<a class='btn btn-primary btn-xs' onclick=\"edit(".$str.");\">Edit</a>";
+						 })
+						 ->rawColumns(['action'])
 						 ->filter( function ($query){
 							 $search_cusip = request()->get('search_cusip');
 							 $search_market = request()->get('search_market');
@@ -125,6 +136,9 @@ class SecuritiesController extends Controller
 					if (empty($data)){
 						break;
 					}
+					if ($bytes >= $size) {
+						break;
+					}
 					if ($i == 0)
 					{
 						foreach ($data as $key => $value)
@@ -148,11 +162,12 @@ class SecuritiesController extends Controller
 
 						// Only historical_data table's colums will be added to this array.
 						$hdata = $idata;
+						print_r($hdata);
 
+						$idata['CUSIP'] = ($data[$fields['cusip']] == "#N/A N/A" || !isset($data[$fields['cusip']])) ? "" : $data[$fields['cusip']] ;
 						$idata['yld_ytm_mid'] = ($data[$fields['yld_ytm_mid']] == "#N/A N/A" || !isset($data[$fields['yld_ytm_mid']])) ? '' : $data[$fields['yld_ytm_mid']];
 						$idata['z_sprd_mid'] = ($data[$fields['z_sprd_mid']] == "#N/A N/A" || !isset($data[$fields['z_sprd_mid']])) ? '' : $data[$fields['z_sprd_mid']];
 						$idata['dur_adj_mid'] = ($data[$fields['dur_adj_mid']] == "#N/A N/A" || !isset($data[$fields['dur_adj_mid']])) ? '' : $data[$fields['dur_adj_mid']];
-						$idata['CUSIP'] = ($data[$fields['cusip']] == "#N/A N/A" || !isset($data[$fields['cusip']])) ? "" : $data[$fields['cusip']] ;
 						$idata['market_id'] = ($data[$fields['market']] == "#N/A N/A" || !isset($data[$fields['market']])) ? '' : $markets[$data[$fields['market']]];
 						$idata['country'] = ($data[$fields['country']] == "#N/A N/A" || !isset($data[$fields['country']])) ? '' : $data[$fields['country']];
 						$idata['ticker'] = ($data[$fields['ticker']] == "#N/A N/A" || !isset($data[$fields['ticker']])) ? '' : $data[$fields['ticker']];
@@ -187,14 +202,10 @@ class SecuritiesController extends Controller
 								\DB::table('historical_data')->insert($hdata);
 							}
 						}
-
-
-
 					}
+					$bytes = ftell($file);
 					$i++;
 				}
-
-
 				fclose($file);
 				return ['status'=> 1, 'msg'=> 'Your data was inserted'];
 			}
