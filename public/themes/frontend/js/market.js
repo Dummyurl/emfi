@@ -118,40 +118,35 @@ function drawBarChart(data_values, elementID, chartType) {
 
 function drawBenchmarkChart(data_values, elementID, fromBenchMark)
 {
-    var data = new google.visualization.DataTable();
+    
 
     $columnTitle = "";
 
     if (typeof global_line_graph_text !== 'undefined')
     {
         $columnTitle = global_line_graph_text;
-    }               
-    
+    }  
 
-    data.addColumn('string', $columnTitle);
-    data.addColumn('number', '');
-    data.addColumn('number', $("select#benchmark-dropdown option:selected").text());        
+    var data = google.visualization.arrayToDataTable([
+         ['Year', $columnTitle, $("select#benchmark-dropdown option:selected").text()],
+         ['2004', 1000, 400],
+         ['2005', 1170, 460],
+         ['2006', 660, 1120],
+         ['2007', 1030, 540]
+    ]);
 
-    data.addRow(['2004', 1000, 400]);
-    data.addRow(['2005', 1170,460]);
-    data.addRow(['2006', 660,1120]);
+    // var data = new google.visualization.DataTable();
+    // data.addColumn('string', '');
+    // data.addColumn('number', $columnTitle);
+    // data.addColumn('number', $("select#benchmark-dropdown option:selected").text());        
 
-    // var formatedData = ["",{label:'', type:'number'},{label:'', type:'number'}];
     // for(var i in data_values.benchmark_history_data)
     // {
-    //    formatedData.push([data_values.benchmark_history_data[i][0],data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);        
-    // }   
-   
-    // // console.log(formatedData);
-    // var data = google.visualization.arrayToDataTable(formatedData);    
-    // // var data = google.visualization.arrayToDataTable([
-    // //     ['Year', 'Sales', 'Expenses'],
-    // //     ['2004', 1000, 400],
-    // //     ['2005', 1170, 460],
-    // //     ['2006', 660, 1120],
-    // //     ['2007', 1030, 540]
-    // // ]);
+    //     $val1 = parseFloat(data_values.benchmark_history_data[i][1]).toFixed(0);
+    //     $val2 = parseFloat(data_values.benchmark_history_data[i][2]).toFixed(0);
 
+    //     data.addRow([data_values.benchmark_history_data[i][0], $val1, $val2]); 
+    // }             
 
     var options = {
         title: '',
@@ -169,7 +164,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         vAxis: {
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"}
+            baselineColor: {color: "#39536b"},            
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
@@ -195,11 +190,13 @@ function drawChart(data_values, elementID, fromBenchMark)
         $columnTitle = global_line_graph_text;
     }               
     
-    // alert($columnTitle) 
+    // 
 
     if (counter > 0)
     {
-        formatedData.push([$columnTitle, ""]);
+        $columnTitle = $columnTitle + " Price";
+        // alert("Title: " + $columnTitle); 
+        formatedData.push([$columnTitle, $columnTitle]);
         var j = 1;
         for (var i in data_values)
         {
