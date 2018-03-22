@@ -33,13 +33,26 @@ function drawBarChart(data_values, elementID, chartType) {
         else
         {
             global_loser_data = [];
-            formatedData.push([$columnTitle, "",{type: 'string', role: 'tooltip'}]);    
+            formatedData.push([$columnTitle, {label:'', type:'number'},{type: 'string', role: 'tooltip'}]);    
         }        
         
         for (var i in data_values)
         {
             $per = parseFloat(data_values[i]['percentage_change']).toFixed(2);
-            formatedData.push([data_values[i]['title'], $per, data_values[i]['title'] + ": "+$per+" %"]);
+
+
+
+            if(elementID != "bar_chart")
+            {
+                $val = Math.abs($per);
+                formatedData.push([data_values[i]['title'], $val, data_values[i]['title'] + ": "+$per+" %"]);
+            }
+            else
+            {
+                formatedData.push([data_values[i]['title'], $per, data_values[i]['title'] + ": "+$per+" %"]);
+            }
+
+            
 
             if(elementID == "bar_chart")
             global_gainer_data[data_values[i]['title']] = data_values[i]['id'];
@@ -127,18 +140,29 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         $columnTitle = global_line_graph_text;
     }  
 
-    var data = google.visualization.arrayToDataTable([
-         ['Year', $columnTitle, $("select#benchmark-dropdown option:selected").text()],
-         ['2004', 1000, 400],
-         ['2005', 1170, 460],
-         ['2006', 660, 1120],
-         ['2007', 1030, 540]
-    ]);
+    var formatedData = [];
+    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $("select#benchmark-dropdown option:selected").text(), type:'number'}]);    
+    for(var i in data_values.benchmark_history_data)
+    {
+       formatedData.push([data_values.benchmark_history_data[i][0],data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);        
+    }   
+
+    // console.log(formatedData);
+
+    var data = google.visualization.arrayToDataTable(formatedData);
+
+    // var data = google.visualization.arrayToDataTable([
+    //      ['Year', $columnTitle, $("select#benchmark-dropdown option:selected").text()],
+    //      ['2004', 1000, 400],
+    //      ['2005', 1170, 460],
+    //      ['2006', 660, 1120],
+    //      ['2007', 1030, 540]
+    // ]);
 
     // var data = new google.visualization.DataTable();
     // data.addColumn('string', '');
-    // data.addColumn('number', $columnTitle);
-    // data.addColumn('number', $("select#benchmark-dropdown option:selected").text());        
+    // data.addColumn('string', $columnTitle);
+    // data.addColumn('string', $("select#benchmark-dropdown option:selected").text());        
 
     // for(var i in data_values.benchmark_history_data)
     // {

@@ -86,7 +86,8 @@ class Admin extends Authenticatable
     public static $EDIT_BLOG_POSTS = 45;
     public static $DELETE_BLOG_POSTS = 46;
 
-    public static $LIST_ADMIN_USERS = 47;
+    public static $LIST_ADMIN_USERS = 21;
+    public static $ADMIN_USER_LOGS = 47;
     public static $ADD_ADMIN_USERS = 48;
     public static $EDIT_ADMIN_USERS = 49;
     public static $DELETE_ADMIN_USERS = 50;    
