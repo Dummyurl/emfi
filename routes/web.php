@@ -106,8 +106,8 @@ Route::group(['prefix' => $ADMIN_PREFIX], function(){
  	Route::any('user-logs/data', 'admin\UserLogsController@data')->name('user-logs.data');
  	Route::resource('user-logs', 'admin\UserLogsController');
 
- 	Route::get('uploadexcel','admin\SecuritiesController@upload')->name('uploadexcel');
-    Route::post('validate','admin\SecuritiesController@validateexcel')->name('validate');
+ 	Route::get('uploadcsv','admin\SecuritiesController@upload')->name('uploadcsv');
+    Route::post('validate','admin\SecuritiesController@validatecsv')->name('validate');
 	Route::get('testes', 'admin\SecuritiesController@index')->name('listsecurity');
 	Route::any('datasecurity', 'admin\SecuritiesController@data')->name('datasecurity');
 

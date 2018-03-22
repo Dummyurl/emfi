@@ -84,7 +84,7 @@ class SecuritiesController extends Controller
 	}
 
 
-    public function validateexcel(Request $request)
+    public function validatecsv(Request $request)
     {
      	$checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EXCEL_IMPORT_GRAPH);
 
