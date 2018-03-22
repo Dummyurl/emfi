@@ -163,7 +163,14 @@
             <span>Latest Tweets</span> </div>
         <div class="row">
             <div class="col-md-12">
+                @php
+                  $i = 1;
+                @endphp
                 @foreach($tweets as $tweet)
+                <?php 
+                  if($i > 10)
+                    break;
+                ?>
                 <div class="item">
                     <div class="post_date">
                       {{ $tweet['date'] }}
@@ -176,6 +183,7 @@
                         <p>{{ $tweet['comment'] }}</p>
                     </div>
                 </div>
+                <?php $i++; ?>
                 @endforeach
             </div>
         </div>

@@ -38,7 +38,7 @@
     <body class="login">
         <div class="logo">
             <a href="{{ route('admin_login') }}">
-                <img src="{{ asset('themes/frontend/images/emfi-logo-dark.png') }}" alt="" style="max-width: 300px;"/> 
+                <img src="{{ asset('themes/frontend/images/emfi-logo.png') }}" alt="" style="max-width: 300px;"/> 
             </a>
         </div>        
         <!-- END LOGO -->
