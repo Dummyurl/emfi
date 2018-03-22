@@ -83,6 +83,41 @@ class SecuritiesController extends Controller
 						 ->make(true);
 	}
 
+	public function update(Request $request , $id)
+	{
+		$status = 1;
+		$msg = 'record has been updated !';
+
+
+		$new_benchmark = $request->get('new_benchmark');
+		$select_benchmark = $request->get('select_benchmark');
+		$set_benchmark = $request->get('set_benchmark');
+		$obj = Securities::find($id);
+		if(!$obj){
+			$status = 0;
+			$msg = 'record not found !';
+			return ['status' => $status, 'msg'=>$msg];
+		}
+		else{
+			if(empty($new_benchmark) && empty($select_benchmark)){
+				$status = 0;
+				$msg = 'please enter at least one benchmark!';
+				return ['status' => $status, 'msg'=>$msg];
+			}
+			elseif (!empty($new_benchmark) && !empty($select_benchmark)) {
+				$status = 0;
+				$msg = 'Please enter only one benchmark';
+				return ['status' => $status, 'msg'=>$msg];
+			}
+			$obj->benchmark_family = $new_benchmark;
+			if ($set_benchmark == 'on') {
+				$obj->benchmark = 1;
+ 			}
+			$obj->save();
+		}
+		return ['status' => $status, 'msg'=>$msg];
+	}
+
 
     public function validateexcel(Request $request)
     {
@@ -99,7 +134,7 @@ class SecuritiesController extends Controller
 
 		$validator = Validator::make($request->all(), [
 			'excelToUpload' => 'required|excel',
-		]);
+		], ['excelToUpload.required' => 'Please upload a CSV file.' , 'excelToUpload.excel' => 'It must be a CSV file.']);
 
 		if ($validator->fails())
 		{
