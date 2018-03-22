@@ -26,6 +26,7 @@
                     <table class="table table-bordered table-striped table-condensed flip-content" id="server-side-datatables">
                         <thead>
                             <tr>
+								<th width="10%">ID</th>
                                <th width="22%">Company Name</th>
                                <th width="15%">Market Type</th>
 							   <th width="5%">Benchmark</th>
@@ -94,12 +95,19 @@
 @section('scripts')
     <script type="text/javascript">
 	function edit(id, benchmark, flag) {
-		alert(benchmark);
+
 		var security = id;
 		flag = parseInt(flag);
 		$('.main-frm #security_id').attr('value', id);
 		$('#select_benchmark').val(benchmark);
 		$('#security_id').val(id);
+		if (benchmark == 0) {
+			$('#new_benchmark').val('');
+			$('#new_benchmark').attr('disabled' , false);
+		} else {
+			$('#new_benchmark').val('');
+			$('#new_benchmark').attr('disabled' , true);
+		}
 
 		if(flag)
 		$("#check").prop('checked', true);
@@ -118,7 +126,6 @@
         });
 
 		$("#select_benchmark").on('change', function () {
-			alert("something");
 			if ($(this).val() != "0") {
 				$('#new_benchmark').val('');
 				$('#new_benchmark').attr('disabled' , true);
@@ -146,6 +153,7 @@
 						if (result.status == 1)
 						{
 							$.bootstrapGrowl(result.msg, {type: 'success', delay: 4000});
+							window.location.reload();
 						}
 						else
 						{
@@ -175,11 +183,12 @@
                 "data": function ( data )
                 {
                     data.search_cusip = $("#search-frm input[name='search_cusip']").val();
-                    data.market_type = $("#search-frm select[name='market_type']").val();
+                    data.search_market = $("#search-frm select[name='search_market']").val();
                 }
             },
             "order": [[ 0, "desc" ]],
             columns: [
+				{ data :'id' , name : 'id' },
                 { data: 'CUSIP', name: 'CUSIP' },
                 { data: 'market_name', name: 'market_type.id'},
                 { data: 'benchmark_family', name: 'benchmark_family' },

@@ -73,11 +73,12 @@ class SecuritiesController extends Controller
 							 $search_cusip = request()->get('search_cusip');
 							 $search_market = request()->get('search_market');
 
+
 							 if (!empty($search_cusip)) {
-							 	$query = $query->where('securities.CUSIP',"LIKE", $search_cusip);
+							 	$query = $query->where('securities.CUSIP',"LIKE", '%'.$search_cusip.'%');
 							 }
-							 if (!empty($search_benchmark)) {
-							 	$query = $query->where('securities.market_id', $search_market);
+							 if (!empty($search_market)) {
+							 	$query = $query->where('securities.market_id', '=', $search_market);
 							 }
 						 })
 						 ->make(true);
@@ -109,10 +110,21 @@ class SecuritiesController extends Controller
 				$msg = 'Please enter only one benchmark';
 				return ['status' => $status, 'msg'=>$msg];
 			}
-			$obj->benchmark_family = $new_benchmark;
+			else {
+				if (isset($new_benchmark) && !empty($new_benchmark)) {
+					$obj->benchmark_family = $new_benchmark;
+				}
+				elseif (isset($select_benchmark) && !empty($select_benchmark)) {
+					$obj->benchmark_family = $select_benchmark;
+				}
+			}
+
 			if ($set_benchmark == 'on') {
 				$obj->benchmark = 1;
  			}
+			else {
+				$obj->benchmark = 0;
+			}
 			$obj->save();
 		}
 		return ['status' => $status, 'msg'=>$msg];
