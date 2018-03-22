@@ -60,9 +60,9 @@
                             Analyzer
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('analyzer')}}">RELVAL</a></li>
-                            <li><a href="{{ route('analyzer')}}">REGRESSION</a></li>
-                            <li><a href="{{ route('analyzer')}}">SLOPE</a></li>
+                            <li><a href="#">RELVAL</a></li>
+                            <li><a href="#">REGRESSION</a></li>
+                            <li><a href="#">SLOPE</a></li>
                         </ul>
                     </li>
                     <?php /*
