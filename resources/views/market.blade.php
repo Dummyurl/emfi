@@ -162,43 +162,29 @@
             <h2>Updates</h2>
             <span>Latest Tweets</span> </div>
         <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-12">
+                @php
+                  $i = 1;
+                @endphp
+                @foreach($tweets as $tweet)
+                <?php 
+                  if($i > 10)
+                    break;
+                ?>
                 <div class="item">
-                    <div class="post_date">12 Jan</div>
-                    <div class="img_col"><img src="{{ asset('themes/frontend/images/twitter-post-img.png') }}" alt=""></div>
+                    <div class="post_date">
+                      {{ $tweet['date'] }}
+                    </div>
+                    <div class="img_col">
+                      <img src="{{ asset('themes/frontend/images/twitter-post-img.png') }}" alt=""></div>
                     <div class="dec_col">
                         <div class="username">@emfisecurities</div>
-                        <div class="subtxt">#Venezuela</div>
-                        <p>Fusce aliquam tincidunt hendrerit. Nunc tincidunt id velit sit amet vestibulum. In venenatis tempus odio ut dictum. Curabitur ac nisl molestie, facilisis nibh ac, <a href="#">facilisis ligula</a>. Integer congue malesuada eros congue varius. Sed malesuada dolor eget velit</p>
+                        <!-- <div class="subtxt">#Venezuela</div> -->
+                        <p>{{ $tweet['comment'] }}</p>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="post_date">12 Jan</div>
-                    <div class="img_col"><img src="{{ asset('themes/frontend/images/twitter-post-img.png') }}" alt=""></div>
-                    <div class="dec_col">
-                        <div class="username">@emfisecurities</div>
-                        <div class="subtxt">#Venezuela</div>
-                        <p>Fusce aliquam tincidunt hendrerit. Nunc tincidunt id velit sit amet vestibulum. In venenatis tempus odio ut dictum. Curabitur ac nisl molestie, facilisis nibh ac, <a href="#">facilisis ligula</a>. Integer congue malesuada eros congue varius. Sed malesuada dolor eget velit</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="post_date">12 Jan</div>
-                    <div class="img_col"><img src="{{ asset('themes/frontend/images/twitter-post-img.png') }}" alt=""></div>
-                    <div class="dec_col">
-                        <div class="username">@emfisecurities</div>
-                        <div class="subtxt">#Venezuela</div>
-                        <p>Fusce aliquam tincidunt hendrerit. Nunc tincidunt id velit sit amet vestibulum. In venenatis tempus odio ut dictum. Curabitur ac nisl molestie, facilisis nibh ac, <a href="#">facilisis ligula</a>. Integer congue malesuada eros congue varius. Sed malesuada dolor eget velit</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="post_date">12 Jan</div>
-                    <div class="img_col"><img src="{{ asset('themes/frontend/images/twitter-post-img.png') }}" alt=""></div>
-                    <div class="dec_col">
-                        <div class="username">@emfisecurities</div>
-                        <div class="subtxt">#Venezuela</div>
-                        <p>Fusce aliquam tincidunt hendrerit. Nunc tincidunt id velit sit amet vestibulum. In venenatis tempus odio ut dictum. Curabitur ac nisl molestie, facilisis nibh ac, <a href="#">facilisis ligula</a>. Integer congue malesuada eros congue varius. Sed malesuada dolor eget velit</p>
-                    </div>
-                </div>
+                <?php $i++; ?>
+                @endforeach
             </div>
         </div>
     </div>

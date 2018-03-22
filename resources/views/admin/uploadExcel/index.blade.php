@@ -26,6 +26,7 @@
                     <table class="table table-bordered table-striped table-condensed flip-content" id="server-side-datatables">
                         <thead>
                             <tr>
+								<th width="10%">ID</th>
                                <th width="22%">Company Name</th>
                                <th width="15%">Market Type</th>
 							   <th width="5%">Benchmark</th>
@@ -48,15 +49,15 @@
             <h4 class="modal-title">Edit Security Benchmark</h4>
           </div>
           <div class="modal-body">
-                {!! Form::open(['method' => 'PUT','url' => '', 'files' => true,'class' => 'sky-form form form-group main-frm']) !!}
-                <input type="hidden" name="security_id" value="" />
+                {!! Form::open(['method' => 'post' , 'files' => true,'class' => 'sky-form form form-group main-frm']) !!}
+                <input type="hidden" name="security_id" value="" id="security_id" />
                 <div class="form-group">
                     <label for="">Add New Benchmark</label>
-                    <input type="text" class="form-control" name="new_benchmark">
+                    <input type="text" class="form-control" name="new_benchmark" id="new_benchmark">
                 </div>
 				<div class="form-group">
 					<label for="">Select Benchmark</label>
-					{!! Form::select('select_benchmark', [''=>'Select Benchmark'] + $benchmark_family_list, null, ['class' => 'form-control', 'id' => 'select_benchmark']) !!}
+					{!! Form::select('select_benchmark', ['0'=>'Select Benchmark'] + $benchmark_family_list, null, ['class' => 'form-control', 'id' => 'select_benchmark']) !!}
 				</div>
 				<div class="form-group ">
 					<label for="" class="mt-checkbox">
@@ -94,12 +95,19 @@
 @section('scripts')
     <script type="text/javascript">
 	function edit(id, benchmark, flag) {
+
 		var security = id;
 		flag = parseInt(flag);
-		alert(flag);
-		$('#main-frm').attr('action');
-		$('#main-frm #security_id').attr('value', id);
+		$('.main-frm #security_id').attr('value', id);
 		$('#select_benchmark').val(benchmark);
+		$('#security_id').val(id);
+		if (benchmark == 0) {
+			$('#new_benchmark').val('');
+			$('#new_benchmark').attr('disabled' , false);
+		} else {
+			$('#new_benchmark').val('');
+			$('#new_benchmark').attr('disabled' , true);
+		}
 
 		if(flag)
 		$("#check").prop('checked', true);
@@ -117,6 +125,50 @@
             return false;
         });
 
+		$("#select_benchmark").on('change', function () {
+			if ($(this).val() != "0") {
+				$('#new_benchmark').val('');
+				$('#new_benchmark').attr('disabled' , true);
+			}
+			else {
+				$('#new_benchmark').removeAttr('disabled');
+			}
+		});
+
+		$('.main-frm').submit(function ()
+		{
+			if ($(this).parsley('isValid'))
+			{
+				$('#AjaxLoaderDiv').fadeIn('slow');
+				$.ajax({
+					type: "POST",
+					url: "{{ url('admin/editsecurity' ) }}" + '/'+ $("#security_id").val(),
+					data: new FormData(this),
+					contentType: false,
+					processData: false,
+					enctype: 'multipart/form-data',
+					success: function (result)
+					{
+						$('#AjaxLoaderDiv').fadeOut('slow');
+						if (result.status == 1)
+						{
+							$.bootstrapGrowl(result.msg, {type: 'success', delay: 4000});
+							window.location.reload();
+						}
+						else
+						{
+							$.bootstrapGrowl(result.msg, {type: 'danger', delay: 4000});
+						}
+					},
+					error: function (error) {
+						$('#AjaxLoaderDiv').fadeOut('slow');
+						$.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
+					}
+				});
+			}
+			return false;
+		});
+
 
 
 
@@ -131,11 +183,12 @@
                 "data": function ( data )
                 {
                     data.search_cusip = $("#search-frm input[name='search_cusip']").val();
-                    data.market_type = $("#search-frm select[name='market_type']").val();
+                    data.search_market = $("#search-frm select[name='search_market']").val();
                 }
             },
             "order": [[ 0, "desc" ]],
             columns: [
+				{ data :'id' , name : 'id' },
                 { data: 'CUSIP', name: 'CUSIP' },
                 { data: 'market_name', name: 'market_type.id'},
                 { data: 'benchmark_family', name: 'benchmark_family' },

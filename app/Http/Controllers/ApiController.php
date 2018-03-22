@@ -70,7 +70,7 @@ class ApiController extends Controller
         $returnData     = array();
         $security_id    = $request->get("security_id");
         $month_id       =  $request->get("month_id", 1);
-        $benchmark_id       =  $request->get("month_id", 0);
+        $benchmark_id       =  $request->get("benchmark_id", 0);
         $price_id = $request->get("price_id");
         $market_id = $request->get("market_id");
 
@@ -136,7 +136,14 @@ class ApiController extends Controller
                     $dataKeys[$row['created']]['date'] = $row['created_format'];                                                             
                 }
 
+                // echo "<pre>";
+                // print_r($returnData['history_data']);
+                // print_r($benchmark_history_data);
+                // exit;
+
                 ksort($dataKeys);
+
+                // print_r($dataKeys);
 
                 $i = 0;
 

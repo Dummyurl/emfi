@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // for excel sheet dumping in db..
         Validator::extend('excel', function($attribute, $value, $parameters, $validator){
-          if (!empty($value->getClientOriginalExtension()) && ($value->getClientOriginalExtension() == 'xlsx' || $value->getClientOriginalExtension() == 'xls' || $value->getClientOriginalExtension() == 'csv' )) {
+          if (!empty($value->getClientOriginalExtension()) && $value->getClientOriginalExtension() == 'csv' ) {
             return true;
           }
           else {

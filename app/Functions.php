@@ -19,6 +19,42 @@ function getFilename($fullpath, $uploaded_filename) {
     return $new_filename;
 }
 
+function getLatestTweets()
+{
+    $settings = array(
+        'oauth_access_token' => "967009378825056258-EJVMJL4ZH4xwpR1PzcIym3h3T14qkNS",
+        'oauth_access_token_secret' => "ghGjIOl2FMNV9nQRDXDkVzdMSOU2de00Utm85fuxh1hrT",
+        'consumer_key' => "gWbSYBsV8RSJXwr0wimDjnw7r",
+        'consumer_secret' => "glpsLqdMeGG8WK0NwN2wijnkmY88LrHtkqDJ1WdrpZHnDFGcFq"
+    );
+
+    $url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+    $getfield = "?screen_name=";
+    $requestMethod = 'GET';
+
+    $twitter = new \App\TwitterAPIExchange($settings);
+
+    $tweet =  $twitter->setGetfield($getfield)
+                 ->buildOauth($url, $requestMethod)
+                 ->performRequest();
+
+    $tweets = json_decode($tweet,1);
+    $data = [];
+    $i = 0;
+
+    if(!empty($tweets))
+    {
+        foreach($tweets as $tweet)
+        {
+            $data[$i]['comment'] = $tweet['text'];
+            $data[$i]['date'] = date("d M, Y",strtotime($tweet['created_at']));       
+            $i++;
+        }    
+    }
+
+    return $data;
+}
+
 function humanTiming($time) {
 
     $time = time() - $time; // to get the time since that moment

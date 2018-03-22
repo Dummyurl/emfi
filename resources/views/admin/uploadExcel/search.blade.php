@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-md-4">
                     <label class="control-label">Market Type</label>
-                     {!! Form::select('search_market', [''=>'Select Market Type'], null,   ['class' => 'form-control market_type']) !!}
+                     {!! Form::select('search_market', [''=>'Select Market Type'] + $MarketType, null,   ['class' => 'form-control market_type']) !!}
                 </div>
 
             </div>

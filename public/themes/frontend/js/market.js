@@ -180,7 +180,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         axisTextStyle: {color: '#344b61'},
         titleTextStyle: {color: '#fff'},
         legendTextStyle: {color: '#ccc'},
-        colors: ['white', 'red'],
+        colors: ['white', 'blue'],
         hAxis: {
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"}

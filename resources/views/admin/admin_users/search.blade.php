@@ -24,8 +24,7 @@
                 </div>
                 <div class="col-md-4">
                     <label class="control-label">User Type</label>
-                     {!! Form::select('user_type_id', [''=>'Select User Type'] + $benchmark_family_list, null,   ['class' => 'form-control user_type_id']) !!}
-
+                     {!! Form::select('user_type_id', [''=>'Select User Type'] + $userTypeList, null,   ['class' => 'form-control user_type_id']) !!}
                 </div>
 
             </div>
