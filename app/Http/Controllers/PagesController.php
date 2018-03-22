@@ -59,6 +59,10 @@ class PagesController extends Controller {
         
         $data = array();
         $data['page_title'] = "EMFI: Market";
+        $data['tweets'] = getLatestTweets();
+        
+        // dd($data['tweets']);
+
         $data['markets'] = MarketType::getArrayList();
         $data['market_boxes'] = callCustomSP('CALL select_market()');
         $data['selected_market'] = isset($main_categories[$type]) ? $main_categories[$type]:1;        
