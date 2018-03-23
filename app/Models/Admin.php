@@ -110,6 +110,16 @@ class Admin extends Authenticatable
     public static $DELETE_CMS_GRAPH_SLIDER = 63; 
     public static $EXCEL_IMPORT_GRAPH=64;
 
+    public static $LIST_POST = 65;
+    public static $ADD_POST = 66;
+    public static $EDIT_POST = 67;
+    public static $DELETE_POST = 68;
+
+    public static $LIST_HOME_SLIDER = 69;
+    public static $ADD_HOME_SLIDER = 70;
+    public static $EDIT_HOME_SLIDER = 71;
+    public static $DELETE_HOME_SLIDER = 72;
+
 
     /**
      * check page acces permissions

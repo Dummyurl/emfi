@@ -128,7 +128,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{asset('themes/admin/assets/global/plugins/ckeditor/ckeditor.js')}}" type="text/javascript"></script>
+    
 <script type="text/javascript">
     $(document).ready(function () {
         $('#spanish').on('click',function(){
@@ -139,6 +139,9 @@
         });
 
         $('.slider_form').submit(function () {
+            for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+            }
         
             if ($(this).parsley('isValid'))
             {
