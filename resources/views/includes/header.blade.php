@@ -32,20 +32,22 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="{{ route('home') }}">Home</a></li>
-                    <li class="dropdown">
+                    <li class="{{ \Request::is('/','home') ? 'active':'' }}">
+                        <a href="{{ route('home') }}">Home</a>
+                    </li>
+                    <li class="dropdown {{ \Request::is('markets','markets/*') ? 'active':'' }}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            Market
+                            Markets
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ url('market/equities') }}">EQUITIES</a></li>
-                            <li><a href="{{ url('market/currencies') }}">CURRENCIES</a></li>
-                            <li><a href="{{ url('market/commodities') }}">COMMODITIES</a></li>
-                            <li><a href="{{ url('market/rates') }}">RATES</a></li>
-                            <li><a href="{{ url('market/credit') }}">CREDIT</a></li>
+                            <li><a href="{{ url('markets/equities') }}">EQUITIES</a></li>
+                            <li><a href="{{ url('markets/currencies') }}">CURRENCIES</a></li>
+                            <li><a href="{{ url('markets/commodities') }}">COMMODITIES</a></li>
+                            <li><a href="{{ url('markets/rates') }}">RATES</a></li>
+                            <li><a href="{{ url('markets/credit') }}">CREDIT</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown {{ \Request::is('economics','economics/*') ? 'active':'' }}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             Economies
                         </a>
@@ -77,8 +79,8 @@
                         </ul>
                     </li>
                     */ ?>
-                    <li><a href="{{ route('about')}}">About</a></li>
-                    <li><a href="{{ route('contact')}}">contact</a></li>
+                    <li class="{{ \Request::is('about') ? 'active':'' }}"><a href="{{ route('about')}}">About</a></li>
+                    <li class="{{ \Request::is('contact') ? 'active':'' }}"><a href="{{ route('contact')}}">contact</a></li>
                     
                 </ul>
             </div>

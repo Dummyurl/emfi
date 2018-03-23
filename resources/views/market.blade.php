@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-md-6">
                   <h2>Markets</h2>
-                  <span>{{ date('d F, Y') }}</span>
+                  <span>{{ date('F d, Y') }}</span>
                 </div>
                 <div class="col-md-6 select_r">
                     <select name="markets" id="markets">                        

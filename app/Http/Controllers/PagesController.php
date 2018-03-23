@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use \App\Models\MarketType;
 use Validator;
+use App\Models\MarketType;
+use App\models\Country;
+
 
 class PagesController extends Controller {
 
@@ -18,14 +20,35 @@ class PagesController extends Controller {
         
     }
 
-    public function home(Request $request) {
+    public function home(Request $request) 
+    {
         $data = array();
         return view('welcome', $data);
     }
 
-    public function economics(Request $request) {
+    public function economics(Request $request, $country = 0) 
+    {
         $data = array();
-        $data['page_title'] = "EMFI: Economics";
+        $data['page_title'] = "EMFI: Economics";        
+        
+        if($country > 0)
+        {
+            $defaultCountry = $country;
+        }
+        else
+        {
+            $defaultCountry = 1;
+        }
+        
+        $data['countryObj'] = Country::find($defaultCountry);
+        
+        if(!$data['countryObj'])
+        {
+            abort(404);
+        }        
+        
+        $data['market_boxes'] = callCustomSP('CALL select_market()');        
+        
         return view('economics', $data);
     }
 
@@ -58,7 +81,7 @@ class PagesController extends Controller {
         ];
         
         $data = array();
-        $data['page_title'] = "EMFI: Market";
+        $data['page_title'] = "EMFI: Markets";
         $data['tweets'] = getLatestTweets();
         
         // dd($data['tweets']);

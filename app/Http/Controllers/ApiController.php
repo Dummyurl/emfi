@@ -19,7 +19,6 @@ class ApiController extends Controller
         
     }
 
-
     public function SelectMarkets(Request $request)
     {
         $data = callCustomSP('SELECT id, `market_name` FROM market_type ORDER BY id');
@@ -178,4 +177,20 @@ class ApiController extends Controller
 
         return ['status' => 1,'msg' => "OK", "data" => $returnData];
     }
+    
+    public function getEconomicsHistoryChart(Request $request, $country)
+    {
+        $market_id = $request->get("market_id");
+        $benchmark_id = $request->get("benchmark_id");
+        $month_id = $request->get("month_id");
+        $price_id = $request->get("price_id");
+        
+        $status = 1;
+        $msg = "OK";        
+        
+        $data = [];
+        
+        
+        return ["status" => $status, "msg" => $msg, "data" => $data];
+    }    
 }

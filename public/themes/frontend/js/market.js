@@ -353,7 +353,7 @@ function generateLineGraph()
 
     if (typeof global_line_graph_id !== 'undefined')
     {
-        $url = "/api/market/get-marker-data/history";
+        $url = "/api/market/get-market-data/history";
         $('#AjaxLoaderDiv').fadeIn('slow');
         $.ajax({
             type: "POST",
