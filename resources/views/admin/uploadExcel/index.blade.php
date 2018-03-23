@@ -186,7 +186,7 @@
                     data.search_market = $("#search-frm select[name='search_market']").val();
                 }
             },
-            "order": [[ 0, "desc" ]],
+            "order": [[ 0, "asc" ]],
             columns: [
 				{ data :'id' , name : 'id' },
                 { data: 'CUSIP', name: 'CUSIP' },

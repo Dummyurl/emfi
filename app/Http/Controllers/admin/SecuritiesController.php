@@ -168,6 +168,7 @@ class SecuritiesController extends Controller
 				$size = $_FILES['excelToUpload']['size'];
 				$ext = $csv_file->getClientOriginalExtension();
 				$markets = MarketType::pluck('id','market_name');
+				$countries = \DB::table('countries')->pluck('id','country_code')->toArray();
 				$filename = time().".".$ext;
 				$uploadPath = 'uploads' . DIRECTORY_SEPARATOR . 'csv_files'.DIRECTORY_SEPARATOR;
 				$csv_file->move($uploadPath, $filename);
@@ -217,6 +218,7 @@ class SecuritiesController extends Controller
 						$idata['dur_adj_mid'] = ($data[$fields['dur_adj_mid']] == "#N/A N/A" || !isset($data[$fields['dur_adj_mid']])) ? '' : $data[$fields['dur_adj_mid']];
 						$idata['market_id'] = ($data[$fields['market']] == "#N/A N/A" || !isset($data[$fields['market']])) ? '' : $markets[$data[$fields['market']]];
 						$idata['country'] = ($data[$fields['country']] == "#N/A N/A" || !isset($data[$fields['country']])) ? '' : $data[$fields['country']];
+						$idata['country_id'] = ($data[$fields['country']] == "#N/A N/A" || !isset($data[$fields['country']])) ? '' : $countries[$data[$fields['country']]];
 						$idata['ticker'] = ($data[$fields['ticker']] == "#N/A N/A" || !isset($data[$fields['ticker']])) ? '' : $data[$fields['ticker']];
 						$idata['benchmark'] = ($data[$fields['benchmark']] == "#N/A N/A" || !isset($data[$fields['benchmark']]) || empty($data[$fields['benchmark']])) ? 0 : 1;
 						$idata['benchmark_family'] = ($data[$fields['benchmark']] == "#N/A N/A" || !isset($data[$fields['benchmark']])) ? '' : $data[$fields['benchmark']];
@@ -259,6 +261,21 @@ class SecuritiesController extends Controller
 		}
 		return ['status'=>$status, 'msg'=>$msg];
     }
+
+	public function country()
+	{
+		$countries = \DB::table('countries')->pluck('id','country_code')->toArray();
+		$key_countries = array_keys($countries);
+		$securities = Securities::all();
+		foreach ($securities as $security) {
+			$country = $security->country;
+			if (in_array($country , $key_countries)) {
+				$security->country_id = $countries[$country];
+				$security->save();
+			}
+		}
+		return "Country Id added to the existing securities without country";
+	}
 
 	// public function massinsert(Request $request)
 	// {
