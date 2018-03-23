@@ -47,9 +47,84 @@ function getLatestTweets()
         foreach($tweets as $tweet)
         {
             $data[$i]['comment'] = $tweet['text'];
-            $data[$i]['date'] = date("d M, Y",strtotime($tweet['created_at']));       
+            $data[$i]['date'] = date("d M, Y",strtotime($tweet['created_at']));
             $i++;
-        }    
+        }
+    }
+
+    return $data;
+}
+
+function getSearchTweets($search)
+{
+	$settings = array(
+        'oauth_access_token' => "967009378825056258-EJVMJL4ZH4xwpR1PzcIym3h3T14qkNS",
+        'oauth_access_token_secret' => "ghGjIOl2FMNV9nQRDXDkVzdMSOU2de00Utm85fuxh1hrT",
+        'consumer_key' => "gWbSYBsV8RSJXwr0wimDjnw7r",
+        'consumer_secret' => "glpsLqdMeGG8WK0NwN2wijnkmY88LrHtkqDJ1WdrpZHnDFGcFq"
+    );
+    $url = 'https://api.twitter.com/1.1/search/tweets.json';
+    $getfield = '?q=#'.$search.'&count=30';
+    $requestMethod = 'GET';
+
+    $twitter = new \App\TwitterAPIExchange($settings);
+
+    $tweet =  $twitter->setGetfield($getfield)
+                 ->buildOauth($url, $requestMethod)
+                 ->performRequest();
+
+    $tweets = json_decode($tweet,1);
+    $data = [];
+    $i = 0;
+
+
+
+    if(!empty($tweets))
+    {
+        foreach($tweets['statuses'] as $tweet)
+        {
+            $data[$i]['comment'] = $tweet['text'];
+            $data[$i]['date'] = date("d M, Y",strtotime($tweet['created_at']));
+            $i++;
+        }
+    }
+
+
+
+    return $data;
+}
+
+
+function getPeopleTweets($from)
+{
+	$settings = array(
+        'oauth_access_token' => "967009378825056258-EJVMJL4ZH4xwpR1PzcIym3h3T14qkNS",
+        'oauth_access_token_secret' => "ghGjIOl2FMNV9nQRDXDkVzdMSOU2de00Utm85fuxh1hrT",
+        'consumer_key' => "gWbSYBsV8RSJXwr0wimDjnw7r",
+        'consumer_secret' => "glpsLqdMeGG8WK0NwN2wijnkmY88LrHtkqDJ1WdrpZHnDFGcFq"
+    );
+    $url = 'https://api.twitter.com/1.1/search/tweets.json';
+    $getfield = '?q=from:'.$from;
+    $requestMethod = 'GET';
+
+    $twitter = new \App\TwitterAPIExchange($settings);
+
+    $tweet =  $twitter->setGetfield($getfield)
+                 ->buildOauth($url, $requestMethod)
+                 ->performRequest();
+
+    $tweets = json_decode($tweet,1);
+    $data = [];
+    $i = 0;
+
+    if(!empty($tweets))
+    {
+        foreach($tweets['statuses'] as $tweet)
+        {
+            $data[$i]['comment'] = $tweet['text'];
+            $data[$i]['date'] = date("d M, Y",strtotime($tweet['created_at']));
+            $i++;
+        }
     }
 
     return $data;
@@ -333,13 +408,13 @@ function GetUserIp() {
 function getAdminUserTypes()
 {
     $array = array();
-    
+
     $rows = \DB::table("admin_user_types")->get();
 
     foreach($rows as $row)
     {
-        $array[$row->id] = $row->title;    
-    }    
+        $array[$row->id] = $row->title;
+    }
 
     return $array;
 }
