@@ -12,7 +12,6 @@ Route::model('user', 'App\Models\User');
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', 'PagesController@home')->name("home");
 Route::get('market', 'PagesController@market');
 Route::get('market/{type?}', 'PagesController@market');
@@ -112,6 +111,8 @@ Route::group(['prefix' => $ADMIN_PREFIX], function(){
 	Route::any('datasecurity', 'admin\SecuritiesController@data')->name('datasecurity');
 	Route::post('editsecurity/{id}', 'admin\SecuritiesController@update')->name('editsecurity');
 	Route::get('getcountries','admin\SecuritiesController@country');
+
+
     // Only for mass upload data with excel
 	// Route::get('massupload', 'admin\SecuritiesController@massupload')->name('massupload');
 	// Route::post('massvalidate', 'admin\SecuritiesController@massinsert')->name('massvalidate');

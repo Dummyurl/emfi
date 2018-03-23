@@ -15,7 +15,7 @@ use Validator;
 class PagesController extends Controller {
 
     public function __construct() {
-        
+
     }
 
     public function home(Request $request) {
@@ -47,7 +47,7 @@ class PagesController extends Controller {
         return view('analyzer', $data);
     }
 
-    public function market(Request $request, $type = '') 
+    public function market(Request $request, $type = '')
     {
         $main_categories = [
           "equities" => 1,
@@ -56,16 +56,16 @@ class PagesController extends Controller {
           "rates" => 4,
           "credit" => 5,
         ];
-        
+
         $data = array();
         $data['page_title'] = "EMFI: Market";
         $data['tweets'] = getLatestTweets();
-        
+
         // dd($data['tweets']);
 
         $data['markets'] = MarketType::getArrayList();
         $data['market_boxes'] = callCustomSP('CALL select_market()');
-        $data['selected_market'] = isset($main_categories[$type]) ? $main_categories[$type]:1;        
+        $data['selected_market'] = isset($main_categories[$type]) ? $main_categories[$type]:1;
         return view('market', $data);
     }
 
