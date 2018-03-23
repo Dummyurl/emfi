@@ -14,7 +14,7 @@
                     <div class="portlet-title">
                         <div class="caption">
                             <i class="fa fa-user"></i>
-                            Add New Country
+                            {{ $page_title }}
                         </div>
                         <a class="btn btn-default pull-right btn-sm mTop5" href="{{ $list_url }}">Back</a>
                     </div>
@@ -23,15 +23,19 @@
                              {!! Form::model($formObj,['method' => $method,'files' => true, 'route' => [$action_url,$action_params],'class' => 'sky-form form form-group', 'id' => 'main-frm']) !!} 
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label class="control-label">Title<span class="required">*</span></label>
                                     {!! Form::text('title',null,['class' => 'form-control', 'data-required' => true]) !!}
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="control-label">Country Code<span class="required">*</span></label>
-                                    {!! Form::text('country_code',null,['class' => 'form-control', 'data-required' => true]) !!}
+                            </div>
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="control-label">Description<span class="required">*</span></label>
+                                    {!! Form::textarea('description',null,['class' => 'form-control ckeditor', 'data-required' => true,'rows'=>4]) !!}
                                 </div>
-                            </div>                                  
+                            </div>   
+                        </div>                                  
                             <div class="clearfix">&nbsp;</div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -49,10 +53,13 @@
 @endsection
 
 @section('scripts')
+
 <script type="text/javascript">
     $(document).ready(function () {
         $('#main-frm').submit(function () {
-
+            for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+            }
             if ($(this).parsley('isValid'))
             {
                 $('#AjaxLoaderDiv').fadeIn('slow');

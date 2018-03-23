@@ -100,6 +100,12 @@ Route::group(['prefix' => $ADMIN_PREFIX], function(){
  	Route::any('cms-graphs/data', 'admin\CMSGraphsController@data')->name('cms-graphs.data');
  	Route::resource('cms-graphs', 'admin\CMSGraphsController');
 
+ 	Route::any('posts/data', 'admin\PostsController@data')->name('posts.data');
+ 	Route::resource('posts', 'admin\PostsController');
+
+ 	Route::any('home-sliders/data', 'admin\HomeSlidersController@data')->name('home-sliders.data');
+ 	Route::resource('home-sliders', 'admin\HomeSlidersController');
+
  	Route::any('cms-graph-sliders/data', 'admin\GraphSliderContoller@data')->name('cms-graph-sliders.data');
  	Route::resource('cms-graph-sliders', 'admin\GraphSliderContoller');
 

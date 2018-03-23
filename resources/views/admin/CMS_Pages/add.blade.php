@@ -77,12 +77,13 @@
 @endsection
 
 @section('scripts')
-    <script src="{{asset('themes/admin/assets/global/plugins/ckeditor/ckeditor.js')}}" type="text/javascript"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
         $('#main-frm').submit(function () {
-
+            for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+            }
             if ($(this).parsley('isValid'))
             {
                 $('#AjaxLoaderDiv').fadeIn('slow');

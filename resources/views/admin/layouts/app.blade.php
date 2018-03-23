@@ -32,6 +32,8 @@
 
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('/css/target-admin2.css') }}" />
         <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}" />
+        <link href="{{ asset("/themes/admin/assets")}}/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+        <link href="{{ asset("/themes/admin/assets")}}/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
             <style>
                 .mTop25{margin-top: 25px;}
                 .mTop5{margin-top: 5px;}
@@ -133,10 +135,11 @@
         <script type="text/javascript" src="{{ asset('/js/comman.js') }}"></script>
         <script type="text/javascript" src="{{ asset('/js/jquery.bootstrap-growl.min.js') }}"></script>
         <script src="{{ asset('/js/jquery-ui.js') }}"></script>
-
+        <script src="{{asset('themes/admin/assets/global/plugins/ckeditor/ckeditor.js')}}" type="text/javascript"></script>
         <script src="{{ asset('/thirdparty/fancybox/jquery.fancybox.pack.js') }}" type="text/javascript"></script>
         <link href="{{ asset('/thirdparty/fancybox/jquery.fancybox.css') }}" rel="stylesheet">
-
+        <script src="{{ asset("/themes/admin/assets")}}/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
+        <script src="{{ asset("/themes/admin/assets")}}/pages/scripts/components-select2.min.js" type="text/javascript"></script>
 
 
     <script type="text/javascript">
