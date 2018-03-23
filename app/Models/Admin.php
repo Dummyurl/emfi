@@ -120,6 +120,9 @@ class Admin extends Authenticatable
     public static $EDIT_HOME_SLIDER = 71;
     public static $DELETE_HOME_SLIDER = 72;
 
+    public static $LIST_SECURITY = 73;
+    public static $EDIT_SECURITY = 74;
+
 
     /**
      * check page acces permissions

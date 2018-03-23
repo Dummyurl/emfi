@@ -1,3 +1,4 @@
+<div class="btn-group">
 @if(isset($postComment) && $postComment)
 <a data-id="{{ $row->id }}" href="{{ route($currentRoute.'.comment',['id' => $row->id]) }}" class="btn btn-xs btn-success" title="comment">
     <i class="fa fa-comments"></i>
@@ -15,3 +16,4 @@
     <i class="fa fa-trash-o"></i>
 </a>          
 @endif
+</div>

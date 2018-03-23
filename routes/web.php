@@ -117,6 +117,8 @@ Route::group(['prefix' => $ADMIN_PREFIX], function(){
 	Route::get('listsecurity', 'admin\SecuritiesController@index')->name('listsecurity');
 	Route::any('datasecurity', 'admin\SecuritiesController@data')->name('datasecurity');
 	Route::post('editsecurity/{id}', 'admin\SecuritiesController@update')->name('editsecurity');
+	Route::get('edit-security-data/{id}', 'admin\SecuritiesController@edit_security_data')->name('edit-security-data');
+	Route::post('update-security-data/{id}', 'admin\SecuritiesController@update_security_data')->name('update-security-data');
 	Route::get('getcountries','admin\SecuritiesController@country');
     // Only for mass upload data with excel
 	// Route::get('massupload', 'admin\SecuritiesController@massupload')->name('massupload');
