@@ -96,6 +96,14 @@ class AdminAction extends Model
     public $EDIT_CMS_GRAPH_SLIDER = 47;
     public $DELETE_CMS_GRAPH_SLIDER = 48;
 
+    public $ADD_POST = 49;
+    public $EDIT_POST = 50;
+    public $DELETE_POST = 51;
 
+    public $ADD_HOME_SLIDER = 52;
+    public $EDIT_HOME_SLIDER = 53;
+    public $DELETE_HOME_SLIDER = 54;
+
+    public $EDIT_SECURITY = 55;
 
 }

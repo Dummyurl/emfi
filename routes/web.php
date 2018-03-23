@@ -12,7 +12,6 @@ Route::model('user', 'App\Models\User');
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', 'PagesController@home')->name("home");
 Route::get('markets', 'PagesController@market');
 Route::get('markets/{type?}', 'PagesController@market');
@@ -100,6 +99,12 @@ Route::group(['prefix' => $ADMIN_PREFIX], function(){
  	Route::any('cms-graphs/data', 'admin\CMSGraphsController@data')->name('cms-graphs.data');
  	Route::resource('cms-graphs', 'admin\CMSGraphsController');
 
+ 	Route::any('posts/data', 'admin\PostsController@data')->name('posts.data');
+ 	Route::resource('posts', 'admin\PostsController');
+
+ 	Route::any('home-sliders/data', 'admin\HomeSlidersController@data')->name('home-sliders.data');
+ 	Route::resource('home-sliders', 'admin\HomeSlidersController');
+
  	Route::any('cms-graph-sliders/data', 'admin\GraphSliderContoller@data')->name('cms-graph-sliders.data');
  	Route::resource('cms-graph-sliders', 'admin\GraphSliderContoller');
 
@@ -111,7 +116,11 @@ Route::group(['prefix' => $ADMIN_PREFIX], function(){
 	Route::get('listsecurity', 'admin\SecuritiesController@index')->name('listsecurity');
 	Route::any('datasecurity', 'admin\SecuritiesController@data')->name('datasecurity');
 	Route::post('editsecurity/{id}', 'admin\SecuritiesController@update')->name('editsecurity');
+	Route::get('edit-security-data/{id}', 'admin\SecuritiesController@edit_security_data')->name('edit-security-data');
+	Route::post('update-security-data/{id}', 'admin\SecuritiesController@update_security_data')->name('update-security-data');
 	Route::get('getcountries','admin\SecuritiesController@country');
+
+
     // Only for mass upload data with excel
 	// Route::get('massupload', 'admin\SecuritiesController@massupload')->name('massupload');
 	// Route::post('massvalidate', 'admin\SecuritiesController@massinsert')->name('massvalidate');

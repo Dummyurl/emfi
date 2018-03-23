@@ -11,9 +11,6 @@ class AdminUser extends Model
        public $timestamps = true;
        
        protected $table = TBL_ADMIN_USERS;
-
-    
-
     
 
 }

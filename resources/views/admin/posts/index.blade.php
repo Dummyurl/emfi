@@ -9,7 +9,7 @@
 
         <div class="col-md-12">
             
-                 @include("admin.countries.search")   
+            @include($moduleViewName.".search")           
 
             <div class="clearfix"></div>    
             <div class="portlet box green">
@@ -28,8 +28,7 @@
                             <thead>
                                 <tr>
                                    <th width="10%">ID</th>                                   
-                                   <th width="40%">Title</th>                           
-                                   <th width="20%">Code</th>                           
+                                   <th width="50%">Title</th>                           
                                    <th width="20%">Created At</th>                           
                                    <th width="10%">Action</th>
                                 </tr>
@@ -71,18 +70,13 @@
                 "url": "{!! route($moduleRouteText.'.data') !!}",
                 "data": function ( data ) 
                 {
-                    data.search_start_date = $("#search-frm input[name='search_start_date']").val();
-                    data.search_end_date = $("#search-frm input[name='search_end_date']").val();
-                    data.search_id = $("#search-frm input[name='search_id']").val();
-                    data.search_code = $("#search-frm input[name='search_code']").val();
-                    data.search_country = $("#search-frm input[name='search_country']").val();
+                    data.search_title = $("#search-frm input[name='search_title']").val();
                 }
             },            
             "order": [[ 0, "desc" ]],    
             columns: [
                 { data: 'id', name: 'id' },
                 { data: 'title', name: 'title' },
-                { data: 'country_code', name: 'country_code' },
                 { data: 'created_at', name: 'created_at' },               
                 { data: 'action', orderable: false, searchable: false}        
             ]

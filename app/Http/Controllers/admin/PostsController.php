@@ -6,24 +6,24 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 use Datatables;
-use App\Models\Country;
+use App\Models\Post;
 use App\models\AdminLog;
 use App\Models\AdminAction;
 
-class CountriesController extends Controller
+class PostsController extends Controller
 {
     public function __construct() {
 
-        $this->moduleRouteText = "countries";
-        $this->moduleViewName = "admin.countries";
+        $this->moduleRouteText = "posts";
+        $this->moduleViewName = "admin.posts";
         $this->list_url = route($this->moduleRouteText.".index");
 
-        $module = "Country";
+        $module = "Post";
         $this->module = $module;  
 
         $this->adminAction= new AdminAction; 
         
-        $this->modelObj = new Country();  
+        $this->modelObj = new Post();  
 
         $this->addMsg = $module . " has been added successfully!";
         $this->updateMsg = $module . " has been updated successfully!";
@@ -33,7 +33,6 @@ class CountriesController extends Controller
         view()->share("list_url", $this->list_url);
         view()->share("moduleRouteText", $this->moduleRouteText);
         view()->share("moduleViewName", $this->moduleViewName);
-
     }
     /**
      * Display a listing of the resource.
@@ -42,7 +41,7 @@ class CountriesController extends Controller
      */
     public function index()
     {
-        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_COUNTRIES);
+        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_POST);
         
         if($checkrights) 
         {
@@ -50,9 +49,9 @@ class CountriesController extends Controller
         }
          
         $data = array();        
-        $data['page_title'] = "Manage Countries";
+        $data['page_title'] = "Manage Posts";
         $data['add_url'] = route($this->moduleRouteText.'.create');
-        $data['btnAdd'] = \App\Models\Admin::isAccess(\App\Models\Admin::$ADD_COUNTRIES);                  
+        $data['btnAdd'] = \App\Models\Admin::isAccess(\App\Models\Admin::$ADD_POST);
         
         return view($this->moduleViewName.".index", $data);    
     }
@@ -64,8 +63,7 @@ class CountriesController extends Controller
      */
     public function create()
     {
-
-        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$ADD_COUNTRIES);
+        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$ADD_POST);
         
         if($checkrights) 
         {
@@ -74,7 +72,7 @@ class CountriesController extends Controller
         
         $data = array();
         $data['formObj'] = $this->modelObj;
-        $data['page_title'] = "Add".$this->module;
+        $data['page_title'] = "Add ".$this->module;
         $data['action_url'] = $this->moduleRouteText.".store";
         $data['action_params'] = 0;
         $data['buttonText'] = "Save";
@@ -92,7 +90,7 @@ class CountriesController extends Controller
     public function store(Request $request)
     {
 
-        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$ADD_COUNTRIES);
+        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$ADD_POST);
         
         if($checkrights) 
         {
@@ -104,8 +102,8 @@ class CountriesController extends Controller
         $data = array();
 
         $validator = Validator::make($request->all(), [
-            'title' => 'required|unique:countries,title|min:2',
-            'country_code' => 'required|unique:countries,country_code|min:2',
+            'title' => 'required|unique:'.TBL_POST.',title|min:2',
+            'description' => 'required|min:2',
         ]);
         
         // check validations
@@ -130,9 +128,9 @@ class CountriesController extends Controller
             $params=array();    
                                     
             $params['adminuserid']  = \Auth::guard('admins')->id();
-            $params['actionid']     = $this->adminAction->ADD_COUNTRIES ;
+            $params['actionid']     = $this->adminAction->ADD_POST;
             $params['actionvalue']  = $id;
-            $params['remark']       = "Add Country::".$id;
+            $params['remark']       = "Add Post::".$id;
                                     
             $logs=\App\Models\AdminLog::writeadminlog($params);
 
@@ -163,7 +161,7 @@ class CountriesController extends Controller
     public function edit($id)
     {
         
-        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_COUNTRIES);
+        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_POST);
         
         if($checkrights) 
         {
@@ -198,7 +196,7 @@ class CountriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_COUNTRIES);
+        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_POST);
         
         if($checkrights) 
         {
@@ -212,8 +210,8 @@ class CountriesController extends Controller
         $data = array();        
         
         $validator = Validator::make($request->all(), [
-            'title' => 'required|min:2|unique:countries,title,'.$id,
-            'country_code' => 'required|min:2|unique:countries,country_code,'.$id,
+            'title' => 'required|min:2|unique:'.TBL_POST.',title,'.$id,
+            'description' => 'required|min:2,'.$id,
         ]);
         
         // check validations
@@ -235,17 +233,18 @@ class CountriesController extends Controller
             }
         }         
         else
-        {
+        {            
             $input = $request->all();
-            $model->update($input); 
+            $model->update($input);
+
 
             //store logs detail
                 $params=array();
                 
                 $params['adminuserid']  = \Auth::guard('admins')->id();
-                $params['actionid']     = $this->adminAction->EDIT_COUNTRIES;
+                $params['actionid']     = $this->adminAction->EDIT_POST;
                 $params['actionvalue']  = $id;
-                $params['remark']       = "Edit Country::".$id;
+                $params['remark']       = "Edit Post::".$id;
 
                 $logs=\App\Models\AdminLog::writeadminlog($params);           
         }
@@ -262,7 +261,7 @@ class CountriesController extends Controller
      */
     public function destroy($id,Request $request)
     {
-        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_COUNTRIES);
+        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_POST);
         
         if($checkrights) 
         {
@@ -283,9 +282,9 @@ class CountriesController extends Controller
                 $params=array();
                 
                 $params['adminuserid']  = \Auth::guard('admins')->id();
-                $params['actionid']     = $this->adminAction->DELETE_COUNTRIES;
+                $params['actionid']     = $this->adminAction->DELETE_POST;
                 $params['actionvalue']  = $id;
-                $params['remark']       = "Delete Country::".$id;
+                $params['remark']       = "Delete Post::".$id;
 
                 $logs=\App\Models\AdminLog::writeadminlog($params);     
 
@@ -304,27 +303,26 @@ class CountriesController extends Controller
         }
     }
 
-    
     public function data(Request $request)
     {
-        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_COUNTRIES);
+        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_POST);
         
         if($checkrights) 
         {
             return $checkrights;
         }
      
-        $model = Country::query();
+        $model = Post::query();
                          
         return Datatables::eloquent($model)
             
-            ->addColumn('action', function(Country $row) {
-                return view("admin.countries.action",
+            ->addColumn('action', function(Post $row) {
+                return view("admin.partials.action",
                     [
                         'currentRoute' => $this->moduleRouteText,
                         'row' => $row,                             
-                        'isEdit' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_COUNTRIES),
-                        'isDelete' => \App\Models\Admin::isAccess(\App\Models\Admin::$DELETE_COUNTRIES),
+                        'isEdit' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_POST),
+                        'isDelete' => \App\Models\Admin::isAccess(\App\Models\Admin::$DELETE_POST),
                                                      
                     ]
                     )->render();
@@ -341,45 +339,11 @@ class CountriesController extends Controller
                                 
             ->filter(function ($query) 
             {
-                $search_start_date = trim(request()->get("search_start_date"));
-                $search_end_date = trim(request()->get("search_end_date")); 
-                $search_id = request()->get("search_id");                                   
-                $search_country = request()->get("search_country");
-                $search_code = request()->get("search_code");
-
-                if (!empty($search_start_date)){
-
-                    $from_date=$search_start_date.' 00:00:00';
-                    $convertFromDate= $from_date;
-
-                    $query = $query->where("created_at",">=",addslashes($convertFromDate));
-                }
-                if (!empty($search_end_date)){
-
-                    $to_date=$search_end_date.' 23:59:59';
-                    $convertToDate= $to_date;
-
-                    $query = $query->where("created_at","<=",addslashes($convertToDate));
-                }
-                
-                if(!empty($search_country))
+                $search_title = request()->get("search_title");                                   
+                if(!empty($search_title))
                 {
-                    $query = $query->where(TBL_COUNTRY.".title", 'LIKE', '%'.$search_country.'%');
-                }
-                if(!empty($search_code))
-                {
-                    $query = $query->where(TBL_COUNTRY.".country_code", 'LIKE', '%'.$search_code.'%');
-                }
-                if(!empty($search_id))
-                {
-                    $idArr = explode(',', $search_id);
-                    $idArr = array_filter($idArr);                
-                    if(count($idArr)>0)
-                    {
-                        $query = $query->whereIn('id',$idArr);
-                    } 
-                }
-                
+                    $query = $query->where("title", 'LIKE', '%'.$search_title.'%');
+                }                
             })
             ->make(true);        
     } 

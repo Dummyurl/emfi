@@ -102,7 +102,7 @@
                 { data: 'country', name: '{{TBL_COUNTRY}}.title'},
                 { data: 'state', name: '{{TBL_STATE}}.title'},
                 { data: 'title', name: '{{TBL_CITY}}.title'},    
-                { data: 'created_at', name: '{{TBL_CITY}}.created_at'},                       
+                { data: 'created_at', name: '{{TBL_CITY}}.created_at'},
                 { data: 'action', orderable: false, searchable: false}             
             ]
         });        

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\MarketType;
 use App\Models\Securities;
+use App\Models\AdminAction;
 use Excel;
 use Validator;
 use Datatables;
@@ -43,6 +44,12 @@ class SecuritiesController extends Controller
 
 	public function index()
 	{
+		$checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_SECURITY);
+
+        if($checkrights)
+        {
+            return $checkrights;
+        }
 		$data = [];
 		$data['page_title'] = "Manage Securities";
 		$data['MarketType'] = MarketType::getArrayList();
@@ -56,17 +63,30 @@ class SecuritiesController extends Controller
 
 	public function data(Request $request)
 	{
+		$checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_SECURITY);
+
+        if($checkrights)
+        {
+            return $checkrights;
+        }
+        
 		$model = Securities::select('securities.*','market_type.market_name')
 						   ->join('market_type', 'securities.market_id','=','market_type.id');
 
 		return Datatables::eloquent($model)
 						 ->addColumn('action',  function ($row){
+							 $html = '';
 							 $benchmark_family = 0;
 							 if(!empty($row->benchmark_family)){
 								$benchmark_family = $row->benchmark_family;
 							 }
+							 $url = route('edit-security-data',['id' => $row->id]);
 							 $str = "'$row->id','$benchmark_family','$row->benchmark'";
-							 return "<a class='btn btn-primary btn-xs' onclick=\"edit(".$str.");\">Edit</a>";
+							 if(\App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_SECURITY)){
+							 $html .= "<a title='Edit Benchmark' class='btn btn-primary btn-xs' onclick=\"edit(".$str.");\"><i class='
+fa fa-check-square-o'></i></a><a class='btn btn-success btn-xs' title='Edit' href='".$url."'><i class='fa fa-edit'></i></a>";}
+
+							return $html;
 						 })
 						 ->rawColumns(['action'])
 						 ->filter( function ($query){
@@ -86,6 +106,13 @@ class SecuritiesController extends Controller
 
 	public function update(Request $request , $id)
 	{
+		$checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_SECURITY);
+
+        if($checkrights)
+        {
+            return $checkrights;
+        }
+
 		$status = 1;
 		$msg = 'record has been updated !';
 
@@ -126,6 +153,18 @@ class SecuritiesController extends Controller
 				$obj->benchmark = 0;
 			}
 			$obj->save();
+			//store logs detail
+                $params=array();
+                $adminAction = new AdminAction();
+                
+                $params['adminuserid']  = \Auth::guard('admins')->id();
+                $params['actionid']     = $adminAction->EDIT_SECURITY;
+                $params['actionvalue']  = $id;
+                $params['remark']       = "Edit Security::".$id;
+
+                $logs=\App\Models\AdminLog::writeadminlog($params);
+
+            session()->flash('success_message', $msg);
 		}
 		return ['status' => $status, 'msg'=>$msg];
 	}
@@ -276,6 +315,105 @@ class SecuritiesController extends Controller
 		}
 		return "Country Id added to the existing securities without country";
 	}
+	public function edit_security_data($id)
+	{
+		$checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_SECURITY);
+
+        if($checkrights)
+        {
+            return $checkrights;
+        }
+		$data = array();
+		$obj = Securities::find($id);
+		if(!$obj){
+			return abort(404);
+		}
+        $data['formObj'] = $obj;
+        $data['page_title'] = "Edit Security Detail";
+        $data['buttonText'] = "Update";
+        $data['action_url'] = "update-security-data";
+        $data['action_params'] = $obj->id;
+        $data['method'] = "PUT";
+        $data['list_url'] = url('admin/listsecurity');
+		$data['countries'] = \App\Models\Country::pluck('title','id')->all();
+		$data['markets'] = \App\Models\MarketType::pluck('market_name','id')->all();
+		return view('admin.uploadExcel.edit',$data);
+
+	}
+	public function update_security_data(Request $request, $id)
+    {
+    	$checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_SECURITY);
+
+        if($checkrights)
+        {
+            return $checkrights;
+        }
+        $status = 1;
+        $msg = 'Security has been updated successfully !';
+        $data = array();        
+        $model = Securities::find($id);
+		// check validations
+        if(!$model)
+        {
+            $status = 0;
+            $msg = "Record not found !";
+        	return ['status' => $status,'msg' => $msg, 'data' => $data]; 
+        }
+
+        $validator = Validator::make($request->all(), [
+            'country_id' => 'required|exists:'.TBL_COUNTRY.',id',
+            'market_id' => 'required|exists:market_type,id',
+            'CUSIP' => 'required|min:2',
+            'benchmark' => 'required',
+            'ticker' => 'required',
+            'cpn' => 'required',
+            'security_name' => 'required',
+            'maturity_date' => 'required',
+            'dur_adj_mid' => 'required',
+            'bid_price' => 'required|numeric|min:0',
+            'ask_price' => 'required|numeric|min:0',
+            'last_price' => 'required|numeric|min:0',
+            'low_price' => 'required|numeric|min:0',
+            'high_price' => 'required|numeric|min:0',
+            'yld_ytm_mid' => 'required',
+            'z_sprd_mid' => 'required',
+            'net_change' => 'required',
+            'percentage_change' => 'required',
+        ]);
+
+        if ($validator->fails()) 
+        {
+            $messages = $validator->messages();
+            
+            $status = 0;
+            $msg = "";
+            
+            foreach ($messages->all() as $message) 
+            {
+                $msg .= $message . "<br />";
+            }
+        }         
+        else
+        {            
+            $input = $request->all();
+            $model->update($input);
+
+            //store logs detail
+                $params=array();
+                $adminAction = new AdminAction();
+                
+                $params['adminuserid']  = \Auth::guard('admins')->id();
+                $params['actionid']     = $adminAction->EDIT_SECURITY;
+                $params['actionvalue']  = $id;
+                $params['remark']       = "Edit Security::".$id;
+
+                $logs=\App\Models\AdminLog::writeadminlog($params);
+
+            session()->flash('success_message', $msg);
+        }
+        
+        return ['status' => $status,'msg' => $msg, 'data' => $data]; 
+    }
 
 	// public function massinsert(Request $request)
 	// {
