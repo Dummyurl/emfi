@@ -26,29 +26,37 @@ class PagesController extends Controller {
         return view('welcome', $data);
     }
 
-    public function economics(Request $request, $country = 0) 
+    public function economics(Request $request, $country = "") 
     {
         $data = array();
         $data['page_title'] = "EMFI: Economics";        
         
-        if($country > 0)
+        if(!empty($country))
         {
             $defaultCountry = $country;
         }
         else
         {
-            $defaultCountry = 1;
+            $defaultCountry = "VZ";
+            // $defaultCountry = 40;
         }
         
-        $data['countryObj'] = Country::find($defaultCountry);
+        $data['countryObj'] = Country::where("country_code",$defaultCountry)->first();
+        // $data['countryObj'] = Country::where("id",$defaultCountry)->first();
         
         if(!$data['countryObj'])
         {
             abort(404);
         }        
+
+        $data['market_boxes'] = callCustomSP('CALL Select_economics_country('.$data['countryObj']->id.')');
+        $data['bond_data'] = callCustomSP('CALL select_economic_bond('.$data['countryObj']->id.')');
+        $data['countries'] = Country::orderBy("title")->get();
         
-        $data['market_boxes'] = callCustomSP('CALL select_market()');        
-        
+        $data['tweets'] = getSearchTweets($data['countryObj']->title);        
+        // dd($data['tweets']);
+        // $data['tweets'] = getSearchTweets($data['countryObj']->title);
+        // dd($data['bond_data']);
         return view('economics', $data);
     }
 
@@ -82,9 +90,9 @@ class PagesController extends Controller {
 
         $data = array();
         $data['page_title'] = "EMFI: Markets";
-        $data['tweets'] = getLatestTweets();
-
-        // dd($data['tweets']);
+        // $data['tweets'] = getLatestTweets();
+        $from = "@emfisecurities";
+        $data['tweets'] = getPeopleTweets($from);        
 
         $data['markets'] = MarketType::getArrayList();
         $data['market_boxes'] = callCustomSP('CALL select_market()');

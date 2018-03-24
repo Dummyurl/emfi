@@ -64,7 +64,9 @@ function getSearchTweets($search)
         'consumer_secret' => "glpsLqdMeGG8WK0NwN2wijnkmY88LrHtkqDJ1WdrpZHnDFGcFq"
     );
     $url = 'https://api.twitter.com/1.1/search/tweets.json';
-    $getfield = '?q=#'.$search.'&count=30';
+    $from = "@emfisecurities";
+    $getfield = '?q=from:'.$from;
+    $getfield = '?q=#'.$search.' from:'.$from.'&count=20';
     $requestMethod = 'GET';
 
     $twitter = new \App\TwitterAPIExchange($settings);
