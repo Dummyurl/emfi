@@ -232,12 +232,15 @@ fa fa-check-square-o'></i></a><a class='btn btn-success btn-xs' title='Edit' hre
 						{
 							$fields[strtolower(trim($value))] = $key;
 						}
+						// echo "<pre>";
+						// print_r($fields);
+						// exit();
 					}
 					else
 					{
 						// Array for historical data
-						$hdata = [];
 
+						$hdata = [];
 						$idata['created'] = \DB::raw('CURDATE()');
 						$idata['bid_price'] = ($data[$fields['px_bid']] == "#N/A N/A" || !isset($data[$fields['px_bid']])) ? '' : str_replace(',','',$data[$fields['px_bid']]);
 						$idata['ask_price'] = ($data[$fields['px_ask']] == "#N/A N/A" || !isset($data[$fields['px_ask']])) ? '' : str_replace(',','',$data[$fields['px_ask']]);
@@ -245,28 +248,67 @@ fa fa-check-square-o'></i></a><a class='btn btn-success btn-xs' title='Edit' hre
 						$idata['low_price'] = ($data[$fields['px_low']] == "#N/A N/A" || !isset($data[$fields['px_low']])) ? '' : str_replace(',','',$data[$fields['px_low']]);
 						$idata['high_price'] = ($data[$fields['px_high']] == "#N/A N/A" || !isset($data[$fields['px_high']])) ? '' : str_replace(',','',$data[$fields['px_high']]);
 						$idata['net_change'] = ($data[$fields['chg_net_1d']] == "#N/A N/A" || !isset($data[$fields['chg_net_1d']])) ? '' : str_replace(',','',$data[$fields['chg_net_1d']]);
-						$idata['percentage_change'] = ($data[$fields['chg_pct_1d']] == "#N/A N/A" || !isset($data[$fields['chg_pct_1d']])) ? '' : str_replace(',','',$data[$fields['chg_pct_1d']]);
+						$idata['percentage_change'] = ($data[$fields['chg_pct_1d']] == "#N/A N/A" || !isset($data[$fields['chg_pct_1d']])) ? '' : $data[$fields['chg_pct_1d']];
 
+						$idata['net_change'] = str_replace('(', "-", $idata['net_change']);
+						$idata['net_change'] = str_replace(')', "", $idata['net_change']);
+
+						$idata['percentage_change'] = str_replace('(', "-", $idata['percentage_change']);
+						$idata['percentage_change'] = str_replace(')', "", $idata['percentage_change']);
+
+						
 						// Only historical_data table's colums will be added to this array.
 						$hdata = $idata;
-						print_r($hdata);
 
-						$idata['CUSIP'] = ($data[$fields['cusip']] == "#N/A N/A" || !isset($data[$fields['cusip']])) ? "" : $data[$fields['cusip']] ;
+						$idata['CUSIP'] = ($data[$fields['﻿cusip']] == "#N/A N/A" || !isset($data[$fields['﻿cusip']])) ? "" : $data[$fields['﻿cusip']] ;
 						$idata['yld_ytm_mid'] = ($data[$fields['yld_ytm_mid']] == "#N/A N/A" || !isset($data[$fields['yld_ytm_mid']])) ? '' : $data[$fields['yld_ytm_mid']];
 						$idata['z_sprd_mid'] = ($data[$fields['z_sprd_mid']] == "#N/A N/A" || !isset($data[$fields['z_sprd_mid']])) ? '' : $data[$fields['z_sprd_mid']];
 						$idata['dur_adj_mid'] = ($data[$fields['dur_adj_mid']] == "#N/A N/A" || !isset($data[$fields['dur_adj_mid']])) ? '' : $data[$fields['dur_adj_mid']];
-						$idata['market_id'] = ($data[$fields['market']] == "#N/A N/A" || !isset($data[$fields['market']])) ? '' : $markets[$data[$fields['market']]];
+						
+						$idata['market_id'] = '';
+						if(isset($data[$fields['market']]) && $data[$fields['market']] != "#N/A N/A" && !empty($data[$fields['market']]))
+						{
+							$idata['market_id'] = $markets[$data[$fields['market']]];
+						}
+
 						$idata['country'] = ($data[$fields['country']] == "#N/A N/A" || !isset($data[$fields['country']])) ? '' : $data[$fields['country']];
-						$idata['country_id'] = ($data[$fields['country']] == "#N/A N/A" || !isset($data[$fields['country']])) ? '' : $countries[$data[$fields['country']]];
+
+						$idata['country_id'] = '';
+						if(isset($data[$fields['country']]) && $data[$fields['country']] != "#N/A N/A" && !empty($data[$fields['country']]))
+						{
+							$idata['country_id'] = $countries[$data[$fields['country']]];
+						}
+
 						$idata['ticker'] = ($data[$fields['ticker']] == "#N/A N/A" || !isset($data[$fields['ticker']])) ? '' : $data[$fields['ticker']];
 						$idata['benchmark'] = ($data[$fields['benchmark']] == "#N/A N/A" || !isset($data[$fields['benchmark']]) || empty($data[$fields['benchmark']])) ? 0 : 1;
 						$idata['benchmark_family'] = ($data[$fields['benchmark']] == "#N/A N/A" || !isset($data[$fields['benchmark']])) ? '' : $data[$fields['benchmark']];
 						$idata['cpn'] = ($data[$fields['cpn']] == "#N/A N/A" || !isset($data[$fields['cpn']])) ? '' : $data[$fields['cpn']];
 						$idata['security_name'] = ($data[$fields['security_name']] == "#N/A N/A" || !isset($data[$fields['security_name']])) ? '' : $data[$fields['security_name']];
-						$idata['maturity_date'] = ($data[$fields['maturity']] == "#N/A N/A" || !isset($data[$fields['maturity']]) || empty($data[$fields['maturity']])) ? '0000-00-00' : date('Y-m-d', strtotime(str_replace("-","/",$data[$fields['maturity']])));
-						// Update if any record exists Or Create a new Security
+						
+						$idata['maturity_date'] =  '0000-00-00';
+						if(isset($data[$fields['maturity']]) && !empty($data[$fields['maturity']])){
+							$arr_date = explode("/", $data[$fields['maturity']]);
+							if($arr_date[0] < 10){
+								$month = '0'.$arr_date[0];
+							} else {
+								$month = $arr_date[0];
+							}
+							if($arr_date[1] < 10){
+								$date = '0'.$arr_date[1];
+							} else {
+								$date = $arr_date[1];
+							}
+							$full_date = $arr_date[2]."-".$month."-".$date;
+							$idata['maturity_date'] = $full_date;
+						}
+
+						if(!isset($idata['CUSIP']) || empty($idata['CUSIP']))
+						{
+							continue;
+						}
 						if (!empty($idata) && is_array($idata))
 						{
+						// Update if any record exists Or Create a new Security
 
 							$security = Securities::updateOrCreate(
 											[
@@ -275,7 +317,6 @@ fa fa-check-square-o'></i></a><a class='btn btn-success btn-xs' title='Edit' hre
 											],
 											$idata
 										);
-
 							$hdata['security_id'] = $security->id;
 							$hdata['created'] = \DB::raw('CURDATE()');
 							if ($security->market_id == 5)
@@ -283,10 +324,12 @@ fa fa-check-square-o'></i></a><a class='btn btn-success btn-xs' title='Edit' hre
 								$hdata['DUR_ADJ_MID'] = $idata['dur_adj_mid'];
 								$hdata['YLD_YTM_MID'] = $idata['yld_ytm_mid'];
 								$hdata['Z_SPRD_MID'] = $idata['z_sprd_mid'];
+								$hdata['created_at'] = \DB::raw('NOW()');
 								\DB::table('bond_historical_data')->insert($hdata);
 							}
 							else
 							{
+								$hdata['created_at'] = \DB::raw('NOW()');
 								\DB::table('historical_data')->insert($hdata);
 							}
 						}
