@@ -284,8 +284,23 @@ fa fa-check-square-o'></i></a><a class='btn btn-success btn-xs' title='Edit' hre
 						$idata['benchmark_family'] = ($data[$fields['benchmark']] == "#N/A N/A" || !isset($data[$fields['benchmark']])) ? '' : $data[$fields['benchmark']];
 						$idata['cpn'] = ($data[$fields['cpn']] == "#N/A N/A" || !isset($data[$fields['cpn']])) ? '' : $data[$fields['cpn']];
 						$idata['security_name'] = ($data[$fields['security_name']] == "#N/A N/A" || !isset($data[$fields['security_name']])) ? '' : $data[$fields['security_name']];
-						$idata['maturity_date'] = ($data[$fields['maturity']] == "#N/A N/A" || !isset($data[$fields['maturity']]) || empty($data[$fields['maturity']])) ? '0000-00-00' : date('Y-m-d', strtotime(str_replace("-","/",$data[$fields['maturity']])));
 						
+						$idata['maturity_date'] =  '0000-00-00';
+						if(isset($data[$fields['maturity']]) && !empty($data[$fields['maturity']])){
+							$arr_date = explode("/", $data[$fields['maturity']]);
+							if($arr_date[0] < 10){
+								$month = '0'.$arr_date[0];
+							} else {
+								$month = $arr_date[0];
+							}
+							if($arr_date[1] < 10){
+								$date = '0'.$arr_date[1];
+							} else {
+								$date = $arr_date[1];
+							}
+							$full_date = $arr_date[2]."-".$month."-".$date;
+							$idata['maturity_date'] = $full_date;
+						}
 
 						if(!isset($idata['CUSIP']) || empty($idata['CUSIP']))
 						{
