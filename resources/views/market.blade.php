@@ -145,7 +145,7 @@
                         </div>
                         <div class="col-md-4 pull-right">
                             <select id="benchmark-dropdown">
-                                <option selected>Add Benchmark</option>
+                                <option value="">Add Benchmark</option>
                             </select>
                         </div>
                     </form>

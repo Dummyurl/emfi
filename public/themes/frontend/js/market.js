@@ -63,9 +63,11 @@ function drawBarChart(data_values, elementID, chartType) {
     } 
     else
     {
-        formatedData.push(["", ""]);
-        formatedData.push(["", 0]);
+        formatedData.push(["", "",{type: 'string', role: 'tooltip'}]);
+        formatedData.push(["None", 0,""]);
     }
+
+    // console.log(formatedData);
 
     var data = google.visualization.arrayToDataTable(formatedData);
 
@@ -113,6 +115,7 @@ function drawBarChart(data_values, elementID, chartType) {
             {
                 global_line_graph_text = category;
                 global_line_graph_id = global_gainer_data[category];
+                $("#benchmark-dropdown").html("");
                 generateLineGraph();    
             }                
         }    
@@ -122,7 +125,8 @@ function drawBarChart(data_values, elementID, chartType) {
             {
                 global_line_graph_text = category;
                 global_line_graph_id = global_loser_data[category];
-                generateLineGraph();    
+                $("#benchmark-dropdown").html("");
+                generateLineGraph();                    
             }                 
         }        
     });        
@@ -329,7 +333,7 @@ function resetFields()
 
 function fillBanchMark(data)
 {
-    var html = '<option>Add Benchmark</option>';
+    var html = '<option value="">Add Benchmark</option>';
     for (var i in data)
     {
         html += '<option value="' + data[i]['id'] + '">' + data[i]['CUSIP'] + '</option>';
