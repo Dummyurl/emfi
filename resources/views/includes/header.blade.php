@@ -47,6 +47,8 @@
                             <li><a href="{{ url('markets/credit') }}">CREDIT</a></li>
                         </ul>
                     </li>
+                    <?php 
+                    /*
                     <li class="dropdown {{ \Request::is('economics','economics/*') ? 'active':'' }}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             Economies
@@ -57,6 +59,8 @@
                             <li><a href="{{ route('economics')}}">THE CARIBBEAN</a></li>
                         </ul>
                     </li>
+                    */ ?>
+                    <li class="{{ \Request::is('economics','economics/*') ? 'active':'' }}"><a href="{{ url('economics')}}">Economies</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             Analyzer

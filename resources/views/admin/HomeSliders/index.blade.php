@@ -30,7 +30,7 @@
                                    <th width="10%">ID</th>                                   
                                    <th width="30%">Graph Name</th>                           
                                    <th width="30%">Post Name</th>                           
-                                   <th width="10%">County</th>                           
+                                   <th width="10%">Country</th>                           
                                    <th width="5%">Status</th>                           
                                    <th width="20%">Created At</th>                           
                                    <th width="10%">Action</th>

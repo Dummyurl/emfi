@@ -440,6 +440,14 @@ fa fa-check-square-o'></i></a><a class='btn btn-success btn-xs' title='Edit' hre
         {            
             $input = $request->all();
             $model->update($input);
+			
+			$country_id = $request->get('country_id');
+            $country = \App\Models\Country::find($country_id);
+            
+			if($country){
+             $model->country =$country->country_code;
+             $model->save();
+            }			
 
             //store logs detail
                 $params=array();

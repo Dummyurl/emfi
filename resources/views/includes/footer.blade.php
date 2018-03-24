@@ -21,7 +21,7 @@
         <div class="footer_block">
           <h3>Legal Info</h3>
           <ul>
-            <li><a href="{{ url('/market') }}">Market</a></li>
+            <li><a href="{{ url('/markets') }}">Markets</a></li>
             <li><a href="#">Login</a></li>
             <li><a href="{{ route('contact')}}">Contact</a></li>
           </ul>

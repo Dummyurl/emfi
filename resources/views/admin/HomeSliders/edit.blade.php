@@ -30,7 +30,7 @@
                             @if(isset($formObj->security_id) && !empty($formObj->security_id))
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label class="control-label">Graph Name<span class="required">*</span></label>
+                                    <label class="control-label">Security<span class="required">*</span></label>
                                     {!! Form::select('security_id',[''=>'Search Graph']+$graphs,null,['class' => 'form-control graphs']) !!}
                                 </div>
                             </div>
@@ -46,13 +46,13 @@
                             
                             <div class="clearfix">&nbsp;</div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label class="control-label">Country<span class="required">*</span></label>
                                     {!! Form::select('country_id',[''=>'Select Country']+ $countries,null,['class' => 'country form-control']) !!}
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6" style="display: none;">
                                     <label class="control-label">Graph Type<span class="required">*</span></label>
-                                    {!! Form::select('graph_type',[''=>'Select Type','line'=>'Line Graph'],null,['class' => 'form-control', 'data-required' => true,]) !!}
+                                    {!! Form::select('graph_type',['line'=>'Line Graph'],null,['class' => 'form-control', 'data-required' => true,]) !!}
                                 </div>
                             </div>
                             <div class="clearfix">&nbsp;</div>

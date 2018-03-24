@@ -110,7 +110,7 @@ class HomeSlidersController extends Controller
             'slider_type' => ['required', Rule::in(['graph','post'])],
             'post_id' => 'exists:'.TBL_POST.',id',
             'security_id' => 'exists:securities,id',
-            'country_id' => 'required|exists:'.TBL_COUNTRY.',id',
+            //'country_id' => 'required|exists:'.TBL_COUNTRY.',id',
             'graph_type' => ['required', Rule::in(['line'])],
             'status' => ['required', Rule::in([1,0])],
             'order' => 'required|min:0',
@@ -155,7 +155,10 @@ class HomeSlidersController extends Controller
                 $obj->post_id = $post_id;
             if(!empty($security_id))
             $obj->security_id = $security_id;
-            $obj->country_id = $country_id;
+            
+			if($country_id > 0)
+			$obj->country_id = $country_id;
+			
             $obj->graph_type = $graph_type;
             $obj->status = $statuss;
             $obj->order = $order;
@@ -378,7 +381,7 @@ class HomeSlidersController extends Controller
         $model = HomeSlider::select(TBL_HOME_SLIDER.".*",TBL_POST.".title as post",TBL_COUNTRY.".title as country",TBL_POST.".title as post",TBL_SECURITY.".CUSIP as graph")
                 ->leftJoin(TBL_SECURITY,TBL_SECURITY.".id","=",TBL_HOME_SLIDER.".security_id")
                 ->leftJoin(TBL_POST,TBL_POST.".id","=",TBL_HOME_SLIDER.".post_id")
-                ->join(TBL_COUNTRY,TBL_COUNTRY.".id","=",TBL_HOME_SLIDER.".country_id");
+                ->leftJoin(TBL_COUNTRY,TBL_COUNTRY.".id","=",TBL_HOME_SLIDER.".country_id");
                      
         return Datatables::eloquent($model)
             
@@ -426,6 +429,11 @@ class HomeSlidersController extends Controller
 
                     $query = $query->where(TBL_HOME_SLIDER.".created_at",">=",addslashes($convertFromDate));
                     }
+					
+					if(!empty($search_country))
+                    {
+                        $query = $query->where(TBL_COUNTRY.".title", 'LIKE', '%'.$search_country.'%');
+                    }					
 
                     if (!empty($search_end_date)){
 
