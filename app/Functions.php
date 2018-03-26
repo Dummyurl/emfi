@@ -14,7 +14,36 @@ function getMonths()
          6 => "6 Month",
          12 => "1 Year",
          60 => "5 Years",
-    ]
+    ];
+}
+
+
+function getMarketUrls($marketID)
+{
+    if($marketID == 1)
+    {
+        return '/markets/equities';
+    }    
+    else if($marketID == 2)
+    {
+        return '/markets/currencies';
+    }    
+    else if($marketID == 3)
+    {
+        return '/markets/commodities';
+    }    
+    else if($marketID == 4)
+    {
+        return '/markets/rates';
+    }        
+    else if($marketID == 5)
+    {
+        return '/markets/credit';
+    }            
+    else
+    {
+        return "/";
+    }
 }
 
 

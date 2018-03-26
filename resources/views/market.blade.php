@@ -12,7 +12,7 @@
                 <div class="col-md-6 select_r">
                     <select name="markets" id="markets">                        
                         @foreach($markets as $val => $label)
-                        <option {{ $selected_market == $val ? 'selected="selected"':'' }} value="{{ $val }}">{{ $label }}</option>
+                        <option data-url="{{ url(getMarketUrls($val)) }}" {{ $selected_market == $val ? 'selected="selected"':'' }} value="{{ $val }}">{{ $label }}</option>
                         @endforeach                                                 
                     </select>
                 </div>
@@ -116,6 +116,7 @@
         </div>
     </div>
 </section>
+<div id="linegraph-data"></div>
 <section class="equities">
     <div class="container">
         <div class="title">
@@ -131,9 +132,11 @@
                         <div class="col-md-4">
                             <select id="period-month">
                                 <option value="">Period</option>
-                                @for($i=1;$i<=12;$i++)
-                                <option {!! $i == 1 ? 'selected="selected"':'' !!} value="{{ $i }}">{{ $i }} Month</option>
-                                @endfor
+                                @foreach(getMonths() as $month => $label)
+                                <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
+                                    {{ $label }}
+                                </option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-4">
