@@ -50,8 +50,18 @@ class PagesController extends Controller {
         }        
 
         $data['market_boxes'] = callCustomSP('CALL Select_economics_country('.$data['countryObj']->id.')');
-        $data['bond_data'] = callCustomSP('CALL select_economic_bond('.$data['countryObj']->id.')');
+        $bond_data = callCustomSP('CALL select_economic_bond('.$data['countryObj']->id.')');
         $data['countries'] = Country::orderBy("title")->get();
+        $data['bond_data'] = [];
+
+        foreach($bond_data as $r)
+        {
+            $data['bond_data'][$r['ticker']][] = $r;
+        }
+
+        // echo "<pre>";
+        // print_r($data['bond_data']);
+        // exit;
         
         $data['tweets'] = getSearchTweets($data['countryObj']->title);        
         // dd($data['tweets']);
