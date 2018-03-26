@@ -24,3 +24,4 @@ define("TBL_CMS_GRAPH_SLIDERS","cms_graph_sliders");
 define("TBL_POST","posts");
 define("TBL_HOME_SLIDER","home_sliders");
 define("TBL_SECURITY","securities");
+define("TBL_MARKETS","market_type");

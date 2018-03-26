@@ -120,6 +120,8 @@ Route::group(['prefix' => $ADMIN_PREFIX], function(){
 	Route::post('update-security-data/{id}', 'admin\SecuritiesController@update_security_data')->name('update-security-data');
 	Route::get('getcountries','admin\SecuritiesController@country');
 
+	Route::any('securities/data', 'admin\SecurityController@data')->name('securities.data');
+	Route::resource('securities', 'admin\SecurityController');
 
     // Only for mass upload data with excel
 	// Route::get('massupload', 'admin\SecuritiesController@massupload')->name('massupload');

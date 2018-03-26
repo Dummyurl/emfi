@@ -20,7 +20,7 @@
                     </div>
                     <div class="portlet-body">
                         <div class="form-body">
-                             {!! Form::model($formObj,['method' => 'POST','files' => true, 'route' => [$action_url,$action_params],'class' => 'sky-form form form-group', 'id' => 'main-frm']) !!} 
+                             {!! Form::model($formObj,['method' => $method,'files' => true, 'route' => [$action_url,$action_params],'class' => 'sky-form form form-group', 'id' => 'main-frm']) !!} 
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -131,12 +131,12 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label class="control-label">Benchmark Family</label>
-                                    {!! Form::select('benchmark_family', ['0'=>'Select Benchmark Family'] + $benchmark_family_list, null, ['class' => 'form-control', 'id' => 'select_benchmark']) !!}
+                                    <label class="control-label">Benchmark</label>
+                                    {!! Form::select('benchmark_family', ['0'=>'Select Benchmark'] + $benchmark_family_list, null, ['class' => 'form-control', 'id' => 'select_benchmark']) !!}
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="control-label">Add New Benchmark</label>
-                                    {!! Form::text('new_benchmark_family',null,['class' => 'form-control', 'data-required' => false]) !!}
+                                    <label class="control-label">Add Benchmark</label>
+                                    {!! Form::text('new_benchmark_family',null,['class' => 'form-control', 'data-required' => false,'id'=>'new_benchmark']) !!}
                                 </div>
                             </div>
                             <div class="clearfix">&nbsp;</div>
@@ -144,7 +144,7 @@
                                 <div class="col-md-6">
                                     <div class="mt-checkbox-inline">
                                         <label class="mt-checkbox">
-                                            {!! Form::checkbox('benchmark',1, $formObj->benchmark,['class' => 'form-control']) !!}Benchmark Set
+                                            {!! Form::checkbox('benchmark',1, $formObj->benchmark,['class' => 'form-control']) !!}Inable Benchmark
                                             <span></span>
                                         </label>
                                     </div>
@@ -182,6 +182,19 @@
                 allowClear: true,
                 minimumInputLength: 2,
                 width: null
+        });
+        var bench = $("#select_benchmark").val();
+        if(bench != '0'){
+            $('#new_benchmark').attr('disabled' , true);
+        }
+        $("#select_benchmark").on('change', function () {
+            if ($(this).val() != "0") {
+                $('#new_benchmark').val('');
+                $('#new_benchmark').attr('disabled' , true);
+            }
+            else {
+                $('#new_benchmark').attr('disabled' , false);
+            }
         });
         $('#main-frm').submit(function () {
             

@@ -27,10 +27,11 @@
                         <thead>
                             <tr>
 								<th width="10%">ID</th>
+                               <th width="28%">Security Name</th>
                                <th width="22%">Company Name</th>
                                <th width="15%">Market Type</th>
-							   <th width="5%">Benchmark</th>
-                               <th width="28%">Security Name</th>
+                               <th width="5%">Benchmark</th>
+                               <th width="5%">Default</th>
                                <th width="10%" data-orderable="false">Action</th>
                             </tr>
                         </thead>
@@ -169,9 +170,6 @@
 			return false;
 		});
 
-
-
-
         $.fn.dataTableExt.sErrMode = 'throw';
 
         var oTableCustom = $('#server-side-datatables').DataTable({
@@ -184,15 +182,17 @@
                 {
                     data.search_cusip = $("#search-frm input[name='search_cusip']").val();
                     data.search_market = $("#search-frm select[name='search_market']").val();
+                    data.search_status = $("#search-frm select[name='search_status']").val();
                 }
             },
             "order": [[ 0, "asc" ]],
             columns: [
 				{ data :'id' , name : 'id' },
+                { data: 'security_name', name: 'security_name' },
                 { data: 'CUSIP', name: 'CUSIP' },
                 { data: 'market_name', name: 'market_type.id'},
                 { data: 'benchmark_family', name: 'benchmark_family' },
-                { data: 'security_name', name: 'security_name' },
+                { data: 'default', name: 'default' },
                 { data: 'action', orderable: false, searchable: false}
             ]
         });

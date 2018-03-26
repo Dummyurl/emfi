@@ -11,8 +11,8 @@
         <form id="search-frm">
             <div class="row">
                 <div class="col-md-4">
-                    <label class="control-label">Company Name</label>
-                    <input type="text" value="{{ \Request::get("search_id") }}" class="form-control" name="search_cusip" />
+                    <label class="control-label">CUSIP Name</label>
+                    <input type="text" value="{{ \Request::get("search_cusip") }}" class="form-control" name="search_cusip" />
                 </div>
                 <div class="col-md-4">
                     <label class="control-label">Market Type</label>
@@ -29,7 +29,11 @@
             </div>
             <div class="clearfix">&nbsp;</div>
             <div class="row">
-                <div class="col-md-4 pull-right">
+                <div class="col-md-4">
+                    <label class="control-label">Country</label>
+                    <input type="text" value="{{ \Request::get("search_country") }}" class="form-control" name="search_country" />
+                </div>
+                <div class="col-md-4">
                     <input type="submit" class="btn blue mTop25" value="Search"/>
                     &nbsp;
                     <a href="" class="btn red mTop25">Reset</a>

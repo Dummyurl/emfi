@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule;
 use App\Models\MarketType;
 use App\Models\Securities;
 use App\Models\AdminAction;
@@ -83,16 +84,25 @@ class SecuritiesController extends Controller
 							 $url = route('edit-security-data',['id' => $row->id]);
 							 $str = "'$row->id','$benchmark_family','$row->benchmark'";
 							 if(\App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_SECURITY)){
-							 $html .= "<a title='Edit Benchmark' class='btn btn-primary btn-xs' onclick=\"edit(".$str.");\"><i class='
-fa fa-check-square-o'></i></a><a class='btn btn-success btn-xs' title='Edit' href='".$url."'><i class='fa fa-edit'></i></a>";}
+							 $html .='<div class="btn-group">';
+							 $html .= "<a title='Change Default Sataus' class='btn btn-primary btn-xs' onclick=\"edit(".$str.");\"><i class='
+fa fa-check-square-o'></i></a>";
+							$html .="<a class='btn btn-success btn-xs' title='Edit' href='".$url."'><i class='fa fa-edit'></i></a></div>";
+}
 
 							return $html;
 						 })
-						 ->rawColumns(['action'])
+						->addColumn('default',  function ($row){
+							if($row->default == 1)
+								return '<a class="btn btn-success btn-xs">Yes</a>';
+							else
+								return '';
+						})
+						 ->rawColumns(['action','default'])
 						 ->filter( function ($query){
 							 $search_cusip = request()->get('search_cusip');
 							 $search_market = request()->get('search_market');
-
+							 $search_status = request()->get('search_status');
 
 							 if (!empty($search_cusip)) {
 							 	$query = $query->where('securities.CUSIP',"LIKE", '%'.$search_cusip.'%');
@@ -100,6 +110,10 @@ fa fa-check-square-o'></i></a><a class='btn btn-success btn-xs' title='Edit' hre
 							 if (!empty($search_market)) {
 							 	$query = $query->where('securities.market_id', '=', $search_market);
 							 }
+							if($search_status == "1" || $search_status == "0")
+                    		{
+                        		$query = $query->where("default", $search_status);
+                    		}
 						 })
 						 ->make(true);
 	}
@@ -380,6 +394,9 @@ fa fa-check-square-o'></i></a><a class='btn btn-success btn-xs' title='Edit' hre
         $data['list_url'] = url('admin/listsecurity');
 		$data['countries'] = \App\Models\Country::pluck('title','id')->all();
 		$data['markets'] = \App\Models\MarketType::pluck('market_name','id')->all();
+		$data['benchmark_family_list'] = Securities::where('benchmark_family', "!=", "")
+												   ->groupBy('benchmark_family')
+												   ->pluck("benchmark_family","benchmark_family")->all();
 		return view('admin.uploadExcel.edit',$data);
 
 	}
@@ -407,7 +424,6 @@ fa fa-check-square-o'></i></a><a class='btn btn-success btn-xs' title='Edit' hre
             'country_id' => 'required|exists:'.TBL_COUNTRY.',id',
             'market_id' => 'required|exists:market_type,id',
             'CUSIP' => 'required|min:2',
-            'benchmark' => 'required',
             'ticker' => 'required',
             'cpn' => 'required',
             'security_name' => 'required',
@@ -422,6 +438,7 @@ fa fa-check-square-o'></i></a><a class='btn btn-success btn-xs' title='Edit' hre
             'z_sprd_mid' => 'required',
             'net_change' => 'required',
             'percentage_change' => 'required',
+            'benchmark' => Rule::in([1,0]),
         ]);
 
         if ($validator->fails()) 
@@ -437,16 +454,40 @@ fa fa-check-square-o'></i></a><a class='btn btn-success btn-xs' title='Edit' hre
             }
         }         
         else
-        {            
-            $input = $request->all();
-            $model->update($input);
+        {
+            $benchmark = $request->get('benchmark');
+            $new_benchmark = $request->get('new_benchmark_family');
+			$select_benchmark = $request->get('benchmark_family');
 			
+			if(empty($new_benchmark) && empty($select_benchmark)){
+				$status = 0;
+				$msg = 'please enter at least one benchmark!';
+				return ['status' => $status, 'msg'=>$msg];
+			}
+			elseif (!empty($new_benchmark) && !empty($select_benchmark)) {
+				$status = 0;
+				$msg = 'Please enter only one benchmark';
+				return ['status' => $status, 'msg'=>$msg];
+			}
+			else {
+				$input = $request->all();
+	            $model->update($input);
+
+				if (isset($new_benchmark) && !empty($new_benchmark)) {
+					$model->benchmark_family = $new_benchmark;
+					$model->save();
+				}
+				elseif (isset($select_benchmark) && !empty($select_benchmark)) {
+					$model->benchmark_family = $select_benchmark;
+					$model->save();
+				}
+			}
 			$country_id = $request->get('country_id');
             $country = \App\Models\Country::find($country_id);
             
 			if($country){
-             $model->country =$country->country_code;
-             $model->save();
+            	$model->country =$country->country_code;
+            	$model->save();
             }			
 
             //store logs detail

@@ -81,7 +81,7 @@ class HomeSlidersController extends Controller
         $data["method"] = "POST"; 
         $data['posts'] = \App\Models\Post::pluck('title','id')->all();
         $data['graphs'] = \App\Models\Securities::pluck('CUSIP','id')->all();
-        $data['countries'] = \App\Models\Country::pluck('title','id')->all();
+        $data['countries'] = \App\Models\Country::getCountryList();
 
         return view($this->moduleViewName.'.add', $data);
     }
@@ -110,10 +110,10 @@ class HomeSlidersController extends Controller
             'slider_type' => ['required', Rule::in(['graph','post'])],
             'post_id' => 'exists:'.TBL_POST.',id',
             'security_id' => 'exists:securities,id',
-            //'country_id' => 'required|exists:'.TBL_COUNTRY.',id',
+            'country_id' => 'exists:'.TBL_COUNTRY.',id',
             'graph_type' => ['required', Rule::in(['line'])],
             'status' => ['required', Rule::in([1,0])],
-            'order' => 'required|min:0',
+            'order' => 'required|min:0|numeric',
         ]);
         
         // check validations
@@ -225,7 +225,7 @@ class HomeSlidersController extends Controller
         $data['method'] = "PUT";
         $data['posts'] = \App\Models\Post::pluck('title','id')->all();
         $data['graphs'] = \App\Models\Securities::pluck('CUSIP','id')->all();
-        $data['countries'] = \App\Models\Country::pluck('title','id')->all();
+        $data['countries'] = \App\Models\Country::getCountryList();
 
         return view($this->moduleViewName.'.edit', $data);
     }
@@ -378,7 +378,7 @@ class HomeSlidersController extends Controller
             return $checkrights;
         }
      
-        $model = HomeSlider::select(TBL_HOME_SLIDER.".*",TBL_POST.".title as post",TBL_COUNTRY.".title as country",TBL_POST.".title as post",TBL_SECURITY.".CUSIP as graph")
+        $model = HomeSlider::select(TBL_HOME_SLIDER.".*",TBL_POST.".title as post",TBL_SECURITY.".CUSIP as graph",\DB::raw("CONCAT(".TBL_COUNTRY.".title,' (',".TBL_COUNTRY.".country_code,')')  AS country"))
                 ->leftJoin(TBL_SECURITY,TBL_SECURITY.".id","=",TBL_HOME_SLIDER.".security_id")
                 ->leftJoin(TBL_POST,TBL_POST.".id","=",TBL_HOME_SLIDER.".post_id")
                 ->leftJoin(TBL_COUNTRY,TBL_COUNTRY.".id","=",TBL_HOME_SLIDER.".country_id");
