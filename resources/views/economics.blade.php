@@ -114,7 +114,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Sequrity</th>
+                        <th>Security</th>
                         <th>Bid</th>
                         <th>Ask</th>
                         <th>Yield</th>
@@ -175,8 +175,8 @@
                         <div class="col-md-4">
                             <select id="price-dropdown-2">
                                 <option value="1">Price</option>
-                                <option value="2">YLD YTM MID</option>
-                                <option value="3">Z SPRD MID</option>                                
+                                <option value="2">YIELD</option>
+                                <option value="3">SPREAD</option>
                             </select>
                         </div>
                         <div class="col-md-4">
@@ -191,41 +191,7 @@
     </div>
 </section>
 
-<section class="twitter_updates">
-    <div class="container">
-        <div class="title">
-            <h2>Updates</h2>
-            <span>Latest Tweets</span> 
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                @php
-                $i = 1;
-                @endphp
-                @foreach($tweets as $tweet)
-                <?php
-                if ($i > 10)
-                    break;
-                ?>
-                <div class="item">
-                    <div class="post_date">
-                        {{ $tweet['date'] }}
-                    </div>
-                    <div class="img_col">
-                        <img src="{{ asset('themes/frontend/images/twitter-post-img.png') }}" alt=""></div>
-                    <div class="dec_col">
-                        <div class="username">@emfisecurities</div>
-                        <!-- <div class="subtxt">#Venezuela</div> -->
-                        <p>{{ $tweet['comment'] }}</p>
-                    </div>
-                </div>
-                <?php $i++; ?>
-                @endforeach
-            </div>
-        </div>
-    </div>
-</section>
-
+@include('includes.twitter')
 
 @stop
 @section('scripts')

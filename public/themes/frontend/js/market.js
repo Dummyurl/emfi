@@ -116,7 +116,10 @@ function drawBarChart(data_values, elementID, chartType) {
                 global_line_graph_text = category;
                 global_line_graph_id = global_gainer_data[category];
                 $("#benchmark-dropdown").html("");
-                generateLineGraph();    
+                generateLineGraph(); 
+                $('html, body').animate({
+                        scrollTop: $("#linegraph-data").offset().top
+                }, 1200);                
             }                
         }    
         else
@@ -127,6 +130,9 @@ function drawBarChart(data_values, elementID, chartType) {
                 global_line_graph_id = global_loser_data[category];
                 $("#benchmark-dropdown").html("");
                 generateLineGraph();                    
+                $('html, body').animate({
+                        scrollTop: $("#linegraph-data").offset().top
+                }, 1200);                
             }                 
         }        
     });        
@@ -152,6 +158,26 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
     }   
 
     // console.log(formatedData);
+    
+//    var data = new google.visualization.DataTable();
+//    data.addColumn('date', 'Month');
+//    data.addColumn('number', "Average Temperature");
+//    data.addColumn('number', "Average Hours of Daylight");
+//
+//    data.addRows([
+//      [new Date(2014, 0),  -.5,  5.7],
+//      [new Date(2014, 1),   .4,  8.7],
+//      [new Date(2014, 2),   .5,   12],
+//      [new Date(2014, 3),  2.9, 15.3],
+//      [new Date(2014, 4),  6.3, 18.6],
+//      [new Date(2014, 5),    9, 20.9],
+//      [new Date(2014, 6), 10.6, 19.8],
+//      [new Date(2014, 7), 10.3, 16.6],
+//      [new Date(2014, 8),  7.4, 13.3],
+//      [new Date(2014, 9),  4.4,  9.9],
+//      [new Date(2014, 10), 1.1,  6.6],
+//      [new Date(2014, 11), -.2,  4.5]
+//    ]);    
 
     var data = google.visualization.arrayToDataTable(formatedData);
 
@@ -176,10 +202,24 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
     //     data.addRow([data_values.benchmark_history_data[i][0], $val1, $val2]); 
     // }             
 
+//   var classicOptions = {
+//        title: '',
+//        // Gives each series an axis that matches the vAxes number below.
+//        series: {
+//          0: {targetAxisIndex: 0},
+//          1: {targetAxisIndex: 1}
+//        },
+//      };
+
+
     var options = {
         title: '',
         curveType: 'function',
         legend: {position: 'bottom'},
+        series: {
+          0: {targetAxisIndex: 0},
+          1: {targetAxisIndex: 1}
+        },        
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
         titleTextStyle: {color: '#fff'},
@@ -407,10 +447,20 @@ $(document).ready(function () {
     });
 
     $(document).on("change", "select#benchmark-dropdown", function () {
+        if($.trim($(this).val()) == '' || $.trim($(this).val()) == 'Add Benchmark')
+        {
+            $("#benchmark-dropdown option:first").text("Add Benchmark");
+        }
+        else
+        {
+            $("#benchmark-dropdown option:first").text("Remove Benchmark");
+        }
         generateLineGraph();
     });
 
     $(document).on("change", "select#markets", function () {
+        $('#AjaxLoaderDiv').fadeIn('slow');
+        window.location = $(this).find("option:selected").data("url");
         $(".market-chart-title").html($(this).find("option:selected").text());
         if ($.trim($(this).find("option:selected").text()) == "credit" || $.trim($(this).find("option:selected").text()) == "CREDIT")
         {

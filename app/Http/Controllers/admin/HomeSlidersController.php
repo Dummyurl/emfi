@@ -20,16 +20,16 @@ class HomeSlidersController extends Controller
         $this->list_url = route($this->moduleRouteText.".index");
 
         $module = "Home Slider";
-        $this->module = $module;  
+        $this->module = $module;
 
-        $this->adminAction= new AdminAction; 
-        
-        $this->modelObj = new HomeSlider();  
+        $this->adminAction= new AdminAction;
+
+        $this->modelObj = new HomeSlider();
 
         $this->addMsg = $module . " has been added successfully!";
         $this->updateMsg = $module . " has been updated successfully!";
         $this->deleteMsg = $module . " has been deleted successfully!";
-        $this->deleteErrorMsg = $module . " can not deleted!";       
+        $this->deleteErrorMsg = $module . " can not deleted!";
 
         view()->share("list_url", $this->list_url);
         view()->share("moduleRouteText", $this->moduleRouteText);
@@ -43,18 +43,19 @@ class HomeSlidersController extends Controller
     public function index()
     {
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_HOME_SLIDER);
-        
-        if($checkrights) 
+
+        if($checkrights)
         {
             return $checkrights;
         }
-         
-        $data = array();        
+
+        $data = array();
         $data['page_title'] = "Manage Home Sliders";
+		$data['countries'] = \App\Models\Country::getCountryList();
         $data['add_url'] = route($this->moduleRouteText.'.create');
         $data['btnAdd'] = \App\Models\Admin::isAccess(\App\Models\Admin::$ADD_HOME_SLIDER);
-        
-        return view($this->moduleViewName.".index", $data);    
+
+        return view($this->moduleViewName.".index", $data);
     }
 
 
@@ -66,22 +67,24 @@ class HomeSlidersController extends Controller
     public function create()
     {
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$ADD_HOME_SLIDER);
-        
-        if($checkrights) 
+
+        if($checkrights)
         {
             return $checkrights;
         }
-        
+
         $data = array();
         $data['formObj'] = $this->modelObj;
         $data['page_title'] = "Add ".$this->module;
         $data['action_url'] = $this->moduleRouteText.".store";
         $data['action_params'] = 0;
         $data['buttonText'] = "Save";
-        $data["method"] = "POST"; 
+        $data["method"] = "POST";
+		$data['months'] = getMonths();
         $data['posts'] = \App\Models\Post::pluck('title','id')->all();
         $data['graphs'] = \App\Models\Securities::pluck('CUSIP','id')->all();
         $data['countries'] = \App\Models\Country::getCountryList();
+		$data['orderMax'] = \App\Models\HomeSlider::getMaxOrder();
 
         return view($this->moduleViewName.'.add', $data);
     }
@@ -96,8 +99,8 @@ class HomeSlidersController extends Controller
     {
 
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$ADD_HOME_SLIDER);
-        
-        if($checkrights) 
+
+        if($checkrights)
         {
             return $checkrights;
         }
@@ -105,80 +108,79 @@ class HomeSlidersController extends Controller
         $status = 1;
         $msg = $this->addMsg;
         $data = array();
+		$months = getMonths();
+		$months = array_keys($months);
 
-        $validator = Validator::make($request->all(), [
-            'slider_type' => ['required', Rule::in(['graph','post'])],
-            'post_id' => 'exists:'.TBL_POST.',id',
+		$validator = Validator::make($request->all(), [
             'security_id' => 'exists:securities,id',
             'country_id' => 'exists:'.TBL_COUNTRY.',id',
             'graph_type' => ['required', Rule::in(['line'])],
+			'graph_peroid' => ['required', Rule::in($months)],
             'status' => ['required', Rule::in([1,0])],
             'order' => 'required|min:0|numeric',
+			'post_title' => 'required|min:2',
+			'post_description' => 'min:2'
         ]);
-        
+
         // check validations
-        if ($validator->fails())         
+        if ($validator->fails())
         {
             $messages = $validator->messages();
-            
+
             $status = 0;
             $msg = "";
-            
-            foreach ($messages->all() as $message) 
+
+            foreach ($messages->all() as $message)
             {
                 $msg .= $message . "<br />";
             }
-        }         
+        }
         else
         {
-            $slider_type = $request->get('slider_type');
-            $post_id = $request->get('post_id');
             $security_id = $request->get('security_id');
             $country_id = $request->get('country_id');
             $graph_type = $request->get('graph_type');
             $statuss = $request->get('status');
             $order = $request->get('order');
+			$post_title = $request->get('post_title');
+			$post_description = $request->get('post_description');
+			$graph_period = $request->get('graph_peroid');
 
-            if($slider_type == 'graph' && !empty($post_id)){
-                $status = 0;
-                $msg = 'Please enter valid graph name';
-                return ['status' => $status, 'msg' => $msg];
-            }
-            if($slider_type == 'post' && !empty($security_id)){
-                $status = 0;
-                $msg = 'Please enter valid post name';
-                return ['status' => $status, 'msg' => $msg];
-            }
             $obj = new HomeSlider();
-            $obj->slider_type = $slider_type;
-            if(!empty($post_id))
-                $obj->post_id = $post_id;
+
             if(!empty($security_id))
-            $obj->security_id = $security_id;
-            
+            	$obj->security_id = $security_id;
+
 			if($country_id > 0)
-			$obj->country_id = $country_id;
-			
+				$obj->country_id = $country_id;
+
+			if (!empty($post_title))
+				$obj->post_title = $post_title;
+
+			if (!empty($post_description))
+				$obj->post_description = $post_description;
+
             $obj->graph_type = $graph_type;
+			$obj->graph_period = $graph_period;
             $obj->status = $statuss;
             $obj->order = $order;
             $obj->save();
 
             $id = $obj->id;
             //store logs detail
-            $params=array();    
-                                    
+            $params=array();
+
             $params['adminuserid']  = \Auth::guard('admins')->id();
             $params['actionid']     = $this->adminAction->ADD_HOME_SLIDER;
             $params['actionvalue']  = $id;
             $params['remark']       = "Add Home Slider::".$id;
-                                    
+
             $logs=\App\Models\AdminLog::writeadminlog($params);
 
-            session()->flash('success_message', $msg);           
-            
+            session()->flash('success_message', $msg);
+
         }
-        
+
         return ['status' => $status, 'msg' => $msg, 'data' => $data];
     }
 
@@ -201,10 +203,10 @@ class HomeSlidersController extends Controller
      */
     public function edit($id)
     {
-        
+
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_HOME_SLIDER);
-        
-        if($checkrights) 
+
+        if($checkrights)
         {
             return $checkrights;
         }
@@ -214,7 +216,7 @@ class HomeSlidersController extends Controller
         if(!$formObj)
         {
             abort(404);
-        }   
+        }
 
         $data = array();
         $data['formObj'] = $formObj;
@@ -223,11 +225,13 @@ class HomeSlidersController extends Controller
         $data['action_url'] = $this->moduleRouteText.".update";
         $data['action_params'] = $formObj->id;
         $data['method'] = "PUT";
+		$data['months'] = getMonths();
         $data['posts'] = \App\Models\Post::pluck('title','id')->all();
         $data['graphs'] = \App\Models\Securities::pluck('CUSIP','id')->all();
         $data['countries'] = \App\Models\Country::getCountryList();
+        $data['orderMax'] = null;
 
-        return view($this->moduleViewName.'.edit', $data);
+        return view($this->moduleViewName.'.add', $data);
     }
 
     /**
@@ -240,8 +244,8 @@ class HomeSlidersController extends Controller
     public function update(Request $request, $id)
     {
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_HOME_SLIDER);
-        
-        if($checkrights) 
+
+        if($checkrights)
         {
             return $checkrights;
         }
@@ -250,71 +254,80 @@ class HomeSlidersController extends Controller
 
         $status = 1;
         $msg = $this->updateMsg;
-        $data = array();        
-        
-        $validator = Validator::make($request->all(), [
-            'slider_type' => [Rule::in(['graph','post'])],
-            'post_id' => 'exists:'.TBL_POST.',id',
+        $data = array();
+		$months = getMonths();
+		$months = array_keys($months);
+
+		$validator = Validator::make($request->all(), [
             'security_id' => 'exists:securities,id',
-            'country_id' => 'required|exists:'.TBL_COUNTRY.',id',
+            'country_id' => 'exists:'.TBL_COUNTRY.',id',
             'graph_type' => ['required', Rule::in(['line'])],
+			'graph_peroid' => ['required', Rule::in($months)],
             'status' => ['required', Rule::in([1,0])],
             'order' => 'required|min:0|numeric',
+			'post_title' => 'required|min:2',
+			'post_description' => 'required|min:2'
         ]);
-        
+
         // check validations
         if(!$model)
         {
             $status = 0;
             $msg = "Record not found !";
         }
-        else if ($validator->fails()) 
+        else if ($validator->fails())
         {
             $messages = $validator->messages();
-            
+
             $status = 0;
             $msg = "";
-            
-            foreach ($messages->all() as $message) 
+
+            foreach ($messages->all() as $message)
             {
                 $msg .= $message . "<br />";
             }
-        }         
+        }
         else
         {
-            $post_id = $request->get('post_id');
-            $security_id = $request->get('security_id');
-            $country_id = $request->get('country_id');
-            $graph_type = $request->get('graph_type');
-            $statuss = $request->get('status');
-            $order = $request->get('order');
+			$security_id = $request->get('security_id');
+			$country_id = $request->get('country_id');
+			$graph_type = $request->get('graph_type');
+			$statuss = $request->get('status');
+			$order = $request->get('order');
+		    $post_title = $request->get('post_title');
+		    $post_description = $request->get('post_description');
+			$graph_period = $request->get('graph_peroid');
 
-            if(!empty($security_id) && !empty($post_id)){
-                $status = 0;
-                $msg = 'Please enter only one slider type';
-                return ['status' => $status, 'msg' => $msg];
-            }
+			if(!empty($security_id))
+            	$model->security_id = $security_id;
 
-            $model->security_id = $security_id;
-            $model->post_id = $post_id;
-            $model->country_id = $country_id;
+			if($country_id > 0)
+				$model->country_id = $country_id;
+
+			if (!empty($post_title))
+				$model->post_title = $post_title;
+
+			if (!empty($post_description))
+				$model->post_description = $post_description;
+
             $model->graph_type = $graph_type;
+			$model->graph_period = $graph_period;
             $model->status = $statuss;
             $model->order = $order;
             $model->save();
 
             //store logs detail
-                $params=array();
-                
-                $params['adminuserid']  = \Auth::guard('admins')->id();
-                $params['actionid']     = $this->adminAction->EDIT_HOME_SLIDER;
-                $params['actionvalue']  = $id;
-                $params['remark']       = "Edit Home Slider::".$id;
+            $params=array();
 
-                $logs=\App\Models\AdminLog::writeadminlog($params);           
+            $params['adminuserid']  = \Auth::guard('admins')->id();
+            $params['actionid']     = $this->adminAction->EDIT_HOME_SLIDER;
+            $params['actionvalue']  = $id;
+            $params['remark']       = "Edit Home Slider::".$id;
+
+                $logs=\App\Models\AdminLog::writeadminlog($params);
         }
-        
-        return ['status' => $status,'msg' => $msg, 'data' => $data]; 
+
+        return ['status' => $status,'msg' => $msg, 'data' => $data];
 
     }
 
@@ -328,41 +341,41 @@ class HomeSlidersController extends Controller
     public function destroy($id,Request $request)
     {
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$DELETE_HOME_SLIDER);
-        
-        if($checkrights) 
+
+        if($checkrights)
         {
             return $checkrights;
         }
 
-        $modelObj = $this->modelObj->find($id); 
+        $modelObj = $this->modelObj->find($id);
 
-        if($modelObj) 
+        if($modelObj)
         {
-            try 
-            {             
+            try
+            {
                 $backUrl = $request->server('HTTP_REFERER');
                 $modelObj->delete();
-                session()->flash('success_message', $this->deleteMsg); 
+                session()->flash('success_message', $this->deleteMsg);
 
                 //store logs detail
                 $params=array();
-                
+
                 $params['adminuserid']  = \Auth::guard('admins')->id();
                 $params['actionid']     = $this->adminAction->DELETE_HOME_SLIDER;
                 $params['actionvalue']  = $id;
                 $params['remark']       = "Delete Home Slider::".$id;
 
-                $logs=\App\Models\AdminLog::writeadminlog($params);     
+                $logs=\App\Models\AdminLog::writeadminlog($params);
 
                 return redirect($backUrl);
-            } 
-            catch (Exception $e) 
+            }
+            catch (Exception $e)
             {
                 session()->flash('error_message', $this->deleteErrorMsg);
                 return redirect($this->list_url);
             }
-        } 
-        else 
+        }
+        else
         {
             session()->flash('error_message', "Record not exists");
             return redirect($this->list_url);
@@ -372,55 +385,54 @@ class HomeSlidersController extends Controller
     public function data(Request $request)
     {
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_HOME_SLIDER);
-        
-        if($checkrights) 
+
+        if($checkrights)
         {
             return $checkrights;
         }
-     
-        $model = HomeSlider::select(TBL_HOME_SLIDER.".*",TBL_POST.".title as post",TBL_SECURITY.".CUSIP as graph",\DB::raw("CONCAT(".TBL_COUNTRY.".title,' (',".TBL_COUNTRY.".country_code,')')  AS country"))
+
+        $model = HomeSlider::select(TBL_HOME_SLIDER.".*",TBL_SECURITY.".CUSIP as graph",\DB::raw("CONCAT(".TBL_COUNTRY.".title,' (',".TBL_COUNTRY.".country_code,')')  AS country"))
                 ->leftJoin(TBL_SECURITY,TBL_SECURITY.".id","=",TBL_HOME_SLIDER.".security_id")
-                ->leftJoin(TBL_POST,TBL_POST.".id","=",TBL_HOME_SLIDER.".post_id")
                 ->leftJoin(TBL_COUNTRY,TBL_COUNTRY.".id","=",TBL_HOME_SLIDER.".country_id");
-                     
+
         return Datatables::eloquent($model)
-            
+
             ->addColumn('action', function(HomeSlider $row) {
                 return view("admin.partials.action",
                     [
                         'currentRoute' => $this->moduleRouteText,
-                        'row' => $row,                             
+                        'row' => $row,
                         'isEdit' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_HOME_SLIDER),
                         'isDelete' => \App\Models\Admin::isAccess(\App\Models\Admin::$DELETE_HOME_SLIDER),
-                                                     
+
                     ]
                     )->render();
             })
-            
+
             ->editColumn('created_at', function($row){
-                
-                if(!empty($row->created_at))                    
-                    
+
+                if(!empty($row->created_at))
+
             return date("j M, Y h:i:s A",strtotime($row->created_at));
                 else
-                    return '-';    
+                    return '-';
             })
             ->editColumn('status', function($row){
-                
-                if($row->status == 1)        
+
+                if($row->status == 1)
                     return '<a class="btn btn-primary btn-xs">Active</a>';
                 else
                     return '<a class="btn btn-danger btn-xs">Inactive</a>';
             })
-            ->rawColumns(['action','status'])                
-            ->filter(function ($query) 
+            ->rawColumns(['action','status'])
+            ->filter(function ($query)
                 {
                     $search_start_date = trim(request()->get("search_start_date"));
                     $search_end_date = trim(request()->get("search_end_date"));
-                    $search_post = request()->get("search_post");                    
-                    $search_graph = request()->get("search_graph"); 
-                    $search_country = request()->get("search_country"); 
-                    $search_status = request()->get("search_status"); 
+                    $search_post = request()->get("search_post");
+                    $search_graph = request()->get("search_graph");
+                    $search_country = request()->get("search_country");
+                    $search_status = request()->get("search_status");
 
                     if (!empty($search_start_date)){
 
@@ -429,11 +441,11 @@ class HomeSlidersController extends Controller
 
                     $query = $query->where(TBL_HOME_SLIDER.".created_at",">=",addslashes($convertFromDate));
                     }
-					
+
 					if(!empty($search_country))
                     {
                         $query = $query->where(TBL_COUNTRY.".title", 'LIKE', '%'.$search_country.'%');
-                    }					
+                    }
 
                     if (!empty($search_end_date)){
 
@@ -444,7 +456,7 @@ class HomeSlidersController extends Controller
                     }
                     if(!empty($search_post))
                     {
-                        $query = $query->where(TBL_POST.".title", 'LIKE', '%'.$search_post.'%');
+                        $query = $query->where(TBL_HOME_SLIDER.".post_title", 'LIKE', '%'.$search_post.'%');
                     }
                     if(!empty($search_graph))
                     {
@@ -454,9 +466,9 @@ class HomeSlidersController extends Controller
                     if($search_status == "1" || $search_status == "0")
                     {
                         $query = $query->where(TBL_HOME_SLIDER.".status", $search_status);
-                    }                           
+                    }
 
                 })
-            ->make(true);        
+            ->make(true);
     }
 }
