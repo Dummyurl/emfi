@@ -101,16 +101,16 @@
     <div class="container">
         <div class="title">
             <h2 class="market-chart-title">Equities</h2>
-            <span>Top 5 Gainer &amp; Loser</span></div>
+            <span>Biggest Movers</span></div>
     </div>
     <div class="container chart_section">
         <div class="row">
             <div class="col-lg-6">
-                <div class="sub_title"><h3>Top 5 Gainer</h3></div>
+                <div class="sub_title"><h3>Biggest Gainers</h3></div>
                 <div id="bar_chart" class="bar_chart" style="width: 100%; height: 400px"> </div>
             </div>
             <div class="col-lg-6">
-                <div class="sub_title"><h3>Top 5 Loser</h3></div>
+                <div class="sub_title"><h3>Biggest Losers</h3></div>
                 <div id="bar_chart2" class="bar_chart" style="width: 100%; height: 400px"> </div>
             </div>
         </div>
@@ -139,8 +139,8 @@
                         <div class="col-md-4">
                             <select id="price-dropdown" style="display: none;">
                                 <option value="1">Price</option>
-                                <option value="2">YLD YTM MID</option>
-                                <option value="3">Z SPRD MID</option>
+                                <option value="2">YIELD</option>
+                                <option value="3">SPREAD</option>
                             </select>
                         </div>
                         <div class="col-md-4 pull-right">
@@ -155,41 +155,7 @@
     </div>
 </section>
 
-
-<section class="twitter_updates">
-    <div class="container">
-        <div class="title">
-            <h2>Updates</h2>
-            <span>Latest Tweets</span> 
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                @php
-                $i = 1;
-                @endphp
-                @foreach($tweets as $tweet)
-                <?php
-                if ($i > 10)
-                    break;
-                ?>
-                <div class="item">
-                    <div class="post_date">
-                        {{ $tweet['date'] }}
-                    </div>
-                    <div class="img_col">
-                        <img src="{{ asset('themes/frontend/images/twitter-post-img.png') }}" alt=""></div>
-                    <div class="dec_col">
-                        <div class="username">@emfisecurities</div>
-                        <!-- <div class="subtxt">#Venezuela</div> -->
-                        <p>{{ $tweet['comment'] }}</p>
-                    </div>
-                </div>
-                <?php $i++; ?>
-                @endforeach
-            </div>
-        </div>
-    </div>
-</section>
+@include('includes.twitter')
 
 @stop
 

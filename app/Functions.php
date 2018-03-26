@@ -4,6 +4,20 @@
  * Website General Functions
  *
  */
+
+function getMonths()
+{
+    return 
+    [
+         1 => "1 Month",
+         3 => "3 Month",
+         6 => "6 Month",
+         12 => "1 Year",
+         60 => "5 Years",
+    ]
+}
+
+
 function getFilename($fullpath, $uploaded_filename) {
     $count = 1;
     $new_filename = $uploaded_filename;
