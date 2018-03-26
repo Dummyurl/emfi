@@ -474,25 +474,44 @@ function callCustomSP($str)
     return $statement->fetchAll(\PDO::FETCH_ASSOC);
 }
 
+function WriteJsonInFile($message=null, $path_file_name= null){
 
- function WriteLogsInFile($message=null, $file_names=null){
+    if(!empty($path_file_name )){
+        $file_name = public_path().DIRECTORY_SEPARATOR.$path_file_name;
+        $Write_message = json_encode($message);
+        fopen($file_name, 'w');
+        file_put_contents($file_name, $Write_message, FILE_APPEND);
+    }
 
-        $Current_Date = date("Y-m-d");
+}
+
+ function WriteLogsInFile($message=null, $file_names=null, $path_file_name= null, $json_encode = false){
+
+    $Current_Date = date("Y-m-d");
+
+    if(!empty($path_file_name )){
+        $file_name = public_path().DIRECTORY_SEPARATOR.$path_file_name;
+    } else {
         if(!empty($file_names)){
             $file_name = public_path().DIRECTORY_SEPARATOR."logfile/".$file_names."_".$Current_Date.".log";
         } else {
             $file_name = public_path().DIRECTORY_SEPARATOR."logfile/Custom_Log_".$Current_Date.".log";
         }
-        if(is_array($message)){
-            $Write_message   = print_r($message, true);
-        } else {
-            $Write_message   = $message. "\r\n " . PHP_EOL;
-        }
-        
-        if(file_exists($file_name)){
-            file_put_contents($file_name, $Write_message, FILE_APPEND);
-        } else {
-            fopen($file_name, 'w');
-            file_put_contents($file_name, $Write_message, FILE_APPEND);
-        }
     }
+    if(is_array($message)){
+        $Write_message   = print_r($message, true);
+    } else {
+        $Write_message   = $message. "\r\n " . PHP_EOL;
+    }
+
+    if($json_encode){
+        $Write_message = json_encode($Write_message);
+    }
+    
+    if(file_exists($file_name)){
+        file_put_contents($file_name, $Write_message, FILE_APPEND);
+    } else {
+        fopen($file_name, 'w');
+        file_put_contents($file_name, $Write_message, FILE_APPEND);
+    }
+}

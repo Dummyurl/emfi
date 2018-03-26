@@ -17,7 +17,7 @@ class HomeSlider extends Model
      *
      * @var array
      */
-    protected $fillable = ['post_id','security_id','country_id','graph_type','slider_type','status','order'];
+    protected $fillable = ['post_id','security_id','country_id','graph_type','graph_period','post_description','post_title','slider_type','status','order'];
     /**
      * Set or unset the timestamps for the model
      *
@@ -33,12 +33,19 @@ class HomeSlider extends Model
                 ->leftJoin(TBL_COUNTRY,TBL_COUNTRY.".id","=",TBL_HOME_SLIDER.".country_id")
                 ->where(TBL_HOME_SLIDER.'.status',1)
                 ->where(function($sliders) use ($country)
-                {    
+                {
                     $sliders->where(TBL_HOME_SLIDER.".country_id",$country);
                     $sliders->orWhere(TBL_HOME_SLIDER.".country_id",'=',NULL);
                 })
                 ->orderBy(TBL_HOME_SLIDER.'.order')
                 ->get();
         return $sliders;
+    }
+
+	public static function getMaxOrder()
+    {
+        $orderMax = HomeSlider::max('order');
+		$orderMax = $orderMax + 1;
+        return $orderMax;
     }
 }
