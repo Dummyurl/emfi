@@ -35,7 +35,7 @@
             <li><a target="_blank" href="https://www.linkedin.com/company/emfi-securities-limited/" class="rounded_full"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
           </ul>
         </div>
-        <p class="ftr_txt">&copy; 2016-2017 EMFI Securities Limited. All Rights Reserved. <br>
+        <p class="ftr_txt">&copy; {{ date('Y') }} EMFI Securities Limited. All Rights Reserved. <br>
           For Professional Investors Only. Not For Use By Retail Clients.<br>
           Authorised And Regulated By The Financial Conduct Authority.</p>
       </div>
