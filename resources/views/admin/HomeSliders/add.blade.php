@@ -21,18 +21,17 @@
                         <div class="form-body">
                             {!! Form::model($formObj,['method' => $method,'files' => true, 'route' => [$action_url,$action_params],'class' => 'sky-form form form-group', 'id' => 'main-frm']) !!}
 							<div class="row">
-								<div class="col-md-12" id="graph_id">
-									<label class="control-label">Security for Graph<span class="required">*</span></label>
-									{!! Form::select('security_id',[''=>'Search Graph']+$graphs,null,['class' => 'form-control graphs' , 'data-required' => true]) !!}
-								</div>
-							</div>
-							<div class="clearfix">&nbsp;</div>
-                            <div class="row">
 								<div class="col-md-12">
 									<label class="control-label">Country (Blank if provide for all countries)</label>
 									{!! Form::select('country_id',[''=>'Select Country']+ $countries,null,['class' => 'country form-control']) !!}
 								</div>
-
+							</div>
+							<div class="clearfix">&nbsp;</div>
+                            <div class="row">
+								<div class="col-md-12" id="graph_id">
+									<label class="control-label">Security<span class="required">*</span></label>
+									{!! Form::select('security_id',[''=>'Search Graph']+$graphs,null,['class' => 'form-control graphs' , 'data-required' => true]) !!}
+								</div>
 							</div>
 							<div class="clearfix">&nbsp;</div>
 							<div class="row">
@@ -117,7 +116,7 @@
                 width: null
         });
         $(".graphs").select2({
-                placeholder: "Search Graph",
+                placeholder: "Search Security",
                 allowClear: true,
                 minimumInputLength: 2,
                 width: null

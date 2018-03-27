@@ -77,20 +77,20 @@ function drawBarChart(data_values, elementID, chartType) {
             subtitle: '',
         },
         bars: 'horizontal', // Required for Material Bar Charts.
-        colors: ['white'],
+        colors: ['#051b34'],
         backgroundColor: {fill: 'transparent'},
         legend: {position: 'none'},
         hAxis:
                 {
-                    textStyle: {color: '#fff'},
-                    gridlines: {color: "#39536b"},
-                    baselineColor: '#39536b',                    
+                    textStyle: {color: '#051b34'},
+                    gridlines: {color: "#8ab3e2"},
+                    baselineColor: '#8ab3e2',                    
                     direction: -1,
                 },
         vAxis: 
         {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            textStyle: {color: '#051b34'},
+            gridlines: {color: "#8ab3e2"}
         }
     };
 
@@ -262,7 +262,7 @@ function drawChart(data_values, elementID, fromBenchMark)
 
     if (counter > 0)
     {
-        $columnTitle = $columnTitle + " Price";
+        $columnTitle = $columnTitle + " "+$("select#price-dropdown option:selected").text();
         // alert("Title: " + $columnTitle); 
         formatedData.push([$columnTitle, $columnTitle]);
         var j = 1;
@@ -457,6 +457,12 @@ $(document).ready(function () {
         }
         generateLineGraph();
     });
+
+    $('select#markets').select2({
+        allowClear: true,
+        multiple: false,    
+    });
+
 
     $(document).on("change", "select#markets", function () {
         $('#AjaxLoaderDiv').fadeIn('slow');

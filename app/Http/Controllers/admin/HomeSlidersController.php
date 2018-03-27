@@ -112,7 +112,7 @@ class HomeSlidersController extends Controller
 		$months = array_keys($months);
 
 		$validator = Validator::make($request->all(), [
-            'security_id' => 'exists:securities,id',
+            'security_id' => 'required|exists:securities,id',
             'country_id' => 'exists:'.TBL_COUNTRY.',id',
             'graph_type' => ['required', Rule::in(['line'])],
 			'graph_peroid' => ['required', Rule::in($months)],
@@ -259,7 +259,7 @@ class HomeSlidersController extends Controller
 		$months = array_keys($months);
 
 		$validator = Validator::make($request->all(), [
-            'security_id' => 'exists:securities,id',
+            'security_id' => 'required|exists:securities,id',
             'country_id' => 'exists:'.TBL_COUNTRY.',id',
             'graph_type' => ['required', Rule::in(['line'])],
 			'graph_peroid' => ['required', Rule::in($months)],

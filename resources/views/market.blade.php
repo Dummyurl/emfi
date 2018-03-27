@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <h2>Markets</h2>
-                    <span>{{ date('F d, Y') }}</span>
+                    <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
                 </div>
                 <div class="col-md-6 select_r">
                     <select name="markets" id="markets">                        
@@ -21,9 +21,12 @@
         <div class="row">
             @if(!empty($market_boxes))
             @foreach($market_boxes as $row)
-            @if(trim(strtolower($row['market_name'])) != 'credit')
+            
             <div class="col-lg-3 col-md-3 col-sm-6 four_block">
                 <div class="inner_blue_box">
+                    <a href="{{ url(getMarketUrls($row['market_id'])) }}" class="view-btn">
+                        <span>View Chart</span>
+                    </a>                  
                     <h3>{{ $row['market_name'] or '' }}</h3>
                     <span class="value">
                         {{ number_format($row['last_price'],2)  }}
@@ -31,7 +34,7 @@
                     <div class="botm clearfix">
                         <div class="arrow">                             
                             <i class="up">
-                                @if($row['net_change'] > 0)
+                                @if($row['arrow_up_down'] > 0)
                                 <img src="{{ asset('themes/frontend/images/white-arrow-up.png') }}" alt="" />
                                 @else
                                 <img src="{{ asset('themes/frontend/images/white-arrow-down.png') }}" alt="" />
@@ -49,7 +52,7 @@
                     </div>
                 </div>
             </div>
-            @endif    
+            
             @endforeach
             @endif
             <?php /*
@@ -101,16 +104,16 @@
     <div class="container">
         <div class="title">
             <h2 class="market-chart-title">Equities</h2>
-            <span>Biggest Movers</span></div>
+            <span>Market Movers</span></div>
     </div>
     <div class="container chart_section">
         <div class="row">
             <div class="col-lg-6">
-                <div class="sub_title"><h3>Biggest Gainers</h3></div>
+                <div class="sub_title"><h3>Gainers</h3></div>
                 <div id="bar_chart" class="bar_chart" style="width: 100%; height: 400px"> </div>
             </div>
             <div class="col-lg-6">
-                <div class="sub_title"><h3>Biggest Losers</h3></div>
+                <div class="sub_title"><h3>Laggers</h3></div>
                 <div id="bar_chart2" class="bar_chart" style="width: 100%; height: 400px"> </div>
             </div>
         </div>
