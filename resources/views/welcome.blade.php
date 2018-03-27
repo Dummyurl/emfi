@@ -16,7 +16,7 @@
 	                        <div class="col-md-6">
 	                            <div class="chart_left">
 									<p style="color:white;" class="pull-left">{{ $slider->graph_title }}</p>
-	                                <div id="chart_home{{ $slider->id }}" style="width: 100%; height: 440px"></div>
+	                                <div id="chart_home_{{$slider->id }}" style="width: 100%; height: 440px"></div>
 	                            </div>
 	                        </div>
 	                        <div class="col-md-6">
