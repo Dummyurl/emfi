@@ -23,7 +23,7 @@
             </ul>
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
-                <a class="navbar-brand white" href="#">
+                <a class="navbar-brand white" href="{{ url('/') }}">
                     <img src="{{ asset('themes/frontend/images/emfi-logo.png') }}" alt="EMFI Securities">
                 </a> 
                 <a class="navbar-brand dark" href="{{ route('home') }}">
