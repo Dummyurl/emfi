@@ -141,10 +141,7 @@ function drawBarChart(data_values, elementID, chartType) {
 
 function drawBenchmarkChart(data_values, elementID, fromBenchMark)
 {
-    
-
     $columnTitle = "";
-
     if (typeof global_line_graph_text !== 'undefined')
     {
         $columnTitle = global_line_graph_text;

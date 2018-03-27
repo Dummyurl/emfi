@@ -52,9 +52,7 @@ class GraphSliderContoller extends Controller
 
         $data = array();        
         $data['page_title'] = "Manage CMS Graph Sliders";
-        $data['graphs'] = \App\Models\CmsGraph::pluck("graph_name","id")->all(); 
-        $data['cities'] = \App\Models\City::pluck("title","id")->all(); 
-        $data['add_url'] = route($this->moduleRouteText.'.create');
+        $data['graphs'] = \App\Models\CmsGraph::pluck("graph_name","id")->all();         $data['add_url'] = route($this->moduleRouteText.'.create');
         $data['btnAdd'] = \App\Models\Admin::isAccess(\App\Models\Admin::$ADD_CMS_GRAPH_SLIDER);                  
         
         return view($this->moduleViewName.".index", $data);    
