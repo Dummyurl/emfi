@@ -28,8 +28,8 @@
                             <thead>
                                 <tr>
                                    <th width="10%">ID</th>
-                                   <th width="30%">Graph Name</th>
-                                   <th width="30%">Post Name</th>
+                                   <th width="30%">Security</th>
+                                   <th width="30%">Post</th>
                                    <th width="10%">Country</th>
                                    <th width="5%">Status</th>
 								   <th width="5">Order</th>

@@ -19,11 +19,11 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <label class="control-label">Post Title</label>
+                    <label class="control-label">Post</label>
                     <input type="text" value="{{ \Request::get("search_post") }}" class="form-control" name="search_post" />
                 </div>
                 <div class="col-md-4">
-                    <label class="control-label">Graph Name</label>
+                    <label class="control-label">Security</label>
                     <input type="text" value="{{ \Request::get("search_graph") }}" class="form-control" name="search_graph" />
                 </div>
 
@@ -38,8 +38,8 @@
                     <label class="control-label">Status</label>
                     <select name="search_status" class="form-control">
                         <option value="all">All</option>
-                        <option value="1" {!! \Request::get("search_status") == 1 ? 'selected="selected"':'' !!}>Yes</option>
-                        <option value="0" {!! \Request::get("search_status") == "0" ? 'selected="selected"':'' !!}>No</option>
+                        <option value="1" {!! \Request::get("search_status") == 1 ? 'selected="selected"':'' !!}>Active</option>
+                        <option value="0" {!! \Request::get("search_status") == "0" ? 'selected="selected"':'' !!}>Inactive</option>
                     </select>
                 </div>
                 <div class="col-md-4"><center>
