@@ -1,14 +1,40 @@
-google.charts.load('current', {packages: ['corechart', 'line']}); 	  
+$(document).ready(function (){
+      generateHomeLineGraph();
+});
+
+function generateHomeLineGraph()
+{
+    var global_line_graph_id = 15;
+    var val = 1;
+    $url = "/api/market/get-market-data/history";
+    $('#AjaxLoaderDiv').fadeIn('slow');
+    $.ajax({
+        type: "POST",
+        url: $url,
+        data: {security_id: global_line_graph_id, month_id: val},
+        success: function (result)
+        {
+            console.log(result);
+            lineChart(result.data.history_data);
+        },
+        error: function (error) {
+            $('#AjaxLoaderDiv').fadeOut('slow');
+            $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
+        }
+    });
+}
+
+google.charts.load('current', {packages: ['corechart', 'line']});
 google.charts.setOnLoadCallback(lineChart);
-function lineChart() {
-    var data = google.visualization.arrayToDataTable([
+function lineChart(data) {
+    /*var data = google.visualization.arrayToDataTable([
       ['Day', 'index'],
       ['2004',  100],
       ['2005',  570],
       ['2006',  760 ],
       ['2007',  1210],
       ['2008',  1350]
-    ]);
+    ]);*/
 
     var options = {
       title: '',
