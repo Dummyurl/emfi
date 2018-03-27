@@ -7,14 +7,15 @@ google.charts.load('current', {'packages': ['bar']});
 
 $(document).ready(function (){
       generateHomeLineGraph();
+
+      generateHomeLineGraph();
 });
 
 function generateHomeLineGraph()
 {
     var global_line_graph_id = 15;
     var val = 1;
-    $url = "/api/market/get-market-data/history";
-    $('#AjaxLoaderDiv').fadeIn('slow');
+    $url = "/api/market/get-market-data/history";+
     $.ajax({
         type: "POST",
         url: $url,
@@ -29,14 +30,13 @@ function generateHomeLineGraph()
             {
                 $columnTitle = "LineChart";
                 // alert("Title: " + $columnTitle); 
-                formatedData.push([$columnTitle, $columnTitle]);
+                formatedData.push([$columnTitle, "abcd"]);
                 var j = 1;
                 for (var i in data_values)
                 {
                     formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['last_price'])]);
                 }
             }
-            
             lineChart(formatedData);
         },
         error: function (error) {
@@ -46,17 +46,8 @@ function generateHomeLineGraph()
     });
 }
 
-function lineChart(data) {
-  // var data = google.visualization.arrayToDataTable(data);
-    /*var data = google.visualization.arrayToDataTable([
-      ['Day', 'index'],
-      ['2004',  100],
-      ['2005',  570],
-      ['2006',  760 ],
-      ['2007',  1210],
-      ['2008',  1350]
-    ]);*/
-  console.log(data);
+function lineChart(formatedData) {
+    var data = google.visualization.arrayToDataTable(formatedData);
     var options = {
       title: '',
       curveType: 'none',
@@ -77,10 +68,8 @@ function lineChart(data) {
             },
             chartArea:{left:60,top:60,right:30,width:"100%",height:"72%"}
     };
-
-    var chart = new google.visualization.LineChart(document.getElementById('chart_home'));
+    var chart = new google.visualization.LineChart(document.getElementById('chart_home4'));
     chart.draw(data, options);
-
 }
 
 google.charts.setOnLoadCallback(drawChart2);
