@@ -59,6 +59,7 @@
         </div>
     </div>
 </section>
+<div id="linegraph-data"></div>
 <section class="equities">
     <div class="container">
         <div class="title">
@@ -75,9 +76,12 @@
                         <div class="col-md-4">
                             <select id="period-month">
                                 <option value="">Period</option>
-                                @for($i=1;$i<=12;$i++)
-                                <option {!! $i == 1 ? 'selected="selected"':'' !!} value="{{ $i }}">{{ $i }} Month</option>
-                                @endfor
+                                @foreach(getMonths() as $month => $label)
+                                <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
+                                    {{ $label }}
+                                </option>
+                                @endforeach
+                                
                             </select>
                         </div>
 
@@ -102,10 +106,13 @@
         </div>
     </div>
 </section>
+
+@if(!empty($bond_data))
+@foreach($bond_data as $key => $data)
 <section class="chart_table grey_bg">
     <div class="container">
         <div class="title">
-            <h2>Table Chart</h2>
+            <h2>Table Chart ({{ $key }})</h2>
             <span>Chart</span>
         </div>
     </div>
@@ -123,7 +130,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($bond_data as $row)
+                    @foreach($bond_data[$key] as $row)
                     <tr>
                         <td>
                             <a class="generate-bond-chart" href="javascript:void(0);" data-id="{{ $row['id'] }}" title="View Graph">
@@ -152,7 +159,8 @@
         </div>
     </div>
 </section>
-<section class="equities">
+@endforeach
+<section class="equities" id="secondChartPart">
     <div class="container">
         <div class="title">
             <h2 class="market-chart-title-2"></h2>
@@ -167,9 +175,12 @@
                         <div class="col-md-4">
                             <select id="period-month-2">
                                 <option value="">Period</option>
-                                @for($i=1;$i<=12;$i++)
-                                <option {!! $i == 1 ? 'selected="selected"':'' !!} value="{{ $i }}">{{ $i }} Month</option>
-                                @endfor
+                                @foreach(getMonths() as $month => $label)
+                                <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
+                                    {{ $label }}
+                                </option>
+                                @endforeach
+                                
                             </select>                            
                         </div>
                         <div class="col-md-4">
@@ -181,7 +192,12 @@
                         </div>
                         <div class="col-md-4">
                             <select id="benchmark-dropdown-2">
-                                <option value="">Add Benchmark</option>
+                                <option value="">Add Country</option>
+                                @foreach($countries as $cnt)
+                                    @if($cnt->id != $countryObj->id)
+                                        <option value="{{ $cnt->id }}">{{ $cnt->title }}</option>
+                                    @endif
+                                @endforeach                                
                             </select>
                         </div>
                     </form>
@@ -190,6 +206,10 @@
         </div>
     </div>
 </section>
+@endif
+
+
+
 
 @include('includes.twitter')
 

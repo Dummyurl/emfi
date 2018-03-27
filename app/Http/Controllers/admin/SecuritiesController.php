@@ -244,7 +244,9 @@ fa fa-check-square-o'></i></a>";
 					{
 						foreach ($data as $key => $value)
 						{
-							$fields[strtolower(trim($value))] = $key;
+							if(!empty($value)){
+								$fields[strtolower(trim($value))] = $key;
+							}
 						}
 						// echo "<pre>";
 						// print_r($fields);
@@ -253,8 +255,12 @@ fa fa-check-square-o'></i></a>";
 					else
 					{
 						// Array for historical data
-
 						$hdata = [];
+						$idata['rtg_sp'] = ($data[$fields['rtg_sp']] == "#N/A N/A" || !isset($data[$fields['rtg_sp']])) ? '' : str_replace(',','',$data[$fields['rtg_sp']]);
+						$idata['current_oecd_member_cor_class'] = ($data[$fields['current_oecd_member_cor_class']] == "#N/A N/A" || !isset($data[$fields['current_oecd_member_cor_class']])) ? '' : str_replace(',','',$data[$fields['current_oecd_member_cor_class']]);
+						$idata['market_size'] = ($data[$fields['market_size']] == "#N/A N/A" || !isset($data[$fields['market_size']])) ? '' : str_replace(',','',$data[$fields['market_size']]);
+						$idata['volume'] = ($data[$fields['volume']] == "#N/A N/A" || !isset($data[$fields['volume']])) ? '' : str_replace(',','',$data[$fields['volume']]);
+
 						$idata['created'] = \DB::raw('CURDATE()');
 						$idata['bid_price'] = ($data[$fields['px_bid']] == "#N/A N/A" || !isset($data[$fields['px_bid']])) ? '' : str_replace(',','',$data[$fields['px_bid']]);
 						$idata['ask_price'] = ($data[$fields['px_ask']] == "#N/A N/A" || !isset($data[$fields['px_ask']])) ? '' : str_replace(',','',$data[$fields['px_ask']]);
@@ -287,12 +293,22 @@ fa fa-check-square-o'></i></a>";
 
 						$idata['country'] = ($data[$fields['country']] == "#N/A N/A" || !isset($data[$fields['country']])) ? '' : $data[$fields['country']];
 
+
+						
 						$idata['country_id'] = '';
 						if(isset($data[$fields['country']]) && $data[$fields['country']] != "#N/A N/A" && !empty($data[$fields['country']]))
 						{
-							$idata['country_id'] = $countries[$data[$fields['country']]];
+							$countries = \App\Models\Country::where('country_code',$data[$fields['country']])->first();
+							if($countries){
+	                            $country_id = $countries->id;
+							} else {
+								$cc = new \App\Models\Country();
+	                            $cc->country_code = $data[$fields['country']];
+	                            $cc->save();
+	                            $country_id = $cc->id;
+							}
+							$idata['country_id'] = $country_id;
 						}
-
 						$idata['ticker'] = ($data[$fields['ticker']] == "#N/A N/A" || !isset($data[$fields['ticker']])) ? '' : $data[$fields['ticker']];
 						$idata['benchmark'] = ($data[$fields['benchmark']] == "#N/A N/A" || !isset($data[$fields['benchmark']]) || empty($data[$fields['benchmark']])) ? 0 : 1;
 						$idata['benchmark_family'] = ($data[$fields['benchmark']] == "#N/A N/A" || !isset($data[$fields['benchmark']])) ? '' : $data[$fields['benchmark']];
@@ -320,10 +336,10 @@ fa fa-check-square-o'></i></a>";
 						{
 							continue;
 						}
+
 						if (!empty($idata) && is_array($idata))
 						{
 						// Update if any record exists Or Create a new Security
-
 							$security = Securities::updateOrCreate(
 											[
 												'CUSIP' => $idata['CUSIP'],
@@ -333,19 +349,18 @@ fa fa-check-square-o'></i></a>";
 										);
 							$hdata['security_id'] = $security->id;
 							$hdata['created'] = \DB::raw('CURDATE()');
-							if ($security->market_id == 5)
-							{
+							if ($security->market_id == 5) {
 								$hdata['DUR_ADJ_MID'] = $idata['dur_adj_mid'];
 								$hdata['YLD_YTM_MID'] = $idata['yld_ytm_mid'];
 								$hdata['Z_SPRD_MID'] = $idata['z_sprd_mid'];
 								$hdata['created_at'] = \DB::raw('NOW()');
 								\DB::table('bond_historical_data')->insert($hdata);
-							}
-							else
-							{
+							} else {
 								$hdata['created_at'] = \DB::raw('NOW()');
 								\DB::table('historical_data')->insert($hdata);
 							}
+							$updated_date = [ 0 => date("Y-m-d H:i:s")];
+							WriteJsonInFile($updated_date, 'uploads/last-updated-date.json');
 						}
 					}
 					$bytes = ftell($file);

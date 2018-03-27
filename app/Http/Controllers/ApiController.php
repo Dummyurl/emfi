@@ -188,8 +188,83 @@ class ApiController extends Controller
         $status = 1;
         $msg = "OK";        
         
+        $history_data   = "CALL select_economic_bond_historical_data(".$country.", ".$month_id.")";
         $data = [];
-        
+        $data['history_data']  = callCustomSP($history_data);
+
+        $data['benchmark_history_data'] = [];
+
+        if($benchmark_id > 0)
+        {
+            $history_data   = "CALL Select_Historical_Data(".$benchmark_id.", ".$month_id.")";
+            $dataTemp           = callCustomSP($history_data);
+            $benchmark_history_data = $dataTemp;            
+
+            if(true)
+            {
+                $dataKeys = [];
+                $i = 0;
+                foreach($data['history_data'] as $row)
+                {
+                    $dataKeys[$i]['title1'] = $row['title'];    
+                    
+                    if($price_id != 1 && $market_id == 5)
+                    {
+                        if($price_id == 2)
+                        {
+                            $dataKeys[$i]['price1'] = $row['YLD_YTM_MID'];
+                        }   
+                        else if($price_id == 3)
+                        {
+                            $dataKeys[$i]['price1'] = $row['Z_SPRD_MID'];
+                        } 
+                    }   
+                    else
+                    {
+                        $dataKeys[$i]['price1'] = $row['last_price'];
+                    }                       
+                    
+                    $dataKeys[$i]['title2'] = "";
+                    $dataKeys[$i]['price2'] = 0;                                        
+                    
+                    $i++;
+                }
+
+                $i = 0;    
+                
+                foreach($benchmark_history_data as $row)
+                {
+                    $dataKeys[$i]['title2'] = $row['title'];
+                    
+                    if($price_id != 1 && $market_id == 5)
+                    {
+                        if($price_id == 2)
+                        {
+                            $dataKeys[$i]['price2'] = $row['YLD_YTM_MID'];
+                        }   
+                        else if($price_id == 3)
+                        {
+                            $dataKeys[$i]['price2'] = $row['Z_SPRD_MID'];
+                        } 
+                    }   
+                    else
+                    {
+                        $dataKeys[$i]['price2'] = $row['last_price'];
+                    }                                           
+                    
+                    if(!isset($dataKeys[$i]['title1']))
+                    {
+                        $dataKeys[$i]['title1'] = "";
+                        $dataKeys[$i]['price1'] = 0;
+                    }
+                                                                                
+                }
+
+
+                $data['benchmark_history_data'] = $dataKeys;
+            }
+        }    
+
         
         return ["status" => $status, "msg" => $msg, "data" => $data];
     }    
