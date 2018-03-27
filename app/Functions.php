@@ -17,6 +17,19 @@ function getMonths()
     ];
 }
 
+function getLastUpdateDate()
+{
+    $file = public_path().DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR."last-updated-date.json";
+
+    if(is_file($file))
+    {
+        $data = file_get_contents($file);
+        $data = json_decode($data,1);    
+        return isset($data[0]) ? date("Y-m-d H:i:s",strtotime($data[0])):date("Y-m-d H:i:s");
+    }
+
+    return date("Y-m-d H:i:s");    
+}
 
 function getMarketUrls($marketID)
 {

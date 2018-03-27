@@ -67,6 +67,7 @@ class PagesController extends Controller {
         // dd($data['tweets']);
         // $data['tweets'] = getSearchTweets($data['countryObj']->title);
         // dd($data['bond_data']);
+        $data['last_update_date'] = getLastUpdateDate();        
         return view('economics', $data);
     }
 
@@ -107,6 +108,10 @@ class PagesController extends Controller {
         $data['markets'] = MarketType::getArrayList();
         $data['market_boxes'] = callCustomSP('CALL select_market()');
         $data['selected_market'] = isset($main_categories[$type]) ? $main_categories[$type]:1;
+        
+        // dd($data['market_boxes']);
+
+        $data['last_update_date'] = getLastUpdateDate();        
         return view('market', $data);
     }
 
