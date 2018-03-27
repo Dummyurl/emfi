@@ -360,7 +360,7 @@ fa fa-check-square-o'></i></a>";
 								\DB::table('historical_data')->insert($hdata);
 							}
 							$updated_date = [ 0 => date("Y-m-d H:i:s")];
-							WriteJsonInFile($updated_date, 'uploads/last-updated-date.json');
+							WriteJsonInFile($updated_date, GET_LAST_UPDATED_DATE);
 						}
 					}
 					$bytes = ftell($file);

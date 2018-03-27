@@ -257,15 +257,30 @@ class ApiController extends Controller
                         $dataKeys[$i]['title1'] = "";
                         $dataKeys[$i]['price1'] = 0;
                     }
-                                                                                
                 }
-
-
                 $data['benchmark_history_data'] = $dataKeys;
             }
-        }    
-
+        }
         
         return ["status" => $status, "msg" => $msg, "data" => $data];
-    }    
+    }
+
+    public function getLastUploadDate(Request $request)
+    {
+        $path_file_name = 'uploads/last-updated-date.json';
+        $file_name = public_path().DIRECTORY_SEPARATOR.$path_file_name;
+
+        if(file_exists($file_name)){
+            $data = file_get_contents($file_name);
+            $data = json_decode($data);
+            $last_date = $data[0];
+        } else {
+            $upload_date_data     = "CALL get_last_upload_date()";
+            $upload_date_data_arr = callCustomSP($upload_date_data);
+            $last_date = $upload_date_data_arr[0]['last_upload_date'];
+            $updated_date = [ 0 => $last_date];
+            WriteJsonInFile($updated_date, GET_LAST_UPDATED_DATE);
+        }
+        return ['status' => 1,'msg' => "OK", "data" => $last_date];
+    }
 }
