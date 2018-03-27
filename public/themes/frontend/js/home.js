@@ -5,16 +5,12 @@ google.charts.load('current', {'packages': ['corechart']});
 
 google.charts.load('current', {'packages': ['bar']});
 
-$(document).ready(function (){
-      generateHomeLineGraph();
 
-      generateHomeLineGraph();
-});
 
-function generateHomeLineGraph()
+function generateHomeLineGraph(slider_id, graph_period)
 {
-    var global_line_graph_id = 15;
-    var val = 1;
+    var global_line_graph_id = slider_id;
+    var val = graph_period;
     $url = "/api/market/get-market-data/history";+
     $.ajax({
         type: "POST",
@@ -29,7 +25,7 @@ function generateHomeLineGraph()
             if (counter > 0)
             {
                 $columnTitle = "LineChart";
-                // alert("Title: " + $columnTitle); 
+                // alert("Title: " + $columnTitle);
                 formatedData.push([$columnTitle, "abcd"]);
                 var j = 1;
                 for (var i in data_values)
@@ -37,7 +33,8 @@ function generateHomeLineGraph()
                     formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['last_price'])]);
                 }
             }
-            lineChart(formatedData);
+			console.log(formatedData);
+            lineChart(formatedData, slider_id);
         },
         error: function (error) {
             $('#AjaxLoaderDiv').fadeOut('slow');
@@ -46,29 +43,29 @@ function generateHomeLineGraph()
     });
 }
 
-function lineChart(formatedData) {
+function lineChart(formatedData, slider_id) {
     var data = google.visualization.arrayToDataTable(formatedData);
     var options = {
-      title: '',
-      curveType: 'none',
-      legend: { position: 'none' },
-              backgroundColor: { fill:'transparent'},
-              axisTextStyle: { color: '#344b61' },
-              titleTextStyle: { color: '#fff' },
-              legendTextStyle: { color: '#ccc' },
-              colors: ['white'],
-              hAxis: {
-                  textStyle:{color: '#fff'},
-                      gridlines: {color:"#39536b"}
-              },
-            vAxis: {
-                textStyle:{color: '#fff'},
-                    gridlines: {color:"#39536b"},
-                    baselineColor: {color:"#39536b"}
-            },
-            chartArea:{left:60,top:60,right:30,width:"100%",height:"72%"}
+      	title: '',
+      	curveType: 'none',
+      	legend: { position: 'none' },
+		backgroundColor: { fill:'transparent'},
+		axisTextStyle: { color: '#344b61' },
+		titleTextStyle: { color: '#fff' },
+		legendTextStyle: { color: '#ccc' },
+		colors: ['white'],
+		hAxis: {
+		  	textStyle:{color: '#fff'},
+		    gridlines: {color:"#39536b"}
+		},
+		vAxis: {
+			textStyle:{color: '#fff'},
+		    gridlines: {color:"#39536b"},
+		    baselineColor: {color:"#39536b"}
+		},
+chartArea:{left:60,top:60,right:30,width:"100%",height:"72%"}
     };
-    var chart = new google.visualization.LineChart(document.getElementById('chart_home4'));
+    var chart = new google.visualization.LineChart(document.getElementById('chart_home_'+ slider_id));
     chart.draw(data, options);
 }
 
