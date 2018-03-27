@@ -2,7 +2,7 @@
     <div class="container">
         <div class="title">
             <h2>Updates</h2>
-            <span>Latest Tweets</span> 
+            <span>Latest Tweets</span>
         </div>
         <div class="row">
             @if(!empty($tweets))
@@ -22,7 +22,7 @@
                     <div class="img_col">
                         <img src="{{ asset('themes/frontend/images/twitter-post-img.png') }}" alt=""></div>
                     <div class="dec_col">
-                        <div class="username">@emfisecurities</div>
+                        <div class="username"><a href="{{ $tweet['link'] }}" target="_blank">@emfisecurities</a></div>
                         <!-- <div class="subtxt">#Venezuela</div> -->
                         <p>{{ $tweet['comment'] }}</p>
                     </div>
@@ -33,7 +33,7 @@
             @else
                 <div class="col-md-12">
                     No Tweets Found !
-                </div>    
+                </div>
             @endif
         </div>
     </div>

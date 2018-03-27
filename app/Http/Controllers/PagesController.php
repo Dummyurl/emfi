@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Validator;
 use App\Models\MarketType;
 use App\models\Country;
+use App\Models\HomeSlider;
 
 
 class PagesController extends Controller {
@@ -20,17 +21,18 @@ class PagesController extends Controller {
 
     }
 
-    public function home(Request $request) 
+    public function home(Request $request)
     {
-        $data = array();
+		$data = array();
+		$data['sliders'] = HomeSlider::getHomeSliders(37);
         return view('welcome', $data);
     }
 
-    public function economics(Request $request, $country = "") 
+    public function economics(Request $request, $country = "")
     {
         $data = array();
-        $data['page_title'] = "EMFI: Economics";        
-        
+        $data['page_title'] = "EMFI: Economics";
+
         if(!empty($country))
         {
             $defaultCountry = $country;
@@ -40,14 +42,14 @@ class PagesController extends Controller {
             $defaultCountry = "VZ";
             // $defaultCountry = 40;
         }
-        
+
         $data['countryObj'] = Country::where("country_code",$defaultCountry)->first();
         // $data['countryObj'] = Country::where("id",$defaultCountry)->first();
-        
+
         if(!$data['countryObj'])
         {
             abort(404);
-        }        
+        }
 
         $data['market_boxes'] = callCustomSP('CALL Select_economics_country('.$data['countryObj']->id.')');
         $bond_data = callCustomSP('CALL select_economic_bond('.$data['countryObj']->id.')');
@@ -62,8 +64,8 @@ class PagesController extends Controller {
         // echo "<pre>";
         // print_r($data['bond_data']);
         // exit;
-        
-        $data['tweets'] = getSearchTweets($data['countryObj']->title);        
+
+        $data['tweets'] = getSearchTweets($data['countryObj']->title);
         // dd($data['tweets']);
         // $data['tweets'] = getSearchTweets($data['countryObj']->title);
         // dd($data['bond_data']);
@@ -102,7 +104,7 @@ class PagesController extends Controller {
         $data['page_title'] = "EMFI: Markets";
         // $data['tweets'] = getLatestTweets();
         $from = "@emfisecurities";
-        $data['tweets'] = getPeopleTweets($from);        
+        $data['tweets'] = getPeopleTweets($from);
 
         $data['markets'] = MarketType::getArrayList();
         $data['market_boxes'] = callCustomSP('CALL select_market()');

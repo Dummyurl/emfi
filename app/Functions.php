@@ -7,7 +7,7 @@
 
 function getMonths()
 {
-    return 
+    return
     [
          1 => "1 Month",
          3 => "3 Month",
@@ -23,23 +23,23 @@ function getMarketUrls($marketID)
     if($marketID == 1)
     {
         return '/markets/equities';
-    }    
+    }
     else if($marketID == 2)
     {
         return '/markets/currencies';
-    }    
+    }
     else if($marketID == 3)
     {
         return '/markets/commodities';
-    }    
+    }
     else if($marketID == 4)
     {
         return '/markets/rates';
-    }        
+    }
     else if($marketID == 5)
     {
         return '/markets/credit';
-    }            
+    }
     else
     {
         return "/";
@@ -108,7 +108,6 @@ function getSearchTweets($search)
     );
     $url = 'https://api.twitter.com/1.1/search/tweets.json';
     $from = "@emfisecurities";
-    $getfield = '?q=from:'.$from;
     $getfield = '?q=#'.$search.' from:'.$from.'&count=20';
     $requestMethod = 'GET';
 
@@ -122,19 +121,16 @@ function getSearchTweets($search)
     $data = [];
     $i = 0;
 
-
-
     if(!empty($tweets))
     {
         foreach($tweets['statuses'] as $tweet)
         {
+			$data[$i]['link'] = "https://twitter.com/search?src=typd&".$getfield;
             $data[$i]['comment'] = $tweet['text'];
             $data[$i]['date'] = date("d M, Y",strtotime($tweet['created_at']));
             $i++;
         }
     }
-
-
 
     return $data;
 }
@@ -166,6 +162,7 @@ function getPeopleTweets($from)
     {
         foreach($tweets['statuses'] as $tweet)
         {
+			$data[$i]['link'] = "https://twitter.com/itdoesnotmatter/status/".$tweet['id_str'];
             $data[$i]['comment'] = $tweet['text'];
             $data[$i]['date'] = date("d M, Y",strtotime($tweet['created_at']));
             $i++;
@@ -507,7 +504,7 @@ function WriteJsonInFile($message=null, $path_file_name= null){
     if($json_encode){
         $Write_message = json_encode($Write_message);
     }
-    
+
     if(file_exists($file_name)){
         file_put_contents($file_name, $Write_message, FILE_APPEND);
     } else {
