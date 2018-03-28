@@ -335,7 +335,7 @@ function initBarCharts()
             $('#AjaxLoaderDiv').fadeOut('slow');
             if (result.status == 1)
             {
-                if (typeof result.data.top_gainer[0]['id'] !== 'undefined')
+                if (result.data.top_gainer.length > 0 && typeof result.data.top_gainer[0] !== 'undefined' && typeof result.data.top_gainer[0]['id'] !== 'undefined')
                 {
                     global_line_graph_id = result.data.top_gainer[0]['id'];
                     global_line_graph_text = result.data.top_gainer[0]['title'];
