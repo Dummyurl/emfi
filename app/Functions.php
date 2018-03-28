@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 /**
  * Website General Functions
  *
@@ -524,4 +526,16 @@ function WriteJsonInFile($message=null, $path_file_name= null){
         fopen($file_name, 'w');
         file_put_contents($file_name, $Write_message, FILE_APPEND);
     }
+
+}
+
+function GetDateUsingTimeZone($date, $timezone_to,$format)
+{
+    // return Carbon::createFromFormat('Y-m-d H:i:s',$date, $timezone_to)->setTimezone('UTC')->format($format);
+    return Carbon::createFromFormat($format, $date, $timezone_to)->format($format);
+}
+function convertDateFromTimezone($date,$timezone,$timezone_to,$format){
+     $date = new DateTime($date,new DateTimeZone($timezone));
+     $date->setTimezone( new DateTimeZone($timezone_to) );
+     return $date->format($format);
 }

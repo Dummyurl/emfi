@@ -61,8 +61,14 @@
 {'modules':[{'name':'visualization','version':'1.1','packages':
 ['corechart']}]}"></script>
 
+<script src="{{ asset('themes/frontend/js/home.js') }}"></script>
+
 <script type="text/javascript">
 	$('.carousel').carousel('pause');
+$(document).ready(function () {
+	@foreach($sliders as $slider)
+		generateHomeLineGraph({{ $slider->id }}, {{ $slider->graph_period }});
+	@endforeach
+});
 </script>
-<script src="{{ asset('themes/frontend/js/home.js') }}"></script>
 @stop

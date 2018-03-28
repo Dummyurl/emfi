@@ -26,3 +26,5 @@ define("TBL_HOME_SLIDER","home_sliders");
 define("TBL_SECURITY","securities");
 define("TBL_MARKETS","market_type");
 define("GET_LAST_UPDATED_DATE","uploads/last-updated-date.json");
+define("SET_TIMEZONE_FOR_UPLOAD_DATE","America/New_York");
+define("SET_TIMEZONE_FOR_UPLOAD_DATE_UTC","UTC");

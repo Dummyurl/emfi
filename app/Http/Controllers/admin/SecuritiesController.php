@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use App\Models\MarketType;
 use App\Models\Securities;
+use App\Models\HistoricalData;
+use App\Models\BondHistoricalData;
 use App\Models\AdminAction;
 use Excel;
 use Validator;
@@ -196,9 +198,20 @@ fa fa-check-square-o'></i></a>";
 		$status = 1;
 		$msg = "Your data was successfully added";
 		$data = [];
+		$created_date = '';
+		$TZ = 'America/New_York';
+		$uploaded_date = $request->get('uploaded_date');
+		if(isset($uploaded_date) && !empty($uploaded_date)){
+			$created_date = $uploaded_date;
+		} else {
+			$dd = date("Y-m-d H:i:s");
+			$created_date =  convertDateFromTimezone($dd,SET_TIMEZONE_FOR_UPLOAD_DATE_UTC,SET_TIMEZONE_FOR_UPLOAD_DATE,'Y-m-d');
+			$updated_date = [ 0 => $created_date];
+			WriteJsonInFile($updated_date, GET_LAST_UPDATED_DATE);
+		}
 
 		$validator = Validator::make($request->all(), [
-			'excelToUpload' => 'required|excel',
+			'excelToUpload' => 'required|excel'
 		], ['excelToUpload.required' => 'Please upload a CSV file.' , 'excelToUpload.excel' => 'It must be a CSV file.']);
 
 		if ($validator->fails())
@@ -215,6 +228,7 @@ fa fa-check-square-o'></i></a>";
 		}
 		else
 		{
+			$uploaded_date = $request->get('uploaded_date');
 			if ($request->hasFile('excelToUpload'))
 			{
 				$csv_file = $request->file('excelToUpload');
@@ -256,12 +270,12 @@ fa fa-check-square-o'></i></a>";
 					{
 						// Array for historical data
 						$hdata = [];
+						$idata['created'] = $created_date;
 						$idata['rtg_sp'] = ($data[$fields['rtg_sp']] == "#N/A N/A" || !isset($data[$fields['rtg_sp']])) ? '' : str_replace(',','',$data[$fields['rtg_sp']]);
 						$idata['current_oecd_member_cor_class'] = ($data[$fields['current_oecd_member_cor_class']] == "#N/A N/A" || !isset($data[$fields['current_oecd_member_cor_class']])) ? '' : str_replace(',','',$data[$fields['current_oecd_member_cor_class']]);
 						$idata['market_size'] = ($data[$fields['market_size']] == "#N/A N/A" || !isset($data[$fields['market_size']])) ? '' : str_replace(',','',$data[$fields['market_size']]);
 						$idata['volume'] = ($data[$fields['volume']] == "#N/A N/A" || !isset($data[$fields['volume']])) ? '' : str_replace(',','',$data[$fields['volume']]);
 
-						$idata['created'] = \DB::raw('CURDATE()');
 						$idata['bid_price'] = ($data[$fields['px_bid']] == "#N/A N/A" || !isset($data[$fields['px_bid']])) ? '' : str_replace(',','',$data[$fields['px_bid']]);
 						$idata['ask_price'] = ($data[$fields['px_ask']] == "#N/A N/A" || !isset($data[$fields['px_ask']])) ? '' : str_replace(',','',$data[$fields['px_ask']]);
 						$idata['last_price'] = ($data[$fields['px_last']] == "#N/A N/A" || !isset($data[$fields['px_last']])) ? '' : str_replace(',','',$data[$fields['px_last']]);
@@ -275,12 +289,10 @@ fa fa-check-square-o'></i></a>";
 
 						$idata['percentage_change'] = str_replace('(', "-", $idata['percentage_change']);
 						$idata['percentage_change'] = str_replace(')', "", $idata['percentage_change']);
-
-						
 						// Only historical_data table's colums will be added to this array.
 						$hdata = $idata;
+						$idata['CUSIP'] = ($data[$fields['﻿cusip']] == "#N/A N/A" || !isset($data[$fields['﻿cusip']])) ? "" : $data[$fields['﻿cusip']];
 
-						$idata['CUSIP'] = ($data[$fields['﻿cusip']] == "#N/A N/A" || !isset($data[$fields['﻿cusip']])) ? "" : $data[$fields['﻿cusip']] ;
 						$idata['yld_ytm_mid'] = ($data[$fields['yld_ytm_mid']] == "#N/A N/A" || !isset($data[$fields['yld_ytm_mid']])) ? '' : $data[$fields['yld_ytm_mid']];
 						$idata['z_sprd_mid'] = ($data[$fields['z_sprd_mid']] == "#N/A N/A" || !isset($data[$fields['z_sprd_mid']])) ? '' : $data[$fields['z_sprd_mid']];
 						$idata['dur_adj_mid'] = ($data[$fields['dur_adj_mid']] == "#N/A N/A" || !isset($data[$fields['dur_adj_mid']])) ? '' : $data[$fields['dur_adj_mid']];
@@ -337,30 +349,52 @@ fa fa-check-square-o'></i></a>";
 							continue;
 						}
 
+						\DB::enableQueryLog();
+
 						if (!empty($idata) && is_array($idata))
 						{
-						// Update if any record exists Or Create a new Security
-							$security = Securities::updateOrCreate(
-											[
-												'CUSIP' => $idata['CUSIP'],
-												'market_id' => $idata['market_id']
-											],
-											$idata
-										);
-							$hdata['security_id'] = $security->id;
-							$hdata['created'] = \DB::raw('CURDATE()');
-							if ($security->market_id == 5) {
-								$hdata['DUR_ADJ_MID'] = $idata['dur_adj_mid'];
-								$hdata['YLD_YTM_MID'] = $idata['yld_ytm_mid'];
-								$hdata['Z_SPRD_MID'] = $idata['z_sprd_mid'];
-								$hdata['created_at'] = \DB::raw('NOW()');
-								\DB::table('bond_historical_data')->insert($hdata);
+
+							$security = Securities::where("CUSIP",$idata['CUSIP'])
+							            ->where("market_id",$idata['market_id'])->first();
+							            // ->where("created","<=", $created_date)->first();
+							if($security){
+								$security_id = $security->id;
+								//update if date less then "created","<=", $created_date
+								if($security->created <= $created_date){
+									$security_data = Securities::where('id', $security->id)
+														   ->update($idata);
+								}
 							} else {
-								$hdata['created_at'] = \DB::raw('NOW()');
-								\DB::table('historical_data')->insert($hdata);
+								// new security create here
+								$security_el = new Securities;
+								$create_security = $security_el->create($idata);
+								$security_id = $create_security->id;
 							}
-							$updated_date = [ 0 => date("Y-m-d H:i:s")];
-							WriteJsonInFile($updated_date, GET_LAST_UPDATED_DATE);
+							$hdata['security_id'] 	= $security_id;
+							if ($security->market_id == 5) {
+								$hdata['DUR_ADJ_MID'] 	= $idata['dur_adj_mid'];
+								$hdata['YLD_YTM_MID'] 	= $idata['yld_ytm_mid'];
+								$hdata['Z_SPRD_MID'] 	= $idata['z_sprd_mid'];
+								$Bond_historical_data = BondHistoricalData::where("security_id", $security_id)
+																->where("created", $created_date)->first();
+								if(!empty($Bond_historical_data)){
+									BondHistoricalData::where('id', $Bond_historical_data->id)
+															   ->update($hdata);
+								} else{
+									$bond_histotry_el = new BondHistoricalData;
+									$bond_histotry_el->create($hdata);
+								}
+							} else {
+								$Historical_data = HistoricalData::where("security_id", $security_id)
+																->where("created", $created_date)->first();
+								if(!empty($Historical_data)){
+									HistoricalData::where('id', $Historical_data->id)
+															   ->update($hdata);
+								} else{
+									$histotry_el = new HistoricalData;
+									$histotry_el->create($hdata);
+								}
+							}
 						}
 					}
 					$bytes = ftell($file);
