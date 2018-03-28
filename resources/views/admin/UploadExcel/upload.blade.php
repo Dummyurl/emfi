@@ -25,20 +25,21 @@
                             {!! Form::open(['method' => "POST",'files' => true, 'route' => ['validate'],'class' => 'sky-form form form-group', 'id' => 'main-frm']) !!}
                                 <div class="row ">
                                     <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Uploaded Date</label>
+                                        {!! Form::text('uploaded_date',null, ['class' => 'form-control pick_date']) !!}
+                                    </div>
+                                    <div class="form-group">
                                         <label class="control-label">Upload<span class="required">*</span></label>
                                         {!! Form::file('excelToUpload', ['class' => 'form-control', 'data-required' => true]) !!}
                                     </div>
-									<div class="col-md-2">
-										<label class="control-label">Uploaded Date</label>
-										{!! Form::text('uploaded_date',null, ['class' => 'form-control pick_date', 'data-required' => true]) !!}
-									</div>
-                                </div>
-                                <div class="clearfix">&nbsp;</div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <a href="{{ asset('file/Sample.csv') }}" class="btn btn-primary">Sample File DownLoad</a>
-                                        <input type="submit" value="Upload CSV" class="btn btn-success pull-right" />
+                                    <input type="submit" value="Upload CSV" class="btn btn-success" />
+
                                     </div>
+                                <div class="col-md-3 pull-right text-right">
+                                    <a href="{{ asset('file/Sample.csv') }}" class="btn btn-primary">
+                                        Sample File DownLoad</a></div>
+
                                 </div>
                             {!! Form::close() !!}
                         </div>
