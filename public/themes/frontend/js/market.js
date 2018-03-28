@@ -343,15 +343,17 @@ function initBarCharts()
 
                 drawBarChart(result.data.top_gainer, "bar_chart", "Gainer");
                 drawBarChart(result.data.top_loser, "bar_chart2", "Loser");
-
                 fillBanchMark(result.data.arr_banchmark);
 
-                if (result.data.gainer_history_data.length > 0)
-                    drawChart(result.data.gainer_history_data, 'curve_chart', 0);
-                else if (result.data.loser_history_data.length > 0)
-                    drawChart(result.data.loser_history_data, 'curve_chart', 0);
-                else
-                    drawChart([], 'curve_chart', 0);
+                if(typeof result.data.gainer_history_data !== 'undefined')
+                {
+                    if (result.data.gainer_history_data.length > 0)
+                        drawChart(result.data.gainer_history_data, 'curve_chart', 0);
+                    else if (result.data.loser_history_data.length > 0)
+                        drawChart(result.data.loser_history_data, 'curve_chart', 0);
+                    else
+                        drawChart([], 'curve_chart', 0);
+                }
             } else
             {
                 $.bootstrapGrowl(result.msg, {type: 'danger', delay: 4000});
