@@ -29,13 +29,13 @@ function drawBarChart(data_values, elementID, chartType) {
         {
             global_gainer_data = [];
             formatedData.push([$columnTitle, {label:'', type:'number'},{type: 'string', role: 'tooltip'}]);
-        }    
+        }
         else
         {
             global_loser_data = [];
-            formatedData.push([$columnTitle, {label:'', type:'number'},{type: 'string', role: 'tooltip'}]);    
-        }        
-        
+            formatedData.push([$columnTitle, {label:'', type:'number'},{type: 'string', role: 'tooltip'}]);
+        }
+
         for (var i in data_values)
         {
             $per = parseFloat(data_values[i]['percentage_change']).toFixed(2);
@@ -52,15 +52,15 @@ function drawBarChart(data_values, elementID, chartType) {
                 formatedData.push([data_values[i]['title'], $per, data_values[i]['title'] + ": "+$per+" %"]);
             }
 
-            
+
 
             if(elementID == "bar_chart")
             global_gainer_data[data_values[i]['title']] = data_values[i]['id'];
             else
-            global_loser_data[data_values[i]['title']] = data_values[i]['id'];    
+            global_loser_data[data_values[i]['title']] = data_values[i]['id'];
 
-        }            
-    } 
+        }
+    }
     else
     {
         formatedData.push(["", "",{type: 'string', role: 'tooltip'}]);
@@ -84,10 +84,10 @@ function drawBarChart(data_values, elementID, chartType) {
                 {
                     textStyle: {color: '#051b34'},
                     gridlines: {color: "#8ab3e2"},
-                    baselineColor: '#8ab3e2',                    
+                    baselineColor: '#8ab3e2',
                     direction: -1,
                 },
-        vAxis: 
+        vAxis:
         {
             textStyle: {color: '#051b34'},
             gridlines: {color: "#8ab3e2"}
@@ -97,17 +97,17 @@ function drawBarChart(data_values, elementID, chartType) {
     var chart = new google.charts.Bar(document.getElementById(elementID));
     chart.draw(data, google.charts.Bar.convertOptions(options));
     google.visualization.events.addListener(chart, 'select', function() {
-        
+
         var selection = chart.getSelection();
         var category;
-        
+
         category = '';
-        
-        for (var i = 0; i < selection.length; i++) 
+
+        for (var i = 0; i < selection.length; i++)
         {
             var item = selection[i];
             category = data.getValue(chart.getSelection()[0].row, 0);
-        }       
+        }
 
         if(elementID == "bar_chart")
         {
@@ -116,12 +116,12 @@ function drawBarChart(data_values, elementID, chartType) {
                 global_line_graph_text = category;
                 global_line_graph_id = global_gainer_data[category];
                 $("#benchmark-dropdown").html("");
-                generateLineGraph(); 
+                generateLineGraph();
                 $('html, body').animate({
                         scrollTop: $("#linegraph-data").offset().top
-                }, 1200);                
-            }                
-        }    
+                }, 600);
+            }
+        }
         else
         {
             if (typeof global_loser_data[category] !== 'undefined')
@@ -129,13 +129,13 @@ function drawBarChart(data_values, elementID, chartType) {
                 global_line_graph_text = category;
                 global_line_graph_id = global_loser_data[category];
                 $("#benchmark-dropdown").html("");
-                generateLineGraph();                    
+                generateLineGraph();
                 $('html, body').animate({
                         scrollTop: $("#linegraph-data").offset().top
-                }, 1200);                
-            }                 
-        }        
-    });        
+                }, 600);                
+            }
+        }
+    });
 
 }
 
@@ -145,17 +145,17 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
     if (typeof global_line_graph_text !== 'undefined')
     {
         $columnTitle = global_line_graph_text;
-    }  
+    }
 
     var formatedData = [];
-    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $("select#benchmark-dropdown option:selected").text(), type:'number'}]);    
+    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $("select#benchmark-dropdown option:selected").text(), type:'number'}]);
     for(var i in data_values.benchmark_history_data)
     {
-       formatedData.push([data_values.benchmark_history_data[i][0],data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);        
-    }   
+       formatedData.push([data_values.benchmark_history_data[i][0],data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);
+    }
 
     // console.log(formatedData);
-    
+
 //    var data = new google.visualization.DataTable();
 //    data.addColumn('date', 'Month');
 //    data.addColumn('number', "Average Temperature");
@@ -174,7 +174,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
 //      [new Date(2014, 9),  4.4,  9.9],
 //      [new Date(2014, 10), 1.1,  6.6],
 //      [new Date(2014, 11), -.2,  4.5]
-//    ]);    
+//    ]);
 
     var data = google.visualization.arrayToDataTable(formatedData);
 
@@ -189,15 +189,15 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
     // var data = new google.visualization.DataTable();
     // data.addColumn('string', '');
     // data.addColumn('string', $columnTitle);
-    // data.addColumn('string', $("select#benchmark-dropdown option:selected").text());        
+    // data.addColumn('string', $("select#benchmark-dropdown option:selected").text());
 
     // for(var i in data_values.benchmark_history_data)
     // {
     //     $val1 = parseFloat(data_values.benchmark_history_data[i][1]).toFixed(0);
     //     $val2 = parseFloat(data_values.benchmark_history_data[i][2]).toFixed(0);
 
-    //     data.addRow([data_values.benchmark_history_data[i][0], $val1, $val2]); 
-    // }             
+    //     data.addRow([data_values.benchmark_history_data[i][0], $val1, $val2]);
+    // }
 
 //   var classicOptions = {
 //        title: '',
@@ -216,7 +216,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         series: {
           0: {targetAxisIndex: 0},
           1: {targetAxisIndex: 1}
-        },        
+        },
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
         titleTextStyle: {color: '#fff'},
@@ -229,7 +229,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         vAxis: {
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"},            
+            baselineColor: {color: "#39536b"},
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
@@ -253,14 +253,14 @@ function drawChart(data_values, elementID, fromBenchMark)
     if (typeof global_line_graph_text !== 'undefined')
     {
         $columnTitle = global_line_graph_text;
-    }               
-    
-    // 
+    }
+
+    //
 
     if (counter > 0)
     {
         $columnTitle = $columnTitle + " "+$("select#price-dropdown option:selected").text();
-        // alert("Title: " + $columnTitle); 
+        // alert("Title: " + $columnTitle);
         formatedData.push([$columnTitle, $columnTitle]);
         var j = 1;
         for (var i in data_values)
@@ -457,7 +457,7 @@ $(document).ready(function () {
 
     $('select#markets').select2({
         allowClear: true,
-        multiple: false,    
+        multiple: false,
     });
 
 
@@ -480,7 +480,7 @@ $(document).ready(function () {
 
 
     $(".market-chart-title").html($("select#markets").find("option:selected").text());
-    
+
     if ($.trim($("select#markets").find("option:selected").text()) == "credit" || $.trim($("select#markets").find("option:selected").text()) == "CREDIT")
     {
         $("#price-dropdown").show();

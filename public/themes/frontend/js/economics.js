@@ -416,7 +416,7 @@ $(document).ready(function() {
         {
             $('html, body').animate({
                     scrollTop: $("#linegraph-data").offset().top - 30
-            }, 1200);
+            }, 600);
         }
 
         is_first++;
