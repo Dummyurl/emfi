@@ -3,7 +3,6 @@
 @section('content')
 <section class="home_slider">
     <div class="owl-carousel owl-theme home_carousel" data-interval="false">
-		<?php $i = 0; ?>
 		@foreach($sliders as $slider)
         <div class="item">
             <div class="home_slider_item bgcover" style="background:url({{ asset('themes/frontend/images/home-bg-1.jpg') }})">
@@ -30,7 +29,6 @@
                 </div>
             </div>
         </div>
-		<?php ++$i; ?>
 		@endforeach
         <!--<div class="item">
             <div class="home_slider_item bgcover" style="background:url({{ asset('themes/frontend/images/home-bg-1.jpg') }})">

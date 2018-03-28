@@ -29,7 +29,7 @@
                     </a>                  
                     <h3>{{ $row['market_name'] or '' }}</h3>
                     <span class="value">
-                        {{ number_format($row['last_price'],2)  }}
+                        {{ $row['last_price'] }}
                     </span>
                     <div class="botm clearfix">
                         <div class="arrow">                             
@@ -43,10 +43,10 @@
                         </div>
                         <div class="value_num">
                             <p>
-                                {{ $row['net_change'] > 0 ? "+":""}}{{ number_format($row['net_change'],2)  }}
+                                {{ $row['net_change'] > 0 ? "+":""}}{{ $row['net_change'] }}
                             </p>
                             <p>
-                                {{ $row['percentage_change'] > 0 ? "+":""}}{{ number_format($row['percentage_change'],2)  }}%
+                                {{ $row['percentage_change'] > 0 ? "+":""}}{{ $row['percentage_change'] }}%
                             </p>
                         </div>
                     </div>

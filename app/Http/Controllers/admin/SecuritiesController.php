@@ -258,10 +258,10 @@ fa fa-check-square-o'></i></a>";
 					{
 						// Array for historical data
 						$hdata = [];
-						// $idata['rtg_sp'] = ($data[$fields['rtg_sp']] == "#N/A N/A" || !isset($data[$fields['rtg_sp']])) ? '' : str_replace(',','',$data[$fields['rtg_sp']]);
-						// $idata['current_oecd_member_cor_class'] = ($data[$fields['current_oecd_member_cor_class']] == "#N/A N/A" || !isset($data[$fields['current_oecd_member_cor_class']])) ? '' : str_replace(',','',$data[$fields['current_oecd_member_cor_class']]);
-						// $idata['market_size'] = ($data[$fields['market_size']] == "#N/A N/A" || !isset($data[$fields['market_size']])) ? '' : str_replace(',','',$data[$fields['market_size']]);
-						// $idata['volume'] = ($data[$fields['volume']] == "#N/A N/A" || !isset($data[$fields['volume']])) ? '' : str_replace(',','',$data[$fields['volume']]);
+						$idata['rtg_sp'] = ($data[$fields['rtg_sp']] == "#N/A N/A" || !isset($data[$fields['rtg_sp']])) ? '' : str_replace(',','',$data[$fields['rtg_sp']]);
+						$idata['current_oecd_member_cor_class'] = ($data[$fields['current_oecd_member_cor_class']] == "#N/A N/A" || !isset($data[$fields['current_oecd_member_cor_class']])) ? '' : str_replace(',','',$data[$fields['current_oecd_member_cor_class']]);
+						$idata['market_size'] = ($data[$fields['market_size']] == "#N/A N/A" || !isset($data[$fields['market_size']])) ? '' : str_replace(',','',$data[$fields['market_size']]);
+						$idata['volume'] = ($data[$fields['volume']] == "#N/A N/A" || !isset($data[$fields['volume']])) ? '' : str_replace(',','',$data[$fields['volume']]);
 
 						$idata['created'] = \DB::raw('CURDATE()');
 						$idata['bid_price'] = ($data[$fields['px_bid']] == "#N/A N/A" || !isset($data[$fields['px_bid']])) ? '' : str_replace(',','',$data[$fields['px_bid']]);
@@ -282,7 +282,7 @@ fa fa-check-square-o'></i></a>";
 						// Only historical_data table's colums will be added to this array.
 						$hdata = $idata;
 
-						$idata['CUSIP'] = ($data[$fields['﻿cusip']] == "#N/A N/A" || !isset($data[$fields['﻿cusip']])) ? "" : $data[$fields['﻿cusip']] ;
+						$idata['CUSIP'] = ($data[$fields[' cusip']] == "#N/A N/A" || !isset($data[$fields[' cusip']])) ? "" : $data[$fields[' cusip']] ;
 						$idata['yld_ytm_mid'] = ($data[$fields['yld_ytm_mid']] == "#N/A N/A" || !isset($data[$fields['yld_ytm_mid']])) ? '' : $data[$fields['yld_ytm_mid']];
 						$idata['z_sprd_mid'] = ($data[$fields['z_sprd_mid']] == "#N/A N/A" || !isset($data[$fields['z_sprd_mid']])) ? '' : $data[$fields['z_sprd_mid']];
 						$idata['dur_adj_mid'] = ($data[$fields['dur_adj_mid']] == "#N/A N/A" || !isset($data[$fields['dur_adj_mid']])) ? '' : $data[$fields['dur_adj_mid']];
