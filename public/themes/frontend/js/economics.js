@@ -66,6 +66,7 @@ function drawBenchmarkChart(data_values)
         axisTextStyle: {color: '#344b61'},
         titleTextStyle: {color: '#fff'},
         legendTextStyle: {color: '#ccc'},
+        pointSize : 10,
         colors: ['white', 'blue'],
         hAxis: {
             textStyle: {color: '#fff'},
@@ -392,7 +393,7 @@ $(document).ready(function() {
     $(document).on("click",".generate-bond-chart",function(){
         $('html, body').animate({
                 scrollTop: $("#secondChartPart").offset().top
-        }, 1200);
+        }, 600);
 //        global_secure_id_2 = $(this).data("id");
 //        global_secure_id_2_text = $.trim($(this).text());
 //        resetFields2();
@@ -416,11 +417,17 @@ $(document).ready(function() {
         {
             $('html, body').animate({
                     scrollTop: $("#linegraph-data").offset().top - 30
-            }, 1200);
+            }, 600);
         }
 
         is_first++;
 
         generateLineGraph();
     });
+
+    $('select#country-combo').select2({
+        allowClear: true,
+        multiple: false,    
+    });
+    
 });

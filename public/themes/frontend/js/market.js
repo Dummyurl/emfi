@@ -119,7 +119,7 @@ function drawBarChart(data_values, elementID, chartType) {
                 generateLineGraph(); 
                 $('html, body').animate({
                         scrollTop: $("#linegraph-data").offset().top
-                }, 1200);                
+                }, 600);                
             }                
         }    
         else
@@ -132,7 +132,7 @@ function drawBarChart(data_values, elementID, chartType) {
                 generateLineGraph();                    
                 $('html, body').animate({
                         scrollTop: $("#linegraph-data").offset().top
-                }, 1200);                
+                }, 600);                
             }                 
         }        
     });        
@@ -259,7 +259,7 @@ function drawChart(data_values, elementID, fromBenchMark)
 
     if (counter > 0)
     {
-        $columnTitle = $columnTitle + " "+$("select#price-dropdown option:selected").text();
+        $columnTitle = $columnTitle + " "+$("select#price-dropdown option:selected").data("title");
         // alert("Title: " + $columnTitle); 
         formatedData.push([$columnTitle, $columnTitle]);
         var j = 1;

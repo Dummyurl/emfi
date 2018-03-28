@@ -133,8 +133,7 @@
                 <div class="chart_dropdown clearfix">
                     <form>
                         <div class="col-md-4">
-                            <select id="period-month">
-                                <option value="">Period</option>
+                            <select id="period-month">                                
                                 @foreach(getMonths() as $month => $label)
                                 <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
                                     {{ $label }}
@@ -144,9 +143,9 @@
                         </div>
                         <div class="col-md-4">
                             <select id="price-dropdown" style="display: none;">
-                                <option value="1">Price</option>
-                                <option value="2">YIELD</option>
-                                <option value="3">SPREAD</option>
+                                <option value="1" data-title="Price">PRICE</option>
+                                <option value="2" data-title="Yield">YIELD</option>
+                                <option value="3" data-title="Spread">SPREAD</option>                              
                             </select>
                         </div>
                         <div class="col-md-4 pull-right">
