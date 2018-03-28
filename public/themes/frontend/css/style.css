@@ -349,12 +349,12 @@ min-height:1080px;
 	line-height:1;
 	margin-bottom:5px;
 }
-.title_belt h2 > span {
+.title_belt h2 + span {
 	color:#FFFFFF;
 	font-size:20px;
 	font-weight:400;
 }
-.title_belt h2 > span:before {
+.title_belt h2 + span:before {
 	content:'';
 	display:inline-block;
 	height:18px;
@@ -800,7 +800,7 @@ footer address {
 	width:auto;
     font-family: 'open_sansregular';
 }
-/*.chart_dropdown select option,*/
+.chart_dropdown select option,
 .top_section .select_r select option{ color: #333;font-family: 'open_sansregular';}
 .twitter_updates {
 	margin:40px 0;
