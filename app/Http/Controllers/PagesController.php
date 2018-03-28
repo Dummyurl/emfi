@@ -24,8 +24,10 @@ class PagesController extends Controller {
     public function home(Request $request)
     {
 		$data = array();
-		$data['sliders'] = HomeSlider::getHomeSliders(37);
-        return view('welcome', $data);
+		$countryID = 40;
+		$data['sliders'] = HomeSlider::getHomeSliders($countryID);
+		// dd($data['sliders']->toArray());
+		return view('welcome', $data);
     }
 
     public function economics(Request $request, $country = "")
