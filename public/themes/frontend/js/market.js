@@ -142,13 +142,15 @@ function drawBarChart(data_values, elementID, chartType) {
 function drawBenchmarkChart(data_values, elementID, fromBenchMark)
 {
     $columnTitle = "";
+    $columnTitle2 = $("select#benchmark-dropdown option:selected").text()+ " "+$("select#price-dropdown option:selected").data("title");
     if (typeof global_line_graph_text !== 'undefined')
     {
         $columnTitle = global_line_graph_text;
+        $columnTitle = $columnTitle + " "+$("select#price-dropdown option:selected").data("title");
     }  
 
     var formatedData = [];
-    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $("select#benchmark-dropdown option:selected").text(), type:'number'}]);    
+    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $columnTitle2, type:'number'}]);    
     for(var i in data_values.benchmark_history_data)
     {
        formatedData.push([data_values.benchmark_history_data[i][0],data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);        

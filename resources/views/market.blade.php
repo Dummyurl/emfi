@@ -103,8 +103,8 @@
 <section class="chart_wrapper">
     <div class="container">
         <div class="title">
-            <h2 class="market-chart-title">Equities</h2>
-            <span>Market Movers</span></div>
+            <h2>Market Movers</h2>
+            <span class="market-chart-title"></span></div>
     </div>
     <div class="container chart_section">
         <div class="row">
@@ -123,8 +123,8 @@
 <section class="equities">
     <div class="container">
         <div class="title">
-            <h2 class="market-chart-title">Equities</h2>
-            <span>Historical Chart</span> </div>
+            <h2>Historical Chart</h2>
+            <span class="market-chart-title"></span> </div>
     </div>
     <div class="container chart_section">
         <div class="row">

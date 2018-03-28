@@ -5,17 +5,17 @@
         <div class="footer_block">
           <h3>Quick Links</h3>
           <ul>
-            <li><a href="#">Terms of Use</a></li>
-            <li><a href="#">Privacy Statments</a></li>
-            <li><a href="#">Cookies</a></li>
+            <li><a href="{{ url('/markets') }}">Markets</a></li>
+            <li><a href="{{ url('/')}}">Login</a></li>
+            <li><a href="{{ route('contact')}}">Contact</a></li>            
           </ul>
         </div>
         <div class="footer_block">
           <h3>Legal Info</h3>
           <ul>
-            <li><a href="{{ url('/markets') }}">Markets</a></li>
-            <li><a href="{{ url('/')}}">Login</a></li>
-            <li><a href="{{ route('contact')}}">Contact</a></li>
+            <li><a href="#">Terms of Use</a></li>
+            <li><a href="#">Privacy Statments</a></li>
+            <li><a href="#">Cookies</a></li>            
           </ul>
         </div>
         <div class="footer_block">
