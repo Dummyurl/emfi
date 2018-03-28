@@ -36,7 +36,7 @@
                         <a href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="dropdown {{ \Request::is('markets','markets/*') ? 'active':'' }}">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <a href="{{ url('markets') }}">
                             Markets
                         </a>
                         <ul class="dropdown-menu">

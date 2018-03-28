@@ -9,7 +9,7 @@
         <div class="title_belt">
             <div class="row">
                 <div class="col-md-6">
-                  <h2>{{ $countryObj->title }}</h2>
+                  <h2>Economies</h2>
                   <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
                 </div>
                 <div class="col-md-6 select_r">
@@ -76,8 +76,7 @@
                 <div class="chart_dropdown clearfix">
                     <form>
                         <div class="col-md-4">
-                            <select id="period-month">
-                                <option value="">Period</option>
+                            <select id="period-month">                                
                                 @foreach(getMonths() as $month => $label)
                                 <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
                                     {{ $label }}
@@ -175,8 +174,7 @@
                 <div class="chart_dropdown clearfix">
                     <form>
                         <div class="col-md-4">
-                            <select id="period-month-2">
-                                <option value="">Period</option>
+                            <select id="period-month-2">                                
                                 @foreach(getMonths() as $month => $label)
                                 <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
                                     {{ $label }}
@@ -187,9 +185,9 @@
                         </div>
                         <div class="col-md-4">
                             <select id="price-dropdown-2">
-                                <option value="1">Price</option>
-                                <option value="2">YIELD</option>
-                                <option value="3">SPREAD</option>
+                                <option value="1" data-title="Price">PRICE</option>
+                                <option value="2" data-title="Yield">YIELD</option>
+                                <option value="3" data-title="Spread">SPREAD</option>
                             </select>
                         </div>
                         <div class="col-md-4">

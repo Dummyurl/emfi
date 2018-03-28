@@ -26,11 +26,11 @@ function getLastUpdateDate()
     if(is_file($file))
     {
         $data = file_get_contents($file);
-        $data = json_decode($data,1);    
+        $data = json_decode($data,1);
         return isset($data[0]) ? date("Y-m-d H:i:s",strtotime($data[0])):date("Y-m-d H:i:s");
     }
 
-    return date("Y-m-d H:i:s");    
+    return date("Y-m-d H:i:s");
 }
 
 function getMarketUrls($marketID)
@@ -159,8 +159,9 @@ function getPeopleTweets($from)
         'consumer_key' => "gWbSYBsV8RSJXwr0wimDjnw7r",
         'consumer_secret' => "glpsLqdMeGG8WK0NwN2wijnkmY88LrHtkqDJ1WdrpZHnDFGcFq"
     );
-    $url = 'https://api.twitter.com/1.1/search/tweets.json';
-    $getfield = '?q=from:'.$from;
+    $url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+	$screen_name = '@EmfiSecurities';
+    $getfield = '?screen_name='.$screen_name;
     $requestMethod = 'GET';
 
     $twitter = new \App\TwitterAPIExchange($settings);
@@ -169,13 +170,19 @@ function getPeopleTweets($from)
                  ->buildOauth($url, $requestMethod)
                  ->performRequest();
 
+
+
     $tweets = json_decode($tweet,1);
     $data = [];
     $i = 0;
 
+	// echo "<pre>";
+	// print_r($tweet);
+	// exit();
+
     if(!empty($tweets))
     {
-        foreach($tweets['statuses'] as $tweet)
+        foreach($tweets as $tweet)
         {
 			$data[$i]['link'] = "https://twitter.com/itdoesnotmatter/status/".$tweet['id_str'];
             $data[$i]['comment'] = $tweet['text'];
