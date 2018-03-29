@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class HomeSlider extends Model
 {
+    use \Dimsav\Translatable\Translatable;
+
+    public $translatedAttributes = ['title', 'description'];
     /**
      * The database table used by the model
      *

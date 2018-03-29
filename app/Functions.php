@@ -115,7 +115,7 @@ function getLatestTweets()
 
 function getSearchTweets($search)
 {
-	$settings = array(
+    $settings = array(
         'oauth_access_token' => "967009378825056258-EJVMJL4ZH4xwpR1PzcIym3h3T14qkNS",
         'oauth_access_token_secret' => "ghGjIOl2FMNV9nQRDXDkVzdMSOU2de00Utm85fuxh1hrT",
         'consumer_key' => "gWbSYBsV8RSJXwr0wimDjnw7r",
@@ -140,7 +140,7 @@ function getSearchTweets($search)
     {
         foreach($tweets['statuses'] as $tweet)
         {
-			$data[$i]['link'] = "https://twitter.com/search?src=typd&".$getfield;
+            $data[$i]['link'] = "https://twitter.com/search?src=typd&".$getfield;
             $data[$i]['comment'] = $tweet['text'];
             $data[$i]['date'] = date("d M, Y",strtotime($tweet['created_at']));
             $i++;
@@ -153,14 +153,14 @@ function getSearchTweets($search)
 
 function getPeopleTweets($from)
 {
-	$settings = array(
+    $settings = array(
         'oauth_access_token' => "967009378825056258-EJVMJL4ZH4xwpR1PzcIym3h3T14qkNS",
         'oauth_access_token_secret' => "ghGjIOl2FMNV9nQRDXDkVzdMSOU2de00Utm85fuxh1hrT",
         'consumer_key' => "gWbSYBsV8RSJXwr0wimDjnw7r",
         'consumer_secret' => "glpsLqdMeGG8WK0NwN2wijnkmY88LrHtkqDJ1WdrpZHnDFGcFq"
     );
     $url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
-	$screen_name = '@EmfiSecurities';
+    $screen_name = '@EmfiSecurities';
     $getfield = '?screen_name='.$screen_name;
     $requestMethod = 'GET';
 
@@ -176,16 +176,16 @@ function getPeopleTweets($from)
     $data = [];
     $i = 0;
 
-	// echo "<pre>";
-	// print_r($tweet);
-	// exit();
+    // echo "<pre>";
+    // print_r($tweet);
+    // exit();
 
     if(!empty($tweets))
     {
         foreach($tweets as $tweet)
         {
-			$data[$i]['link'] = "https://twitter.com/itdoesnotmatter/status/".$tweet['id_str'];
-            $data[$i]['comment'] = $tweet['text'];
+            $data[$i]['link'] = "https://twitter.com/itdoesnotmatter/status/".$tweet['id_str'];
+            $data[$i]['comment'] = linkify_twitter_status($tweet['text']);
             $data[$i]['date'] = date("d M, Y",strtotime($tweet['created_at']));
             $i++;
         }
@@ -193,6 +193,26 @@ function getPeopleTweets($from)
 
     return $data;
 }
+
+function linkify_twitter_status($status_text)
+{
+  // linkify URLs
+  $status_text = preg_replace(
+    '/(https?:\/\/\S+)/',
+    '<a href="\1" target="_blank">\1</a>',
+    $status_text
+  );
+
+  // linkify twitter users
+  $status_text = preg_replace(
+    '/(^|\s)@(\w+)/',
+    '\1@<a href="http://twitter.com/\2" target="_blank">\2</a>',
+    $status_text
+  );
+
+  return $status_text;
+}
+
 
 function humanTiming($time) {
 

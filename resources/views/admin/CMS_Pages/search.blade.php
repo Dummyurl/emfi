@@ -19,11 +19,11 @@
                     </div>
                 </div>
                  <div class="col-md-4">
-                    <label class="control-label">Ids</label>
+                    <label class="control-label">IDs</label>
                     <input type="text" value="{{ \Request::get("search_id") }}" class="form-control" name="search_id" />                                                                 
                 </div>
                 <div class="col-md-4">
-                    <label class="control-label">Title</label>
+                    <label class="control-label">Page Constant</label>
                     <input type="text" value="{{ \Request::get("search_text") }}" class="form-control" name="search_text" />                                                                 
                 </div> 
             </div>

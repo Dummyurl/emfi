@@ -26,7 +26,7 @@
             @if(!empty($market_boxes))
                 @foreach($market_boxes as $row)
                     
-                    <div data-id="{{ $row['id'] }}" class="col-lg-3 col-md-3 col-sm-6 four_block market-action" style="cursor: pointer;" title="View Graph">
+                    <div data-market="{{ $row['market_id'] }}" data-id="{{ $row['id'] }}" class="col-lg-3 col-md-3 col-sm-6 four_block market-action" style="cursor: pointer;" title="View Graph">
                         <div class="inner_blue_box">
                             <a class="view-btn">
                                 <span>View Chart</span>
@@ -61,7 +61,10 @@
         </div>
     </div>
 </section>
+
+
 <div id="linegraph-data"></div>
+
 <section class="equities">
     <div class="container">
         <div class="title">
@@ -75,30 +78,42 @@
                 <div id="curve_chart" style="width: 100%; height: 480px"> </div>
                 <div class="chart_dropdown clearfix">
                     <form>
-                        <div class="col-md-4">
-                            <select id="period-month">                                
-                                @foreach(getMonths() as $month => $label)
-                                <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
+                        <div class="col-md-3">
+                            <select id="period-month">
+                                <option selected value="{{ date('Y-m-d') }}">Today</option>   
+                                @foreach(getMonths() as $month => $label)                                
+                                <option value="{{ date('Y-m-d', strtotime('-'.$month.' month')) }}">
                                     {{ $label }}
                                 </option>
-                                @endforeach
-                                
+                                @endforeach                                
                             </select>
                         </div>
 
-                        <?php /*
-                        <div class="col-md-4">
-                            <select id="price-dropdown" style="display: none;">
-                                <option value="1">Price</option>
-                                <option value="2">YLD YTM MID</option>
-                                <option value="3">Z SPRD MID</option>
+                        
+                        <div class="col-md-3">
+                            <select id="duration-dropdown">
+                                <option value="1">Maturity</option>
+                                <option value="2">Duration</option>
                             </select>
                         </div>
-                        */ ?>
 
-                        <div class="col-md-4 pull-right">
+                        <div class="col-md-3">
+                            <select id="price-dropdown">
+                                <option value="1" data-title="Price">PRICE</option>
+                                <option value="2" data-title="Yield">YIELD</option>
+                                <option value="3" data-title="Spread">SPREAD</option>
+                            </select>
+                        </div>
+                        
+
+                        <div class="col-md-3 pull-right">
                             <select id="benchmark-dropdown">
-                                <option value="">Add Benchmark</option>
+                                <option value="">Add Country</option>
+                                @foreach($countries as $cnt)
+                                    @if($cnt->id != $countryObj->id)
+                                        <option value="{{ $cnt->id }}">{{ $cnt->title }}</option>
+                                    @endif
+                                @endforeach                                                                
                             </select>
                         </div>                        
                     </form>
@@ -134,7 +149,7 @@
                     @foreach($bond_data[$key] as $row)
                     <tr>
                         <td>
-                            <a class="generate-bond-chart" href="javascript:void(0);" data-id="{{ $row['id'] }}" title="View Graph">
+                            <a data-market="{{ $row['market_id'] }}" class="generate-bond-chart" href="javascript:void(0);" data-id="{{ $row['id'] }}" title="View Graph">
                                 {{ $row['security_name'] }}
                             </a>
                         </td>
@@ -161,6 +176,7 @@
     </div>
 </section>
 @endforeach
+
 <section class="equities" id="secondChartPart">
     <div class="container">
         <div class="title">
@@ -179,12 +195,11 @@
                                 <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
                                     {{ $label }}
                                 </option>
-                                @endforeach
-                                
+                                @endforeach                                
                             </select>                            
                         </div>
                         <div class="col-md-4">
-                            <select id="price-dropdown-2">
+                            <select id="price-dropdown-2" style="display: none;">
                                 <option value="1" data-title="Price">PRICE</option>
                                 <option value="2" data-title="Yield">YIELD</option>
                                 <option value="3" data-title="Spread">SPREAD</option>
@@ -192,12 +207,7 @@
                         </div>
                         <div class="col-md-4">
                             <select id="benchmark-dropdown-2">
-                                <option value="">Add Country</option>
-                                @foreach($countries as $cnt)
-                                    @if($cnt->id != $countryObj->id)
-                                        <option value="{{ $cnt->id }}">{{ $cnt->title }}</option>
-                                    @endif
-                                @endforeach                                
+                                <option value="">Add Benchmark</option>
                             </select>
                         </div>
                     </form>
@@ -206,10 +216,8 @@
         </div>
     </div>
 </section>
+
 @endif
-
-
-
 
 @include('includes.twitter')
 

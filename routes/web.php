@@ -19,6 +19,10 @@ Route::get('economics/{country?}', 'PagesController@economics')->name("economics
 Route::get('analyzer', 'PagesController@analyzer')->name("analyzer");
 Route::get('about', 'PagesController@about')->name("about");
 Route::get('contact', 'PagesController@contact')->name("contact");
+Route::get('terms-of-uses', 'PagesController@terms_of_uses')->name("terms-of-uses");
+Route::get('privacy-statements', 'PagesController@privacy_statements')->name("privacy-statements");
+Route::get('cookies', 'PagesController@cookies')->name("cookies");
+Route::get('change-language/{locale}', 'PagesController@change_locale');
 
 Route::get('clear-cache', function () {
 	$exitCode = Artisan::call('cache:clear');

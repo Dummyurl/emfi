@@ -29,6 +29,12 @@ class Custom
                     ->save($thumbFile);
         }
     }
+    public static function getLanguages()
+    {
+        $data = array();
+        $data = ['en'=>'English','es'=>'Spanish'];
+        return $data;
+    }
 }
 
 if (!function_exists('mime_content_type')) {

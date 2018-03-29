@@ -24,10 +24,16 @@ class PagesController extends Controller {
     public function home(Request $request)
     {
 		$data = array();
-		$countryID = 40;
-		$data['sliders'] = HomeSlider::getHomeSliders($countryID);
-		// dd($data['sliders']->toArray());
-		return view('welcome', $data);
+        $data['page_title'] = "EMFI: Home";
+        $data['sliders'] = HomeSlider::getHomeSliders(2);
+        $locale = session('locale');
+        if(empty($locale))
+        {
+            $locale = 'en';
+        }
+
+        app()->setLocale($locale);
+        return view('welcome', $data);
     }
 
     public function economics(Request $request, $country = "")
@@ -54,7 +60,13 @@ class PagesController extends Controller {
         }
 
         $data['market_boxes'] = callCustomSP('CALL Select_economics_country('.$data['countryObj']->id.')');
+        
+        // dd($data['market_boxes']);
+
         $bond_data = callCustomSP('CALL select_economic_bond('.$data['countryObj']->id.')');
+        
+        // dd($bond_data);
+
         $data['countries'] = Country::orderBy("title")->get();
         $data['bond_data'] = [];
 
@@ -71,7 +83,7 @@ class PagesController extends Controller {
         // dd($data['tweets']);
         // $data['tweets'] = getSearchTweets($data['countryObj']->title);
         // dd($data['bond_data']);
-        $data['last_update_date'] = getLastUpdateDate();
+        $data['last_update_date'] = getLastUpdateDate();        
         return view('economics', $data);
     }
 
@@ -107,16 +119,90 @@ class PagesController extends Controller {
         $data['page_title'] = "EMFI: Markets";
         // $data['tweets'] = getLatestTweets();
         $from = "@emfisecurities";
-        $data['tweets'] = getPeopleTweets($from);
+        $data['tweets'] = [];//getPeopleTweets($from);
 
         $data['markets'] = MarketType::getArrayList();
         $data['market_boxes'] = callCustomSP('CALL select_market()');
         $data['selected_market'] = isset($main_categories[$type]) ? $main_categories[$type]:1;
-
+        
         // dd($data['market_boxes']);
 
-        $data['last_update_date'] = getLastUpdateDate();
+        $data['last_update_date'] = getLastUpdateDate();        
         return view('market', $data);
+    }
+    public function terms_of_uses()
+    {
+        $locale = session('locale');
+        if(empty($locale))
+        {
+            $locale = 'en';
+        }
+        $pageID = "TERMS_OF_USES";
+        $data = array();
+        $data['page_title'] = "EMFI: Terms Of Uses";
+        app()->setLocale($locale);
+        $content = \App\Models\CmsPage::where('page_constant',$pageID)->first();
+        if(!$content)
+        {
+            return abort(404);
+        }
+        $data['content'] = $content;
+        return view('terms_of_uses', $data);
+    }
+
+    public function privacy_statements()
+    {
+        $locale = session('locale');
+        if(empty($locale))
+        {
+            $locale = 'en';
+        }
+        $pageID = "PRIVACY_STATEMENTS";
+        $data = array();
+        $data['page_title'] = "EMFI: Privacy Statements";
+        app()->setLocale($locale);
+        $content = \App\Models\CmsPage::where('page_constant',$pageID)->first();
+        if(!$content)
+        {
+            return abort(404);
+        }
+        $data['content'] = $content;
+        return view('privacy_statments', $data);
+    }
+    
+    public function cookies()
+    {
+        $locale = session('locale');
+        if(empty($locale))
+        {
+            $locale = 'en';
+        }
+        $pageID = "COOKIES";
+        $data = array();
+        $data['page_title'] = "EMFI: Cookies";
+
+        app()->setLocale($locale);
+
+        $content = \App\Models\CmsPage::where('page_constant',$pageID)->first();
+        if(!$content)
+        {
+            return abort(404);
+        }
+        $data['content'] = $content;
+        return view('cookies', $data);
+    }
+    
+    public function change_locale($locale)
+    {
+        $languages = \App\Custom::getLanguages();
+        if(isset($languages[$locale]) && !empty($languages[$locale]))
+        {
+            session(['locale' => $locale]);
+            return redirect()->back();
+        }
+        else{
+            return redirect('/');
+        }        
     }
 
 }

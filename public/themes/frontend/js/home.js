@@ -16,6 +16,7 @@ function generateHomeLineGraph(slider_id, graph_period, graphTitle)
     var global_line_graph_id = slider_id;
     var val = graph_period;
     $url = "/api/market/get-market-data/history";
+    $('#AjaxLoaderDiv').fadeIn('slow');
     $.ajax({
         type: "POST",
         url: $url,
@@ -38,7 +39,7 @@ function generateHomeLineGraph(slider_id, graph_period, graphTitle)
                 }
             }
 			// console.log(formatedData);
-            lineChart(formatedData, slider_id);
+            lineChart(formatedData, slider_id, $columnTitle);
         },
         error: function (error) {
             $('#AjaxLoaderDiv').fadeOut('slow');
@@ -47,10 +48,10 @@ function generateHomeLineGraph(slider_id, graph_period, graphTitle)
     });
 }
 
-function lineChart(formatedData, slider_id) {
+function lineChart(formatedData, slider_id, title) {
     var data = google.visualization.arrayToDataTable(formatedData);
     var options = {
-      	title: '',
+      	title: title,
       	curveType: 'none',
       	legend: { position: 'none' },
 		backgroundColor: { fill:'transparent'},
@@ -71,6 +72,8 @@ chartArea:{left:60,top:60,right:30,width:"100%",height:"72%"}
     };
     var chart = new google.visualization.LineChart(document.getElementById('chart_home_'+ slider_id));
     chart.draw(data, options);
+
+    $('#AjaxLoaderDiv').fadeOut('slow');
 }
 
 $(document).ready(function() {
