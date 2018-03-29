@@ -283,4 +283,140 @@ class ApiController extends Controller
         }
         return ['status' => 1,'msg' => "OK", "data" => $last_date];
     }
+
+    public function getEconomicsScatterChart(Request $request)
+    {
+        $status = 1;
+        $msg = "OK";
+        
+        $data = [];
+        
+        $country = $request->get("country");
+        $month_id = $request->get("month_id");
+        $price_id = $request->get("price_id");
+        $duration = $request->get("duration");
+        $benchmark_id = $request->get("benchmark_id");
+
+        if(empty($month_id))
+        {
+            $month_id = date("Y-m-d");
+        }
+
+        // $month_id = "2018-03-24";
+
+        $history_data   = "CALL select_bond_scatter_data(".$country.", '".$month_id."')";
+        $history_data  = callCustomSP($history_data);
+        $rows = [];
+
+
+        $i = 0;
+        if(!empty($history_data))
+        {
+            foreach($history_data as $row)
+            {
+                $price = $row['last_price'];
+                $category = $row['dur_adj_mid'];                                
+                $extraTitle = date("d M, Y", strtotime($row['maturity_date']));
+
+                if($price_id == 2)
+                {
+                    $price = $row[strtolower('YLD_YTM_MID')];
+                }
+                else if($price_id == 3)
+                {
+                    $price = $row[strtolower('Z_SPRD_MID')];
+                }
+
+                if($duration == 1)
+                {
+                    $category = $row['maturity_date'];
+
+                    $date = new \DateTime($row['maturity_date']);
+                    $category = $date->format("d M, Y");
+
+                    // echo "<br />";
+                    // echo $row['maturity_date']." => ".$category;
+
+                }    
+                else if($duration == 2)
+                {
+                    $category = $row['dur_adj_mid'];
+                }   
+
+                $rows[$i]['category'] = $category;
+                $rows[$i]['price'] = $price;
+                $rows[$i]['tooltip'] = $extraTitle;
+                $i++;
+            }    
+        }
+
+        $data['history_data'] = $rows;        
+
+        $data['benchmark_history_data'] = [];
+
+        if($benchmark_id > 0)
+        {
+            $history_data   = "CALL select_bond_scatter_data(".$benchmark_id.", '".$month_id."')";
+            $dataTemp           = callCustomSP($history_data);
+            $benchmark_history_data = $dataTemp;            
+
+            if(true)
+            {
+                $dataKeys = [];
+                $i = 0;
+                foreach($data['history_data'] as $row)
+                {
+                    $dataKeys[$i]['title1'] = $row['category'];
+                    $dataKeys[$i]['price1'] = $row['price'];                        
+                    $dataKeys[$i]['title2'] = "";                    
+                    $dataKeys[$i]['price2'] = 0;                                                            
+                    $i++;
+                }
+
+                $i = 0;    
+                
+                foreach($benchmark_history_data as $row)
+                {
+                    $price = $row['last_price'];
+                    $category = $row['dur_adj_mid'];                                
+                    $extraTitle = date("d M, Y", strtotime($row['maturity_date']));
+
+                    if($price_id == 2)
+                    {
+                        $price = $row[strtolower('YLD_YTM_MID')];
+                    }
+                    else if($price_id == 3)
+                    {
+                        $price = $row[strtolower('Z_SPRD_MID')];
+                    }
+
+                    if($duration == 1)
+                    {
+                        $category = $row['maturity_date'];
+                        $date = new \DateTime($row['maturity_date']);
+                        $category = $date->format("d M, Y");
+                    }    
+                    else if($duration == 2)
+                    {
+                        $category = $row['dur_adj_mid'];
+                    }   
+
+                    $dataKeys[$i]['title2'] = $category;
+                    $dataKeys[$i]['price2'] = $price;
+
+                    if(!isset($dataKeys[$i]['title1']))
+                    {
+                        $dataKeys[$i]['title1'] = $category;                    
+                        $dataKeys[$i]['price1'] = 0;
+                    }
+
+                    $i++;                                                            
+                }
+
+                $data['benchmark_history_data'] = $dataKeys;
+            }
+        }
+
+        return ["status" => $status, "msg" => $msg, "data" => $data];
+    }
 }
