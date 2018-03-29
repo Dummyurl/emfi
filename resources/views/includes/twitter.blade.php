@@ -24,7 +24,7 @@
                     <div class="dec_col">
                         <div class="username"><a href="{{ $tweet['link'] }}" target="_blank">@emfisecurities</a></div>
                         <!-- <div class="subtxt">#Venezuela</div> -->
-                        <p>{{ $tweet['comment'] }}</p>
+                        <p>{!! $tweet['comment'] !!}</p>
                     </div>
                 </div>
                 <?php $i++; ?>

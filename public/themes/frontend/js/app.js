@@ -28,7 +28,7 @@ $(document).ready(function(){
                 loop:false,
                 nav:true,
                 margin:0,
-                autoplay:true,
+                autoplay: false,
                 autoplayTimeout:1000,
                 autoplayHoverPause:false,
                 responsive:{
