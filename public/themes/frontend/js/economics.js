@@ -96,7 +96,7 @@ function drawBenchmarkChart2(data_values)
        formatedData.push([data_values.benchmark_history_data[i][0],data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);
     }
 
-    console.log(formatedData);
+//   console.log(formatedData);
 
     var data = google.visualization.arrayToDataTable(formatedData);
 
