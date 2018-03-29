@@ -16,8 +16,8 @@
                         English
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">English</a></li>
-                        <li><a href="#">ESPAÑOL</a></li>
+                        <li><a href="{{ url('change-language/en') }}">English</a></li>
+                        <li><a href="{{ url('change-language/es') }}">ESPAÑOL</a></li>
                     </ul>
                 </li>
             </ul>

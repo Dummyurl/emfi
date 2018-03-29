@@ -15,7 +15,6 @@ class CreateHomeSlidersTbl extends Migration
     {
         Schema::create('home_sliders', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('post_id')->unsigned()->nullable();
             $table->integer('security_id')->unsigned()->nullable();
             $table->integer('country_id')->unsigned()->nullable();
             $table->string('graph_type')->default('line');

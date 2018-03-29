@@ -122,5 +122,79 @@ class PagesController extends Controller {
         $data['last_update_date'] = getLastUpdateDate();        
         return view('market', $data);
     }
+    public function terms_of_uses()
+    {
+        $locale = session('locale');
+        if(empty($locale))
+        {
+            $locale = 'en';
+        }
+        $pageID = "TERMS_OF_USES";
+        $data = array();
+        $data['page_title'] = "EMFI: Terms Of Uses";
+        app()->setLocale($locale);
+        $content = \App\Models\CmsPage::where('page_constant',$pageID)->first();
+        if(!$content)
+        {
+            return abort(404);
+        }
+        $data['content'] = $content;
+        return view('terms_of_uses', $data);
+    }
+
+    public function privacy_statements()
+    {
+        $locale = session('locale');
+        if(empty($locale))
+        {
+            $locale = 'en';
+        }
+        $pageID = "PRIVACY_STATEMENTS";
+        $data = array();
+        $data['page_title'] = "EMFI: Privacy Statements";
+        app()->setLocale($locale);
+        $content = \App\Models\CmsPage::where('page_constant',$pageID)->first();
+        if(!$content)
+        {
+            return abort(404);
+        }
+        $data['content'] = $content;
+        return view('privacy_statments', $data);
+    }
+    
+    public function cookies()
+    {
+        $locale = session('locale');
+        if(empty($locale))
+        {
+            $locale = 'en';
+        }
+        $pageID = "COOKIES";
+        $data = array();
+        $data['page_title'] = "EMFI: Cookies";
+
+        app()->setLocale($locale);
+
+        $content = \App\Models\CmsPage::where('page_constant',$pageID)->first();
+        if(!$content)
+        {
+            return abort(404);
+        }
+        $data['content'] = $content;
+        return view('cookies', $data);
+    }
+    
+    public function change_locale($locale)
+    {
+        $languages = \App\Custom::getLanguages();
+        if(isset($languages[$locale]) && !empty($languages[$locale]))
+        {
+            session(['locale' => $locale]);
+            return redirect()->back();
+        }
+        else{
+            return redirect('/');
+        }        
+    }
 
 }

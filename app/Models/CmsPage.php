@@ -5,23 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-
 class CmsPage extends Model
 {
-    use Sluggable;
+    //use Sluggable;
+    use \Dimsav\Translatable\Translatable;
 
      /**
      * The database table used by the model
      *
      * @var string
+
      */
+    public $translatedAttributes = ['title', 'description'];
+
     protected $table = TBL_CMS_PAGES;
     /**
      * The attributes that are mass assignable
      *
      * @var array
      */
-    protected $fillable = ['title','page_title','meta_title','meta_description','short_description','description'];
+    protected $fillable = ['page_constant'];
     /**
      * Set or unset the timestamps for the model
      *
@@ -29,7 +32,7 @@ class CmsPage extends Model
      */
     public $timestamps = true;
     
-    public function sluggable()
+    /*public function sluggable()
     {
         return [
             'slug' => 
@@ -38,6 +41,6 @@ class CmsPage extends Model
                 'on_update' => true
             ]
         ];
-    }   
+    }*/   
 
 }
