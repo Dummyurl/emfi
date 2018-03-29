@@ -9,7 +9,7 @@
 		                <div class="container">
 		                    <div class="row">
 								<div class="title_belt">
-			                        <h2>{{ $slider->post_title }}</h2>
+			                        <h2>{{ $slider->title }}</h2>
 			                        <?php /*<span>February 14, 2018</span> */ ?>
 			                    </div>
 			                    <div class="row">
@@ -24,7 +24,7 @@
 			                        </div>
 			                        <div class="col-md-6">
 			                            <div class="text_right" style="color:white;">
-			                               {!! $slider->post_description !!}
+			                               {!! $slider->description !!}
 			                            </div>
 			                        </div>
 			                    </div>

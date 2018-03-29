@@ -83,7 +83,6 @@
                 {
                     data.search_start_date = $("#search-frm input[name='search_start_date']").val();
                     data.search_end_date = $("#search-frm input[name='search_end_date']").val();
-                    data.search_post = $("#search-frm input[name='search_post']").val();
                     data.search_graph = $("#search-frm input[name='search_graph']").val();
                     data.search_country = $("#search-frm select[name='search_country']").val();
                     data.search_status = $("#search-frm select[name='search_status']").val();
@@ -93,12 +92,12 @@
             columns: [
                 { data: 'id', name: 'id' },
                 { data: 'graph', name: '{{TBL_SECURITY}}.CUSIP' },
-                { data: 'post_title', name: 'post_title' },
+                { data: 'post_title', name: 'id' },
                 { data: 'country', name: '{{TBL_COUNTRY}}.title' },
                 { data: 'status', name: 'status' },
 				{ data : 'order' , name : 'order' },
                 { data: 'created_at', name: 'created_at' },
-                { data: 'action', orderable: false, searchable: false}
+                { data: 'action', orderable: false, searchable: false},
             ]
         });
     });

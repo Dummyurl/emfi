@@ -24,7 +24,15 @@ class PagesController extends Controller {
     public function home(Request $request)
     {
 		$data = array();
-		$data['sliders'] = HomeSlider::getHomeSliders(37);
+        $data['page_title'] = "EMFI: Home";
+        $data['sliders'] = HomeSlider::getHomeSliders(2);
+        $locale = session('locale');
+        if(empty($locale))
+        {
+            $locale = 'en';
+        }
+
+        app()->setLocale($locale);
         return view('welcome', $data);
     }
 

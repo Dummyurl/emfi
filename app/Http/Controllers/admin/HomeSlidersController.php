@@ -162,7 +162,7 @@ class HomeSlidersController extends Controller
 				$obj->post_description = $post_description;*/
 
             $obj->graph_type = $graph_type;
-			//$obj->graph_period = $graph_period;
+			$obj->graph_period = $graph_period;
             $obj->status = $statuss;
             $obj->order = $order;
             $obj->save();
@@ -283,8 +283,8 @@ class HomeSlidersController extends Controller
 			'graph_peroid' => ['required', Rule::in($months)],
             'status' => ['required', Rule::in([1,0])],
             'order' => 'required|min:0|numeric',
-			'post_title' => 'required|min:2',
-			'post_description' => 'required|min:2'
+			'post_title.*.*' => 'required|min:2',
+			'post_description.*.*' => 'required|min:2'
         ]);
 
         // check validations
@@ -309,7 +309,8 @@ class HomeSlidersController extends Controller
         {
 			$security_id = $request->get('security_id');
 			$country_id = $request->get('country_id');
-			$graph_type = $request->get('graph_type');
+			
+            $graph_type = $request->get('graph_type');
 			$statuss = $request->get('status');
 			$order = $request->get('order');
 		    $post_title = $request->get('post_title');
@@ -319,11 +320,9 @@ class HomeSlidersController extends Controller
 			if(!empty($security_id))
             	$model->security_id = $security_id;
 
-			if($country_id > 0)
-				$model->country_id = $country_id;
-
             $model->graph_type = $graph_type;
-			//$model->graph_period = $graph_period;
+			$model->country_id = $country_id;
+			$model->graph_period = $graph_period;
             $model->status = $statuss;
             $model->order = $order;
             $model->save();
@@ -457,12 +456,21 @@ class HomeSlidersController extends Controller
                 else
                     return '<a class="btn btn-danger btn-xs">Inactive</a>';
             })
+            ->editColumn('post_title', function($row)
+            {
+                $title = '';
+                $home = \App\Models\HomeSliderTranslation::where('home_slider_id',$row->id)->where('locale','en')->first();
+                if($home){
+                    $title = $home->title;
+                }
+                
+                    return $title;
+            })
             ->rawColumns(['action','status'])
             ->filter(function ($query)
                 {
                     $search_start_date = trim(request()->get("search_start_date"));
                     $search_end_date = trim(request()->get("search_end_date"));
-                    $search_post = request()->get("search_post");
                     $search_graph = request()->get("search_graph");
                     $search_country = request()->get("search_country");
                     $search_status = request()->get("search_status");
@@ -486,10 +494,6 @@ class HomeSlidersController extends Controller
                         $convertToDate= $to_date;
 
                         $query = $query->where(TBL_HOME_SLIDER.".created_at","<=",addslashes($convertToDate));
-                    }
-                    if(!empty($search_post))
-                    {
-                        $query = $query->where(TBL_HOME_SLIDER.".post_title", 'LIKE', '%'.$search_post.'%');
                     }
                     if(!empty($search_graph))
                     {
