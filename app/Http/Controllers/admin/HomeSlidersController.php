@@ -81,8 +81,8 @@ class HomeSlidersController extends Controller
         $data['buttonText'] = "Save";
         $data["method"] = "POST";
 		$data['months'] = getMonths();
-        $data['posts'] = \App\Models\Post::pluck('title','id')->all();
-        $data['graphs'] = \App\Models\Securities::pluck('CUSIP','id')->all();
+        // $data['posts'] = \App\Models\Post::pluck('title','id')->all();
+        $data['graphs'] = \App\Models\Securities::pluck('security_name','id')->all();
         $data['countries'] = \App\Models\Country::getCountryList();
 		$data['orderMax'] = \App\Models\HomeSlider::getMaxOrder();
         $data['languages']= \App\Custom::getLanguages();
@@ -243,8 +243,8 @@ class HomeSlidersController extends Controller
         $data['action_params'] = $formObj->id;
         $data['method'] = "PUT";
 		$data['months'] = getMonths();
-        $data['posts'] = \App\Models\Post::pluck('title','id')->all();
-        $data['graphs'] = \App\Models\Securities::pluck('CUSIP','id')->all();
+        // $data['posts'] = \App\Models\Post::pluck('title','id')->all();
+        $data['graphs'] = \App\Models\Securities::pluck('security_name','id')->all();
         $data['countries'] = \App\Models\Country::getCountryList();
         $data['orderMax'] = null;
         $data['languages']= \App\Custom::getLanguages();
@@ -424,7 +424,7 @@ class HomeSlidersController extends Controller
             return $checkrights;
         }
 
-        $model = HomeSlider::select(TBL_HOME_SLIDER.".*",TBL_SECURITY.".CUSIP as graph",\DB::raw("CONCAT(".TBL_COUNTRY.".title,' (',".TBL_COUNTRY.".country_code,')')  AS country"))
+        $model = HomeSlider::select(TBL_HOME_SLIDER.".*",TBL_SECURITY.".security_name as graph",\DB::raw("CONCAT(".TBL_COUNTRY.".title,' (',".TBL_COUNTRY.".country_code,')')  AS country"))
                 ->leftJoin(TBL_SECURITY,TBL_SECURITY.".id","=",TBL_HOME_SLIDER.".security_id")
                 ->leftJoin(TBL_COUNTRY,TBL_COUNTRY.".id","=",TBL_HOME_SLIDER.".country_id");
 

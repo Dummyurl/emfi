@@ -335,7 +335,7 @@ function initBarCharts()
             $('#AjaxLoaderDiv').fadeOut('slow');
             if (result.status == 1)
             {
-                if (typeof result.data.top_gainer[0]['id'] !== 'undefined')
+                if (result.data.top_gainer.length > 0 && typeof result.data.top_gainer[0] !== 'undefined' && typeof result.data.top_gainer[0]['id'] !== 'undefined')
                 {
                     global_line_graph_id = result.data.top_gainer[0]['id'];
                     global_line_graph_text = result.data.top_gainer[0]['title'];
@@ -343,15 +343,17 @@ function initBarCharts()
 
                 drawBarChart(result.data.top_gainer, "bar_chart", "Gainer");
                 drawBarChart(result.data.top_loser, "bar_chart2", "Loser");
-
                 fillBanchMark(result.data.arr_banchmark);
 
-                if (result.data.gainer_history_data.length > 0)
-                    drawChart(result.data.gainer_history_data, 'curve_chart', 0);
-                else if (result.data.loser_history_data.length > 0)
-                    drawChart(result.data.loser_history_data, 'curve_chart', 0);
-                else
-                    drawChart([], 'curve_chart', 0);
+                if(typeof result.data.gainer_history_data !== 'undefined')
+                {
+                    if (result.data.gainer_history_data.length > 0)
+                        drawChart(result.data.gainer_history_data, 'curve_chart', 0);
+                    else if (result.data.loser_history_data.length > 0)
+                        drawChart(result.data.loser_history_data, 'curve_chart', 0);
+                    else
+                        drawChart([], 'curve_chart', 0);
+                }
             } else
             {
                 $.bootstrapGrowl(result.msg, {type: 'danger', delay: 4000});
