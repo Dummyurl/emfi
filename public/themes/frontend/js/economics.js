@@ -18,6 +18,7 @@ function resetFields2()
 {
     $("#period-month-2").val($("#period-month-2 option:first").attr('value'));
     $("#price-dropdown-2").val(1);
+    $("#benchmark-dropdown-2").html('<option value="">Remove Benchmark</option>');
 }
 
 function initChart()
@@ -391,13 +392,13 @@ $(document).ready(function() {
 
     $(document).on("change", "select#benchmark-dropdown-2", function () {
 
-        if($.trim($(this).val()) == '' || $.trim($(this).val()) == 'Add Country')
+        if($.trim($(this).val()) == '' || $.trim($(this).val()) == 'Add Benchmark')
         {
-            $("#benchmark-dropdown-2 option:first").text("Add Country");
+            $("#benchmark-dropdown-2 option:first").text("Add Benchmark");
         }
         else
         {
-            $("#benchmark-dropdown-2 option:first").text("Remove Country");
+            $("#benchmark-dropdown-2 option:first").text("Remove Benchmark");
         }
         generateLineGraph2();
     });
