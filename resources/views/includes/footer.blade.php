@@ -13,9 +13,9 @@
         <div class="footer_block">
           <h3>Legal Info</h3>
           <ul>
-            <li><a href="#">Terms of Use</a></li>
-            <li><a href="#">Privacy Statments</a></li>
-            <li><a href="#">Cookies</a></li>            
+            <li><a href="{{ route('terms-of-uses') }}">Terms of Use</a></li>
+            <li><a href="{{ route('privacy-statements') }}">Privacy Statements</a></li>
+            <li><a href="{{ route('cookies') }}">Cookies</a></li>            
           </ul>
         </div>
         <div class="footer_block">

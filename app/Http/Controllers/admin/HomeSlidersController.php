@@ -85,8 +85,9 @@ class HomeSlidersController extends Controller
         $data['graphs'] = \App\Models\Securities::pluck('CUSIP','id')->all();
         $data['countries'] = \App\Models\Country::getCountryList();
 		$data['orderMax'] = \App\Models\HomeSlider::getMaxOrder();
+        $data['languages']= \App\Custom::getLanguages();
 
-        return view($this->moduleViewName.'.add', $data);
+        return view($this->moduleViewName.'.newAdd', $data);
     }
 
     /**
@@ -118,8 +119,8 @@ class HomeSlidersController extends Controller
 			'graph_peroid' => ['required', Rule::in($months)],
             'status' => ['required', Rule::in([1,0])],
             'order' => 'required|min:0|numeric',
-			'post_title' => 'required|min:2',
-			'post_description' => 'min:2'
+			'post_title.*.*' => 'required|min:2',
+			'post_description.*.*' => 'min:2'
         ]);
 
         // check validations
@@ -154,16 +155,32 @@ class HomeSlidersController extends Controller
 			if($country_id > 0)
 				$obj->country_id = $country_id;
 
-			if (!empty($post_title))
+			/*if (!empty($post_title))
 				$obj->post_title = $post_title;
 
 			if (!empty($post_description))
-				$obj->post_description = $post_description;
+				$obj->post_description = $post_description;*/
 
             $obj->graph_type = $graph_type;
-			$obj->graph_period = $graph_period;
+			//$obj->graph_period = $graph_period;
             $obj->status = $statuss;
             $obj->order = $order;
+            $obj->save();
+
+            $languages = \App\Custom::getLanguages();
+            foreach ($languages as $locale => $val) {
+
+                if(is_array($post_title) && !empty($post_title))
+                {
+                    $title = isset($post_title[$locale][0]) ? $post_title[$locale][0] : '';
+                    $obj->translateOrNew($locale)->title = $title;
+                }
+                if(is_array($post_description) && !empty($post_description))
+                {   
+                    $desc = isset($post_description[$locale][0]) ? $post_description[$locale][0] : 'null';
+                    $obj->translateOrNew($locale)->description = $desc;
+                }
+            }
             $obj->save();
 
             $id = $obj->id;
@@ -230,8 +247,9 @@ class HomeSlidersController extends Controller
         $data['graphs'] = \App\Models\Securities::pluck('CUSIP','id')->all();
         $data['countries'] = \App\Models\Country::getCountryList();
         $data['orderMax'] = null;
+        $data['languages']= \App\Custom::getLanguages();
 
-        return view($this->moduleViewName.'.add', $data);
+        return view($this->moduleViewName.'.newAdd', $data);
     }
 
     /**
@@ -304,16 +322,26 @@ class HomeSlidersController extends Controller
 			if($country_id > 0)
 				$model->country_id = $country_id;
 
-			if (!empty($post_title))
-				$model->post_title = $post_title;
-
-			if (!empty($post_description))
-				$model->post_description = $post_description;
-
             $model->graph_type = $graph_type;
-			$model->graph_period = $graph_period;
+			//$model->graph_period = $graph_period;
             $model->status = $statuss;
             $model->order = $order;
+            $model->save();
+
+            $languages = \App\Custom::getLanguages();
+            foreach ($languages as $locale => $val) {
+
+                if(is_array($post_title) && !empty($post_title))
+                {
+                    $title = isset($post_title[$locale][0]) ? $post_title[$locale][0] : '';
+                    $model->translateOrNew($locale)->title = $title;
+                }
+                if(is_array($post_description) && !empty($post_description))
+                {   
+                    $desc = isset($post_description[$locale][0]) ? $post_description[$locale][0] : 'null';
+                    $model->translateOrNew($locale)->description = $desc;
+                }
+            }
             $model->save();
 
             //store logs detail
@@ -354,7 +382,12 @@ class HomeSlidersController extends Controller
             try
             {
                 $backUrl = $request->server('HTTP_REFERER');
-                $modelObj->delete();
+                $sliders = \App\Models\HomeSliderTranslation::where('home_slider_id',$id);
+                if($sliders)
+                {
+                    $sliders->delete();
+                    $modelObj->delete();
+                }
                 session()->flash('success_message', $this->deleteMsg);
 
                 //store logs detail

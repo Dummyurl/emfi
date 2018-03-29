@@ -12,8 +12,8 @@ use App\Models\AdminAction;
 
 class CmsPagesController extends Controller
 {
-    public function __construct() {
-
+    public function __construct()
+    {
         $this->moduleRouteText = "cms-pages";
         $this->moduleViewName = "admin.CMS_Pages";
         $this->list_url = route($this->moduleRouteText.".index");
@@ -23,7 +23,7 @@ class CmsPagesController extends Controller
 
         $this->adminAction= new AdminAction; 
         
-        $this->modelObj = new CmsPage();  
+        $this->modelObj = new CmsPage();
 
         $this->addMsg = $module . " has been added successfully!";
         $this->updateMsg = $module . " has been updated successfully!";
@@ -33,7 +33,6 @@ class CmsPagesController extends Controller
         view()->share("list_url", $this->list_url);
         view()->share("moduleRouteText", $this->moduleRouteText);
         view()->share("moduleViewName", $this->moduleViewName);
-
     }
     /**
      * Display a listing of the resource.
@@ -50,10 +49,10 @@ class CmsPagesController extends Controller
         }   
 
         $data = array();        
-        $data['page_title'] = "Manage CMS Pages ";
+        $data['page_title'] = "Manage CMS Pages";
 
         $data['add_url'] = route($this->moduleRouteText.'.create');
-        $data['btnAdd'] = \App\Models\Admin::isAccess(\App\Models\Admin::$ADD_COUNTRIES);                  
+        $data['btnAdd'] = \App\Models\Admin::isAccess(\App\Models\Admin::$ADD_CMS_PAGES);                  
         
         return view($this->moduleViewName.".index", $data);    
     }
@@ -65,13 +64,12 @@ class CmsPagesController extends Controller
      */
     public function create()
     {
-        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_CMS_PAGES);
+        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$ADD_CMS_PAGES);
         
         if($checkrights) 
         {
             return $checkrights;
         }
-
         $data = array();
         $data['formObj'] = $this->modelObj;
         $data['page_title'] = "Add ".$this->module;
@@ -79,9 +77,9 @@ class CmsPagesController extends Controller
         $data['action_params'] = 0;
         $data['buttonText'] = "Save";
         $data["method"] = "POST"; 
+        $data['languages']= \App\Custom::getLanguages();
 
-        return view($this->moduleViewName.'.add', $data); 
-
+        return view($this->moduleViewName.'.cmsAdd', $data); 
     }
 
     /**
@@ -92,25 +90,20 @@ class CmsPagesController extends Controller
      */
     public function store(Request $request)
     {
-        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$ADD_CMS_PAGES);
+        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_CMS_PAGES);
         
         if($checkrights) 
         {
             return $checkrights;
         }
-
         $status = 1;
         $msg = $this->addMsg;
         $data = array();
 
         $validator = Validator::make($request->all(), [
-            'title' => 'required|min:2',
-            'page_title' => 'required|min:2',
-            'meta_title' => 'required|min:2',
-            'meta_description' => 'required|min:2',
-            'short_description' => 'required|min:2',
-            'description' => 'required|min:2',
-            
+            'page_constant' => 'required|min:2|unique:'.TBL_CMS_PAGES.',page_constant',     
+            'title.*.*' => 'required|min:2',     
+            'description.*.*' => 'required|min:2',
         ]);
         
         // check validations
@@ -128,14 +121,37 @@ class CmsPagesController extends Controller
         }         
         else
         {
-            $input = $request->all();
-            $obj = $this->modelObj->create($input);
+            $name = $request->get('page_constant');
+            $title = $request->get('title');
+            $description = $request->get('description');
+               
+            $obj = new \App\Models\CmsPage();
+            $obj->page_constant = $name;
+            $obj->save();
+
+            $languages = \App\Custom::getLanguages();
+            foreach ($languages as $locale => $val)
+            {
+                if(is_array($title) && !empty($title))
+                {
+                    $titles = isset($title[$locale][0]) ? $title[$locale][0] : '';
+
+                    $obj->translateOrNew($locale)->title = $titles;
+                }
+                if(is_array($description) && !empty($description))
+                {   
+                    $desc = isset($description[$locale][0]) ? $description[$locale][0] : '';
+                    $obj->translateOrNew($locale)->description = $desc;
+                }
+            }
+            $obj->save();
+            
             $id = $obj->id;
             //store logs detail
             $params=array();    
                                     
             $params['adminuserid']  = \Auth::guard('admins')->id();
-            $params['actionid']     = $this->adminAction->ADD_CMS_PAGES ;
+            $params['actionid']     = $this->adminAction->ADD_CMS_PAGES;
             $params['actionvalue']  = $id;
             $params['remark']       = "Add CMS Page::".$id;
                                     
@@ -185,12 +201,12 @@ class CmsPagesController extends Controller
         $data['formObj'] = $formObj;
         $data['page_title'] = "Edit ".$this->module;
         $data['buttonText'] = "Update";
-
         $data['action_url'] = $this->moduleRouteText.".update";
         $data['action_params'] = $formObj->id;
         $data['method'] = "PUT";
+        $data['languages']= \App\Custom::getLanguages();
 
-        return view($this->moduleViewName.'.add', $data);
+        return view($this->moduleViewName.'.cmsAdd', $data);
     }
 
     /**
@@ -209,13 +225,9 @@ class CmsPagesController extends Controller
         $data = array();        
         
         $validator = Validator::make($request->all(), [          
-            'title' => 'required|min:2,'.$id,
-            'page_title' => 'required|min:2',
-            'meta_title' => 'required|min:2',
-            'meta_description' => 'required|min:2',
-            'short_description' => 'required|min:2',
-            'description' => 'required|min:2',
-            
+            //'name' => 'required|min:2|unique:'.TBL_CMS_PAGES.',name,'.$id,     
+            'title.*.*' => 'required|min:2',     
+            'description.*.*' => 'required|min:2',    
         ]);
         
         // check validations
@@ -238,9 +250,30 @@ class CmsPagesController extends Controller
         }         
         else
         {
-            $input = $request->all();
-            $model->update($input); 
+            //$name = $request->get('name');
+            $title = $request->get('title');
+            $description = $request->get('description');
+               
+            //$model->name = $name;
+            //$model->save();
 
+            $languages = \App\Custom::getLanguages();
+            foreach ($languages as $locale => $val)
+            {
+                if(is_array($title) && !empty($title))
+                {
+                    $titles = isset($title[$locale][0]) ? $title[$locale][0] : '';
+
+                    $model->translateOrNew($locale)->title = $titles;
+                }
+                if(is_array($description) && !empty($description))
+                {   
+                    $desc = isset($description[$locale][0]) ? $description[$locale][0] : '';
+                    $model->translateOrNew($locale)->description = $desc;
+                }
+            }
+            $model->save();
+            
             //store logs detail
                 $params=array();
                 
@@ -277,6 +310,10 @@ class CmsPagesController extends Controller
             try 
             {             
                 $backUrl = $request->server('HTTP_REFERER');
+                $trans = \App\Models\CmsPageTranslation::where('cms_page_id',$id);
+                if($trans){
+                    $trans->delete();
+                }
                 $modelObj->delete();
                 session()->flash('success_message', $this->deleteMsg); 
 
@@ -326,8 +363,7 @@ class CmsPagesController extends Controller
                         'currentRoute' => $this->moduleRouteText,
                         'row' => $row,                             
                         'isEdit' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_CMS_PAGES),
-                        'isDelete' => \App\Models\Admin::isAccess(\App\Models\Admin::$DELETE_CMS_PAGES),
-                                                     
+                        'isDelete' => \App\Models\Admin::isAccess(\App\Models\Admin::$DELETE_CMS_PAGES),                          
                     ]
                     )->render();
             })
@@ -340,14 +376,13 @@ class CmsPagesController extends Controller
                 else
                     return '-';    
             })
-            ->rawColumns(['description','action'])                    
+            ->rawColumns(['action'])                    
             ->filter(function ($query) 
             {
-                $search_start_date = trim(request()->get("search_start_date"));                    
+                $search_start_date = trim(request()->get("search_start_date"));
                 $search_end_date = trim(request()->get("search_end_date")); 
                 $search_id = request()->get("search_id");                                   
-                $search_text = request()->get("search_text");                                                
-                                                               
+                $search_text = request()->get("search_text");
 
                 if (!empty($search_start_date)){
 
@@ -376,7 +411,7 @@ class CmsPagesController extends Controller
 
                 if(!empty($search_text))
                 {
-                    $query = $query->where(TBL_CMS_PAGES.".title", 'LIKE', '%'.$search_text.'%');
+                    $query = $query->where(TBL_CMS_PAGES.".page_constant", 'LIKE', '%'.$search_text.'%');
                 }                
                 
             })

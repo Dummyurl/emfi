@@ -27,9 +27,9 @@
                     <table class="table table-bordered table-striped table-condensed flip-content" id="server-side-datatables">
                         <thead>
                             <tr>
-                               <th width="5%">ID</th>                                   
-                               <th width="70%">Title</th>                                                       
-                               <th width="20%">Created At</th>                                                   
+                               <th width="5%">ID</th>
+                               <th width="60%">Page Constant</th>
+                               <th width="30%">Created At</th>
                                <th width="5%" data-orderable="false">Action</th>
                             </tr>
                         </thead>                                         
@@ -58,7 +58,6 @@
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
-      
     </div>
 </div>            
 @endsection
@@ -69,19 +68,12 @@
 @section('scripts')
     <script type="text/javascript">
     
-
     $(document).ready(function(){
-        $(document).on("click",".description-link",function(){
-            $id = $(this).attr("id");
-            $("#review_desc_detail").html($('#hidden_'+$id).html());
-            $("#myModal").modal();
-        });
 
         $("#search-frm").submit(function(){
             oTableCustom.draw();
             return false;
         });
-
 
         $.fn.dataTableExt.sErrMode = 'throw';
 
@@ -103,10 +95,9 @@
             "order": [[ 0, "desc" ]],    
             columns: [
                 { data: 'id', name: 'id' },
-                { data: 'title', name: 'title' },                                              
-                                                              
-                { data: 'created_at', name: 'created_at' },                                              
-                { data: 'action', orderable: false, searchable: false}             
+                { data: 'page_constant', name: 'page_constant' },
+                { data: 'created_at', name: 'created_at' },
+                { data: 'action', orderable: false, searchable: false},
             ]
         });        
     });
