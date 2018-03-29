@@ -11,19 +11,20 @@ is_first = 1;
 
 function resetFields()
 {
-    $("#period-month").val(1);
+    $("#period-month").val($("#period-month option:first").attr('value'));
 }
 
 function resetFields2()
 {
-    $("#period-month-2").val(1);
+    $("#period-month-2").val($("#period-month-2 option:first").attr('value'));
     $("#price-dropdown-2").val(1);
+    $("#benchmark-dropdown-2").html('<option value="">Remove Benchmark</option>');
 }
 
 function initChart()
 {
+    generateLineGraph();    
     $(".market-action:first").trigger("click");
-    generateLineGraph2();
 }
 
 function fillBanchMark(data, elementID)
@@ -40,16 +41,15 @@ function fillBanchMark(data, elementID)
 function drawBenchmarkChart(data_values)
 {
     elementID = "curve_chart";
-    $columnTitle = global_market_text;
+    $columnTitle = $("#country-combo option:selected").text();
 
     var formatedData = [];
     formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $("select#benchmark-dropdown option:selected").text(), type:'number'}]);
 
     for(var i in data_values.benchmark_history_data)
     {
-       formatedData.push([data_values.benchmark_history_data[i][0],data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);
+       formatedData.push([data_values.benchmark_history_data[i]['title1'],data_values.benchmark_history_data[i]['price1'], data_values.benchmark_history_data[i]['price2']]);
     }
-
 
     var data = google.visualization.arrayToDataTable(formatedData);
 
@@ -78,25 +78,26 @@ function drawBenchmarkChart(data_values)
             baselineColor: {color: "#39536b"},
         }
     };
-    var chart = new google.visualization.LineChart(document.getElementById(elementID));
+    var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
     chart.draw(data, options);
-
 }
 
 
 function drawBenchmarkChart2(data_values)
 {
     elementID = "curve_chart2";
-    $columnTitle = $("#country-combo option:selected").text();;
+    $columnTitle = global_secure_id_2_text+ " "+$("select#price-dropdown-2 option:selected").data("title");
+    $columnTitle2 = $("select#benchmark-dropdown-2 option:selected").text()+ " "+$("select#price-dropdown-2 option:selected").data("title");
 
     var formatedData = [];
-    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $("select#benchmark-dropdown-2 option:selected").text(), type:'number'}]);
+    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $columnTitle2, type:'number'}]);
 
     for(var i in data_values.benchmark_history_data)
     {
-       formatedData.push([data_values.benchmark_history_data[i]['title'],data_values.benchmark_history_data[i]['price1'], data_values.benchmark_history_data[i]['price2']]);
+       formatedData.push([data_values.benchmark_history_data[i][0],data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);
     }
 
+//   console.log(formatedData);
 
     var data = google.visualization.arrayToDataTable(formatedData);
 
@@ -136,10 +137,11 @@ function drawChart2(data_values, elementID)
 
     var counter = data_values.length;
 
-    $columnTitle = $("#country-combo option:selected").text();
+    $columnTitle = global_secure_id_2_text;
 
     if (counter > 0)
     {
+        $columnTitle = $columnTitle + " "+$("select#price-dropdown-2 option:selected").data("title");
         formatedData.push(["", $columnTitle]);
         var j = 1;
         for (var i in data_values)
@@ -147,12 +149,12 @@ function drawChart2(data_values, elementID)
             if ($("select#price-dropdown-2").val() != 1)
             {
                 if ($("select#price-dropdown-2").val() == 2)
-                    formatedData.push([data_values[i]['title'], parseFloat(data_values[i]['YLD_YTM_MID'])]);
+                    formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['YLD_YTM_MID'])]);
                 else if ($("select#price-dropdown-2").val() == 3)
-                    formatedData.push([data_values[i]['title'], parseFloat(data_values[i]['Z_SPRD_MID'])]);
+                    formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['Z_SPRD_MID'])]);
             } else
             {
-                formatedData.push([data_values[i]['title'], parseFloat(data_values[i]['last_price'])]);
+                formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['last_price'])]);
             }
             j++;
         }
@@ -201,13 +203,11 @@ function drawChart(data_values, elementID)
 
     if (counter > 0)
     {
-
-        formatedData.push([$columnTitle, $columnTitle]);
-
+        formatedData.push(["", ""]);
         var j = 1;
         for (var i in data_values)
         {
-            formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['last_price'])]);
+            formatedData.push([data_values[i]['category'], parseFloat(data_values[i]['price'])]);
             j++;
         }
     } else
@@ -238,7 +238,7 @@ function drawChart(data_values, elementID)
             baselineColor: {color: "#39536b"}
         }
     };
-    var chart = new google.visualization.LineChart(document.getElementById(elementID));
+    var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
     chart.draw(data, options);
 }
 
@@ -253,16 +253,22 @@ function generateLineGraph2()
 
     $benchmark = $("select#benchmark-dropdown-2").val();
     $priceID = $("select#price-dropdown-2").val();
-    $market_id = 5;
+    $market_id = global_market_id;
+
+    if($market_id == 5)
+        $("#price-dropdown-2").show();
+    else
+        $("#price-dropdown-2").hide();
 
     if(true)
     {
-        $url = "/api/economics/get-historical-bond-data/"+$("#main_country_id").val();
+        // $url = "/api/economics/get-historical-bond-data/"+$("#main_country_id").val();
+        $url = "/api/market/get-market-data/history";
         $('#AjaxLoaderDiv').fadeIn('slow');
         $.ajax({
             type: "POST",
             url: $url,
-            data: {month_id: $val, benchmark_id: $benchmark, price_id: $priceID,market_id: $market_id},
+            data: {security_id: global_secure_id_2, month_id: $val, benchmark_id: $benchmark, price_id: $priceID, market_id: $market_id},
             success: function (result)
             {
                 $('#AjaxLoaderDiv').fadeOut('slow');
@@ -276,6 +282,7 @@ function generateLineGraph2()
                     else
                     {
                         drawChart2(result.data.history_data, 'curve_chart2');
+                        fillBanchMark(result.data.arr_banchmark,"benchmark-dropdown-2");
                     }
                 }
                 else
@@ -299,21 +306,17 @@ function generateLineGraph2()
 function generateLineGraph()
 {
     $benchmark = $("select#benchmark-dropdown").val();
-    $priceID = 1;
-    $market_id = 0;
+    $priceID = $("select#price-dropdown").val();
     $month_id = $('select#period-month').val();
+    $duration = $('select#duration-dropdown').val();
+    $country = $("#main_country_id").val();
 
-    if ($.trim($month_id) === '')
-    {
-        $month_id = 1;
-    }
-
-    $url = "/api/market/get-market-data/history";
+    $url = "/api/economics/get-scatter-data";
     $('#AjaxLoaderDiv').fadeIn('slow');
     $.ajax({
         type: "POST",
         url: $url,
-        data: {month_id: $month_id, benchmark_id: $benchmark, price_id: $priceID, security_id: global_market_id},
+        data: {month_id: $month_id, benchmark_id: $benchmark, price_id: $priceID, duration: $duration, country: $country},
         success: function (result)
         {
             $('#AjaxLoaderDiv').fadeOut('slow');
@@ -325,7 +328,7 @@ function generateLineGraph()
                     } else
                     {
                         drawChart(result.data.history_data, 'curve_chart');
-                        fillBanchMark(result.data.arr_banchmark,"benchmark-dropdown");
+                        // fillBanchMark(result.data.arr_banchmark,"benchmark-dropdown");
                     }
             }
             else
@@ -355,15 +358,26 @@ $(document).ready(function() {
         generateLineGraph();
     });
 
+    $(document).on("change", "select#duration-dropdown", function (){
+        generateLineGraph();
+    });
+
+    $(document).on("change", "select#price-dropdown", function (){
+        generateLineGraph();
+    });    
+
+
     $(document).on("change", "select#benchmark-dropdown", function () {
-        if($.trim($(this).val()) == '' || $.trim($(this).val()) == 'Add Benchmark')
+        
+        if($.trim($(this).val()) == '' || $.trim($(this).val()) == 'Add Country')
         {
-            $("#benchmark-dropdown option:first").text("Add Benchmark");
+            $("#benchmark-dropdown option:first").text("Add Country");
         }
         else
         {
-            $("#benchmark-dropdown option:first").text("Remove Benchmark");
+            $("#benchmark-dropdown option:first").text("Remove Country");
         }
+
         generateLineGraph();
     });
 
@@ -378,36 +392,39 @@ $(document).ready(function() {
 
     $(document).on("change", "select#benchmark-dropdown-2", function () {
 
-        if($.trim($(this).val()) == '' || $.trim($(this).val()) == 'Add Country')
+        if($.trim($(this).val()) == '' || $.trim($(this).val()) == 'Add Benchmark')
         {
-            $("#benchmark-dropdown-2 option:first").text("Add Country");
+            $("#benchmark-dropdown-2 option:first").text("Add Benchmark");
         }
         else
         {
-            $("#benchmark-dropdown-2 option:first").text("Remove Country");
+            $("#benchmark-dropdown-2 option:first").text("Remove Benchmark");
         }
         generateLineGraph2();
     });
 
 
-    $(document).on("click",".generate-bond-chart",function(){
-        $('html, body').animate({
+    $(document).on("click",".generate-bond-chart",function(){       
+       global_market_id = $(this).data("market");
+       global_secure_id_2 = $(this).data("id");
+       global_secure_id_2_text = $.trim($(this).text());
+       resetFields2();
+       $(".market-chart-title-2").html(global_secure_id_2_text);
+       generateLineGraph2();
+       
+       $('html, body').animate({
                 scrollTop: $("#secondChartPart").offset().top
-        }, 600);
-//        global_secure_id_2 = $(this).data("id");
-//        global_secure_id_2_text = $.trim($(this).text());
-//        resetFields2();
-//        generateLineGraph2();
+       }, 600);
     });
 
     $(document).on("click",".market-action",function(){
 
-        resetFields();
+        global_market_id = $(this).data("market");
+        global_secure_id_2 = $(this).data("id");
+        global_secure_id_2_text = $(this).find("h3:first").text();
+        resetFields2();
 
-        global_market_id = $(this).data("id");
-        global_market_text = $(this).find("h3:first").text();
-
-        $(".market-chart-title").html(global_market_text);
+        $(".market-chart-title-2").html(global_secure_id_2_text);
 
         if(is_first == 1)
         {
@@ -416,13 +433,14 @@ $(document).ready(function() {
         else
         {
             $('html, body').animate({
-                    scrollTop: $("#linegraph-data").offset().top - 30
+                    scrollTop: $("#secondChartPart").offset().top - 30
             }, 600);
         }
 
         is_first++;
 
-        generateLineGraph();
+        generateLineGraph2();
+
     });
 
     $('select#country-combo').select2({

@@ -60,7 +60,13 @@ class PagesController extends Controller {
         }
 
         $data['market_boxes'] = callCustomSP('CALL Select_economics_country('.$data['countryObj']->id.')');
+        
+        // dd($data['market_boxes']);
+
         $bond_data = callCustomSP('CALL select_economic_bond('.$data['countryObj']->id.')');
+        
+        // dd($bond_data);
+
         $data['countries'] = Country::orderBy("title")->get();
         $data['bond_data'] = [];
 
@@ -113,7 +119,7 @@ class PagesController extends Controller {
         $data['page_title'] = "EMFI: Markets";
         // $data['tweets'] = getLatestTweets();
         $from = "@emfisecurities";
-        $data['tweets'] = getPeopleTweets($from);
+        $data['tweets'] = [];//getPeopleTweets($from);
 
         $data['markets'] = MarketType::getArrayList();
         $data['market_boxes'] = callCustomSP('CALL select_market()');
