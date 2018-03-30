@@ -30,6 +30,7 @@
                                    <th width="10%">ID</th>                                   
                                    <th width="40%">Title</th>                           
                                    <th width="20%">Code</th>                           
+                                   <th width="10%">Type</th>
                                    <th width="20%">Created At</th>                           
                                    <th width="10%">Action</th>
                                 </tr>
@@ -76,6 +77,7 @@
                     data.search_id = $("#search-frm input[name='search_id']").val();
                     data.search_code = $("#search-frm input[name='search_code']").val();
                     data.search_country = $("#search-frm input[name='search_country']").val();
+                    data.search_type = $("#search-frm select[name='search_type']").val();
                 }
             },            
             "order": [[ 0, "desc" ]],    
@@ -83,6 +85,7 @@
                 { data: 'id', name: 'id' },
                 { data: 'title', name: 'title' },
                 { data: 'country_code', name: 'country_code' },
+                { data: 'country_type', name: 'country_type' },
                 { data: 'created_at', name: 'created_at' },               
                 { data: 'action', orderable: false, searchable: false}        
             ]

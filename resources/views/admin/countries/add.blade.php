@@ -14,7 +14,7 @@
                     <div class="portlet-title">
                         <div class="caption">
                             <i class="fa fa-user"></i>
-                            Add New Country
+                            {{ $page_title }}
                         </div>
                         <a class="btn btn-default pull-right btn-sm mTop5" href="{{ $list_url }}">Back</a>
                     </div>
@@ -32,6 +32,13 @@
                                     {!! Form::text('country_code',null,['class' => 'form-control', 'data-required' => true]) !!}
                                 </div>
                             </div>                                  
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="control-label">Type<span class="required">*</span></label>
+                                    {!! Form::select('country_type',[1=>DEVELOPED_COUNTRY, 2=>EMERGING_COUNTRY],null,['class' => 'form-control', 'data-required' => true,]) !!}
+                                </div>
+                            </div>
                             <div class="clearfix">&nbsp;</div>
                             <div class="row">
                                 <div class="col-md-12">

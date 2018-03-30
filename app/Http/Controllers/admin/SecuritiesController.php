@@ -203,6 +203,13 @@ fa fa-check-square-o'></i></a>";
 		$uploaded_date = $request->get('uploaded_date');
 		if(isset($uploaded_date) && !empty($uploaded_date)){
 			$created_date = $uploaded_date;
+			if(date("Y-m-d", strtotime($uploaded_date)) == date("Y-m-d"))
+			{
+				$dd = date("Y-m-d H:i:s");
+				$created_date =  convertDateFromTimezone($dd,SET_TIMEZONE_FOR_UPLOAD_DATE_UTC,SET_TIMEZONE_FOR_UPLOAD_DATE,'Y-m-d H:i:s');
+				$updated_date = [ 0 => $created_date];
+				WriteJsonInFile($updated_date, GET_LAST_UPDATED_DATE);
+			}
 		} else {
 			$dd = date("Y-m-d H:i:s");
 			$created_date =  convertDateFromTimezone($dd,SET_TIMEZONE_FOR_UPLOAD_DATE_UTC,SET_TIMEZONE_FOR_UPLOAD_DATE,'Y-m-d');
@@ -259,7 +266,8 @@ fa fa-check-square-o'></i></a>";
 						foreach ($data as $key => $value)
 						{
 							if(!empty($value)){
-								$fields[strtolower(trim($value))] = $key;
+								$value = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value);
+								$fields[trim(strtolower($value))] = $key;
 							}
 						}
 						// echo "<pre>";
@@ -291,7 +299,7 @@ fa fa-check-square-o'></i></a>";
 						$idata['percentage_change'] = str_replace(')', "", $idata['percentage_change']);
 						// Only historical_data table's colums will be added to this array.
 						$hdata = $idata;
-						$idata['CUSIP'] = ($data[$fields['﻿cusip']] == "#N/A N/A" || !isset($data[$fields['﻿cusip']])) ? "" : $data[$fields['﻿cusip']];
+						$idata['CUSIP'] = ($data[$fields['cusip']] == "#N/A N/A" || !isset($data[$fields['cusip']])) ? "" : $data[$fields['cusip']];
 
 						$idata['yld_ytm_mid'] = ($data[$fields['yld_ytm_mid']] == "#N/A N/A" || !isset($data[$fields['yld_ytm_mid']])) ? '' : $data[$fields['yld_ytm_mid']];
 						$idata['z_sprd_mid'] = ($data[$fields['z_sprd_mid']] == "#N/A N/A" || !isset($data[$fields['z_sprd_mid']])) ? '' : $data[$fields['z_sprd_mid']];
@@ -322,6 +330,22 @@ fa fa-check-square-o'></i></a>";
 							$idata['country_id'] = $country_id;
 						}
 						$idata['ticker'] = ($data[$fields['ticker']] == "#N/A N/A" || !isset($data[$fields['ticker']])) ? '' : $data[$fields['ticker']];
+
+						if(!empty($idata['ticker']))
+						{
+							$arr_tickers = \DB::table('tickers')->where('ticker_name', $idata['ticker'])->first();
+			                if($arr_tickers){
+			                    $ticker_id = $arr_tickers->id;
+			                } else {
+			                    $TK = new \App\Models\Tickers();
+			                    $TK->ticker_name = $idata['ticker'];
+			                    $TK->ticker_type = 1;
+			                    $TK->save();
+			                    $ticker_id = $TK->id;
+			                }
+							$idata['ticker_id'] = $ticker_id;
+						}
+
 						$idata['benchmark'] = ($data[$fields['benchmark']] == "#N/A N/A" || !isset($data[$fields['benchmark']]) || empty($data[$fields['benchmark']])) ? 0 : 1;
 						$idata['benchmark_family'] = ($data[$fields['benchmark']] == "#N/A N/A" || !isset($data[$fields['benchmark']])) ? '' : $data[$fields['benchmark']];
 						$idata['cpn'] = ($data[$fields['cpn']] == "#N/A N/A" || !isset($data[$fields['cpn']])) ? '' : $data[$fields['cpn']];

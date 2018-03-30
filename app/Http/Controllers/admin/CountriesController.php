@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use Validator;
 use Datatables;
 use App\Models\Country;
+use App\Models\Securities;
 use App\models\AdminLog;
 use App\Models\AdminAction;
+use Illuminate\Validation\Rule;
 
 class CountriesController extends Controller
 {
@@ -106,6 +108,7 @@ class CountriesController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|unique:countries,title|min:2',
             'country_code' => 'required|unique:countries,country_code|min:2',
+             'country_type' => ['required', Rule::in([1,2])],
         ]);
         
         // check validations
@@ -214,6 +217,8 @@ class CountriesController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|min:2|unique:countries,title,'.$id,
             'country_code' => 'required|min:2|unique:countries,country_code,'.$id,
+            'country_type' => ['required', Rule::in([1,2])],
+
         ]);
         
         // check validations
@@ -238,6 +243,10 @@ class CountriesController extends Controller
         {
             $input = $request->all();
             $model->update($input); 
+            $country_type = $request->get('country_type');
+            if($country_type){
+                \DB::table('securities')->where('country_id', $id)->update(['country_type' => $country_type]);
+            }
 
             //store logs detail
                 $params=array();
@@ -338,6 +347,15 @@ class CountriesController extends Controller
                 else
                     return '-';    
             })
+
+            ->editColumn('country_type', function($row){
+                
+                $return =  EMERGING_COUNTRY;
+                if($row->country_type == 1){
+                    $return =  DEVELOPED_COUNTRY;
+                }
+                return $return;
+            })
                                 
             ->filter(function ($query) 
             {
@@ -346,6 +364,7 @@ class CountriesController extends Controller
                 $search_id = request()->get("search_id");                                   
                 $search_country = request()->get("search_country");
                 $search_code = request()->get("search_code");
+                $search_type = request()->get("search_type");
 
                 if (!empty($search_start_date)){
 
@@ -369,6 +388,10 @@ class CountriesController extends Controller
                 if(!empty($search_code))
                 {
                     $query = $query->where(TBL_COUNTRY.".country_code", 'LIKE', '%'.$search_code.'%');
+                }
+                if($search_type == "1" || $search_type == "2")
+                {
+                    $query = $query->where(TBL_COUNTRY.".country_type", $search_type);
                 }
                 if(!empty($search_id))
                 {

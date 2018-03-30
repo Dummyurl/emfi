@@ -31,6 +31,14 @@
             <div class="clearfix">&nbsp;</div>
             <div class="row">
                 <div class="col-md-4">
+                <label class="control-label">Type</label>
+                <select name="search_type" class="form-control">
+                    <option value="all">All</option>
+                    <option value="2" {!! \Request::get("search_type") == 2 ? 'selected="selected"':'' !!}>{{EMERGING_COUNTRY}}</option>
+                    <option value="1" {!! \Request::get("search_type") == "1" ? 'selected="selected"':'' !!}> {{DEVELOPED_COUNTRY}}</option>
+                </select>
+            </div>
+                <div class="col-md-4">
                     <label class="control-label">Code</label>
                     <input type="text" value="{{ \Request::get("search_code") }}" class="form-control" name="search_code" />                     
                 </div>

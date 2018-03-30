@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
-    protected $fillable = ['title','country_code'];
+    protected $fillable = ['title','country_code', 'country_type'];
 
        protected $table = TBL_COUNTRY;
 
