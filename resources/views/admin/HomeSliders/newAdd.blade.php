@@ -28,27 +28,27 @@
 							</div>
 							<div class="clearfix">&nbsp;</div>
                             <div class="row">
-								<div class="col-md-12" id="graph_id">
-									<label class="control-label">Security<span class="required">*</span></label>
-									{!! Form::select('security_id',[''=>'Search Graph']+$graphs,null,['class' => 'form-control graphs' , 'data-required' => true]) !!}
-								</div>
-							</div>
-							<div class="clearfix">&nbsp;</div>
-							<div class="row">
-								<div class="col-md-6" >
+                                <div class="col-md-6" >
                                     <label class="control-label">Graph Type<span class="required">*</span></label>
-                                    {!! Form::select('graph_type',['line'=>'Line Graph'],null,['class' => 'form-control', 'data-required' => true,]) !!}
+                                    {!! Form::select('graph_type',[''=>'Select Graph Type']+$graphTypes,null,['class' => 'form-control', 'data-required' => true,'id'=>'graph_type']) !!}
                                 </div>
-								<div class="col-md-6" >
+                                <div class="col-md-6" >
                                     <label class="control-label">Graph Period<span class="required">*</span></label>
-                                    {!! Form::select('graph_peroid',$months,null,['class' => 'form-control', 'data-required' => true,]) !!}
+                                    {!! Form::select('graph_period',$months,null,['class' => 'form-control', 'data-required' => true,]) !!}
                                 </div>
-							</div>
+                            </div>
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="row" id="security_id" style="display: none;">
+								<div class="col-md-12">
+									<label class="control-label">Security<span class="required">*</span></label>
+									{!! Form::select('security_id',[''=>'Search Graph']+$graphs,null,['class' => 'form-control graphs' , 'data-required' => false,'id'=>'security_id_val']) !!}
+								</div>
 							<div class="clearfix">&nbsp;</div>
+                            </div>                          
 							<div class="row">
 								<div class="col-md-6">
 									<label class="control-label">Order<span class="required">*</span></label>
-									{!! Form::number('order',$orderMax,['class' => 'form-control', 'data-required' => true,]) !!}
+									{!! Form::number('order',$orderMax,['class' => 'form-control', 'data-required' => true,'min'=>0]) !!}
 								</div>
 								<div class="col-md-6">
 									<label class="control-label">Status<span class="required">*</span></label>
@@ -111,23 +111,36 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        $('#slider_id').on('change',function(){
+        var formdata = '{{ $formObj }}';
+        if(formdata != '')
+        {
+            var graph_val = $('#graph_type').val();
+            if(graph_val == 'line'){
+                $('#security_id').show();
+                $('#security_id_val').attr('disabled',false);
+            }
+        }
+        $('#graph_type').on('change',function(){
 
             $('#AjaxLoaderDiv').fadeIn('slow');
-            var slider_val = $('#slider_id').val();
-            if(slider_val == 'post'){
-                $('#post_id').show();
-                $('#graph_id').hide();
+            var graph_val = $('#graph_type').val();
+            if(graph_val == 'line'){
+                $('#security_id').show();
+                $('#security_id_val').attr('disabled',false);
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
-            if(slider_val == 'graph'){
-                $('#post_id').hide();
-                $('#graph_id').show();
+            else if(graph_val == 'yield_curve'){
+                $('#security_id').hide();
+                $('#security_id_val').attr('disabled',true);
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
-            if(slider_val == ''){
-                $('#post_id').hide();
-                $('#graph_id').hide();
+            else if(graph_val == ''){
+                $('#security_id').hide();
+                $('#security_id_val').attr('disabled',true);
+                $('#AjaxLoaderDiv').fadeOut('slow');
+            }
+            else{
+                alert('Please select valid graph type !');
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
         });
@@ -140,12 +153,6 @@
         });
         $(".graphs").select2({
                 placeholder: "Search Security",
-                allowClear: true,
-                minimumInputLength: 2,
-                width: null
-        });
-        $(".posts").select2({
-                placeholder: "Search Post",
                 allowClear: true,
                 minimumInputLength: 2,
                 width: null

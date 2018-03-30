@@ -92,7 +92,7 @@
             columns: [
                 { data: 'id', name: 'id' },
                 { data: 'graph', name: '{{TBL_SECURITY}}.CUSIP' },
-                { data: 'post_title', name: 'id' },
+                { data: 'en_title', name: 'id' },
                 { data: 'country', name: '{{TBL_COUNTRY}}.title' },
                 { data: 'status', name: 'status' },
 				{ data : 'order' , name : 'order' },

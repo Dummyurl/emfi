@@ -5,7 +5,9 @@
 
 
 @stop
-
+<?php
+$today = date('Y-m-d');
+?>
 @section('content')
 
 <div class="page-content">
@@ -27,7 +29,7 @@
                                     <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="control-label">Uploaded Date</label>
-                                        {!! Form::text('uploaded_date',null, ['class' => 'form-control pick_date']) !!}
+                                        {!! Form::text('uploaded_date',$today, ['class' => 'form-control pick_date']) !!}
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">Upload<span class="required">*</span></label>
