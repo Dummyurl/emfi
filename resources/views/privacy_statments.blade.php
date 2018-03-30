@@ -6,7 +6,7 @@
   <div class="container">
     <div class="title_belt">
       <h2>{{ $content->title }}</h2>
-      <span>At A Glance</span> </div>
+      <span>{{ __('contact.at_a_glance') }}</span> </div>
     <div class="about_top_section">
       <div class="row">
         {!! $content->description !!}

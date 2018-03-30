@@ -19,8 +19,8 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <label class="control-label">Post</label>
-                    <input type="text" value="{{ \Request::get("search_post") }}" class="form-control" name="search_post" />
+                    <label class="control-label">Country</label>
+                    {!! Form::select('search_country', ['' => 'Select Country'] + $countries,null,['class' => 'country form-control'] ) !!}
                 </div>
                 <div class="col-md-4">
                     <label class="control-label">Security</label>
@@ -30,10 +30,7 @@
             </div>
             <div class="clearfix">&nbsp;</div>
             <div class="row">
-                <div class="col-md-4">
-                    <label class="control-label">Country</label>
-                    {!! Form::select('search_country', ['' => 'Select Country'] + $countries,null,['class' => 'country form-control'] ) !!}
-                </div>
+                
                 <div class="col-md-4">
                     <label class="control-label">Status</label>
                     <select name="search_status" class="form-control">

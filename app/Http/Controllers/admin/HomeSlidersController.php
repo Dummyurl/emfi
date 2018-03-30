@@ -86,6 +86,7 @@ class HomeSlidersController extends Controller
         $data['countries'] = \App\Models\Country::getCountryList();
 		$data['orderMax'] = \App\Models\HomeSlider::getMaxOrder();
         $data['languages']= \App\Custom::getLanguages();
+        $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)'];
 
         return view($this->moduleViewName.'.newAdd', $data);
     }
@@ -113,14 +114,14 @@ class HomeSlidersController extends Controller
 		$months = array_keys($months);
 
 		$validator = Validator::make($request->all(), [
-            'security_id' => 'required|exists:securities,id',
+            'security_id' => 'exists:'.TBL_SECURITY.',id',
             'country_id' => 'exists:'.TBL_COUNTRY.',id',
-            'graph_type' => ['required', Rule::in(['line'])],
-			'graph_peroid' => ['required', Rule::in($months)],
+            'graph_type' => ['required', Rule::in(['line','yield_curve'])],
+			'graph_period' => ['required', Rule::in($months)],
             'status' => ['required', Rule::in([1,0])],
             'order' => 'required|min:0|numeric',
 			'post_title.*.*' => 'required|min:2',
-			'post_description.*.*' => 'min:2'
+			'post_description.*.*' => 'min:2',
         ]);
 
         // check validations
@@ -145,24 +146,37 @@ class HomeSlidersController extends Controller
             $order = $request->get('order');
 			$post_title = $request->get('post_title');
 			$post_description = $request->get('post_description');
-			$graph_period = $request->get('graph_peroid');
+			$graph_period = $request->get('graph_period');
+
+            if($graph_type == 'line' && empty($security_id))
+            {
+                $status = 0;
+                $msg = 'Please enter security !';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            if(!empty($graph_type) && $graph_type == 'yield_curve' && !empty($security_id))
+            {
+                $status = 0;
+                $msg = 'Please enter valid data!';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            if(!empty($order) && $order>0)
+            {
+                $yes = HomeSlider::where('order',$order)->first();
+                if($yes)
+                {
+                    $status = 0;
+                    $msg = 'Order number already exsits!';
+                    return ['status' => $status, 'msg' => $msg, 'data' => $data];
+                }
+            }
 
             $obj = new HomeSlider();
 
-            if(!empty($security_id))
-            	$obj->security_id = $security_id;
-
-			if($country_id > 0)
-				$obj->country_id = $country_id;
-
-			/*if (!empty($post_title))
-				$obj->post_title = $post_title;
-
-			if (!empty($post_description))
-				$obj->post_description = $post_description;*/
-
+            $obj->security_id = $security_id;
             $obj->graph_type = $graph_type;
-			//$obj->graph_period = $graph_period;
+			$obj->country_id = $country_id;
+			$obj->graph_period = $graph_period;
             $obj->status = $statuss;
             $obj->order = $order;
             $obj->save();
@@ -177,7 +191,7 @@ class HomeSlidersController extends Controller
                 }
                 if(is_array($post_description) && !empty($post_description))
                 {   
-                    $desc = isset($post_description[$locale][0]) ? $post_description[$locale][0] : 'null';
+                    $desc = isset($post_description[$locale][0]) ? $post_description[$locale][0] : '';
                     $obj->translateOrNew($locale)->description = $desc;
                 }
             }
@@ -243,11 +257,11 @@ class HomeSlidersController extends Controller
         $data['action_params'] = $formObj->id;
         $data['method'] = "PUT";
 		$data['months'] = getMonths();
-        // $data['posts'] = \App\Models\Post::pluck('title','id')->all();
         $data['graphs'] = \App\Models\Securities::pluck('security_name','id')->all();
         $data['countries'] = \App\Models\Country::getCountryList();
         $data['orderMax'] = null;
         $data['languages']= \App\Custom::getLanguages();
+        $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)'];
 
         return view($this->moduleViewName.'.newAdd', $data);
     }
@@ -277,14 +291,14 @@ class HomeSlidersController extends Controller
 		$months = array_keys($months);
 
 		$validator = Validator::make($request->all(), [
-            'security_id' => 'required|exists:securities,id',
+            'security_id' => 'exists:'.TBL_SECURITY.',id',
             'country_id' => 'exists:'.TBL_COUNTRY.',id',
-            'graph_type' => ['required', Rule::in(['line'])],
-			'graph_peroid' => ['required', Rule::in($months)],
+            'graph_type' => ['required', Rule::in(['line','yield_curve'])],
+			'graph_period' => ['required', Rule::in($months)],
             'status' => ['required', Rule::in([1,0])],
             'order' => 'required|min:0|numeric',
-			'post_title' => 'required|min:2',
-			'post_description' => 'required|min:2'
+			'post_title.*.*' => 'required|min:2',
+			'post_description.*.*' => 'required|min:2',
         ]);
 
         // check validations
@@ -308,22 +322,41 @@ class HomeSlidersController extends Controller
         else
         {
 			$security_id = $request->get('security_id');
-			$country_id = $request->get('country_id');
-			$graph_type = $request->get('graph_type');
+			$country_id = $request->get('country_id');			
+            $graph_type = $request->get('graph_type');
 			$statuss = $request->get('status');
 			$order = $request->get('order');
 		    $post_title = $request->get('post_title');
 		    $post_description = $request->get('post_description');
-			$graph_period = $request->get('graph_peroid');
+			$graph_period = $request->get('graph_period');
 
-			if(!empty($security_id))
-            	$model->security_id = $security_id;
+            if($graph_type == 'line' && empty($security_id))
+            {
+                $status = 0;
+                $msg = 'Please enter security !';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            if(!empty($graph_type) && $graph_type == 'yield_curve' && !empty($security_id))
+            {
+                $status = 0;
+                $msg = 'Please enter valid data !';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            if(!empty($order) && $order>0)
+            {
+                $yes = HomeSlider::where('order',$order)->where('id','!=',$id)->first();
+                if($yes)
+                {
+                    $status = 0;
+                    $msg = 'Order number already exsits !';
+                    return ['status' => $status, 'msg' => $msg, 'data' => $data];
+                }
+            }
 
-			if($country_id > 0)
-				$model->country_id = $country_id;
-
+            $model->security_id = $security_id;
             $model->graph_type = $graph_type;
-			//$model->graph_period = $graph_period;
+			$model->country_id = $country_id;
+			$model->graph_period = $graph_period;
             $model->status = $statuss;
             $model->order = $order;
             $model->save();
@@ -338,7 +371,7 @@ class HomeSlidersController extends Controller
                 }
                 if(is_array($post_description) && !empty($post_description))
                 {   
-                    $desc = isset($post_description[$locale][0]) ? $post_description[$locale][0] : 'null';
+                    $desc = isset($post_description[$locale][0]) ? $post_description[$locale][0] : '';
                     $model->translateOrNew($locale)->description = $desc;
                 }
             }
@@ -352,11 +385,10 @@ class HomeSlidersController extends Controller
             $params['actionvalue']  = $id;
             $params['remark']       = "Edit Home Slider::".$id;
 
-                $logs=\App\Models\AdminLog::writeadminlog($params);
+            $logs=\App\Models\AdminLog::writeadminlog($params);
         }
 
         return ['status' => $status,'msg' => $msg, 'data' => $data];
-
     }
 
 
@@ -424,9 +456,11 @@ class HomeSlidersController extends Controller
             return $checkrights;
         }
 
-        $model = HomeSlider::select(TBL_HOME_SLIDER.".*",TBL_SECURITY.".security_name as graph",\DB::raw("CONCAT(".TBL_COUNTRY.".title,' (',".TBL_COUNTRY.".country_code,')')  AS country"))
+        $model = HomeSlider::select(TBL_HOME_SLIDER.".*",TBL_SECURITY.".security_name as graph",\DB::raw("CONCAT(".TBL_COUNTRY.".title,' (',".TBL_COUNTRY.".country_code,')')  AS country"),TBL_HOME_SLIDER_TRANSLATION.".title as en_title")
                 ->leftJoin(TBL_SECURITY,TBL_SECURITY.".id","=",TBL_HOME_SLIDER.".security_id")
-                ->leftJoin(TBL_COUNTRY,TBL_COUNTRY.".id","=",TBL_HOME_SLIDER.".country_id");
+                ->leftJoin(TBL_COUNTRY,TBL_COUNTRY.".id","=",TBL_HOME_SLIDER.".country_id")
+                ->leftJoin(TBL_HOME_SLIDER_TRANSLATION,TBL_HOME_SLIDER_TRANSLATION.".home_slider_id","=",TBL_HOME_SLIDER.".id")
+                ->where(TBL_HOME_SLIDER_TRANSLATION.'.locale','en');
 
         return Datatables::eloquent($model)
 
@@ -457,12 +491,12 @@ class HomeSlidersController extends Controller
                 else
                     return '<a class="btn btn-danger btn-xs">Inactive</a>';
             })
+            
             ->rawColumns(['action','status'])
             ->filter(function ($query)
                 {
                     $search_start_date = trim(request()->get("search_start_date"));
                     $search_end_date = trim(request()->get("search_end_date"));
-                    $search_post = request()->get("search_post");
                     $search_graph = request()->get("search_graph");
                     $search_country = request()->get("search_country");
                     $search_status = request()->get("search_status");
@@ -486,10 +520,6 @@ class HomeSlidersController extends Controller
                         $convertToDate= $to_date;
 
                         $query = $query->where(TBL_HOME_SLIDER.".created_at","<=",addslashes($convertToDate));
-                    }
-                    if(!empty($search_post))
-                    {
-                        $query = $query->where(TBL_HOME_SLIDER.".post_title", 'LIKE', '%'.$search_post.'%');
                     }
                     if(!empty($search_graph))
                     {
