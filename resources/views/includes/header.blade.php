@@ -4,11 +4,11 @@
             <ul class="rightlinks">
                 <li class="dropdown"> 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        Login
+                        {{ __('header.login') }}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">PORTFOLIO</a></li>
-                        <li><a href="#">RESEARCH</a></li>
+                        <li><a href="#">{{ __('header.portfolio') }}</a></li>
+                        <li><a href="#">{{ __('header.research') }}</a></li>
                     </ul>
                 </li>
                 <li class="dropdown"> 
@@ -22,7 +22,7 @@
                 </li>
             </ul>
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">{{ __('header.toggle') }}</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
                 <a class="navbar-brand white" href="{{ url('/') }}">
                     <img src="{{ asset('themes/frontend/images/emfi-logo.png') }}" alt="EMFI Securities">
                 </a> 
@@ -33,18 +33,18 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="{{ \Request::is('/','home') ? 'active':'' }}">
-                        <a href="{{ route('home') }}">Home</a>
+                        <a href="{{ route('home') }}">{{ __('header.home') }}</a>
                     </li>
                     <li class="dropdown {{ \Request::is('markets','markets/*') ? 'active':'' }}">
                         <a href="{{ url('markets') }}">
-                            Markets
+                            {{ __('header.markets') }}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ url('markets/equities') }}">EQUITIES</a></li>
-                            <li><a href="{{ url('markets/currencies') }}">CURRENCIES</a></li>
-                            <li><a href="{{ url('markets/commodities') }}">COMMODITIES</a></li>
-                            <li><a href="{{ url('markets/rates') }}">RATES</a></li>
-                            <li><a href="{{ url('markets/credit') }}">CREDIT</a></li>
+                            <li><a href="{{ url('markets/equities') }}">{{ __('header.equities') }}</a></li>
+                            <li><a href="{{ url('markets/currencies') }}">{{ __('header.currencies') }}</a></li>
+                            <li><a href="{{ url('markets/commodities') }}">{{ __('header.commodities') }}</a></li>
+                            <li><a href="{{ url('markets/rates') }}">{{ __('header.rates') }}</a></li>
+                            <li><a href="{{ url('markets/credit') }}">{{ __('header.credit') }}</a></li>
                         </ul>
                     </li>
                     <?php 
@@ -60,15 +60,15 @@
                         </ul>
                     </li>
                     */ ?>
-                    <li class="{{ \Request::is('economics','economics/*') ? 'active':'' }}"><a href="{{ url('economics')}}">Economies</a></li>
+                    <li class="{{ \Request::is('economics','economics/*') ? 'active':'' }}"><a href="{{ url('economics')}}">{{ __('header.economics') }}</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            Analyzer
+                            {{ __('header.analyzer') }}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">RELVAL</a></li>
-                            <li><a href="#">REGRESSION</a></li>
-                            <li><a href="#">SLOPE</a></li>
+                            <li><a href="#">{{ __('header.relval') }}</a></li>
+                            <li><a href="#">{{ __('header.regression') }}</a></li>
+                            <li><a href="#">{{ __('header.slope') }}</a></li>
                         </ul>
                     </li>
                     <?php /*
@@ -83,8 +83,8 @@
                         </ul>
                     </li>
                     */ ?>
-                    <li class="{{ \Request::is('about') ? 'active':'' }}"><a href="{{ route('about')}}">About</a></li>
-                    <li class="{{ \Request::is('contact') ? 'active':'' }}"><a href="{{ route('contact')}}">contact</a></li>
+                    <li class="{{ \Request::is('about') ? 'active':'' }}"><a href="{{ route('about')}}">{{ __('header.about') }}</a></li>
+                    <li class="{{ \Request::is('contact') ? 'active':'' }}"><a href="{{ route('contact')}}">{{ __('header.contact') }}</a></li>
                     
                 </ul>
             </div>

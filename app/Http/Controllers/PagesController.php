@@ -87,19 +87,35 @@ class PagesController extends Controller {
         return view('economics', $data);
     }
 
-    public function contact(Request $request) {
+    public function contact(Request $request)
+    {
         $data = array();
         $data['page_title'] = "EMFI: Contact";
+        $locale = session('locale');
+        if(empty($locale))
+        {
+            $locale = 'en';
+        }
+        app()->setLocale($locale);
+        
         return view('contact', $data);
     }
 
     public function about(Request $request) {
         $data = array();
         $data['page_title'] = "EMFI: About";
+        $locale = session('locale');
+        if(empty($locale))
+        {
+            $locale = 'en';
+        }
+
+        app()->setLocale($locale);
         return view('about', $data);
     }
 
-    public function analyzer(Request $request) {
+    public function analyzer(Request $request)
+    {
         $data = array();
         $data['page_title'] = "EMFI: Analyzer";
         return view('analyzer', $data);

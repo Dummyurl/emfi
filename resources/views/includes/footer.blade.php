@@ -3,19 +3,19 @@
     <div class="row">
       <div class="col-md-7 clearfix">
         <div class="footer_block">
-          <h3>Quick Links</h3>
+          <h3>{{ __('footer.quick_links') }}</h3>
           <ul>
-            <li><a href="{{ url('/markets') }}">Markets</a></li>
-            <li><a href="{{ url('/')}}">Login</a></li>
-            <li><a href="{{ route('contact')}}">Contact</a></li>            
+            <li><a href="{{ url('/markets') }}">{{ __('footer.markets') }}</a></li>
+            <li><a href="{{ url('/')}}">{{ __('footer.login') }}</a></li>
+            <li><a href="{{ route('contact')}}">{{ __('footer.contact') }}</a></li>            
           </ul>
         </div>
         <div class="footer_block">
-          <h3>Legal Info</h3>
+          <h3>{{ __('footer.legal_info') }}</h3>
           <ul>
-            <li><a href="{{ route('terms-of-uses') }}">Terms of Use</a></li>
-            <li><a href="{{ route('privacy-statements') }}">Privacy Statements</a></li>
-            <li><a href="{{ route('cookies') }}">Cookies</a></li>            
+            <li><a href="{{ route('terms-of-uses') }}">{{ __('footer.terms_of_uses') }}</a></li>
+            <li><a href="{{ route('privacy-statements') }}">{{ __('footer.privacy_statements') }}</a></li>
+            <li><a href="{{ route('cookies') }}">{{ __('footer.cookies') }}</a></li>            
           </ul>
         </div>
         <div class="footer_block">
@@ -35,9 +35,7 @@
             <li><a target="_blank" href="https://www.linkedin.com/company/emfi-securities-limited/" class="rounded_full"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
           </ul>
         </div>
-        <p class="ftr_txt">&copy; {{ date('Y') }} EMFI Securities Limited. All Rights Reserved. <br>
-          For Professional Investors Only. Not For Use By Retail Clients.<br>
-          Authorised And Regulated By The Financial Conduct Authority.</p>
+        <p class="ftr_txt">&copy; {{ date('Y') }} {{ __('footer.copy_rights') }}. <br>{{ __('footer.copy_rights_1') }}.<br>{{ __('footer.copy_rights_2') }}.</p>
       </div>
     </div>
   </div>

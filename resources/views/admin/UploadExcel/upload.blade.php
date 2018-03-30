@@ -2,8 +2,6 @@
 @extends('admin.layouts.app')
 
 @section('breadcrumb')
-
-
 @stop
 <?php
 $today = date('Y-m-d');
