@@ -35,7 +35,7 @@ class ApiController extends Controller
 
     public function TopGainer(Request $request, $market_id = null)
     {
-        $market_data  = "CALL select_Top_Gainer(".$market_id.")";
+        $market_data  = "CALL select_Top_Gainer(".$market_id.",0)";
         $gainer_data = callCustomSP($market_data);
         $returnData['top_gainer'] = $gainer_data;
         
@@ -51,7 +51,7 @@ class ApiController extends Controller
             $returnData['arr_banchmark'] = $banchmark_data_arr;
         }
 
-        $market_data  = "CALL select_Top_Loser(".$market_id.")";
+        $market_data  = "CALL select_Top_Loser(".$market_id.",0)";
         $loser_data = callCustomSP($market_data);
         $returnData['top_loser'] = $loser_data;
         if(isset($loser_data[0])){
@@ -286,16 +286,24 @@ class ApiController extends Controller
 
     public function getEconomicsScatterChart(Request $request)
     {
+        $tickerType = 1;
         $status = 1;
         $msg = "OK";
         
         $data = [];
         
         $country = $request->get("country");
+        $tid = $request->get("tid");
+        $current_ticker = $request->get("current_ticker");        
         $month_id = $request->get("month_id");
         $price_id = $request->get("price_id");
         $duration = $request->get("duration");
         $benchmark_id = $request->get("benchmark_id");
+
+        if(!empty($current_ticker))
+        {
+            $tickerType = $current_ticker;
+        }   
 
         if(empty($month_id))
         {
@@ -304,7 +312,7 @@ class ApiController extends Controller
 
         // $month_id = "2018-03-24";
 
-        $history_data   = "CALL select_bond_scatter_data(".$country.", '".$month_id."')";
+        $history_data   = "CALL select_bond_scatter_data(".$country.", '".$month_id."',".$tickerType.")";
         $history_data  = callCustomSP($history_data);
         $rows = [];
 
@@ -356,7 +364,7 @@ class ApiController extends Controller
 
         if($benchmark_id > 0)
         {
-            $history_data   = "CALL select_bond_scatter_data(".$benchmark_id.", '".$month_id."')";
+            $history_data   = "CALL select_bond_scatter_data(".$benchmark_id.", '".$month_id."',".$tid.")";
             $dataTemp           = callCustomSP($history_data);
             $benchmark_history_data = $dataTemp;            
 

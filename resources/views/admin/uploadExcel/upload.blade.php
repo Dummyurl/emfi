@@ -29,8 +29,8 @@ $today = date('Y-m-d');
                                 <div class="row ">
                                     <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="control-label">Uploaded Date</label>
-                                        {!! Form::text('uploaded_date',null, ['class' => 'form-control upload_date']) !!}
+                                        <label class="control-label">Uploaded Date<span class="required">*</span></label>
+                                        {!! Form::text('uploaded_date',null, ['class' => 'form-control upload_date', 'data-required' => true]) !!}
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">Upload<span class="required">*</span></label>
@@ -102,6 +102,7 @@ $(document).ready(function () {
             changeMonth: true,
             yearRange: '1900:2050',
             showButtonPanel: false,
+            maxDate: 0,
             onClose: function (selectedDate) {
             }
         }).datepicker("setDate", new Date());

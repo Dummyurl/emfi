@@ -65,6 +65,7 @@
 
 <div id="linegraph-data"></div>
 
+<?php /*
 <section class="equities">
     <div class="container">
         <div class="title">
@@ -122,9 +123,85 @@
         </div>
     </div>
 </section>
+*/ ?>
 
 @if(!empty($bond_data))
+
+@php
+    $counter = 1;
+@endphp
+
 @foreach($bond_data as $key => $data)
+@php
+$tickerType = 0;
+foreach($country_benchmarkes as $cnt)
+{   
+    if(trim(strtolower($key)) == trim(strtolower($cnt['ticker_name'])) && $cnt['country_id'] == $countryObj->id)
+    {
+        $tickerType = $cnt['ticker_type'];
+    }
+}
+@endphp
+<input type="hidden" id="ticker-type-{{ $counter}}" value="{{ $tickerType }}" />
+<section class="equities">
+    <div class="container">
+        <div class="title">
+            <h2 class="market-chart-title">{{ $countryObj->title }} - ({{ $key }})</h2>
+            <span>Historical Chart</span> 
+        </div>
+    </div>
+    <div class="container chart_section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="curve_chart-{{ $counter }}" class="curve_chart" style="width: 100%; height: 480px"> </div>
+                <div class="chart_dropdown clearfix">
+                    <form>
+                        <div class="col-md-3">
+                            <select id="period-month-{{ $counter }}">
+                                <option selected value="{{ date('Y-m-d') }}">Today</option>   
+                                @foreach(getMonths() as $month => $label)                                
+                                <option value="{{ date('Y-m-d', strtotime('-'.$month.' month')) }}">
+                                    {{ $label }}
+                                </option>
+                                @endforeach                                
+                            </select>
+                        </div>
+
+                        
+                        <div class="col-md-3">
+                            <select id="duration-dropdown-{{ $counter }}">
+                                <option value="1">Maturity</option>
+                                <option value="2">Duration</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <select id="price-dropdown-{{ $counter }}">
+                                <option value="1" data-title="Price">PRICE</option>
+                                <option value="2" data-title="Yield">YIELD</option>
+                                <option value="3" data-title="Spread">SPREAD</option>
+                            </select>
+                        </div>
+                        
+
+                        <div class="col-md-3 pull-right">
+                            <select id="benchmark-dropdown-{{ $counter }}">
+                                <option value="">Add Country</option>
+                                @foreach($country_benchmarkes as $cnt)
+                                    @if(trim(strtolower($key)) == trim(strtolower($cnt['ticker_name'])) && $cnt['country_id'] == $countryObj->id)
+                                        
+                                    @else
+                                    <option data-tid="{{ $cnt['ticker_type'] }}" value="{{ $cnt['country_id'] }}">{{ $cnt['country_title']." - ".$cnt['ticker_name'] }}</option>    
+                                    @endif
+                                @endforeach                                                                
+                            </select>
+                        </div>                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <section class="chart_table grey_bg">
     <div class="container">
         <div class="title">
@@ -175,6 +252,9 @@
         </div>
     </div>
 </section>
+@php
+    $counter++;
+@endphp
 @endforeach
 
 <section class="equities" id="secondChartPart">
@@ -190,7 +270,7 @@
                 <div class="chart_dropdown clearfix">
                     <form>
                         <div class="col-md-4">
-                            <select id="period-month-2">                                
+                            <select id="period-month-10">
                                 @foreach(getMonths() as $month => $label)
                                 <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
                                     {{ $label }}
@@ -199,14 +279,14 @@
                             </select>                            
                         </div>
                         <div class="col-md-4">
-                            <select id="price-dropdown-2" style="display: none;">
+                            <select id="price-dropdown-10" style="display: none;">
                                 <option value="1" data-title="Price">PRICE</option>
                                 <option value="2" data-title="Yield">YIELD</option>
                                 <option value="3" data-title="Spread">SPREAD</option>
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <select id="benchmark-dropdown-2">
+                            <select id="benchmark-dropdown-10">
                                 <option value="">Add Benchmark</option>
                             </select>
                         </div>

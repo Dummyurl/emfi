@@ -31,7 +31,6 @@ class PagesController extends Controller {
         {
             $locale = 'en';
         }
-
         app()->setLocale($locale);
         return view('welcome', $data);
     }
@@ -48,11 +47,9 @@ class PagesController extends Controller {
         else
         {
             $defaultCountry = "VZ";
-            // $defaultCountry = 40;
         }
 
         $data['countryObj'] = Country::where("country_code",$defaultCountry)->first();
-        // $data['countryObj'] = Country::where("id",$defaultCountry)->first();
 
         if(!$data['countryObj'])
         {
@@ -60,13 +57,7 @@ class PagesController extends Controller {
         }
 
         $data['market_boxes'] = callCustomSP('CALL Select_economics_country('.$data['countryObj']->id.')');
-        
-        // dd($data['market_boxes']);
-
         $bond_data = callCustomSP('CALL select_economic_bond('.$data['countryObj']->id.')');
-        
-        // dd($bond_data);
-
         $data['countries'] = Country::orderBy("title")->get();
         $data['bond_data'] = [];
 
@@ -75,14 +66,10 @@ class PagesController extends Controller {
             $data['bond_data'][$r['ticker']][] = $r;
         }
 
-        // echo "<pre>";
-        // print_r($data['bond_data']);
-        // exit;
-
+        $data['country_benchmarkes'] = \App\Models\Tickers::getCountriesList();
+        // dd($data['country_benchmarkes']);        
+        $data['number_of_charts'] = count(array_keys($data['bond_data']));        
         $data['tweets'] = getSearchTweets($data['countryObj']->title);
-        // dd($data['tweets']);
-        // $data['tweets'] = getSearchTweets($data['countryObj']->title);
-        // dd($data['bond_data']);
         $data['last_update_date'] = getLastUpdateDate();        
         return view('economics', $data);
     }

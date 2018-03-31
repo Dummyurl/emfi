@@ -199,14 +199,25 @@ fa fa-check-square-o'></i></a>";
 		$msg = "Your data was successfully added";
 		$data = [];
 		$created_date = '';
+		$last_upload_date = date("Y-m-d");
 		$TZ = 'America/New_York';
 		$uploaded_date = $request->get('uploaded_date');
 		if(isset($uploaded_date) && !empty($uploaded_date)){
 			$created_date = $uploaded_date;
-			if(date("Y-m-d", strtotime($uploaded_date)) == date("Y-m-d"))
+			$query = "SELECT MAX(securities.`created`) as last_upload_date FROM securities";
+			$arr = \DB::select($query);
+			if(!empty($arr)){
+				$last_upload_date = $arr[0]->last_upload_date;
+			}
+			if($uploaded_date >= $last_upload_date && date("Y-m-d", strtotime($uploaded_date) ) != date("Y-m-d"))
+			{
+				$created_date = $uploaded_date;
+				$updated_date = [ 0 => $created_date];
+				WriteJsonInFile($updated_date, GET_LAST_UPDATED_DATE);
+			} else if (date("Y-m-d", strtotime($uploaded_date)) == date("Y-m-d"))
 			{
 				$dd = date("Y-m-d H:i:s");
-				$created_date =  convertDateFromTimezone($dd,SET_TIMEZONE_FOR_UPLOAD_DATE_UTC,SET_TIMEZONE_FOR_UPLOAD_DATE,'Y-m-d H:i:s');
+				$created_date =  convertDateFromTimezone($dd,SET_TIMEZONE_FOR_UPLOAD_DATE_UTC,SET_TIMEZONE_FOR_UPLOAD_DATE,'Y-m-d');
 				$updated_date = [ 0 => $created_date];
 				WriteJsonInFile($updated_date, GET_LAST_UPDATED_DATE);
 			}
@@ -333,12 +344,18 @@ fa fa-check-square-o'></i></a>";
 
 						if(!empty($idata['ticker']))
 						{
-							$arr_tickers = \DB::table('tickers')->where('ticker_name', $idata['ticker'])->first();
+							$arr_tickers = \DB::table('tickers')
+                                    ->where('ticker_name', $idata['ticker'])
+                                    ->where('country_id', $idata['country_id'])
+                                    ->where('market_id', $idata['market_id'])
+                                    ->first();
 			                if($arr_tickers){
 			                    $ticker_id = $arr_tickers->id;
 			                } else {
 			                    $TK = new \App\Models\Tickers();
 			                    $TK->ticker_name = $idata['ticker'];
+			                    $TK->country_id = $idata['country_id'];
+			                    $TK->market_id = $idata['market_id'];
 			                    $TK->ticker_type = 1;
 			                    $TK->save();
 			                    $ticker_id = $TK->id;
