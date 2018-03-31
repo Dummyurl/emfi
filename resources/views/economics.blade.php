@@ -257,6 +257,8 @@ foreach($country_benchmarkes as $cnt)
 @endphp
 @endforeach
 
+@endif
+
 <section class="equities" id="secondChartPart">
     <div class="container">
         <div class="title">
@@ -296,8 +298,6 @@ foreach($country_benchmarkes as $cnt)
         </div>
     </div>
 </section>
-
-@endif
 
 @include('includes.twitter')
 

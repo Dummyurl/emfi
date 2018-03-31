@@ -38,6 +38,7 @@ class HomeSlider extends Model
                 {
                     $sliders->where(TBL_HOME_SLIDER.".country_id",$country);
                     $sliders->orWhere(TBL_HOME_SLIDER.".country_id",'=',NULL);
+                    $sliders->orWhere(TBL_HOME_SLIDER.".country_id",'=',0);
                 })
                 ->orderBy(TBL_HOME_SLIDER.'.order')
                 ->get();

@@ -377,7 +377,7 @@ class ApiController extends Controller
                     $dataKeys[$i]['title1'] = $row['category'];
                     $dataKeys[$i]['price1'] = $row['price'];                        
                     $dataKeys[$i]['title2'] = "";                    
-                    $dataKeys[$i]['price2'] = 0;                                                            
+                    $dataKeys[$i]['price2'] = NULL;                                                            
                     $i++;
                 }
 
@@ -415,7 +415,7 @@ class ApiController extends Controller
                     if(!isset($dataKeys[$i]['title1']))
                     {
                         $dataKeys[$i]['title1'] = $category;                    
-                        $dataKeys[$i]['price1'] = 0;
+                        $dataKeys[$i]['price1'] = NULL;
                     }
 
                     $i++;                                                            

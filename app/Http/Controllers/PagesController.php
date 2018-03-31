@@ -24,14 +24,15 @@ class PagesController extends Controller {
     public function home(Request $request)
     {
 		$data = array();
-        $data['page_title'] = "EMFI: Home";
-        $data['sliders'] = HomeSlider::getHomeSliders(2);
+        $data['page_title'] = "EMFI: Home";        
         $locale = session('locale');
         if(empty($locale))
         {
             $locale = 'en';
         }
         app()->setLocale($locale);
+        $data['sliders'] = HomeSlider::getHomeSliders(15);
+        // dd($data['sliders']);
         return view('welcome', $data);
     }
 
@@ -122,7 +123,7 @@ class PagesController extends Controller {
         $data['page_title'] = "EMFI: Markets";
         // $data['tweets'] = getLatestTweets();
         $from = "@emfisecurities";
-        $data['tweets'] = [];//getPeopleTweets($from);
+        $data['tweets'] = getPeopleTweets($from);
 
         $data['markets'] = MarketType::getArrayList();
         $data['market_boxes'] = callCustomSP('CALL select_market()');

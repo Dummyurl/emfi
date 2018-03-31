@@ -13,11 +13,18 @@
                 </li>
                 <li class="dropdown"> 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        English
+                        @if(session('locale') == "es")
+                            ESPAÑOL
+                        @else
+                            English
+                        @endif
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ url('change-language/en') }}">English</a></li>
-                        <li><a href="{{ url('change-language/es') }}">ESPAÑOL</a></li>
+                        @if(session('locale') == "es")
+                            <li><a href="{{ url('change-language/en') }}">English</a></li>
+                        @else
+                            <li><a href="{{ url('change-language/es') }}">ESPAÑOL</a></li>
+                        @endif                        
                     </ul>
                 </li>
             </ul>

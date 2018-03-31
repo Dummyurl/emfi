@@ -113,6 +113,13 @@ class HomeSlidersController extends Controller
 		$months = getMonths();
 		$months = array_keys($months);
 
+        $graph_type = $request->get("graph_type");
+        $country_id = $request->get("country_id");
+        if($graph_type == "yield_curve" && (empty($country_id) || $country_id == ""))
+        {
+            return ["status" => 0, "msg" => "Country is required on Yield Curve Chart"];
+        }
+
 		$validator = Validator::make($request->all(), [
             'security_id' => 'exists:'.TBL_SECURITY.',id',
             'country_id' => 'exists:'.TBL_COUNTRY.',id',
@@ -289,6 +296,13 @@ class HomeSlidersController extends Controller
         $data = array();
 		$months = getMonths();
 		$months = array_keys($months);
+
+        $graph_type = $request->get("graph_type");
+        $country_id = $request->get("country_id");
+        if($graph_type == "yield_curve" && (empty($country_id) || $country_id == ""))
+        {
+            return ["status" => 0, "msg" => "Country is required on Yield Curve Chart"];
+        }
 
 		$validator = Validator::make($request->all(), [
             'security_id' => 'exists:'.TBL_SECURITY.',id',
@@ -523,7 +537,7 @@ class HomeSlidersController extends Controller
                     }
                     if(!empty($search_graph))
                     {
-                        $query = $query->where(TBL_SECURITY.".CUSIP", 'LIKE', '%'.$search_graph.'%');
+                        $query = $query->where(TBL_SECURITY.".security_name", 'LIKE', '%'.$search_graph.'%');
                     }
 
                     if($search_status == "1" || $search_status == "0")

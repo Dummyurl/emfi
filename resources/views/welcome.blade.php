@@ -39,5 +39,7 @@
 @stop
 
 @section('scripts')
-<script src="{{ asset('themes/frontend/js/home.js') }}"></script>
+	<?php /*
+	<script src="{{ asset('themes/frontend/js/home.js') }}"></script>
+	*/ ?>
 @stop
