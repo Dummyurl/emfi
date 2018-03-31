@@ -186,7 +186,7 @@ foreach($country_benchmarkes as $cnt)
 
                         <div class="col-md-3 pull-right">
                             <select id="benchmark-dropdown-{{ $counter }}">
-                                <option value="">Add Country</option>
+                                <option value="">Add Benchmark</option>
                                 @foreach($country_benchmarkes as $cnt)
                                     @if(trim(strtolower($key)) == trim(strtolower($cnt['ticker_name'])) && $cnt['country_id'] == $countryObj->id)
                                         

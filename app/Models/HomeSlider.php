@@ -34,12 +34,12 @@ class HomeSlider extends Model
                 ->leftJoin(TBL_SECURITY,TBL_SECURITY.".id","=",TBL_HOME_SLIDER.".security_id")
                 ->leftJoin(TBL_COUNTRY,TBL_COUNTRY.".id","=",TBL_HOME_SLIDER.".country_id")
                 ->where(TBL_HOME_SLIDER.'.status',1)
-                ->where(function($sliders) use ($country)
-                {
-                    $sliders->where(TBL_HOME_SLIDER.".country_id",$country);
-                    $sliders->orWhere(TBL_HOME_SLIDER.".country_id",'=',NULL);
-                    $sliders->orWhere(TBL_HOME_SLIDER.".country_id",'=',0);
-                })
+                // ->where(function($sliders) use ($country)
+                // {
+                //     $sliders->where(TBL_HOME_SLIDER.".country_id",$country);
+                //     $sliders->orWhere(TBL_HOME_SLIDER.".country_id",'=',NULL);
+                //     $sliders->orWhere(TBL_HOME_SLIDER.".country_id",'=',0);
+                // })
                 ->orderBy(TBL_HOME_SLIDER.'.order')
                 ->get();
         return $sliders;

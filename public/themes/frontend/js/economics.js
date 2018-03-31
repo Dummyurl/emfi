@@ -30,7 +30,10 @@ function resetFields(chartType)
 function initChart()
 {
     generateLineGraph(1);
-    generateLineGraph(2);        
+    
+    if($("#curve_chart-2").size() > 0)
+    generateLineGraph(2);
+    
     $(".market-action:first").trigger("click");
 }
 
@@ -371,13 +374,13 @@ $(document).ready(function() {
 
     $(document).on("change", "select#benchmark-dropdown-1", function () {
         
-        if($.trim($(this).val()) == '' || $.trim($(this).val()) == 'Add Country')
+        if($.trim($(this).val()) == '' || $.trim($(this).val()) == 'Add Benchmark')
         {
-            $("#benchmark-dropdown-1 option:first").text("Add Country");
+            $("#benchmark-dropdown-1 option:first").text("Add Benchmark");
         }
         else
         {
-            $("#benchmark-dropdown-1 option:first").text("Remove Country");
+            $("#benchmark-dropdown-1 option:first").text("Remove Benchmark");
         }
 
         generateLineGraph(1);
