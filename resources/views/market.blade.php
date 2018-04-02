@@ -6,7 +6,7 @@
         <div class="title_belt">
             <div class="row">
                 <div class="col-md-6">
-                    <h2>Markets</h2>
+                    <h2>MARKETS</h2>
                     <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
                 </div>
                 <div class="col-md-6 select_r">
@@ -24,7 +24,7 @@
             
             <div class="col-lg-3 col-md-3 col-sm-6 four_block">
                 <div class="inner_blue_box">
-                    <a href="{{ url(getMarketUrls($row['market_id'])) }}" class="view-btn">
+                    <a data-id="{{ $row['id'] }}" data-name="{{ $row['market_name'] }}" href="javascript:void(0);" class="view-btn custom-market-change">
                         <span>View Chart</span>
                     </a>                  
                     <h3>{{ $row['market_name'] or '' }}</h3>
@@ -123,8 +123,8 @@
 <section class="equities">
     <div class="container">
         <div class="title">
-            <h2>Historical Chart</h2>
-            <span class="market-chart-title"></span> </div>
+            <h2>Market History</h2>
+            <span class="market-chart-title-security"></span> </div>
     </div>
     <div class="container chart_section">
         <div class="row">
@@ -135,7 +135,7 @@
                         <div class="col-md-4">
                             <select id="period-month">                                
                                 @foreach(getMonths() as $month => $label)
-                                <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
+                                <option {!! 12 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
                                     {{ $label }}
                                 </option>
                                 @endforeach

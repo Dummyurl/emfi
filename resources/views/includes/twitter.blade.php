@@ -1,7 +1,7 @@
 <section class="twitter_updates">
     <div class="container">
         <div class="title">
-            <h2>Updates</h2>
+            <h2>Market News</h2>
             <span>Latest Tweets</span>
         </div>
         <div class="row">
@@ -22,10 +22,13 @@
                     <div class="img_col">
                         <img src="{{ asset('themes/frontend/images/twitter-post-img.png') }}" alt=""></div>
                     <div class="dec_col">
-                        <div class="username"><a href="{{ $tweet['link'] }}" target="_blank">@emfisecurities</a></div>
+                        <div class="username">
+                            <!-- <a href="{{ $tweet['link'] }}" target="_blank">@emfisecurities</a> -->
+                        </div>
                         <!-- <div class="subtxt">#Venezuela</div> -->
-                        <p>{!! $tweet['comment'] !!}</p>
+                        <p>{!! $tweet['comment'] !!}</p>                        
                     </div>
+                    <div class="clearfix"></div>
                 </div>
                 <?php $i++; ?>
                 @endforeach

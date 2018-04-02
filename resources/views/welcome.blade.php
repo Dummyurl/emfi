@@ -10,14 +10,18 @@
 		                    <div class="row">
 								<div class="title_belt">
 			                        <h2>{{ $slider->title }}</h2>
-			                        <?php /*<span>February 14, 2018</span> */ ?>
+			                        <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
 			                    </div>
 			                    <div class="row">
 			                        <div class="col-md-6">
 			                            <div class="chart_left">
 			                                <div class="charts-container" data-id="{{ $slider->security_id }}"
+			                                	data-date="{{ $slider->graph_period != -1 ? date('Y-m-d', strtotime('-'.$slider->graph_period.' month')):-1 }}"
 												data-period="{{ $slider->graph_period }}"
 												data-title="{{ $slider->graph_title }}"
+												data-type="{{ $slider->graph_type }}"
+												data-country="{{ $slider->country_id }}"
+												data-country_name="{{ $slider->country_name }}"
 												id="chart_home_{{$slider->security_id }}" 
 												style="width: 100%; height: 440px"></div>
 			                            </div>
@@ -38,8 +42,6 @@
 </section>
 @stop
 
-@section('scripts')
-	<?php /*
-	<script src="{{ asset('themes/frontend/js/home.js') }}"></script>
-	*/ ?>
+@section('scripts')	
+	<script src="{{ asset('themes/frontend/js/home.js') }}"></script>	
 @stop

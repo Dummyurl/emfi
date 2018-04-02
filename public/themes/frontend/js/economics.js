@@ -159,10 +159,10 @@ function drawBenchmarkChart(data_values, chartType)
         title: '',
         curveType: 'function',
         legend: {position: 'bottom'},
-        series: {
-          0: {targetAxisIndex: 0},
-          1: {targetAxisIndex: 1}
-        },
+        // series: {
+        //   0: {targetAxisIndex: 0},
+        //   1: {targetAxisIndex: 1}
+        // },
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
         titleTextStyle: {color: '#fff'},
@@ -311,6 +311,8 @@ function drawBenchmarkChart2(data_values)
     $columnTitle = global_secure_id_2_text+ " "+$("select#price-dropdown-10 option:selected").data("title");
     $columnTitle2 = $("select#benchmark-dropdown-10 option:selected").text()+ " "+$("select#price-dropdown-10 option:selected").data("title");
 
+    $(".market-chart-title-2").html(global_secure_id_2_text+ " VS "+$("select#benchmark-dropdown-10 option:selected").text());
+     
     var formatedData = [];
     formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $columnTitle2, type:'number'}]);
 

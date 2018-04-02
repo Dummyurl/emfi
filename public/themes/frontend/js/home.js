@@ -7,8 +7,83 @@ function initChart()
 			var slider_id = $(this).data("id");
 			var graph_period = $(this).data("period");
 			var graphTitle = $(this).data("title");
-			generateHomeLineGraph(slider_id, graph_period, graphTitle);
+            if($(this).data("type") == "line")
+            {
+                generateHomeLineGraph(slider_id, graph_period, graphTitle);
+            }    			
+            else
+            {
+                generateHomeYieldGraph(slider_id, graph_period, graphTitle, $(this));
+            }
 	});
+}
+
+function generateHomeYieldGraph(slider_id, graph_period, graphTitle, object)
+{
+    var global_line_graph_id = slider_id;
+    var val = object.data("date");
+    $url = "/api/economics/get-scatter-data";
+    $('#AjaxLoaderDiv').fadeIn('slow');
+    $.ajax({
+        type: "POST",
+        url: $url,
+        data: {month_id: graph_period, benchmark_id: '', price_id: 1, duration: 1, country: object.data("country"), tid: '', current_ticker: 2},
+        success: function (result)
+        {
+            data_values = result.data.history_data;
+            elementID = "chart_home_"+slider_id;            
+            var formatedData = [];
+
+            var counter = data_values.length;
+
+            $columnTitle = object.data("country_name")+" - Yield Curve";
+
+            if (counter > 0)
+            {
+                formatedData.push(["", ""]);
+                var j = 1;
+                for (var i in data_values)
+                {
+                    formatedData.push([data_values[i]['category'], parseFloat(data_values[i]['price'])]);
+                    j++;
+                }
+            } else
+            {
+                formatedData.push(["", ""]);
+                formatedData.push(["", 0]);
+            }
+
+            var data = google.visualization.arrayToDataTable(formatedData);
+
+            var options = {
+                title: $columnTitle,
+                curveType: 'function',
+                legend: {position: 'bottom'},
+                backgroundColor: {fill: 'transparent'},
+                axisTextStyle: {color: '#344b61'},
+                titleTextStyle: {color: '#fff'},
+                legendTextStyle: {color: '#ccc'},
+                colors: ['white'],
+                pointSize : 10,
+                hAxis: {
+                    textStyle: {color: '#fff'},
+                    gridlines: {color: "#39536b"}
+                },
+                vAxis: {
+                    textStyle: {color: '#fff'},
+                    gridlines: {color: "#39536b"},
+                    baselineColor: {color: "#39536b"}
+                }
+            };
+            var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
+            chart.draw(data, options);
+
+        },
+        error: function (error) {
+            $('#AjaxLoaderDiv').fadeOut('slow');
+            $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
+        }
+    });    
 }
 
 function generateHomeLineGraph(slider_id, graph_period, graphTitle)

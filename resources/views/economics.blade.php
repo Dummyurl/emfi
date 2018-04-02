@@ -9,7 +9,7 @@
         <div class="title_belt">
             <div class="row">
                 <div class="col-md-6">
-                  <h2>Economies</h2>
+                  <h2>ECONOMIES</h2>
                   <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
                 </div>
                 <div class="col-md-6 select_r">
@@ -146,8 +146,8 @@ foreach($country_benchmarkes as $cnt)
 <section class="equities">
     <div class="container">
         <div class="title">
-            <h2 class="market-chart-title">{{ $countryObj->title }} - ({{ $key }})</h2>
-            <span>Historical Chart</span> 
+            <h2>Yield Curve</h2>
+            <span class="market-chart-title">{{ $countryObj->title }} - ({{ $key }})</span> 
         </div>
     </div>
     <div class="container chart_section">
@@ -171,14 +171,14 @@ foreach($country_benchmarkes as $cnt)
                         <div class="col-md-3">
                             <select id="duration-dropdown-{{ $counter }}">
                                 <option value="1">Maturity</option>
-                                <option value="2">Duration</option>
+                                <option value="2" selected="selected">Duration</option>
                             </select>
                         </div>
 
                         <div class="col-md-3">
                             <select id="price-dropdown-{{ $counter }}">
                                 <option value="1" data-title="Price">PRICE</option>
-                                <option value="2" data-title="Yield">YIELD</option>
+                                <option value="2" data-title="Yield" selected="selected">YIELD</option>
                                 <option value="3" data-title="Spread">SPREAD</option>
                             </select>
                         </div>
@@ -191,7 +191,7 @@ foreach($country_benchmarkes as $cnt)
                                     @if(trim(strtolower($key)) == trim(strtolower($cnt['ticker_name'])) && $cnt['country_id'] == $countryObj->id)
                                         
                                     @else
-                                    <option data-tid="{{ $cnt['ticker_type'] }}" value="{{ $cnt['country_id'] }}">{{ $cnt['country_title']." - ".$cnt['ticker_name'] }}</option>    
+                                    <option data-tid="{{ $cnt['ticker_type'] }}" value="{{ $cnt['country_id'] }}">{{ $cnt['country_title'] }}</option>    
                                     @endif
                                 @endforeach                                                                
                             </select>
@@ -205,8 +205,8 @@ foreach($country_benchmarkes as $cnt)
 <section class="chart_table grey_bg">
     <div class="container">
         <div class="title">
-            <h2>Table Chart ({{ $key }})</h2>
-            <span>Chart</span>
+            <h2>Market Prices</h2>
+            <span>{{ $countryObj->title }} - ({{ $key }})</span>
         </div>
     </div>
     <div class="container">
@@ -262,8 +262,9 @@ foreach($country_benchmarkes as $cnt)
 <section class="equities" id="secondChartPart">
     <div class="container">
         <div class="title">
-            <h2 class="market-chart-title-2"></h2>
-            <span>Historical Chart</span> </div>
+            <h2>Market History</h2>
+            <span class="market-chart-title-2"></span> 
+        </div>
     </div>
     <div class="container chart_section">
         <div class="row">

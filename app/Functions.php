@@ -11,11 +11,12 @@ function getMonths()
 {
     return
     [
-         1 => "1 Month",
-         3 => "3 Month",
-         6 => "6 Month",
-         12 => "1 Year",
-         60 => "5 Years",
+         1 => "1 MONTH",
+         3 => "3 MONTHS",
+         6 => "6 MONTHS",         
+         12 => "1 YEAR",
+         60 => "5 YEARS",
+         -1 => "YTD",
     ];
 }
 

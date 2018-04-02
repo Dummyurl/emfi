@@ -40,7 +40,7 @@ class ApiController extends Controller
         $returnData['top_gainer'] = $gainer_data;
         
         if(isset($gainer_data[0])){
-            $security_id = $gainer_data[0]['id']; $month_id = 1; $benchmark = '';
+            $security_id = $gainer_data[0]['id']; $month_id = 12; $benchmark = '';
             $market_data  = "CALL Select_Historical_Data(".$security_id.", ".$month_id.")";
             $History_data = callCustomSP($market_data);
             $returnData['gainer_history_data'] = $History_data;
@@ -55,7 +55,7 @@ class ApiController extends Controller
         $loser_data = callCustomSP($market_data);
         $returnData['top_loser'] = $loser_data;
         if(isset($loser_data[0])){
-            $security_id = $loser_data[0]['id']; $month_id = 3; $benchmark = '';
+            $security_id = $loser_data[0]['id']; $month_id = 12; $benchmark = '';
             $market_data  = "CALL Select_Historical_Data(".$security_id.", ".$month_id.")";
             $History_data = callCustomSP($market_data);
             $returnData['loser_history_data'] = $History_data;
@@ -107,7 +107,7 @@ class ApiController extends Controller
                         $dataKeys[$row['created']]['column1'] = $row['last_price'];
                     }   
 
-                    $dataKeys[$row['created']]['column2'] = 0;
+                    $dataKeys[$row['created']]['column2'] = NULL;
                     $dataKeys[$row['created']]['date'] = $row['created_format'];
                 }
 
@@ -130,7 +130,7 @@ class ApiController extends Controller
                     }   
 
                     if(!isset($dataKeys[$row['created']]['column1']))
-                    $dataKeys[$row['created']]['column1'] = 0;
+                    $dataKeys[$row['created']]['column1'] = NULL;
 
                     $dataKeys[$row['created']]['date'] = $row['created_format'];                                                             
                 }

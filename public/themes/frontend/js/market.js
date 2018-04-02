@@ -147,6 +147,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
     {
         $columnTitle = global_line_graph_text;
         $columnTitle = $columnTitle + " "+$("select#price-dropdown option:selected").data("title");
+        $(".market-chart-title-security").html(global_line_graph_text +" VS "+$("select#benchmark-dropdown option:selected").text());
     }  
 
     var formatedData = [];
@@ -255,6 +256,7 @@ function drawChart(data_values, elementID, fromBenchMark)
     if (typeof global_line_graph_text !== 'undefined')
     {
         $columnTitle = global_line_graph_text;
+        $(".market-chart-title-security").html(global_line_graph_text);
     }               
     
     // 
@@ -441,6 +443,16 @@ $(document).ready(function () {
         generateLineGraph();
     });
 
+    $(document).on("click", ".custom-market-change", function () {
+        global_line_graph_text = $(this).data("name");
+        global_line_graph_id = $(this).data("id");
+        generateLineGraph();        
+
+        $('html, body').animate({
+                scrollTop: $("#linegraph-data").offset().top
+        }, 600);                        
+    });
+
     $(document).on("change", "select#period-month", function () {
         generateLineGraph();
     });
@@ -491,4 +503,7 @@ $(document).ready(function () {
     {
         $("#price-dropdown").hide();
     }
+
+    // $("#period-month").val(12);
+    // $("#period-month").trigger("change");
 });

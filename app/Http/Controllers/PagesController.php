@@ -32,7 +32,7 @@ class PagesController extends Controller {
         }
         app()->setLocale($locale);
         $data['sliders'] = HomeSlider::getHomeSliders(15);
-        // dd($data['sliders']);
+        $data['last_update_date'] = getLastUpdateDate();        
         return view('welcome', $data);
     }
 
@@ -127,8 +127,9 @@ class PagesController extends Controller {
 
         $data['markets'] = MarketType::getArrayList();
         $data['market_boxes'] = callCustomSP('CALL select_market()');
-        $data['selected_market'] = isset($main_categories[$type]) ? $main_categories[$type]:1;
+        // dd($data['market_boxes']);        
         
+        $data['selected_market'] = isset($main_categories[$type]) ? $main_categories[$type]:1;        
         // dd($data['market_boxes']);
 
         $data['last_update_date'] = getLastUpdateDate();        
