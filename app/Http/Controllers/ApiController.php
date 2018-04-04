@@ -30,6 +30,17 @@ class ApiController extends Controller
         $security1 = \App\Models\Securities::find($id1);
         $security2 = \App\Models\Securities::find($id2);
 
+        if(!$security1 || !$security2)
+        {
+            return ["status" => 0, "msg" => "Security not found !"];
+        }
+
+        $isEquity = 0;
+        if($security1->market_id != 5 || $security2->market_id != 5)
+        {
+            $isEquity = 1;
+        }        
+
         $month_id = 1;        
         $data = [];        
         
@@ -84,7 +95,7 @@ class ApiController extends Controller
 
                 foreach($returnData['history_data'] as $row)
                 {
-                    if($price_id != 1 && $market_id == 5)
+                    if($price_id != 1)
                     {
                         if($price_id == 2)
                         {
@@ -106,7 +117,7 @@ class ApiController extends Controller
 
                 foreach($benchmark_history_data as $row)
                 {
-                    if($price_id != 1 && $market_id == 5)
+                    if($price_id != 1)
                     {
                         if($price_id == 2)
                         {
@@ -157,6 +168,7 @@ class ApiController extends Controller
             "benchmark_history_data" => $returnData['benchmark_history_data'],
             "global_security_title1" => $global_security_title1,
             "global_security_title2" => $global_security_title2,
+            "isEquity" => $isEquity,
         ];
     }
 

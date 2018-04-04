@@ -17,9 +17,14 @@ function generateSecurityBasedChart()
     if(global_bond_id1 > 0 && global_bond_id2 > 0)
     {
         $("#bond-area").show();
+        
         $('html, body').animate({
                 scrollTop: $("#bond-area").offset().top - 30
         }, 600);                                        
+        
+        $("#price-dropdown-1,#price-dropdown-2").val(1);
+        $("#period-month-1,#period-month-2").val(1);
+        
         reInitChart();
     }   
     else
@@ -56,6 +61,17 @@ function reInitChart()
                 global_security_title2 = result.global_security_title2;                    
                 drawHistoryChart(result.data);
                 drawAreaChart(result.data.area_chart);
+
+                if(result.isEquity == 1)
+                {
+                    $("#price-dropdown-1 option[value=3]").hide();
+                    $("#price-dropdown-2 option[value=3]").hide();
+                }   
+                else
+                {
+                    $("#price-dropdown-1 option[value=3]").show();
+                    $("#price-dropdown-2 option[value=3]").show();
+                } 
             } 
             else
             {
@@ -192,11 +208,12 @@ function drawHistoryChart(data_values)
 
     var formatedData = [];
 
-    var counter = data_values.benchmark_history_data;
+    var counter = data_values.benchmark_history_data.length;
 
 
     $columnTitle = "";
  
+    console.log(data_values.benchmark_history_data);
 
     if (counter > 0)
     {
@@ -282,6 +299,14 @@ $(document).ready(function () {
     $('.top_bg').parallax({
         imageSrc: '/themes/frontend/images/economics-bg.jpg'
     });
+
+    $(document).on("change","#period-month-1",function(){
+        reInitChart();
+    });
+
+    $(document).on("change","#price-dropdown-1",function(){
+        reInitChart();
+    });    
 
     $(document).on("change","#period-month-2",function(){
         reInitChart();
