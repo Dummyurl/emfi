@@ -4,6 +4,7 @@
             <i class="fa fa-file"></i>Add News
         </div>
         <div class="tools">
+            <a href="javascript:;" class="collapse"> </a>
         </div>
     </div>
     <div class="portlet-body">
