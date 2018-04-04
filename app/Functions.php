@@ -183,7 +183,7 @@ function getSearchTweets($search)
 
 function getPeopleTweets($from)
 {
-    return [];
+    // return [];
 
     $settings = array(
         'oauth_access_token' => "967009378825056258-EJVMJL4ZH4xwpR1PzcIym3h3T14qkNS",

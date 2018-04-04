@@ -25,7 +25,7 @@ function generateSecurityBasedChart()
                 $('#AjaxLoaderDiv').fadeOut('slow');
                 if (result.status == 1)
                 {
-                    drawAreaChart(result.area_chart);
+                    drawAreaChart(result.data.area_chart);
                 } 
                 else
                 {
@@ -41,7 +41,7 @@ function generateSecurityBasedChart()
     }   
     else
     {
-
+        drawAreaChart([]);
     } 
 }
 
@@ -49,14 +49,20 @@ function drawAreaChart(data_values) {
     var elementID = 'area_chart';
 
     var formatedData = [];
-    formatedData.push(["Bond 1", "Bond 2"]);
-
-    for (var i in data_values)
+    formatedData.push(["", ""]);
+    if(data_values.length > 0)
     {
-        formatedData.push([data_values[i]['security_name'], data_values[i]['price_difference']]);        
-    }   
+        for(var i in data_values)
+        {
+            formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['price_difference'])]);        
+        }           
+    }    
+    else
+    {
+        formatedData.push(["", 0]);
+    }
 
-    console.log(formatedData);    
+    // console.log(formatedData);    
 
     var data = google.visualization.arrayToDataTable(formatedData);
     var options = 

@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-<section class="top_section top_bg bg-2" id="main">
+<section class="top_section top_bg bg-2 market-page" id="main">
     <div class="container">
         <div class="title_belt">
             <div class="row">

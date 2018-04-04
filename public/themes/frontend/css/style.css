@@ -891,11 +891,14 @@ margin-top:10px;
 .nav_wrapper .container {
 position:relative;
 }
-.goog-tooltip:hover div{
-color:#fff;
+.goog-tooltip:hover div
+{
+	color:#fff;
 }
-svg g rect:hover + text { fill: #ffffff;}
-svg text { fill: #ffffff;}
+
+.market-page svg g > rect:hover + text { fill: #8ab3e2;}
+analyzer-page svg g rect:hover + text { fill: #8ab3e2;}
+.analyzer-page svg text { fill: #8ab3e2;}
 
 .top_section .select_r {
 text-align:right;

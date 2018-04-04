@@ -25,7 +25,15 @@ class ApiController extends Controller
         $id2 = $request->get("id2");
         $month_id = 1;        
         $data = [];        
-        $data['area_chart'] = callCustomSP('CALL select_analyzer_bond_data('.$id1.','.$id2.','.$month_id.')');   
+        $area_chart = callCustomSP('CALL select_analyzer_bond_data('.$id1.','.$id2.','.$month_id.')');
+        if(!empty($area_chart))
+        {
+            foreach($area_chart as $key => $val)
+            {
+                $area_chart[$key]['created_format'] = date("d M Y",strtotime($area_chart[$key]['created']));   
+            }    
+        }
+        $data['area_chart'] = $area_chart;
         return ['status' => 1,'msg' => "OK", "data" => $data];
     }
 
@@ -364,6 +372,7 @@ class ApiController extends Controller
                 $rows[$i]['category'] = $category;
                 $rows[$i]['price'] = $price;
                 $rows[$i]['tooltip'] = $extraTitle;
+                $rows[$i]['date_difference'] = $row['date_difference'];
                 $i++;
             }    
         }

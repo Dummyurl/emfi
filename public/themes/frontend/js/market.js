@@ -90,9 +90,11 @@ function drawBarChart(data_values, elementID, chartType) {
         vAxis: 
         {
             textStyle: {color: '#051b34'},
-            gridlines: {color: "#8ab3e2"}
+            gridlines: {color: "#8ab3e2"},
         }
     };
+
+    // alert("ok")    
 
     var chart = new google.charts.Bar(document.getElementById(elementID));
     chart.draw(data, google.charts.Bar.convertOptions(options));

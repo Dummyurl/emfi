@@ -2,7 +2,7 @@
 
 @section('content')
 
-<section class="top_section top_bg economics_bg">
+<section class="top_section top_bg economics_bg analyzer-page">
     <div class="container">
         <div class="title_belt">
             <h2>Analyzer</h2>
@@ -28,7 +28,7 @@
     <div class="container">
         <div class="title">
             <h2>Security</h2>
-            <span>Historical Chart</span>
+            <span class="main-bond-securities"></span>
         </div>
     </div>
     <div class="container chart_section">
@@ -200,7 +200,7 @@ function drawTreetChart(data_values, elementID) {
         ['Country', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
         ['Global', null, 0, 0],
         ['Equities', 'Global', 0, 0],
-        ['Credit','Global', 0, 0],
+        ['Credit','Global', 0, 0],        
         @foreach($equities['countries'] as $k=>$v)
             ['{{ $equities['countries'][$k]['title'] }} - Equities','Equities', 0, 0],
             @foreach($equities['countries'][$k]['records'] as $r)
@@ -226,9 +226,9 @@ function drawTreetChart(data_values, elementID) {
             minColor: '#051b34',
             midColor: '#051b34',
             maxColor: '#051b34',
-            headerHeight: 15,
+//            headerHeight: 15,
             fontColor: 'white',
-            showScale: false,
+            showScale: true,
             title: '',
             // generateTooltip: showStaticTooltip
         });
@@ -241,6 +241,11 @@ function drawTreetChart(data_values, elementID) {
                 global_bond_id1 =  node_val;
                 generateSecurityBasedChart();
             }
+            else
+            {
+                global_bond_id1 =  0;
+                generateSecurityBasedChart(); 
+            }            
         });    
     }
     else if(elementID == "treechart_div2")
@@ -249,12 +254,13 @@ function drawTreetChart(data_values, elementID) {
         treeObject2 = new google.visualization.TreeMap(document.getElementById(elementID));
         
         treeObject2.draw(dataChart2, {
+            
             minColor: '#051b34',
             midColor: '#051b34',
             maxColor: '#051b34',
-            headerHeight: 15,
+//            headerHeight: 15,
             fontColor: 'white',
-            showScale: false,
+            showScale: true,
             title: '',
             // generateTooltip: showStaticTooltip
         });
@@ -266,6 +272,11 @@ function drawTreetChart(data_values, elementID) {
             {
                 global_bond_id2 =  node_val;
                 generateSecurityBasedChart();
+            }
+            else
+            {
+                global_bond_id2 =  0;
+                generateSecurityBasedChart();                
             }
         });
     }
