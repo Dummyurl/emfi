@@ -470,9 +470,8 @@ class HomeSlidersController extends Controller
             }
             if(!empty($graph_type) && $graph_type == 'line' && (!empty($option_maturity) || !empty($option_price)))
             {
-                $status = 0;
-                $msg = "Please don't add graph type <b>Line</b> with Maturity OR Price!";
-                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+                $option_maturity = null;
+                $option_price = null;
             }
             if($graph_type == 'yield_curve' && empty($option_price))
             {

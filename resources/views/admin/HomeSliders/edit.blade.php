@@ -22,7 +22,7 @@
                             {!! Form::model($formObj,['method' => $method,'files' => true, 'route' => [$action_url,$action_params],'class' => 'sky-form form form-group', 'id' => 'main-frm']) !!}
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label class="control-label">Country (Blank if provide for all countries)</label>
+                                    <label class="control-label">Country <span class="required">*</span></label>
                                     {!! Form::select('country_id',[''=>'Select Country']+ $countries,null,['class' => 'country form-control', 'data-required' => true]) !!}
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                             <div id="yield_curve_div" style="display: none;">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label class="control-label">Maturity<span class="required">*</span></label>
+                                    <label class="control-label">Maturity/Duration<span class="required">*</span></label>
                                     {!! Form::select('option_maturity',[''=>'Select Option']+$maturities,null,['class' => 'form-control','id'=>'option_maturity_id']) !!}
                                 </div>
                             </div>

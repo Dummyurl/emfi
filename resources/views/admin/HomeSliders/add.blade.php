@@ -4,16 +4,15 @@
             <i class="fa fa-file"></i>Add News
         </div>
         <div class="tools">
-            <a href="javascript:;" class="expand"> </a>
         </div>
     </div>
-    <div class="portlet-body" style="display: none">
+    <div class="portlet-body">
         <div class="portlet-body">
              <div class="form-body">
                             {!! Form::model($formObj,['method' => $method,'files' => true, 'route' => [$action_url,$action_params],'class' => 'sky-form form form-group', 'id' => 'main-frm']) !!}
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label class="control-label">Country (Blank if provide for all countries)</label>
+                                    <label class="control-label">Country <span class="required">*</span></label>
                                     {!! Form::select('country_id',[''=>'Select Country']+ $countries,null,['class' => 'country form-control', 'data-required' => true]) !!}
                                 </div>
                             </div>
