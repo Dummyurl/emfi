@@ -9,7 +9,7 @@ function initChart()
     drawTreetChart([], 'treechart_div2');    
     // drawLineChart([]);
     // drawScaterChart([]);
-    drawHistoryChart([]);
+    drawHistoryChart2([]);
 }
 
 function generateSecurityBasedChart()
@@ -17,39 +17,10 @@ function generateSecurityBasedChart()
     if(global_bond_id1 > 0 && global_bond_id2 > 0)
     {
         $("#bond-area").show();
-
-        $url = "/api/analyzer/get-area-chart";
-
         $('html, body').animate({
                 scrollTop: $("#bond-area").offset().top - 30
-        }, 600);                                
-
-        $('#AjaxLoaderDiv').fadeIn('slow');
-        $.ajax({
-            type: "POST",
-            url: $url,
-            data: {id1: global_bond_id1, id2: global_bond_id2},
-            success: function (result)
-            {
-                $('#AjaxLoaderDiv').fadeOut('slow');
-                if (result.status == 1)
-                {
-                    $(".main-bond-securities").html(result.main_title);
-                    global_security_title1 = result.global_security_title1;
-                    global_security_title2 = result.global_security_title2;                    
-                    drawAreaChart(result.data.area_chart);
-                } 
-                else
-                {
-                    $.bootstrapGrowl(result.msg, {type: 'danger', delay: 4000});
-                }
-            },
-            error: function (error) 
-            {
-                $('#AjaxLoaderDiv').fadeOut('slow');
-                $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
-            }
-        });    
+        }, 600);                                        
+        reInitChart();
     }   
     else
     {
@@ -57,6 +28,46 @@ function generateSecurityBasedChart()
         $(".main-bond-securities").html("");
         drawAreaChart([]);
     } 
+}
+
+function reInitChart()
+{        
+    $url = "/api/analyzer/get-area-chart";
+
+    $('#AjaxLoaderDiv').fadeIn('slow');
+
+    $areaMonth = $("#period-month-2").val();
+    $areaPrice = $("#price-dropdown-2").val();
+
+    $historyMonth = $("#period-month-1").val();
+    $historyPrice = $("#price-dropdown-1").val();
+
+    $.ajax({
+        type: "POST",
+        url: $url,
+        data: {id1: global_bond_id1, id2: global_bond_id2, areaMonth: $areaMonth, areaPrice: $areaPrice, historyMonth: $historyMonth, historyPrice: $historyPrice},
+        success: function (result)
+        {
+            $('#AjaxLoaderDiv').fadeOut('slow');
+            if (result.status == 1)
+            {
+                $(".main-bond-securities").html(result.main_title);
+                global_security_title1 = result.global_security_title1;
+                global_security_title2 = result.global_security_title2;                    
+                drawHistoryChart(result.data);
+                drawAreaChart(result.data.area_chart);
+            } 
+            else
+            {
+                $.bootstrapGrowl(result.msg, {type: 'danger', delay: 4000});
+            }
+        },
+        error: function (error) 
+        {
+            $('#AjaxLoaderDiv').fadeOut('slow');
+            $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
+        }
+    });    
 }
 
 function drawAreaChart(data_values) {
@@ -68,7 +79,7 @@ function drawAreaChart(data_values) {
     {
         for(var i in data_values)
         {
-            formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['price_difference'])]);        
+            formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['main_price'])]);        
         }           
     }    
     else
@@ -176,7 +187,61 @@ function drawScaterChart(data_values) {
     chart.draw(data, options);
 }
 
-function drawHistoryChart(data_values) {
+function drawHistoryChart(data_values)
+{
+
+    var formatedData = [];
+
+    var counter = data_values.benchmark_history_data;
+
+
+    $columnTitle = "";
+ 
+
+    if (counter > 0)
+    {
+        $columnTitle = "";
+        $columnTitle2 = "";
+        var formatedData = [];
+
+        formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $columnTitle2, type:'number'}]);    
+        for(var i in data_values.benchmark_history_data)
+        {
+           formatedData.push([data_values.benchmark_history_data[i][0],data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);        
+        }   
+    } 
+    else
+    {
+        formatedData.push(["", ""]);
+        formatedData.push(["", 0]);
+    }
+
+    var data = google.visualization.arrayToDataTable(formatedData);    
+    var options = {
+        title: '',
+        curveType: 'function',
+        legend: {position: 'bottom'},
+        backgroundColor: {fill: 'transparent'},
+        axisTextStyle: {color: '#344b61'},
+        titleTextStyle: {color: '#fff'},
+        legendTextStyle: {color: '#ccc'},
+        colors: ['white'],
+        hAxis: {
+            textStyle: {color: '#fff'},
+            gridlines: {color: "#39536b"}
+        },
+        vAxis: {
+            textStyle: {color: '#fff'},
+            gridlines: {color: "#39536b"},
+            baselineColor: {color: "#39536b"}
+        },
+        colors: ['#fff', '#8ab3e2']
+    };
+    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+    chart.draw(data, options);
+}
+
+function drawHistoryChart2(data_values) {
     
     var data = google.visualization.arrayToDataTable([
         ['Day', 'data1', 'data2'],
@@ -217,4 +282,12 @@ $(document).ready(function () {
     $('.top_bg').parallax({
         imageSrc: '/themes/frontend/images/economics-bg.jpg'
     });
+
+    $(document).on("change","#period-month-2",function(){
+        reInitChart();
+    });
+
+    $(document).on("change","#price-dropdown-2",function(){
+        reInitChart();
+    });    
 });

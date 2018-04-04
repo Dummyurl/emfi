@@ -1,7 +1,11 @@
 @extends('layout')
 
 @section('content')
-
+<style>
+/*.google-visualization-tooltip-item {
+  white-space: nowrap;
+}    */
+</style>
 <section class="top_section top_bg economics_bg analyzer-page">
     <div class="container">
         <div class="title_belt">
@@ -28,7 +32,7 @@
 <section class="equities">
     <div class="container">
         <div class="title">
-            <h2>Security</h2>
+            <h2>History Chart</h2>
             <span class="main-bond-securities"></span>
         </div>
     </div>
@@ -39,31 +43,23 @@
                 <div class="chart_dropdown clearfix">
                     <form>
                         <div class="col-md-3">
-                            <select name="">
-                                <option selected>Period</option>
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                            </select>
+                            <select id="period-month-1">                                
+                                @foreach(getMonths() as $month => $label)
+                                <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
+                                    {{ $label }}
+                                </option>
+                                @endforeach
+                            </select>                            
                         </div>
                         <div class="col-md-3">
-                            <select name="">
-                                <option selected>Price</option>
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                            </select>
                         </div>
                         <div class="col-md-3">
-                            <select name="">
-                                <option selected>Duration</option>
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                            </select>
                         </div>
                         <div class="col-md-3">
-                            <select name="">
-                                <option selected>Add Benchmark</option>
-                                <option>Option 1</option>
-                                <option>Option 2</option>
+                            <select id="price-dropdown-1">
+                                <option value="1" data-title="Price">Price</option>
+                                <option value="2" data-title="Yield">Yield</option>
+                                <option value="3" data-title="Spread">Spread</option>                              
                             </select>
                         </div>
                     </form>
@@ -84,6 +80,30 @@
         <div class="row">
             <div class="col-lg-12">
                 <div id="area_chart" class="area_chart" style="width: 100%; height: 500px;"></div>
+                <div class="chart_dropdown clearfix">
+                    <form>
+                        <div class="col-md-3">
+                            <select id="period-month-2">                                
+                                @foreach(getMonths() as $month => $label)
+                                <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
+                                    {{ $label }}
+                                </option>
+                                @endforeach
+                            </select>                            
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-3">
+                            <select id="price-dropdown-2">
+                                <option value="1" data-title="Price">Price</option>
+                                <option value="2" data-title="Yield">Yield</option>
+                                <option value="3" data-title="Spread">Spread</option>                              
+                            </select>
+                        </div>
+                    </form>
+                </div>                
             </div>
         </div>
     </div>

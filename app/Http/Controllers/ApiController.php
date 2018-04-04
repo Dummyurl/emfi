@@ -24,6 +24,9 @@ class ApiController extends Controller
         $id1 = $request->get("id1",0);
         $id2 = $request->get("id2",0);
 
+        $areaMonth = $request->get("areaMonth");
+        $areaPrice = $request->get("areaPrice");
+
         $security1 = \App\Models\Securities::find($id1);
         $security2 = \App\Models\Securities::find($id2);
 
@@ -41,18 +44,120 @@ class ApiController extends Controller
         }
 
 
-        $area_chart = callCustomSP('CALL select_analyzer_bond_data('.$id1.','.$id2.','.$month_id.')');
+        $area_chart = callCustomSP('CALL select_analyzer_bond_data('.$id1.','.$id2.','.$areaMonth.')');
         if(!empty($area_chart))
         {
             foreach($area_chart as $key => $val)
             {
                 $area_chart[$key]['created_format'] = date("d M Y",strtotime($area_chart[$key]['created']));   
+
+                if($areaPrice == 1)                
+                $area_chart[$key]['main_price'] = $area_chart[$key]['price_difference'];
+
+                if($areaPrice == 2)                
+                $area_chart[$key]['main_price'] = $area_chart[$key]['YLD_difference'];
+
+                if($areaPrice == 3)                
+                $area_chart[$key]['main_price'] = $area_chart[$key]['Z_difference'];
             }    
         }
 
-        $data['area_chart'] = $area_chart;
+        $returnData['area_chart'] = $area_chart;
+        $security_id    = $id1;
+        $month_id       =  $request->get("historyMonth", 1);
+        $benchmark_id       =  $id2;
+        $price_id = $request->get("historyPrice");
+        $market_id = $request->get("market_id");
+        $history_data   = "CALL Select_Historical_Data(".$id1.", ".$month_id.")";
+        $dataTemp           = callCustomSP($history_data);        
+        $returnData['history_data'] = $dataTemp;
+        $returnData['benchmark_history_data'] = [];
+                
+        if($benchmark_id > 0)
+        {
+            $history_data   = "CALL Select_Historical_Data(".$benchmark_id.", ".$month_id.")";
+            $dataTemp           = callCustomSP($history_data);
+            $benchmark_history_data = $dataTemp;            
+            if(!empty($benchmark_history_data))
+            {
+                $dataKeys = [];
 
-        return ['status' => 1,'msg' => "OK", "data" => $data,"main_title" => $main_title, "global_security_title1" => $global_security_title1,"global_security_title2" => $global_security_title2];
+                foreach($returnData['history_data'] as $row)
+                {
+                    if($price_id != 1 && $market_id == 5)
+                    {
+                        if($price_id == 2)
+                        {
+                            $dataKeys[$row['created']]['column1'] = $row['YLD_YTM_MID'];
+                        }   
+                        else if($price_id == 3)
+                        {
+                            $dataKeys[$row['created']]['column1'] = $row['Z_SPRD_MID'];
+                        } 
+                    }   
+                    else
+                    {
+                        $dataKeys[$row['created']]['column1'] = $row['last_price'];
+                    }   
+
+                    $dataKeys[$row['created']]['column2'] = NULL;
+                    $dataKeys[$row['created']]['date'] = $row['created_format'];
+                }
+
+                foreach($benchmark_history_data as $row)
+                {
+                    if($price_id != 1 && $market_id == 5)
+                    {
+                        if($price_id == 2)
+                        {
+                            $dataKeys[$row['created']]['column2'] = $row['YLD_YTM_MID'];
+                        }   
+                        else if($price_id == 3)
+                        {
+                            $dataKeys[$row['created']]['column2'] = $row['Z_SPRD_MID'];
+                        } 
+                    }   
+                    else
+                    {
+                        $dataKeys[$row['created']]['column2'] = $row['last_price'];
+                    }   
+
+                    if(!isset($dataKeys[$row['created']]['column1']))
+                    $dataKeys[$row['created']]['column1'] = NULL;
+
+                    $dataKeys[$row['created']]['date'] = $row['created_format'];                                                             
+                }
+
+
+                ksort($dataKeys);
+
+
+                $i = 0;
+
+                foreach($dataKeys as $key => $val)
+                {
+                    if(!empty($dataKeys[$key]['date']))
+                    {
+                        $finalData[$i] = [$dataKeys[$key]['date'], $dataKeys[$key]['column1'], $dataKeys[$key]['column2']];
+
+                        $i++;                        
+                    }    
+                }
+
+                $returnData['benchmark_history_data'] = $finalData;
+            }
+        }    
+
+        return 
+        [
+            'status' => 1,
+            'msg' => "OK", 
+            "data" => $returnData,            
+            "main_title" => $main_title, 
+            "benchmark_history_data" => $returnData['benchmark_history_data'],
+            "global_security_title1" => $global_security_title1,
+            "global_security_title2" => $global_security_title2,
+        ];
     }
 
     public function SelectMarkets(Request $request)
@@ -360,7 +465,8 @@ class ApiController extends Controller
             {
                 $price = $row['last_price'];
                 $category = $row['dur_adj_mid'];                                
-                $extraTitle = date("d M, Y", strtotime($row['maturity_date']));
+                $extraTitle = $row['security_name'];
+                
 
                 if($price_id == 2)
                 {
@@ -412,7 +518,9 @@ class ApiController extends Controller
                 foreach($data['history_data'] as $row)
                 {
                     $dataKeys[$i]['title1'] = $row['category'];
-                    $dataKeys[$i]['price1'] = $row['price'];                        
+                    $dataKeys[$i]['date_difference'] = $row['date_difference'];
+                    $dataKeys[$i]['price1'] = $row['price'];
+                    $dataKeys[$i]['tooltip'] = $row['tooltip'];                        
                     $dataKeys[$i]['title2'] = "";                    
                     $dataKeys[$i]['price2'] = NULL;                                                            
                     $i++;
@@ -448,11 +556,14 @@ class ApiController extends Controller
 
                     $dataKeys[$i]['title2'] = $category;
                     $dataKeys[$i]['price2'] = $price;
+                    $dataKeys[$i]['tooltip2'] = $row['security_name'];
 
                     if(!isset($dataKeys[$i]['title1']))
                     {
+                        $dataKeys[$i]['tooltip'] = "";
                         $dataKeys[$i]['title1'] = $category;                    
                         $dataKeys[$i]['price1'] = NULL;
+                        $dataKeys[$i]['date_difference'] = $row['date_difference'];
                     }
 
                     $i++;                                                            
