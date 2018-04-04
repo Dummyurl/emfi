@@ -9,7 +9,7 @@ function initChart()
 			var graphTitle = $(this).data("title");
             if($(this).data("type") == "line")
             {
-                generateHomeLineGraph(slider_id, graph_period, graphTitle);
+                generateHomeLineGraph(slider_id, graph_period, graphTitle, $(this));
             }    			
             else
             {
@@ -22,39 +22,56 @@ function generateHomeYieldGraph(slider_id, graph_period, graphTitle, object)
 {
     var global_line_graph_id = slider_id;
     // var val = object.data("date");
+    $option_maturity = object.data("maturity");
+    $duration =1;
+    if($option_maturity == "duration"){
+        $duration =2;
+    }
+    $option_price =  object.data("price");
+    $priceID = 1;
+    if($option_price == "yield"){
+        $priceID =2;
+    } else  if($option_price == "spread"){
+        $priceID =3;
+    }
     $url = "/api/economics/get-scatter-data";
     $('#AjaxLoaderDiv').fadeIn('slow');
     $.ajax({
         type: "POST",
         url: $url,
-        data: {month_id: object.data("date"), benchmark_id: '', price_id: 1, duration: 1, country: object.data("country"), tid: '', current_ticker: 2},
+        data: {month_id: object.data("date"), benchmark_id: '', price_id: $priceID, duration: $duration, country: object.data("country"), tid: '', current_ticker: 1},
         success: function (result)
         {
             data_values = result.data.history_data;
-            elementID = "chart_home_"+slider_id;            
+            elementID = "chart_home_"+object.data("mainid");
             var formatedData = [];
-
             var counter = data_values.length;
-
             $columnTitle = object.data("country_name")+" - Yield Curve";
 
             if (counter > 0)
             {
-                formatedData.push(["", ""]);
+                // formatedData.push(["", ""]);
+                formatedData.push([{label:'', type:'number'},""]);
                 var j = 1;
                 for (var i in data_values)
                 {
-                    formatedData.push([data_values[i]['category'], parseFloat(data_values[i]['price'])]);
+                    if(object.data("maturity") == "maturity")
+                    {
+                        formatedData.push([{v:parseFloat(data_values[i]['date_difference']), f:data_values[i]['category']}, parseFloat(data_values[i]['price'])]);
+                    } else {
+                        formatedData.push([data_values[i]['category'], parseFloat(data_values[i]['price'])]);
+                    }
+                    // formatedData.push([data_values[i]['category'], parseFloat(data_values[i]['price'])]);
                     j++;
                 }
-            } else
-            {
+            } else {
                 formatedData.push(["", ""]);
                 formatedData.push(["", 0]);
             }
+            
+            // console.log(formatedData);
 
             var data = google.visualization.arrayToDataTable(formatedData);
-
             var options = {
                 title: $columnTitle,
                 curveType: 'function',
@@ -77,7 +94,9 @@ function generateHomeYieldGraph(slider_id, graph_period, graphTitle, object)
             };
             var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
             chart.draw(data, options);
-
+        },   
+        complete: function(){
+            $('#AjaxLoaderDiv').fadeOut('slow');
         },
         error: function (error) {
             $('#AjaxLoaderDiv').fadeOut('slow');
@@ -86,7 +105,7 @@ function generateHomeYieldGraph(slider_id, graph_period, graphTitle, object)
     });    
 }
 
-function generateHomeLineGraph(slider_id, graph_period, graphTitle)
+function generateHomeLineGraph(slider_id, graph_period, graphTitle, object)
 {
     var global_line_graph_id = slider_id;
     var val = graph_period;
@@ -114,7 +133,7 @@ function generateHomeLineGraph(slider_id, graph_period, graphTitle)
                 }
             }
 			// console.log(formatedData);
-            lineChart(formatedData, slider_id, $columnTitle);
+            lineChart(formatedData, slider_id, $columnTitle, object);
         },
         error: function (error) {
             $('#AjaxLoaderDiv').fadeOut('slow');
@@ -123,7 +142,7 @@ function generateHomeLineGraph(slider_id, graph_period, graphTitle)
     });
 }
 
-function lineChart(formatedData, slider_id, title) {
+function lineChart(formatedData, slider_id, title, object) {
     var data = google.visualization.arrayToDataTable(formatedData);
     var options = {
       	title: title,
@@ -145,7 +164,7 @@ function lineChart(formatedData, slider_id, title) {
 		},
 chartArea:{left:60,top:60,right:30,width:"100%",height:"72%"}
     };
-    var chart = new google.visualization.LineChart(document.getElementById('chart_home_'+ slider_id));
+    var chart = new google.visualization.LineChart(document.getElementById('chart_home_'+ object.data("mainid")));
     chart.draw(data, options);
 
     $('#AjaxLoaderDiv').fadeOut('slow');
