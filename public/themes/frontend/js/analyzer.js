@@ -1,12 +1,14 @@
 google.charts.load('current', {'packages': ['corechart', 'treemap']});
 google.charts.setOnLoadCallback(initChart);
 
+var global_security_title1, global_security_title2;
+
 function initChart()
 {
     drawTreetChart([], 'treechart_div');
     drawTreetChart([], 'treechart_div2');    
-    drawLineChart([]);
-    drawScaterChart([]);
+    // drawLineChart([]);
+    // drawScaterChart([]);
     drawHistoryChart([]);
 }
 
@@ -14,8 +16,15 @@ function generateSecurityBasedChart()
 {
     if(global_bond_id1 > 0 && global_bond_id2 > 0)
     {
+        $("#bond-area").show();
+
         $url = "/api/analyzer/get-area-chart";
 
+        $('html, body').animate({
+                scrollTop: $("#bond-area").offset().top - 30
+        }, 600);                                
+
+        $('#AjaxLoaderDiv').fadeIn('slow');
         $.ajax({
             type: "POST",
             url: $url,
@@ -25,6 +34,9 @@ function generateSecurityBasedChart()
                 $('#AjaxLoaderDiv').fadeOut('slow');
                 if (result.status == 1)
                 {
+                    $(".main-bond-securities").html(result.main_title);
+                    global_security_title1 = result.global_security_title1;
+                    global_security_title2 = result.global_security_title2;                    
                     drawAreaChart(result.data.area_chart);
                 } 
                 else
@@ -41,6 +53,8 @@ function generateSecurityBasedChart()
     }   
     else
     {
+        $("#bond-area").hide();
+        $(".main-bond-securities").html("");
         drawAreaChart([]);
     } 
 }

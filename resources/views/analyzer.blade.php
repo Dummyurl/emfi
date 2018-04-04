@@ -24,6 +24,7 @@
     </div>
 </section>
 
+<div id="bond-area" style="display: none;">
 <section class="equities">
     <div class="container">
         <div class="title">
@@ -76,7 +77,7 @@
     <div class="container">
         <div class="title">
             <h2>Security</h2>
-            <span>Historical Chart</span> 
+            <span class="main-bond-securities"></span> 
         </div>
     </div>
     <div class="container chart_section">
@@ -93,7 +94,7 @@
     <div class="container">
         <div class="title">
             <h2>Regression</h2>
-            <span>Chart</span> 
+            <span class="main-bond-securities"></span> 
         </div>
     </div>
     <div class="container chart_section">
@@ -136,6 +137,8 @@
         </div>
     </div>
 </section>
+
+</div>
 
 <section class="equities">
     <div class="container">
@@ -202,15 +205,15 @@ function drawTreetChart(data_values, elementID) {
         ['Equities', 'Global', 0, 0],
         ['Credit','Global', 0, 0],        
         @foreach($equities['countries'] as $k=>$v)
-            ['{{ $equities['countries'][$k]['title'] }} - Equities','Equities', 0, 0],
+            [{v: '{{ $equities['countries'][$k]['title'] }} - Equities', f:'{{ $equities['countries'][$k]['title'] }}'},'Equities', 0, 0],
             @foreach($equities['countries'][$k]['records'] as $r)
             ['{{ $r['security_name'].' - '.$r['id'] }}','{{ $equities['countries'][$k]['title'] }} - Equities', {{ (int) $r['data']['market_size'] }}, {{ (int) $r['id'] }}],
             @endforeach
         @endforeach
         @foreach($credits['countries'] as $k=>$v)
-            ['{{ $credits['countries'][$k]['title'] }} - Credit','Credit', 0, 0],
+            [{v:'{{ $credits['countries'][$k]['title'] }} - Credit',f:'{{ $credits['countries'][$k]['title'] }}'},'Credit', 0, 0],
             @foreach($credits['countries'][$k]['records'] as $r)
-            ['{{ $r['security_name'].' - '.$r['id'] }}','{{ $credits['countries'][$k]['title'] }} - Credit', {{ (int) $r['data']['market_size'] }}, {{ (int) $r['id'] }}],
+            [{v: '{{ $r['security_name'].' - '.$r['id'] }}', f:'{{ $r['security_name'] }}'},'{{ $credits['countries'][$k]['title'] }} - Credit', {{ (int) $r['data']['market_size'] }}, {{ (int) $r['id'] }}],
             @endforeach 
         @endforeach
     ];
@@ -236,6 +239,10 @@ function drawTreetChart(data_values, elementID) {
         google.visualization.events.addListener(treeObject, 'select', function () {
             var selection = treeObject.getSelection();
             var node_val = dataChart1.getValue(selection[0].row, 3);
+            
+            // alert(dataChart1.getValue(selection[0].row, 0))            
+            // alert(node_val);
+        
             if(node_val > 0)
             {
                 global_bond_id1 =  node_val;
@@ -268,6 +275,9 @@ function drawTreetChart(data_values, elementID) {
         google.visualization.events.addListener(treeObject2, 'select', function () {
             var selection = treeObject2.getSelection();
             var node_val = dataChart2.getValue(selection[0].row, 3);
+            
+            // alert(node_val);
+            
             if(node_val > 0)
             {
                 global_bond_id2 =  node_val;

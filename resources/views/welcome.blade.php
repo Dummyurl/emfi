@@ -9,9 +9,10 @@
 		                <div class="container">
 		                    <div class="row">
 								<div class="title_belt">
-			                        <h2>@if(empty($slider->title) && $slider->title == '')
+			                        <h2>
+			                        	@if(empty($slider->title) && $slider->title == '')
 		                               		<?php 
-		                               		echo $slider->translate('en',true)->title;
+		                               			echo $slider->translate('en',true)->title;
 		                               		?>
 			                            @else
 			                               		{!! $slider->title !!}
