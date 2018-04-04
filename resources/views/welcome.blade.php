@@ -9,7 +9,14 @@
 		                <div class="container">
 		                    <div class="row">
 								<div class="title_belt">
-			                        <h2>{{ $slider->title }}</h2>
+			                        <h2>@if(empty($slider->title) && $slider->title == '')
+		                               		<?php 
+		                               		echo $slider->translate('en',true)->title;
+		                               		?>
+			                            @else
+			                               		{!! $slider->title !!}
+			                            @endif
+			                        </h2>
 			                        <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
 			                    </div>
 			                    <div class="row">
@@ -28,7 +35,13 @@
 			                        </div>
 			                        <div class="col-md-6">
 			                            <div class="text_right" style="color:white;">
-			                               {!! $slider->description !!}
+			                               	@if(empty($slider->description) && $slider->description == '')
+			                               		<?php 
+			                               		echo $slider->translate('en',true)->description;
+			                               		?>
+			                               	@else
+			                               		{!! $slider->description !!}
+			                               	@endif
 			                            </div>
 			                        </div>
 			                    </div>

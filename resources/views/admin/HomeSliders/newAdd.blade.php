@@ -23,36 +23,57 @@
 							<div class="row">
 								<div class="col-md-12">
 									<label class="control-label">Country (Blank if provide for all countries)</label>
-									{!! Form::select('country_id',[''=>'Select Country']+ $countries,null,['class' => 'country form-control']) !!}
+									{!! Form::select('country_id',[''=>'Select Country']+ $countries,null,['class' => 'country form-control', 'data-required' => true]) !!}
 								</div>
 							</div>
-							<div class="clearfix">&nbsp;</div>
-                            <div class="row">
-                                <div class="col-md-6" >
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="row" style="display: none;" id="graph_type_row">
+                                <div class="col-md-12" >
                                     <label class="control-label">Graph Type<span class="required">*</span></label>
-                                    {!! Form::select('graph_type',[''=>'Select Graph Type']+$graphTypes,null,['class' => 'form-control', 'data-required' => true,'id'=>'graph_type']) !!}
+                                    {!! Form::select('graph_type',[''=>'Select Graph Type']+$graphTypes,null,['class' => 'form-control', 'data-required' => true,'id'=>'graph_type_id']) !!}
                                 </div>
-                                <div class="col-md-6" >
+                            </div>
+                        <div class="down_content" style="display: none;">
+                            <div class="row">
+                            <div class="clearfix">&nbsp;</div>
+                                <div class="col-md-12" >
                                     <label class="control-label">Graph Period<span class="required">*</span></label>
-                                    {!! Form::select('graph_period',$months,null,['class' => 'form-control', 'data-required' => true,]) !!}
+                                    {!! Form::select('graph_period',[''=>'Select Period']+$months,null,['class' => 'form-control', 'data-required' => true,'id'=>'graph_period_id']) !!}
                                 </div>
                             </div>
                             <div class="clearfix">&nbsp;</div>
                             <div class="row" id="security_id" style="display: none;">
-								<div class="col-md-12">
+                                <div class="col-md-12">
 									<label class="control-label">Security<span class="required">*</span></label>
-									{!! Form::select('security_id',[''=>'Search Graph']+$graphs,null,['class' => 'form-control graphs' , 'data-required' => false,'id'=>'security_id_val']) !!}
+									{!! Form::select('security_id',[''=>'Select Security']+$graphs,null,['class' => 'form-control graphs' , 'data-required' => false,'id'=>'security_id_val']) !!}
 								</div>
-							<div class="clearfix">&nbsp;</div>
-                            </div>                          
-							<div class="row">
-								<div class="col-md-6">
+                            </div>
+                            <div id="yield_curve_div" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="control-label">Maturity<span class="required">*</span></label>
+                                    {!! Form::select('option_maturity',[''=>'Select Option']+$maturities,null,['class' => 'form-control','id'=>'option_maturity_id']) !!}
+                                </div>
+                            </div>
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="control-label">Price<span class="required">*</span></label>
+                                    {!! Form::select('option_price',[''=>'Select Option']+$prices,null,['class' => 'form-control','id'=>'option_price_id']) !!}
+                                </div>
+                            </div>
+                            </div>
+                            <div class="row" style="display: none;">
+								<div class="col-md-12">
 									<label class="control-label">Order<span class="required">*</span></label>
-									{!! Form::number('order',$orderMax,['class' => 'form-control', 'data-required' => true,'min'=>0]) !!}
+									{!! Form::number('order',$orderMax,['class' => 'form-control', 'data-required' => true,'min'=>1]) !!}
 								</div>
-								<div class="col-md-6">
+                            </div>
+                            <div class="row" style="display: none;">
+                                <div class="col-md-12">
+                                <div class="clearfix">&nbsp;</div>
 									<label class="control-label">Status<span class="required">*</span></label>
-									{!! Form::select('status',[1=>'Active',0=>'Inactive'],null,['class' => 'form-control', 'data-required' => true,]) !!}
+									{!! Form::select('status',[1=>'Active',0=>'Inactive'],null,['class' => 'form-control', 'data-required' => true]) !!}
 								</div>
 							</div>
                             
@@ -79,17 +100,21 @@
 							<div class="clearfix">&nbsp;</div>
 							<div class="row">
 								<div class="col-md-12">
-									<label for="" class="control-label">Post Title [{{ $lng }}]<span class="required">*</span></label>
-									{!! Form::text('post_title['.$lng.'][]',$title,['class' => 'form-control', 'data-required' => true]) !!}
+									<label for="" class="control-label">Post Title [{{ $lng }}]
+                                    @if($lng == 'en')<span class="required">*</span>@endif
+                                    </label>
+									{!! Form::text('post_title['.$lng.'][]',$title,['class' => 'form-control']) !!}
 								</div>
 								<div class="clearfix">&nbsp;</div>
 								<div class="col-md-12">
-									<label for="" class="control-label">Post Description [{{ $lng }}]<span class="required">*</span></label>
+									<label for="" class="control-label">Post Description [{{ $lng }}]
+                                    @if($lng == 'en')<span class="required">*</span>@endif
+                                    </label>
 									{!! Form::textarea('post_description['.$lng.'][]',$description,['class' => 'form-control ckeditor']) !!}
 								</div>
 							</div>
                             @endforeach
-                            
+                        </div>
                             <div class="clearfix">&nbsp;</div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -111,32 +136,40 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        var formdata = '{{ $formObj }}';
-        if(formdata != '')
-        {
-            var graph_val = $('#graph_type').val();
-            if(graph_val == 'line'){
-                $('#security_id').show();
-                $('#security_id_val').attr('disabled',false);
+        $('.country').on('change',function(){
+            var country_val = $('.country').val();
+            if(country_val != '')
+            {
+                $('#graph_type_row').show();
+            }else{
+                $('#graph_type_row').hide();
+                $('.down_content').hide();
             }
-        }
-        $('#graph_type').on('change',function(){
+        });
+
+        $('#graph_type_id').on('change',function(){
 
             $('#AjaxLoaderDiv').fadeIn('slow');
-            var graph_val = $('#graph_type').val();
+            var graph_val = $('#graph_type_id').val();
             if(graph_val == 'line'){
+                $('.down_content').show();
                 $('#security_id').show();
                 $('#security_id_val').attr('disabled',false);
+                $('#yield_curve_div').hide();
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
             else if(graph_val == 'yield_curve'){
+                $('.down_content').show();
                 $('#security_id').hide();
                 $('#security_id_val').attr('disabled',true);
+                $('#yield_curve_div').show();
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
             else if(graph_val == ''){
+                $('.down_content').show();
                 $('#security_id').hide();
                 $('#security_id_val').attr('disabled',true);
+                $('#yield_curve_div').hide();
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
             else{
@@ -144,19 +177,7 @@
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
         });
-
-        $(".country").select2({
-                placeholder: "Search Country",
-                allowClear: true,
-                minimumInputLength: 2,
-                width: null
-        });
-        $(".graphs").select2({
-                placeholder: "Search Security",
-                allowClear: true,
-                minimumInputLength: 2,
-                width: null
-        });
+        
         $('#main-frm').submit(function () {
 			for (instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].updateElement();

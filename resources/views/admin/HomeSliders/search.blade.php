@@ -20,7 +20,7 @@
                 </div>
                 <div class="col-md-4">
                     <label class="control-label">Country</label>
-                    {!! Form::select('search_country', ['' => 'Select Country'] + $countries,null,['class' => 'country form-control'] ) !!}
+                    {!! Form::select('search_country', ['' => 'Select Country'] + $countries,null,['class' => 'countrys form-control'] ) !!}
                 </div>
                 <div class="col-md-4">
                     <label class="control-label">Security</label>

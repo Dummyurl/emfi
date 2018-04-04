@@ -14,7 +14,7 @@
 @if(isset($isDelete) && $isDelete)
 <a data-id="{{ $row->id }}" href="{{ route($currentRoute.'.destroy',['id' => $row->id]) }}" class="btn btn-xs btn-danger btn-delete-record" title="delete">
     <i class="fa fa-trash-o"></i>
-</a>          
+</a>
 @endif
 @if(isset($isDefault) && $isDefault)
 	@if($row->default == 1)
@@ -23,6 +23,17 @@
 		</a>
 	@else
 		<a class="btn btn-xs btn-warning" title="Change Deafult Sataus" href="{{ url('admin/securities?changeDefault=1&changeID='.$row->id)}}" onclick="return confirm('Are you sure ?');">
+		    <i class="fa fa-check-circle-o"></i>
+		</a>
+	@endif	   
+@endif
+@if(isset($isNewsStatus) && $isNewsStatus)
+	@if($row->status == 1)
+		<a class="btn btn-xs btn-warning" title="Change Sataus To Inactive" href="{{ url('admin/home-sliders?changeStatus=0&changeID='.$row->id)}}" onclick="return confirm('Are you sure ?');">
+		    <i class="fa fa-check-circle-o"></i>
+		</a>
+	@else
+		<a class="btn btn-xs btn-success" title="Change Sataus To Active" href="{{ url('admin/home-sliders?changeStatus=1&changeID='.$row->id)}}" onclick="return confirm('Are you sure ?');">
 		    <i class="fa fa-check-circle-o"></i>
 		</a>
 	@endif	   

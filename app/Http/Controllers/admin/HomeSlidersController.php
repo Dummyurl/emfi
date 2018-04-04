@@ -19,7 +19,7 @@ class HomeSlidersController extends Controller
         $this->moduleViewName = "admin.HomeSliders";
         $this->list_url = route($this->moduleRouteText.".index");
 
-        $module = "Home Slider";
+        $module = "News";
         $this->module = $module;
 
         $this->adminAction= new AdminAction;
@@ -40,7 +40,7 @@ class HomeSlidersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_HOME_SLIDER);
 
@@ -50,10 +50,64 @@ class HomeSlidersController extends Controller
         }
 
         $data = array();
-        $data['page_title'] = "Manage Home Sliders";
+        $data['page_title'] = "Manage News";
 		$data['countries'] = \App\Models\Country::getCountryList();
         $data['add_url'] = route($this->moduleRouteText.'.create');
         $data['btnAdd'] = \App\Models\Admin::isAccess(\App\Models\Admin::$ADD_HOME_SLIDER);
+        $data['formObj'] = $this->modelObj;
+        $data['action_url'] = $this->moduleRouteText.".store";
+        $data['action_params'] = 0;
+        $data['buttonText'] = "Save";
+        $data["method"] = "POST";
+        $data['months'] = getMonths();
+        $data['graphs'] = \App\Models\Securities::pluck('security_name','id')->all();
+        $data['orderMax'] = \App\Models\HomeSlider::getMaxOrder();
+        $data['languages']= \App\Custom::getLanguages();
+        $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)'];
+        $data['maturities']= ['maturity'=>'Maturity','duration'=>'Duration'];
+        $data['prices']= ['price'=>'Price','yield'=>'Yield','spread'=>'Spread'];
+
+        if($request->get("changeID") > 0)
+        {
+            $news_id = $request->get("changeID");   
+            $status = $request->get("changeStatus");
+
+            $rows = \App\Models\HomeSlider::find($news_id);
+            
+                if($rows)
+                {
+                    $status = $rows->status;
+
+                    if($status == 0)
+                        $status = 1;
+                    else
+                        $status = 0;
+
+                    $rows->status = $status;
+                    $rows->save();
+
+                    //store logs detail
+                    $params=array();
+                    $adminAction = new AdminAction();
+                    
+                    $params['adminuserid']  = \Auth::guard('admins')->id();
+                    $params['actionid']     = $adminAction->EDIT_HOME_SLIDER;
+                    $params['actionvalue']  = $news_id;
+                    $params['remark']       = "Change Sataus::".$news_id;
+
+                    $logs=\App\Models\AdminLog::writeadminlog($params);      
+
+                    session()->flash('success_message', "Status has been changed successfully.");
+                    return redirect($this->list_url);
+                }
+                else
+                {
+                    session()->flash('success_message', "Status not changed, Please try again");
+                    return redirect($this->list_url);
+                }
+
+            return redirect($this->list_url);
+        }
 
         return view($this->moduleViewName.".index", $data);
     }
@@ -81,12 +135,13 @@ class HomeSlidersController extends Controller
         $data['buttonText'] = "Save";
         $data["method"] = "POST";
 		$data['months'] = getMonths();
-        // $data['posts'] = \App\Models\Post::pluck('title','id')->all();
         $data['graphs'] = \App\Models\Securities::pluck('security_name','id')->all();
         $data['countries'] = \App\Models\Country::getCountryList();
 		$data['orderMax'] = \App\Models\HomeSlider::getMaxOrder();
         $data['languages']= \App\Custom::getLanguages();
         $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)'];
+        $data['maturities']= ['maturity'=>'Maturity','duration'=>'Duration'];
+        $data['prices']= ['price'=>'Price','yield'=>'Yield','spread'=>'Spread'];
 
         return view($this->moduleViewName.'.newAdd', $data);
     }
@@ -119,17 +174,29 @@ class HomeSlidersController extends Controller
         {
             return ["status" => 0, "msg" => "Country is required on Yield Curve Chart"];
         }
+        $rules = [
+            'post_title.en.*.required'=>'English post title is required !',
+            'post_description.en.*.required'=>'English post description is required !',
+            'post_title.en.*.min'=>'English post title is min 2 character!',
+            'post_description.en.*.min'=>'English post description is min 2 character!',
+            'post_title.es.*.min'=>'English post title is min 2 character!',
+            'post_description.es.*.min'=>'English post description is min 2 character!',
+            ];
 
 		$validator = Validator::make($request->all(), [
-            'security_id' => 'exists:'.TBL_SECURITY.',id',
-            'country_id' => 'exists:'.TBL_COUNTRY.',id',
-            'graph_type' => ['required', Rule::in(['line','yield_curve'])],
+            'country_id' => 'required|exists:'.TBL_COUNTRY.',id',
 			'graph_period' => ['required', Rule::in($months)],
+            'graph_type' => ['required', Rule::in(['line','yield_curve'])],
+            'security_id' => 'exists:'.TBL_SECURITY.',id',
+            'option_maturity' => Rule::in(['maturity','duration']),
+            'option_price' => Rule::in(['price','yield','spread']),
             'status' => ['required', Rule::in([1,0])],
             'order' => 'required|min:0|numeric',
-			'post_title.*.*' => 'required|min:2',
-			'post_description.*.*' => 'min:2',
-        ]);
+            'post_title.en.*' => 'required|min:2',
+            'post_description.en.*' => 'required|min:2',
+			'post_title.es.*' => 'min:2',
+			'post_description.es.*' => 'min:2',
+        ],$rules);
 
         // check validations
         if ($validator->fails())
@@ -153,7 +220,9 @@ class HomeSlidersController extends Controller
             $order = $request->get('order');
 			$post_title = $request->get('post_title');
 			$post_description = $request->get('post_description');
-			$graph_period = $request->get('graph_period');
+            $graph_period = $request->get('graph_period');
+            $option_maturity = $request->get('option_maturity');
+			$option_price = $request->get('option_price');
 
             if($graph_type == 'line' && empty($security_id))
             {
@@ -164,7 +233,25 @@ class HomeSlidersController extends Controller
             if(!empty($graph_type) && $graph_type == 'yield_curve' && !empty($security_id))
             {
                 $status = 0;
-                $msg = 'Please enter valid data!';
+                $msg = "Please don't add graph type <b>Yield Curve</b> with security!";
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            if(!empty($graph_type) && $graph_type == 'line' && (!empty($option_maturity) || !empty($option_price)))
+            {
+                $status = 0;
+                $msg = "Please don't add graph type <b>Line</b> with Maturity OR Price!";
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            if($graph_type == 'yield_curve' && empty($option_maturity))
+            {
+                $status = 0;
+                $msg = 'Please select Maturities option !';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            if($graph_type == 'yield_curve' && empty($option_price))
+            {
+                $status = 0;
+                $msg = 'Please select Price option !';
                 return ['status' => $status, 'msg' => $msg, 'data' => $data];
             }
             if(!empty($order) && $order>0)
@@ -180,10 +267,12 @@ class HomeSlidersController extends Controller
 
             $obj = new HomeSlider();
 
-            $obj->security_id = $security_id;
-            $obj->graph_type = $graph_type;
 			$obj->country_id = $country_id;
 			$obj->graph_period = $graph_period;
+            $obj->graph_type = $graph_type;
+            $obj->security_id = $security_id;
+            $obj->option_maturity = $option_maturity;
+            $obj->option_price = $option_price;
             $obj->status = $statuss;
             $obj->order = $order;
             $obj->save();
@@ -241,7 +330,6 @@ class HomeSlidersController extends Controller
      */
     public function edit($id)
     {
-
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_HOME_SLIDER);
 
         if($checkrights)
@@ -269,8 +357,10 @@ class HomeSlidersController extends Controller
         $data['orderMax'] = null;
         $data['languages']= \App\Custom::getLanguages();
         $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)'];
+        $data['maturities']= ['maturity'=>'Maturity','duration'=>'Duration'];
+        $data['prices']= ['price'=>'Price','yield'=>'Yield','spread'=>'Spread'];
 
-        return view($this->moduleViewName.'.newAdd', $data);
+        return view($this->moduleViewName.'.edit', $data);
     }
 
     /**
@@ -303,17 +393,29 @@ class HomeSlidersController extends Controller
         {
             return ["status" => 0, "msg" => "Country is required on Yield Curve Chart"];
         }
+        $rules = [
+            'post_title.en.*.required'=>'English post title is required !',
+            'post_description.en.*.required'=>'English post description is required !',
+            'post_title.en.*.min'=>'English post title is min 2 character!',
+            'post_description.en.*.min'=>'English post description is min 2 character!',
+            'post_title.es.*.min'=>'English post title is min 2 character!',
+            'post_description.es.*.min'=>'English post description is min 2 character!',
+            ];
 
 		$validator = Validator::make($request->all(), [
-            'security_id' => 'exists:'.TBL_SECURITY.',id',
             'country_id' => 'exists:'.TBL_COUNTRY.',id',
+            'security_id' => 'exists:'.TBL_SECURITY.',id',
             'graph_type' => ['required', Rule::in(['line','yield_curve'])],
 			'graph_period' => ['required', Rule::in($months)],
+            'option_maturity' => Rule::in(['maturity','duration']),
+            'option_price' => Rule::in(['price','yield','spread']),
             'status' => ['required', Rule::in([1,0])],
             'order' => 'required|min:0|numeric',
-			'post_title.*.*' => 'required|min:2',
-			'post_description.*.*' => 'required|min:2',
-        ]);
+            'post_title.en.*' => 'required|min:2',
+            'post_description.en.*' => 'required|min:2',
+            'post_title.es.*' => 'min:2',
+            'post_description.es.*' => 'min:2',
+        ],$rules);
 
         // check validations
         if(!$model)
@@ -343,6 +445,8 @@ class HomeSlidersController extends Controller
 		    $post_title = $request->get('post_title');
 		    $post_description = $request->get('post_description');
 			$graph_period = $request->get('graph_period');
+            $option_maturity = $request->get('option_maturity');
+            $option_price = $request->get('option_price');
 
             if($graph_type == 'line' && empty($security_id))
             {
@@ -350,10 +454,28 @@ class HomeSlidersController extends Controller
                 $msg = 'Please enter security !';
                 return ['status' => $status, 'msg' => $msg, 'data' => $data];
             }
+            if($graph_type == 'yield_curve' && empty($option_maturity))
+            {
+                $status = 0;
+                $msg = 'Please select Maturities option !';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            if(!empty($graph_type) && $graph_type == 'line' && (!empty($option_maturity) || !empty($option_price)))
+            {
+                $status = 0;
+                $msg = "Please don't add graph type <b>Line</b> with Maturity OR Price!";
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            if($graph_type == 'yield_curve' && empty($option_price))
+            {
+                $status = 0;
+                $msg = 'Please select Price option !';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
             if(!empty($graph_type) && $graph_type == 'yield_curve' && !empty($security_id))
             {
                 $status = 0;
-                $msg = 'Please enter valid data !';
+                $msg = "Please don't add graph type <b>Yield Curve</b> with security!";
                 return ['status' => $status, 'msg' => $msg, 'data' => $data];
             }
             if(!empty($order) && $order>0)
@@ -367,12 +489,14 @@ class HomeSlidersController extends Controller
                 }
             }
 
-            $model->security_id = $security_id;
-            $model->graph_type = $graph_type;
 			$model->country_id = $country_id;
 			$model->graph_period = $graph_period;
+            $model->graph_type = $graph_type;
+            $model->security_id = $security_id;
             $model->status = $statuss;
             $model->order = $order;
+            $model->option_maturity = $option_maturity;
+            $model->option_price = $option_price;
             $model->save();
 
             $languages = \App\Custom::getLanguages();
@@ -485,6 +609,7 @@ class HomeSlidersController extends Controller
                         'row' => $row,
                         'isEdit' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_HOME_SLIDER),
                         'isDelete' => \App\Models\Admin::isAccess(\App\Models\Admin::$DELETE_HOME_SLIDER),
+                        'isNewsStatus' => \App\Models\Admin::isAccess(\App\Models\Admin::$DELETE_HOME_SLIDER),
 
                     ]
                     )->render();
@@ -501,9 +626,9 @@ class HomeSlidersController extends Controller
             ->editColumn('status', function($row){
 
                 if($row->status == 1)
-                    return '<a class="btn btn-primary btn-xs">Active</a>';
+                    return '<a class="btn btn-success btn-xs">Active</a>';
                 else
-                    return '<a class="btn btn-danger btn-xs">Inactive</a>';
+                    return '<a class="btn btn-warning btn-xs">Inactive</a>';
             })
             
             ->rawColumns(['action','status'])
