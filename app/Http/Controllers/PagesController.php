@@ -17,7 +17,7 @@ use App\Models\HomeSlider;
 class PagesController extends Controller {
 
     public function __construct() {
-        
+
     }
 
     public function home(Request $request) {
@@ -36,6 +36,12 @@ class PagesController extends Controller {
     public function economics(Request $request, $country = "") {
         $data = array();
         $data['page_title'] = "EMFI: Economics";
+		$locale = session('locale');
+		if (empty($locale)) {
+			$locale = 'en';
+		}
+
+		app()->setLocale($locale);
 
         if (!empty($country)) {
             $defaultCountry = $country;
@@ -59,7 +65,7 @@ class PagesController extends Controller {
         }
 
         $data['country_benchmarkes'] = \App\Models\Tickers::getCountriesList();
-        // dd($data['country_benchmarkes']);        
+        // dd($data['country_benchmarkes']);
         $data['number_of_charts'] = count(array_keys($data['bond_data']));
         $data['tweets'] = getSearchTweets($data['countryObj']->title);
         $data['last_update_date'] = getLastUpdateDate();
@@ -93,35 +99,41 @@ class PagesController extends Controller {
     public function analyzer(Request $request) {
         $data = array();
         $data['page_title'] = "EMFI: Analyzer";
-        $data['last_update_date'] = getLastUpdateDate();        
+		$locale = session('locale');
+		if (empty($locale)) {
+			$locale = 'en';
+		}
+
+		app()->setLocale($locale);
+        $data['last_update_date'] = getLastUpdateDate();
         $treeMapData = callCustomSP('CALL select_tree_map_data(0)');
         $data['treeMap'] = [];
-        
+
         $equities = [];
         $credits = [];
-        
+
         foreach($treeMapData as $r)
         {
             if($r['market_id'] == 5)
             {
                 $credits['countries'][$r['country']]['title'] = $r['country_name'];
                 $credits['countries'][$r['country']]['records'][] = ['id' => $r['id'],'security_name' => $r['security_name'],'data' => $r];
-            }    
+            }
             else
             {
                 $equities['countries'][$r['country']]['title'] = $r['country_name'];
                 $equities['countries'][$r['country']]['records'][] = ['id' => $r['id'],'security_name' => $r['security_name'],'data' => $r];
-            }     
+            }
         }
-        
+
         $data['equities'] = $equities;
         $data['credits'] = $credits;
-        
+
 //        echo "<pre>";
 //        print_r($equities);
 //        print_r($credits);
 //        print_r();
-//        exit;                
+//        exit;
 
         return view('analyzer', $data);
     }
@@ -135,6 +147,13 @@ class PagesController extends Controller {
             "credit" => 5,
         ];
 
+		$locale = session('locale');
+		if (empty($locale)) {
+			$locale = 'en';
+		}
+
+		app()->setLocale($locale);
+
         $data = array();
         $data['page_title'] = "EMFI: Markets";
         // $data['tweets'] = getLatestTweets();
@@ -143,7 +162,7 @@ class PagesController extends Controller {
 
         $data['markets'] = MarketType::getArrayList();
         $data['market_boxes'] = callCustomSP('CALL select_market()');
-        // dd($data['market_boxes']);        
+        // dd($data['market_boxes']);
 
         $data['selected_market'] = isset($main_categories[$type]) ? $main_categories[$type] : 1;
         // dd($data['market_boxes']);

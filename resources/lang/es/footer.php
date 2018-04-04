@@ -1,16 +1,15 @@
 <?php
 	return [
-	'quick_links'=>'Quick Links',
-	'markets'=>'Markets',
-	'login'=>'Login',
-	'contact'=>'Contact',
-	'legal_info'=>'Legal Info',
-	'terms_of_uses'=>'Terms of Use',
-	'privacy_statements'=>'Privacy Statements',
-	'cookies'=>'Cookies',
-	'copy_rights'=>'EMFI Securities Limited. All Rights Reserved',
-	'copy_rights_1'=>'For Professional Investors Only. Not For Use By Retail Clients',
-	'copy_rights_2'=>'Authorised And Regulated By The Financial Conduct Authority',
-	
-	]; 
+	'quick_links'=>'ENLACES RÁPIDOS',
+	'markets'=>'Mercados',
+	'login'=>'Acceso',
+	'contact'=>'Contacto',
+	'legal_info'=>'INFORMACIÓN LEGAL',
+	'terms_of_uses'=>'Términos de Uso',
+	'privacy_statements'=>'Declaraciones de privacidad',
+	'cookies'=>'Galletas',
+	'copy_rights'=>'EMFI Securities Limited. Todos los derechos reservados',
+	'copy_rights_1'=>'Solo para inversores profesionales. No para uso de clientes minoristas',
+	'copy_rights_2'=>'Autorizado y regulado por la autoridad de conducta financiera',
+	];
 ?>
