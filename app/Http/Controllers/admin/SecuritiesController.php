@@ -426,6 +426,8 @@ fa fa-check-square-o'></i></a>";
 									$bond_histotry_el->create($hdata);
 								}
 							} else {
+								$hdata['YLD_YTM_MID'] 	= $idata['yld_ytm_mid'];
+								$hdata['Z_SPRD_MID'] 	= $idata['z_sprd_mid'];
 								$Historical_data = HistoricalData::where("security_id", $security_id)
 																->where("created", $created_date)->first();
 								if(!empty($Historical_data)){
