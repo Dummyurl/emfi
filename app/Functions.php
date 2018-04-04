@@ -116,6 +116,7 @@ function getLatestTweets()
 
 function getSearchTweets($search)
 {
+    return [];
     $settings = array(
         'oauth_access_token' => "967009378825056258-EJVMJL4ZH4xwpR1PzcIym3h3T14qkNS",
         'oauth_access_token_secret' => "ghGjIOl2FMNV9nQRDXDkVzdMSOU2de00Utm85fuxh1hrT",
@@ -154,6 +155,8 @@ function getSearchTweets($search)
 
 function getPeopleTweets($from)
 {
+    return [];
+    
     $settings = array(
         'oauth_access_token' => "967009378825056258-EJVMJL4ZH4xwpR1PzcIym3h3T14qkNS",
         'oauth_access_token_secret' => "ghGjIOl2FMNV9nQRDXDkVzdMSOU2de00Utm85fuxh1hrT",

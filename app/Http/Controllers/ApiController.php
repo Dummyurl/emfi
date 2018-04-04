@@ -19,6 +19,16 @@ class ApiController extends Controller
         
     }
 
+    public function getAreaChart(Request $request)
+    {
+        $id1 = $request->get("id1");
+        $id2 = $request->get("id2");
+        $month_id = 1;        
+        $data = [];        
+        $data['area_chart'] = callCustomSP('CALL select_analyzer_bond_data('.$id1.','.$id2.','.$month_id.')');   
+        return ['status' => 1,'msg' => "OK", "data" => $data];
+    }
+
     public function SelectMarkets(Request $request)
     {
         $data = callCustomSP('SELECT id, `market_name` FROM market_type ORDER BY id');
