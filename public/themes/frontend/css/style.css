@@ -531,7 +531,7 @@ left:0;
 .four_block h3 {
 	font-size:23px;
 	font-weight:600;
-	text-transform:uppercase;
+/*	text-transform:uppercase;*/
 	margin-bottom:20px;
 }
 .four_block h3:after {
@@ -785,7 +785,7 @@ footer address {
 	font-size:14px;
 	line-height:1;
 	background: transparent url(../images/select-arrow.png) no-repeat 90% center;
-	text-transform:uppercase;
+/*	text-transform:uppercase;*/
 	-webkit-appearance: none;
 	-moz-appearance:    none;
 	appearance:         none;
@@ -894,7 +894,8 @@ position:relative;
 .goog-tooltip:hover div{
 color:#fff;
 }
-svg g > rect:hover + text { fill: #8ab3e2;}
+svg g rect:hover + text { fill: #ffffff;}
+svg text { fill: #ffffff;}
 
 .top_section .select_r {
 text-align:right;

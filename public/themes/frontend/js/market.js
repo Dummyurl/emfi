@@ -446,8 +446,8 @@ $(document).ready(function () {
     $(document).on("click", ".custom-market-change", function () {
         global_line_graph_text = $(this).data("name");
         global_line_graph_id = $(this).data("id");
-        generateLineGraph();        
-
+        $("#benchmark-dropdown").html('<option value="">Add Benchmark</option>');
+        generateLineGraph();                
         $('html, body').animate({
                 scrollTop: $("#linegraph-data").offset().top
         }, 600);                        

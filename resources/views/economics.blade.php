@@ -9,13 +9,15 @@
         <div class="title_belt">
             <div class="row">
                 <div class="col-md-6">
-                  <h2>ECONOMIES</h2>
+                  <h2>Economies</h2>
                   <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
                 </div>
                 <div class="col-md-6 select_r">
                     <select id="country-combo">
                         @foreach($countries as $cnt)
-                            <option {{ $cnt->id == $countryObj->id ? 'selected="selected"':'' }} value="{{ $cnt->country_code }}">{{ $cnt->title }}</option>
+                            <option {{ $cnt->id == $countryObj->id ? 'selected="selected"':'' }} value="{{ $cnt->country_code }}">
+                                {{ ucwords(strtolower($cnt->title)) }}
+                            </option>
                         @endforeach
                     </select>                    
                 </div>
@@ -147,7 +149,7 @@ foreach($country_benchmarkes as $cnt)
     <div class="container">
         <div class="title">
             <h2>Yield Curve</h2>
-            <span class="market-chart-title">{{ $countryObj->title }} - ({{ $key }})</span> 
+            <span class="market-chart-title" id="main-chart-title-{{ $counter}}">{{ $countryObj->title }} - ({{ $key }})</span> 
         </div>
     </div>
     <div class="container chart_section">
@@ -159,10 +161,16 @@ foreach($country_benchmarkes as $cnt)
                         <div class="col-md-3">
                             <select id="period-month-{{ $counter }}">
                                 <option selected value="{{ date('Y-m-d') }}">Today</option>   
-                                @foreach(getMonths() as $month => $label)                                
-                                <option value="{{ date('Y-m-d', strtotime('-'.$month.' month')) }}">
-                                    {{ $label }}
-                                </option>
+                                @foreach(getMonths() as $month => $label)                               
+                                @if($month == -1) 
+                                    <option value="{{ date('Y-01-01') }}">
+                                        {{ $label }}
+                                    </option>                                
+                                @else
+                                    <option value="{{ date('Y-m-d', strtotime('-'.$month.' month')) }}">
+                                        {{ $label }}
+                                    </option>                                
+                                @endif
                                 @endforeach                                
                             </select>
                         </div>
@@ -273,9 +281,9 @@ foreach($country_benchmarkes as $cnt)
                 <div class="chart_dropdown clearfix">
                     <form>
                         <div class="col-md-4">
-                            <select id="period-month-10">
+                            <select id="period-month-10">                                
                                 @foreach(getMonths() as $month => $label)
-                                <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
+                                <option {!! $month == 12 ? 'selected="selected"':'' !!} value="{{ $month }}">
                                     {{ $label }}
                                 </option>
                                 @endforeach                                

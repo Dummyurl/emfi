@@ -21,13 +21,13 @@ function initChart()
 function generateHomeYieldGraph(slider_id, graph_period, graphTitle, object)
 {
     var global_line_graph_id = slider_id;
-    var val = object.data("date");
+    // var val = object.data("date");
     $url = "/api/economics/get-scatter-data";
     $('#AjaxLoaderDiv').fadeIn('slow');
     $.ajax({
         type: "POST",
         url: $url,
-        data: {month_id: graph_period, benchmark_id: '', price_id: 1, duration: 1, country: object.data("country"), tid: '', current_ticker: 2},
+        data: {month_id: object.data("date"), benchmark_id: '', price_id: 1, duration: 1, country: object.data("country"), tid: '', current_ticker: 2},
         success: function (result)
         {
             data_values = result.data.history_data;

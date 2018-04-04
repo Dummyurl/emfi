@@ -69,13 +69,13 @@
                     */ ?>
                     <li class="{{ \Request::is('economics','economics/*') ? 'active':'' }}"><a href="{{ url('economics')}}">{{ __('header.economics') }}</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <a href="{{ url('analyzer') }}">
                             {{ __('header.analyzer') }}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">{{ __('header.relval') }}</a></li>
-                            <li><a href="#">{{ __('header.regression') }}</a></li>
-                            <li><a href="#">{{ __('header.slope') }}</a></li>
+                            <li><a href="{{ url('analyzer') }}#relval">{{ __('header.relval') }}</a></li>
+                            <li><a href="{{ url('analyzer') }}#regression">{{ __('header.regression') }}</a></li>
+                            <li><a href="{{ url('analyzer') }}#slope">{{ __('header.slope') }}</a></li>
                         </ul>
                     </li>
                     <?php /*

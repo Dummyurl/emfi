@@ -21,4 +21,4 @@ Route::post('market/get-market-data/{market_id}', 'ApiController@TopGainer');
 Route::post('economics/get-historical-bond-data/{country}', 'ApiController@getEconomicsHistoryChart');
 Route::post('economics/get-scatter-data', 'ApiController@getEconomicsScatterChart');
 Route::get('get-last-date', 'ApiController@getLastUploadDate');
-
+Route::post('analyzer/get-area-chart', 'ApiController@getAreaChart');

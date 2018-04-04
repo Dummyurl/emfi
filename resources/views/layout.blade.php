@@ -11,7 +11,7 @@
         <link href="{{ asset('themes/frontend/css/owl.carousel.min.css') }}" rel="stylesheet">
         <link href="{{ asset('themes/frontend/css/owl.theme.default.min.css') }}" rel="stylesheet">
         <link href="{{ asset('themes/frontend/css/fonts.css') }}" rel="stylesheet">
-<link href="{{ asset("/themes/admin/assets")}}/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+        <link href="{{ asset("/themes/admin/assets")}}/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
         <link href="{{ asset("/themes/admin/assets")}}/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
 
         <link href="{{ asset('themes/frontend/css/style.css') }}" rel="stylesheet">
@@ -35,11 +35,15 @@
     <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script type="text/javascript" src="{{ asset('themes/frontend/js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
+    @if(\Request::is("analyzer","analyzer/*"))    
+        <script src="https://www.google.com/jsapi"></script>
+    @endif    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>    
     <script type="text/javascript" src="{{ asset('themes/frontend/js/owl.carousel.min.js') }}"></script>    
     <script type="text/javascript" src="{{ asset('/js/jquery.bootstrap-growl.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('themes/frontend/js/parallax.min.js') }}"></script>    
-<script src="{{ asset("/themes/admin/assets")}}/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>            
+    <script src="{{ asset("/themes/admin/assets")}}/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>            
     <script type="text/javascript" src="{{ asset('themes/frontend/js/app.js') }}"></script>
     @yield('scripts')
 </html>	

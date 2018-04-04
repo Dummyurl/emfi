@@ -6,13 +6,15 @@
         <div class="title_belt">
             <div class="row">
                 <div class="col-md-6">
-                    <h2>MARKETS</h2>
+                    <h2>Markets</h2>
                     <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
                 </div>
                 <div class="col-md-6 select_r">
                     <select name="markets" id="markets">                        
                         @foreach($markets as $val => $label)
-                        <option data-url="{{ url(getMarketUrls($val)) }}" {{ $selected_market == $val ? 'selected="selected"':'' }} value="{{ $val }}">{{ $label }}</option>
+                        <option data-url="{{ url(getMarketUrls($val)) }}" {{ $selected_market == $val ? 'selected="selected"':'' }} value="{{ $val }}">
+                            {{ ucwords(strtolower($label)) }}
+                        </option>
                         @endforeach                                                 
                     </select>
                 </div>
@@ -20,14 +22,13 @@
         </div>
         <div class="row">
             @if(!empty($market_boxes))
-            @foreach($market_boxes as $row)
-            
+            @foreach($market_boxes as $row)            
             <div class="col-lg-3 col-md-3 col-sm-6 four_block">
                 <div class="inner_blue_box">
-                    <a data-id="{{ $row['id'] }}" data-name="{{ $row['market_name'] }}" href="javascript:void(0);" class="view-btn custom-market-change">
+                    <a data-id="{{ $row['id'] }}" data-name="{{ ucwords(strtolower($row['market_name'])) }}" href="javascript:void(0);" class="view-btn custom-market-change">
                         <span>View Chart</span>
                     </a>                  
-                    <h3>{{ $row['market_name'] or '' }}</h3>
+                    <h3>{{ ucwords(strtolower($row['market_name'])) }}</h3>
                     <span class="value">
                         {{ $row['last_price'] }}
                     </span>

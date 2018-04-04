@@ -39,9 +39,10 @@ $today = date('Y-m-d');
                                     <input type="submit" value="Upload CSV" class="btn btn-success" />
 
                                     </div>
-                                <div class="col-md-3 pull-right text-right">
+                                <!-- <div class="col-md-3 pull-right text-right">
                                     <a href="{{ asset('file/Sample.csv') }}" class="btn btn-primary">
-                                        Sample File DownLoad</a></div>
+                                        Sample File DownLoad</a>
+                                </div> -->
 
                                 </div>
                             {!! Form::close() !!}

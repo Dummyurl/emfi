@@ -16,7 +16,7 @@
 			                        <div class="col-md-6">
 			                            <div class="chart_left">
 			                                <div class="charts-container" data-id="{{ $slider->security_id }}"
-			                                	data-date="{{ $slider->graph_period != -1 ? date('Y-m-d', strtotime('-'.$slider->graph_period.' month')):-1 }}"
+			                                	data-date="{{ $slider->graph_period != -1 ? date('Y-m-d', strtotime('-'.$slider->graph_period.' month')):date('Y-01-01') }}"
 												data-period="{{ $slider->graph_period }}"
 												data-title="{{ $slider->graph_title }}"
 												data-type="{{ $slider->graph_type }}"

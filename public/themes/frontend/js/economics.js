@@ -93,14 +93,16 @@ function generateLineGraph(chartType)
 function drawChart(data_values, elementID, chartType)
 {
     var formatedData = [];
-
     var counter = data_values.length;
 
-    $columnTitle = "";
+
+    $columnTitle = $("#main-chart-title-"+chartType).html();
+
+    // alert($columnTitle);
 
     if (counter > 0)
     {
-        formatedData.push(["", ""]);
+        formatedData.push([$columnTitle, $columnTitle]);
         var j = 1;
         for (var i in data_values)
         {
