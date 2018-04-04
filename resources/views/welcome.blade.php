@@ -10,9 +10,12 @@
 		                    <div class="row">
 								<div class="title_belt">
 			                        <h2>@if(empty($slider->title) && $slider->title == '')
-		                               		<?php 
-		                               		echo $slider->translate('en',true)->title;
-		                               		?>
+		                               	<?php 
+		                               		$val = $slider->translate('en',true)->title;
+		                               		if(empty($val))
+		                               			$slider->translate('es',true)->title;
+		                               	?>
+		                               	{{ $val }}
 			                            @else
 			                               		{!! $slider->title !!}
 			                            @endif
@@ -36,9 +39,12 @@
 			                        <div class="col-md-6">
 			                            <div class="text_right" style="color:white;">
 			                               	@if(empty($slider->description) && $slider->description == '')
-			                               		<?php 
-			                               		echo $slider->translate('en',true)->description;
-			                               		?>
+			                               	<?php 
+			                               	$desc = $slider->translate('en',true)->description;
+			                               	if(empty($desc))
+			                               	$desc = $slider->translate('es',true)->description;
+			                               	?>
+			                               	{!! $desc !!}
 			                               	@else
 			                               		{!! $slider->description !!}
 			                               	@endif

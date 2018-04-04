@@ -175,8 +175,6 @@ class HomeSlidersController extends Controller
             return ["status" => 0, "msg" => "Country is required on Yield Curve Chart"];
         }
         $rules = [
-            'post_title.en.*.required'=>'English post title is required !',
-            'post_description.en.*.required'=>'English post description is required !',
             'post_title.en.*.min'=>'English post title is min 2 character!',
             'post_description.en.*.min'=>'English post description is min 2 character!',
             'post_title.es.*.min'=>'English post title is min 2 character!',
@@ -192,8 +190,8 @@ class HomeSlidersController extends Controller
             'option_price' => Rule::in(['price','yield','spread']),
             'status' => ['required', Rule::in([1,0])],
             'order' => 'required|min:0|numeric',
-            'post_title.en.*' => 'required|min:2',
-            'post_description.en.*' => 'required|min:2',
+            'post_title.en.*' => 'min:2',
+            'post_description.en.*' => 'min:2',
 			'post_title.es.*' => 'min:2',
 			'post_description.es.*' => 'min:2',
         ],$rules);
@@ -238,9 +236,8 @@ class HomeSlidersController extends Controller
             }
             if(!empty($graph_type) && $graph_type == 'line' && (!empty($option_maturity) || !empty($option_price)))
             {
-                $status = 0;
-                $msg = "Please don't add graph type <b>Line</b> with Maturity OR Price!";
-                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+                $option_maturity = null;
+                $option_price = null;
             }
             if($graph_type == 'yield_curve' && empty($option_maturity))
             {
@@ -252,6 +249,18 @@ class HomeSlidersController extends Controller
             {
                 $status = 0;
                 $msg = 'Please select Price option !';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            if(empty($post_title['en'][0]) &&  empty($post_title['es'][0]))
+            {
+                $status = 0;
+                $msg = 'Please enter at least one title!';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            if(empty($post_description['en'][0]) && empty($post_description['es'][0]))
+            {
+                $status = 0;
+                $msg = 'Please enter at least one description!';
                 return ['status' => $status, 'msg' => $msg, 'data' => $data];
             }
             if(!empty($order) && $order>0)
@@ -278,7 +287,8 @@ class HomeSlidersController extends Controller
             $obj->save();
 
             $languages = \App\Custom::getLanguages();
-            foreach ($languages as $locale => $val) {
+            foreach ($languages as $locale => $val)
+            {
 
                 if(is_array($post_title) && !empty($post_title))
                 {
@@ -394,8 +404,6 @@ class HomeSlidersController extends Controller
             return ["status" => 0, "msg" => "Country is required on Yield Curve Chart"];
         }
         $rules = [
-            'post_title.en.*.required'=>'English post title is required !',
-            'post_description.en.*.required'=>'English post description is required !',
             'post_title.en.*.min'=>'English post title is min 2 character!',
             'post_description.en.*.min'=>'English post description is min 2 character!',
             'post_title.es.*.min'=>'English post title is min 2 character!',
@@ -411,8 +419,8 @@ class HomeSlidersController extends Controller
             'option_price' => Rule::in(['price','yield','spread']),
             'status' => ['required', Rule::in([1,0])],
             'order' => 'required|min:0|numeric',
-            'post_title.en.*' => 'required|min:2',
-            'post_description.en.*' => 'required|min:2',
+            'post_title.en.*' => 'min:2',
+            'post_description.en.*' => 'min:2',
             'post_title.es.*' => 'min:2',
             'post_description.es.*' => 'min:2',
         ],$rules);
@@ -476,6 +484,18 @@ class HomeSlidersController extends Controller
             {
                 $status = 0;
                 $msg = "Please don't add graph type <b>Yield Curve</b> with security!";
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            if(empty($post_title['en'][0]) &&  empty($post_title['es'][0]))
+            {
+                $status = 0;
+                $msg = 'Please enter at least one title!';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            if(empty($post_description['en'][0]) && empty($post_description['es'][0]))
+            {
+                $status = 0;
+                $msg = 'Please enter at least one description!';
                 return ['status' => $status, 'msg' => $msg, 'data' => $data];
             }
             if(!empty($order) && $order>0)

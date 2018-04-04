@@ -42,7 +42,7 @@
                             <div id="yield_curve_div" style="display: none;">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label class="control-label">Maturity<span class="required">*</span></label>
+                                    <label class="control-label">Maturity/Duration<span class="required">*</span></label>
                                     {!! Form::select('option_maturity',[''=>'Select Option']+$maturities,null,['class' => 'form-control','id'=>'option_maturity_id']) !!}
                                 </div>
                             </div>
@@ -50,7 +50,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label class="control-label">Price<span class="required">*</span></label>
-                                    {!! Form::select('option_price',[''=>'Select Option']+$prices,null,['class' => 'form-control','id'=>'option_price_id']) !!}
+                                    {!! Form::select('option_price',[''=>'Select Option']+$prices,'price',['class' => 'form-control','id'=>'option_price_id']) !!}
                                 </div>
                             </div>
                             </div>
@@ -92,14 +92,12 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="" class="control-label">Post Title [{{ $lng }}]
-                                    @if($lng == 'en')<span class="required">*</span>@endif
                                     </label>
                                     {!! Form::text('post_title['.$lng.'][]',$title,['class' => 'form-control']) !!}
                                 </div>
                                 <div class="clearfix">&nbsp;</div>
                                 <div class="col-md-12">
                                     <label for="" class="control-label">Post Description [{{ $lng }}]
-                                    @if($lng == 'en')<span class="required">*</span>@endif
                                     </label>
                                     {!! Form::textarea('post_description['.$lng.'][]',$description,['class' => 'form-control ckeditor']) !!}
                                 </div>
