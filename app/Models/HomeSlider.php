@@ -20,7 +20,7 @@ class HomeSlider extends Model
      *
      * @var array
      */
-    protected $fillable = ['post_id','security_id','country_id','graph_type','graph_period','post_description','post_title','slider_type','status','order'];
+    protected $fillable = ['post_id','security_id','country_id','graph_type','graph_period','post_description','post_title','slider_type','status','order','option_maturity','option_price'];
     /**
      * Set or unset the timestamps for the model
      *

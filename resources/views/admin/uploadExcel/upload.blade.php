@@ -36,7 +36,7 @@ $today = date('Y-m-d');
                                         <label class="control-label">Upload<span class="required">*</span></label>
                                         {!! Form::file('excelToUpload', ['class' => 'form-control', 'data-required' => true]) !!}
                                     </div>
-                                    <input type="submit" value="Upload CSV" class="btn btn-success" />
+                                    <input type="submit" value="Upload" class="btn btn-success" />
 
                                     </div>
                                 <!-- <div class="col-md-3 pull-right text-right">
