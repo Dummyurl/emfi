@@ -21,7 +21,7 @@ function resetFields(chartType)
    } 
    else if(chartType == 3)
    {
-        $("#period-month-10").val($("#period-month-10 option:first").attr('value'));
+        $("#period-month-10").val(12);
         $("#price-dropdown-10").val(1);
         $("#benchmark-dropdown-10").html('<option value="">Add Benchmark</option>');        
    }    
@@ -95,21 +95,48 @@ function drawChart(data_values, elementID, chartType)
     var formatedData = [];
     var counter = data_values.length;
 
-
+    $("#main-chart-title-"+chartType).html($("#hid-main-chart-title-"+chartType).html());
     $columnTitle = $("#main-chart-title-"+chartType).html();
 
     // alert($columnTitle);
 
     if (counter > 0)
     {
-        formatedData.push([$columnTitle, $columnTitle]);
-        var j = 1;
-        for (var i in data_values)
+        if(chartType == 1)
         {
-            formatedData.push([data_values[i]['category'], parseFloat(data_values[i]['price'])]);
-            j++;
-        }
-    } else
+            formatedData.push([{label:'', type:'number'}, $columnTitle]);
+            var j = 1;
+            for (var i in data_values)
+            {
+                if($("#duration-dropdown-1").val() == 1)
+                {
+                    formatedData.push([{v:parseFloat(data_values[i]['date_difference']), f:data_values[i]['category']}, parseFloat(data_values[i]['price'])]);
+                }
+                else
+                {
+                    formatedData.push([data_values[i]['category'], parseFloat(data_values[i]['price'])]);
+                }                
+                j++;
+            }
+        }   
+        else if(chartType == 2)
+        {
+            formatedData.push([{label:'', type:'number'}, $columnTitle]);
+            var j = 1;
+            for (var i in data_values)
+            {
+                if($("#duration-dropdown-1").val() == 1)
+                {
+                    formatedData.push([{v:parseFloat(data_values[i]['date_difference']), f:data_values[i]['category']}, parseFloat(data_values[i]['price'])]);
+                }
+                else
+                {
+                    formatedData.push([data_values[i]['category'], parseFloat(data_values[i]['price'])]);
+                }                
+            }
+        } 
+    } 
+    else
     {
         formatedData.push(["", ""]);
         formatedData.push(["", 0]);
@@ -117,10 +144,9 @@ function drawChart(data_values, elementID, chartType)
 
     var data = google.visualization.arrayToDataTable(formatedData);
 
-    var options = {
-        title: '',
+    var options = {        
         curveType: 'function',
-        legend: {position: 'bottom'},
+        legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
         titleTextStyle: {color: '#fff'},
@@ -146,6 +172,8 @@ function drawBenchmarkChart(data_values, chartType)
     elementID = "curve_chart-"+chartType;
     $columnTitle = $("#country-combo option:selected").text();
 
+    $("#main-chart-title-"+chartType).html($("#hid-main-chart-title-"+chartType).html() +" VS "+ $("select#benchmark-dropdown-"+chartType+" option:selected").text());    
+
     var formatedData = [];
     formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $("select#benchmark-dropdown-"+chartType+" option:selected").text(), type:'number'}]);
 
@@ -160,7 +188,7 @@ function drawBenchmarkChart(data_values, chartType)
     var options = {
         title: '',
         curveType: 'function',
-        legend: {position: 'bottom'},
+        legend: {position: 'none'},        
         // series: {
         //   0: {targetAxisIndex: 0},
         //   1: {targetAxisIndex: 1}

@@ -2,6 +2,23 @@
 
 @section('content')
 
+@php
+$twiceCountries = [];
+$tickerIDs = [];
+foreach($country_benchmarkes as $r)
+{
+    if(isset($twiceCountries[$r['country_id']]))
+    {
+        $twiceCountries[$r['country_id']] = $twiceCountries[$r['country_id']] + 1;
+        $tickerIDs[] = $r['country_id'];
+    }
+    else
+    {
+        $twiceCountries[$r['country_id']] = 1;
+    }    
+}
+@endphp
+
 <section class="top_section top_bg economics_bg">
     <div class="container">
         <input type="hidden" id="main_country_id" value="{{ $countryObj->id }}" />
@@ -149,7 +166,18 @@ foreach($country_benchmarkes as $cnt)
     <div class="container">
         <div class="title">
             <h2>Yield Curve</h2>
-            <span class="market-chart-title" id="main-chart-title-{{ $counter}}">{{ $countryObj->title }} - ({{ $key }})</span> 
+            <span class="market-chart-title" id="main-chart-title-{{ $counter}}">
+                {{ ucwords(strtolower($countryObj->title)) }}
+                @if(in_array($countryObj->id, $tickerIDs))
+                    {{ ' - '.ucwords(strtolower($key)) }}
+                @endif
+            </span> 
+            <div style="display: none;" id="hid-main-chart-title-{{ $counter}}">
+                {{ ucwords(strtolower($countryObj->title)) }}
+                @if(in_array($countryObj->id, $tickerIDs))
+                    {{ ' - '.ucwords(strtolower($key)) }}
+                @endif                
+            </div>
         </div>
     </div>
     <div class="container chart_section">
@@ -199,7 +227,13 @@ foreach($country_benchmarkes as $cnt)
                                     @if(trim(strtolower($key)) == trim(strtolower($cnt['ticker_name'])) && $cnt['country_id'] == $countryObj->id)
                                         
                                     @else
-                                    <option data-tid="{{ $cnt['ticker_type'] }}" value="{{ $cnt['country_id'] }}">{{ $cnt['country_title'] }}</option>    
+                                    <option data-tid="{{ $cnt['ticker_type'] }}" value="{{ $cnt['country_id'] }}">
+                                        @if(in_array($cnt['country_id'],$tickerIDs))
+                                        {{ ucwords(strtolower($cnt['country_title'])) }} - {{ ucwords(strtolower($cnt['ticker_name'])) }} 
+                                        @else
+                                        {{ ucwords(strtolower($cnt['country_title'])) }} 
+                                        @endif
+                                    </option>    
                                     @endif
                                 @endforeach                                                                
                             </select>
@@ -214,7 +248,12 @@ foreach($country_benchmarkes as $cnt)
     <div class="container">
         <div class="title">
             <h2>Market Prices</h2>
-            <span>{{ $countryObj->title }} - ({{ $key }})</span>
+            <span>
+                {{ ucwords(strtolower($countryObj->title)) }}
+                @if(in_array($countryObj->id, $tickerIDs))
+                    {{ ' - '.ucwords(strtolower($key)) }}
+                @endif                
+            </span>
         </div>
     </div>
     <div class="container">

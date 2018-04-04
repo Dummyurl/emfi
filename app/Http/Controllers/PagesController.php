@@ -22,8 +22,9 @@ class PagesController extends Controller {
 
     public function home(Request $request) {
         $data = array();
-        $data['page_title'] = "EMFI:";
+        $data['page_title'] = "EMFI: Home Page";
         $locale = session('locale');
+        
         if (empty($locale)) {
             $locale = 'en';
         }

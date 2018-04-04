@@ -9,6 +9,7 @@
 		                <div class="container">
 		                    <div class="row">
 								<div class="title_belt">
+<<<<<<< HEAD
 			                        <h2>@if(empty($slider->title) && $slider->title == '')
 		                               	<?php 
 		                               		$val = $slider->translate('en',true)->title;
@@ -16,6 +17,13 @@
 		                               			$slider->translate('es',true)->title;
 		                               	?>
 		                               	{{ $val }}
+=======
+			                        <h2>
+			                        	@if(empty($slider->title) && $slider->title == '')
+		                               		<?php 
+		                               			echo $slider->translate('en',true)->title;
+		                               		?>
+>>>>>>> bb7b7e173d0aff3356dbcdfcf657e298fd838da9
 			                            @else
 			                               		{!! $slider->title !!}
 			                            @endif
