@@ -19,6 +19,84 @@ class ApiController extends Controller
         
     }
 
+    public function getRelValData(Request $request)
+    {
+        $returnData['relval_chart'] = [];
+
+        $relvalMonth = $request->get("relvalMonth");
+        $relvalMonth = "2018-03-30";
+        
+        $relvalPrice = $request->get("relvalPrice");
+        $relvalRating = $request->get("relvalRating");
+        $relvalCreditEquity = $request->get("relvalCreditEquity");
+        $relval_chart = callCustomSP('CALL select_relval_chart_data('.$relvalCreditEquity.',"'.$relvalMonth.'")');
+
+        $status = 1;
+        $msg = "OK";
+        $data = [];
+        
+        $finalArray =  [];
+        if(!empty($relval_chart))
+        {
+            $i = 0;
+            foreach($relval_chart as $r)
+            {
+                if($relvalRating == 1)
+                {
+                    $data[$i]['category'] = $r['rtg_sp'];
+                }
+                else 
+                {
+                    $data[$i]['category'] = $r['current_oecd_member_cor_class'];
+                }
+
+                if($relvalPrice == 1)
+                {
+                    $data[$i]['price'] = $r['last_price'];   
+                }    
+                else if($relvalPrice == 2)
+                {
+                    $data[$i]['price'] = $r['YLD_YTM_MID'];
+                }    
+                else if($relvalPrice == 3)
+                {
+                    $data[$i]['price'] = $r['Z_SPRD_MID'];
+                }    
+
+                $data[$i]['security_name'] = $r['security_name'];
+                $data[$i]['created_format'] = $r['created_format'];
+                
+
+                $i++;
+            }     
+            
+            $i = 0;
+            foreach($data as $r)
+            {
+                $finalArray[$r['category']][] = $r['price'];
+            }       
+
+//            echo "<pre>";
+//            print_r($finalArray);
+            
+            if($relvalRating == 1)
+            {                
+                ksort($finalArray);
+            }   
+            else
+            {
+                krsort($finalArray);                
+            }                       
+            
+            //  $finalArray = array_reverse($finalArray);            
+            //            echo "<pre>";
+            //            print_r($finalArray);
+            //            exit;
+        }           
+
+        return ['status' => $status, "msg" => $msg, "data" => $finalArray];
+    }
+
     public function getAreaChart(Request $request)
     {
         $id1 = $request->get("id1",0);
@@ -157,7 +235,40 @@ class ApiController extends Controller
 
                 $returnData['benchmark_history_data'] = $finalData;
             }
-        }    
+        }   
+
+        $returnData['regression_chart'] = [];
+        $regressionMonth = $request->get("regressionMonth");
+        $regressionPrice = $request->get("regressionPrice");
+
+        $regression_chart = callCustomSP('CALL select_analyzer_bond_data('.$id1.','.$id2.','.$regressionMonth.')');
+        if(!empty($regression_chart))
+        {
+            foreach($regression_chart as $key => $val)
+            {
+                $regression_chart[$key]['created_format'] = date("d M Y",strtotime($regression_chart[$key]['created']));   
+
+                if($regressionPrice == 1)
+                {
+                    $regression_chart[$key]['main_price'] = $regression_chart[$key]['last_price'];
+                    $regression_chart[$key]['main_price2'] = $regression_chart[$key]['last_price2'];    
+                }                                
+                else if($regressionPrice == 2)
+                {
+                    $regression_chart[$key]['main_price'] = $regression_chart[$key]['YLD_YTM_MID'];
+                    $regression_chart[$key]['main_price2'] = $regression_chart[$key]['YLD_YTM_MID2'];
+                }                
+                else if($regressionPrice == 3)
+                {
+                    $regression_chart[$key]['main_price'] = $regression_chart[$key]['Z_SPRD_MID'];
+                    $regression_chart[$key]['main_price2'] = $regression_chart[$key]['Z_SPRD_MID2'];    
+                }                                
+            }
+
+            $returnData['regression_chart'] = $regression_chart;    
+        }
+
+
 
         return 
         [
@@ -165,7 +276,6 @@ class ApiController extends Controller
             'msg' => "OK", 
             "data" => $returnData,            
             "main_title" => $main_title, 
-            "benchmark_history_data" => $returnData['benchmark_history_data'],
             "global_security_title1" => $global_security_title1,
             "global_security_title2" => $global_security_title2,
             "isEquity" => $isEquity,

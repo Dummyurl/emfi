@@ -27,12 +27,12 @@
         </div>
     </div>
 </section>
-
+<div id="slope"></div>
 <div id="bond-area" style="display: none;">
 <section class="equities">
     <div class="container">
         <div class="title">
-            <h2>History Chart</h2>
+            <h2>Slope</h2>
             <span class="main-bond-securities"></span>
         </div>
     </div>
@@ -109,7 +109,8 @@
     </div>
 </section>
 
-
+<div id="regression"></div>
+<div class="clearfix"></div>
 <section class="equities">
     <div class="container">
         <div class="title">
@@ -124,31 +125,23 @@
                 <div class="chart_dropdown clearfix">
                     <form>
                         <div class="col-md-3">
-                            <select name="">
-                                <option selected>Period</option>
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                            </select>
+                            <select id="period-month-3">                                
+                                @foreach(getMonths() as $month => $label)
+                                <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
+                                    {{ $label }}
+                                </option>
+                                @endforeach
+                            </select>                            
                         </div>
                         <div class="col-md-3">
-                            <select name="">
-                                <option selected>Price</option>
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                            </select>
                         </div>
                         <div class="col-md-3">
-                            <select name="">
-                                <option selected>Duration</option>
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                            </select>
                         </div>
                         <div class="col-md-3">
-                            <select name="">
-                                <option selected>Add Benchmark</option>
-                                <option>Option 1</option>
-                                <option>Option 2</option>
+                            <select id="price-dropdown-3">
+                                <option value="1" data-title="Price">Price</option>
+                                <option value="2" data-title="Yield">Yield</option>
+                                <option value="3" data-title="Spread">Spread</option>                              
                             </select>
                         </div>
                     </form>
@@ -160,10 +153,13 @@
 
 </div>
 
+<div id="relval" class="clearfix">&nbsp;</div>
+<div class="clearfix"></div>
+
 <section class="equities">
     <div class="container">
         <div class="title">
-            <h2>Security</h2>
+            <h2>RELVAL</h2>
             <span>Historical Chart</span>
         </div>
     </div>
@@ -174,31 +170,38 @@
                 <div class="chart_dropdown clearfix">
                     <form>
                         <div class="col-md-3">
-                            <select name="">
-                                <option selected>Period</option>
-                                <option>Option 1</option>
-                                <option>Option 2</option>
+                            <select id="period-month-4">
+                                <option selected value="{{ date('Y-m-d') }}">Today</option>   
+                                @foreach(getMonths() as $month => $label)                               
+                                @if($month == -1) 
+                                    <option value="{{ date('Y-01-01') }}">
+                                        {{ $label }}
+                                    </option>                                
+                                @else
+                                    <option value="{{ date('Y-m-d', strtotime('-'.$month.' month')) }}">
+                                        {{ $label }}
+                                    </option>                                
+                                @endif
+                                @endforeach                                
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select name="">
-                                <option selected>Price</option>
-                                <option>Option 1</option>
-                                <option>Option 2</option>
+                            <select id="relvalRating">                                
+                                <option value="1">Rating</option>
+                                <option value="2">OECD</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select name="">
-                                <option selected>Duration</option>
-                                <option>Option 1</option>
-                                <option>Option 2</option>
+                            <select id="price-dropdown-4">
+                                <option value="1" data-title="Price">Price</option>
+                                <option value="2" data-title="Yield">Yield</option>
+                                <option value="3" data-title="Spread">Spread</option>                              
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select name="">
-                                <option selected>Add Benchmark</option>
-                                <option>Option 1</option>
-                                <option>Option 2</option>
+                            <select id="relvalCreditEquity">                                
+                                <option value="5">Credit</option>
+                                <option value="1">Equities</option>
                             </select>
                         </div>
                     </form>
@@ -210,7 +213,30 @@
 @stop
 @section('scripts')
 <script type="text/javascript">
+var global_page_type = '{{ $page_type }}';
 var treeObject, treeObject2, dataChart1, dataChart2, global_bond_id1, global_bond_id2;
+var default_security_id1 = 0; 
+var default_security_id2 = 0;
+
+@if($default_security_id1 > 0)
+    default_security_id1 = {{ $default_security_id1 }};
+@endif
+
+@if($default_security_id2 > 0)
+    default_security_id2 = {{ $default_security_id2 }};
+@endif
+
+// var default_security_id1 = 0; 
+// var default_security_id2 = 0;
+
+
+var row1 = 0;
+var column1 = 0;
+
+var row2 = 0;
+var column2 = 0;
+
+
 function showStaticTooltip(row, size, value) 
 {
     return '<div style="background:#fd9; padding:10px; border-style:solid">Val: '+value+'</div>';
@@ -238,7 +264,23 @@ function drawTreetChart(data_values, elementID) {
         @endforeach
     ];
 
-    
+
+    for(var i in dataTemp)
+    {
+        if (typeof dataTemp[i][3] !== 'undefined')
+        {
+            if(default_security_id1 > 0 && dataTemp[i][3] == default_security_id1)
+            {
+                row1 = i-1;
+                column1 = 3;
+            }   
+            else if(default_security_id2 > 0 && dataTemp[i][3] == default_security_id2)
+            {
+                row2 = i-1;
+                column2 = 3;                
+            }            
+        }    
+    }        
 
     if(elementID == "treechart_div")
     {
@@ -249,31 +291,37 @@ function drawTreetChart(data_values, elementID) {
             minColor: '#051b34',
             midColor: '#051b34',
             maxColor: '#051b34',
-//            headerHeight: 15,
             fontColor: 'white',
             showScale: true,
             title: '',
-            // generateTooltip: showStaticTooltip
         });
         
         google.visualization.events.addListener(treeObject, 'select', function () {
             var selection = treeObject.getSelection();
             var node_val = dataChart1.getValue(selection[0].row, 3);
-            
-            // alert(dataChart1.getValue(selection[0].row, 0))            
-            // alert(node_val);
         
             if(node_val > 0)
             {
                 global_bond_id1 =  node_val;
-                generateSecurityBasedChart();
+                generateSecurityBasedChart(1);
             }
             else
             {
                 global_bond_id1 =  0;
-                generateSecurityBasedChart(); 
+                generateSecurityBasedChart(1); 
             }            
         });    
+
+        if(default_security_id1 > 0 && row1 > 0 && column1 > 0) 
+        {
+            treeObject.setSelection([{row:row1,column:column1}]);
+            global_bond_id1 =  default_security_id1;
+            generateSecurityBasedChart(0);            
+        }    
+        else
+        {
+            treeObject.setSelection([{row:1,column:0}]);
+        }
     }
     else if(elementID == "treechart_div2")
     {
@@ -301,14 +349,25 @@ function drawTreetChart(data_values, elementID) {
             if(node_val > 0)
             {
                 global_bond_id2 =  node_val;
-                generateSecurityBasedChart();
+                generateSecurityBasedChart(1);
             }
             else
             {
                 global_bond_id2 =  0;
-                generateSecurityBasedChart();                
+                generateSecurityBasedChart(1);                
             }
         });
+
+        if(default_security_id2 > 0 && row2 > 0 && column2 > 0) 
+        {
+            treeObject2.setSelection([{row:row2,column:column2}]);
+            global_bond_id2 =  default_security_id2;
+            generateSecurityBasedChart(0);                        
+        }            
+        else
+        {
+            treeObject2.setSelection([{row:2,column:0}]);
+        }        
     }
 }
 </script>

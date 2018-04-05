@@ -110,6 +110,49 @@ class SecurityController extends Controller
             return redirect($this->list_url);
         }
 
+        if($request->get("changeAnalyzerDefault") > 0)
+        {
+            $security_id = $request->get("changeID");
+            $status = $request->get("changeAnalyzerDefault");
+            $rows = \App\Models\Securities::find($security_id);
+            if($rows)
+            {
+                $market_id = $rows->market_id;
+                $count_Rows = Securities::where('market_id',$market_id)->where('bond_default', 1)->orderBy('updated_at')->count();
+
+                if($count_Rows >=2){
+                    $marketRows = Securities::where('market_id',$market_id)->where('bond_default', 1)->orderBy('updated_at')->first();
+                    if($marketRows)
+                    {
+                        $marketRows->bond_default = 0;
+                        $marketRows->save();
+                    }
+                }
+
+                $rows->bond_default = $status;
+                $rows->save();
+
+                //store logs detail
+                $params=array();
+                $adminAction = new AdminAction();
+                
+                $params['adminuserid']  = \Auth::guard('admins')->id();
+                $params['actionid']     = $adminAction->EDIT_SECURITY;
+                $params['actionvalue']  = $security_id;
+                $params['remark']       = "Change Default Sataus::".$security_id;
+
+                $logs=\App\Models\AdminLog::writeadminlog($params);      
+
+                session()->flash('success_message', "Status has been changed successfully.");
+                return redirect($this->list_url);
+            } else {
+                session()->flash('success_message', "Status not changed, Please try again");
+                return redirect($this->list_url);
+            }
+
+            return redirect($this->list_url);
+        }
+
         return view($this->moduleViewName.".index", $data);    
     }
 
@@ -337,6 +380,7 @@ class SecurityController extends Controller
                     'row' => $row,                             
                     'isEdit' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_SECURITY),
                     'isDefault' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_SECURITY),                                                     
+                    'isAnalyzerDefault' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_SECURITY),
                     ])->render();
             })
             
@@ -353,11 +397,18 @@ class SecurityController extends Controller
                 else
                     return '';
             })
-            ->rawColumns(['action','default'])
+            ->addColumn('bond_default',  function ($row){
+                if($row->bond_default == 1)
+                    return '<a class="btn btn-info btn-xs">Yes</a>';
+                else
+                    return '';
+            })
+            ->rawColumns(['action','default', 'bond_default'])
             ->filter( function ($query){
                 $search_cusip = request()->get('search_cusip');
                 $search_market = request()->get('search_market');
                 $search_status = request()->get('search_status');
+                $search_analyzer_default = request()->get('search_analyzer_default');
                 $search_country = request()->get("search_country"); 
 
                 if (!empty($search_cusip)) {
@@ -373,6 +424,10 @@ class SecurityController extends Controller
                 if($search_status == "1" || $search_status == "0")
                 {
                     $query = $query->where(TBL_SECURITY.".default", $search_status);
+                }
+                if($search_analyzer_default == "1" || $search_analyzer_default == "0")
+                {
+                    $query = $query->where(TBL_SECURITY.".bond_default", $search_analyzer_default);
                 }
             })
             ->make(true);       

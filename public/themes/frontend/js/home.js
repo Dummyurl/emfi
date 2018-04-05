@@ -100,7 +100,7 @@ function generateHomeYieldGraph(slider_id, graph_period, graphTitle, object)
         },
         error: function (error) {
             $('#AjaxLoaderDiv').fadeOut('slow');
-            $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
+            // $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
         }
     });    
 }
@@ -137,7 +137,7 @@ function generateHomeLineGraph(slider_id, graph_period, graphTitle, object)
         },
         error: function (error) {
             $('#AjaxLoaderDiv').fadeOut('slow');
-            $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
+            // $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
         }
     });
 }

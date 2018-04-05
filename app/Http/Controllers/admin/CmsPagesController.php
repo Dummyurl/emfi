@@ -19,16 +19,16 @@ class CmsPagesController extends Controller
         $this->list_url = route($this->moduleRouteText.".index");
 
         $module = "Page";
-        $this->module = $module;
+        $this->module = $module;  
 
-        $this->adminAction= new AdminAction;
-
+        $this->adminAction= new AdminAction; 
+        
         $this->modelObj = new CmsPage();
 
         $this->addMsg = $module . " has been added successfully!";
         $this->updateMsg = $module . " has been updated successfully!";
         $this->deleteMsg = $module . " has been deleted successfully!";
-        $this->deleteErrorMsg = $module . " can not deleted!";
+        $this->deleteErrorMsg = $module . " can not deleted!";       
 
         view()->share("list_url", $this->list_url);
         view()->share("moduleRouteText", $this->moduleRouteText);
@@ -42,19 +42,19 @@ class CmsPagesController extends Controller
     public function index()
     {
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_CMS_PAGES);
-
-        if($checkrights)
+        
+        if($checkrights) 
         {
             return $checkrights;
-        }
+        }   
 
-        $data = array();
+        $data = array();        
         $data['page_title'] = "Manage Pages";
 
         $data['add_url'] = route($this->moduleRouteText.'.create');
-        $data['btnAdd'] = \App\Models\Admin::isAccess(\App\Models\Admin::$ADD_CMS_PAGES);
-
-        return view($this->moduleViewName.".index", $data);
+        $data['btnAdd'] = \App\Models\Admin::isAccess(\App\Models\Admin::$ADD_CMS_PAGES);                  
+        
+        return view($this->moduleViewName.".index", $data);    
     }
 
     /**
@@ -65,8 +65,8 @@ class CmsPagesController extends Controller
     public function create()
     {
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$ADD_CMS_PAGES);
-
-        if($checkrights)
+        
+        if($checkrights) 
         {
             return $checkrights;
         }
@@ -76,10 +76,10 @@ class CmsPagesController extends Controller
         $data['action_url'] = $this->moduleRouteText.".store";
         $data['action_params'] = 0;
         $data['buttonText'] = "Save";
-        $data["method"] = "POST";
+        $data["method"] = "POST"; 
         $data['languages']= \App\Custom::getLanguages();
 
-        return view($this->moduleViewName.'.cmsAdd', $data);
+        return view($this->moduleViewName.'.cmsAdd', $data); 
     }
 
     /**
@@ -91,8 +91,8 @@ class CmsPagesController extends Controller
     public function store(Request $request)
     {
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_CMS_PAGES);
-
-        if($checkrights)
+        
+        if($checkrights) 
         {
             return $checkrights;
         }
@@ -101,30 +101,30 @@ class CmsPagesController extends Controller
         $data = array();
 
         $validator = Validator::make($request->all(), [
-            'page_constant' => 'required|min:2|unique:'.TBL_CMS_PAGES.',page_constant',
-            'title.*.*' => 'required|min:2',
+            'page_constant' => 'required|min:2|unique:'.TBL_CMS_PAGES.',page_constant',     
+            'title.*.*' => 'required|min:2',     
             'description.*.*' => 'required|min:2',
         ]);
-
+        
         // check validations
-        if ($validator->fails())
+        if ($validator->fails())         
         {
             $messages = $validator->messages();
-
+            
             $status = 0;
             $msg = "";
-
-            foreach ($messages->all() as $message)
+            
+            foreach ($messages->all() as $message) 
             {
                 $msg .= $message . "<br />";
             }
-        }
+        }         
         else
         {
             $name = $request->get('page_constant');
             $title = $request->get('title');
             $description = $request->get('description');
-
+               
             $obj = new \App\Models\CmsPage();
             $obj->page_constant = $name;
             $obj->save();
@@ -139,28 +139,28 @@ class CmsPagesController extends Controller
                     $obj->translateOrNew($locale)->title = $titles;
                 }
                 if(is_array($description) && !empty($description))
-                {
+                {   
                     $desc = isset($description[$locale][0]) ? $description[$locale][0] : '';
                     $obj->translateOrNew($locale)->description = $desc;
                 }
             }
             $obj->save();
-
+            
             $id = $obj->id;
             //store logs detail
-            $params=array();
-
+            $params=array();    
+                                    
             $params['adminuserid']  = \Auth::guard('admins')->id();
             $params['actionid']     = $this->adminAction->ADD_CMS_PAGES;
             $params['actionvalue']  = $id;
             $params['remark']       = "Add CMS Page::".$id;
-
+                                    
             $logs=\App\Models\AdminLog::writeadminlog($params);
 
-            session()->flash('success_message', $msg);
-
+            session()->flash('success_message', $msg);           
+            
         }
-
+        
         return ['status' => $status, 'msg' => $msg, 'data' => $data];
 
     }
@@ -185,8 +185,8 @@ class CmsPagesController extends Controller
     public function edit($id)
     {
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_CMS_PAGES);
-
-        if($checkrights)
+        
+        if($checkrights) 
         {
             return $checkrights;
         }
@@ -195,7 +195,7 @@ class CmsPagesController extends Controller
         if(!$formObj)
         {
             abort(404);
-        }
+        }   
 
         $data = array();
         $data['formObj'] = $formObj;
@@ -222,38 +222,38 @@ class CmsPagesController extends Controller
 
         $status = 1;
         $msg = $this->updateMsg;
-        $data = array();
-
-        $validator = Validator::make($request->all(), [
-            //'name' => 'required|min:2|unique:'.TBL_CMS_PAGES.',name,'.$id,
-            'title.*.*' => 'required|min:2',
-            'description.*.*' => 'required|min:2',
+        $data = array();        
+        
+        $validator = Validator::make($request->all(), [          
+            //'name' => 'required|min:2|unique:'.TBL_CMS_PAGES.',name,'.$id,     
+            'title.*.*' => 'required|min:2',     
+            'description.*.*' => 'required|min:2',    
         ]);
-
+        
         // check validations
         if(!$model)
         {
             $status = 0;
             $msg = "Record not found !";
         }
-        else if ($validator->fails())
+        else if ($validator->fails()) 
         {
             $messages = $validator->messages();
-
+            
             $status = 0;
             $msg = "";
-
-            foreach ($messages->all() as $message)
+            
+            foreach ($messages->all() as $message) 
             {
                 $msg .= $message . "<br />";
             }
-        }
+        }         
         else
         {
             //$name = $request->get('name');
             $title = $request->get('title');
             $description = $request->get('description');
-
+               
             //$model->name = $name;
             //$model->save();
 
@@ -267,24 +267,24 @@ class CmsPagesController extends Controller
                     $model->translateOrNew($locale)->title = $titles;
                 }
                 if(is_array($description) && !empty($description))
-                {
+                {   
                     $desc = isset($description[$locale][0]) ? $description[$locale][0] : '';
                     $model->translateOrNew($locale)->description = $desc;
                 }
             }
             $model->save();
-
+            
             //store logs detail
                 $params=array();
-
+                
                 $params['adminuserid']  = \Auth::guard('admins')->id();
                 $params['actionid']     = $this->adminAction->EDIT_CMS_PAGES;
                 $params['actionvalue']  = $id;
                 $params['remark']       = "Edit CMS Page::".$id;
 
-                $logs=\App\Models\AdminLog::writeadminlog($params);
+                $logs=\App\Models\AdminLog::writeadminlog($params);           
         }
-
+        
         return ['status' => $status,'msg' => $msg, 'data' => $data];
     }
 
@@ -297,91 +297,91 @@ class CmsPagesController extends Controller
     public function destroy($id,Request $request)
     {
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$DELETE_CMS_PAGES);
-
-        if($checkrights)
+        
+        if($checkrights) 
         {
             return $checkrights;
         }
 
-        $modelObj = $this->modelObj->find($id);
+        $modelObj = $this->modelObj->find($id); 
 
-        if($modelObj)
+        if($modelObj) 
         {
-            try
-            {
+            try 
+            {             
                 $backUrl = $request->server('HTTP_REFERER');
                 $trans = \App\Models\CmsPageTranslation::where('cms_page_id',$id);
                 if($trans){
                     $trans->delete();
                 }
                 $modelObj->delete();
-                session()->flash('success_message', $this->deleteMsg);
+                session()->flash('success_message', $this->deleteMsg); 
 
                 //store logs detail
                 $params=array();
-
+                
                 $params['adminuserid']  = \Auth::guard('admins')->id();
                 $params['actionid']     = $this->adminAction->DELETE_CMS_PAGES;
                 $params['actionvalue']  = $id;
                 $params['remark']       = "Delete CMS Page::".$id;
 
-                $logs=\App\Models\AdminLog::writeadminlog($params);
+                $logs=\App\Models\AdminLog::writeadminlog($params);     
 
                 return redirect($backUrl);
-            }
-            catch (Exception $e)
+            } 
+            catch (Exception $e) 
             {
                 session()->flash('error_message', $this->deleteErrorMsg);
                 return redirect($this->list_url);
             }
-        }
-        else
+        } 
+        else 
         {
             session()->flash('error_message', "Record not exists");
             return redirect($this->list_url);
         }
     }
 
-
+    
     public function data(Request $request)
     {
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_CMS_PAGES);
-
-        if($checkrights)
+        
+        if($checkrights) 
         {
             return $checkrights;
         }
-
+     
         $model = CmsPage::query();
-
+                         
         return Datatables::eloquent($model)
-
-
+                       
+            
             ->addColumn('action', function(CmsPage $row) {
                 return view("admin.partials.action",
                     [
                         'currentRoute' => $this->moduleRouteText,
-                        'row' => $row,
+                        'row' => $row,                             
                         'isEdit' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_CMS_PAGES),
-                        'isDelete' => \App\Models\Admin::isAccess(\App\Models\Admin::$DELETE_CMS_PAGES),
+                        'isDelete' => \App\Models\Admin::isAccess(\App\Models\Admin::$DELETE_CMS_PAGES),                          
                     ]
                     )->render();
             })
-
+            
             ->editColumn('created_at', function($row){
-
-                if(!empty($row->created_at))
-
+                
+                if(!empty($row->created_at))                    
+                    
             return date("j M, Y h:i:s A",strtotime($row->created_at));
                 else
-                    return '-';
+                    return '-';    
             })
-            ->rawColumns(['action'])
-            ->filter(function ($query)
+            ->rawColumns(['action'])                    
+            ->filter(function ($query) 
             {
                 $search_start_date = trim(request()->get("search_start_date"));
-                $search_end_date = trim(request()->get("search_end_date"));
-                $search_id = request()->get("search_id");
+                $search_end_date = trim(request()->get("search_end_date")); 
+                $search_id = request()->get("search_id");                                   
                 $search_text = request()->get("search_text");
 
                 if (!empty($search_start_date)){
@@ -398,23 +398,23 @@ class CmsPagesController extends Controller
 
                     $query = $query->where(TBL_CMS_PAGES.".created_at","<=",addslashes($convertToDate));
                 }
-
+                               
                 if(!empty($search_id))
                 {
                     $idArr = explode(',', $search_id);
-                    $idArr = array_filter($idArr);
+                    $idArr = array_filter($idArr);                
                     if(count($idArr)>0)
                     {
                         $query = $query->whereIn(TBL_CMS_PAGES.".id",$idArr);
-                    }
+                    } 
                 }
 
                 if(!empty($search_text))
                 {
                     $query = $query->where(TBL_CMS_PAGES.".page_constant", 'LIKE', '%'.$search_text.'%');
-                }
-
+                }                
+                
             })
-            ->make(true);
-    }
+            ->make(true);        
+    } 
 }

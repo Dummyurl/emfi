@@ -16,7 +16,7 @@ Route::get('/', 'PagesController@home')->name("home");
 Route::get('markets', 'PagesController@market');
 Route::get('markets/{type?}', 'PagesController@market');
 Route::get('economics/{country?}', 'PagesController@economics')->name("economics");
-Route::get('analyzer', 'PagesController@analyzer')->name("analyzer");
+Route::get('analyzer/{type?}', 'PagesController@analyzer')->name("analyzer");
 Route::get('about', 'PagesController@about')->name("about");
 Route::get('contact', 'PagesController@contact')->name("contact");
 Route::get('terms-of-uses', 'PagesController@terms_of_uses')->name("terms-of-uses");
