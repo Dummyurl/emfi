@@ -17,6 +17,7 @@ foreach($country_benchmarkes as $r)
         $twiceCountries[$r['country_id']] = 1;
     }    
 }
+
 @endphp
 
 <section class="top_section top_bg economics_bg">
@@ -213,9 +214,9 @@ foreach($country_benchmarkes as $cnt)
 
                         <div class="col-md-3">
                             <select id="price-dropdown-{{ $counter }}">
-                                <option value="1" data-title="Price">PRICE</option>
-                                <option value="2" data-title="Yield" selected="selected">YIELD</option>
-                                <option value="3" data-title="Spread">SPREAD</option>
+                                <option value="1" data-title="Price">Price</option>
+                                <option value="2" data-title="Yield" selected="selected">Yield</option>
+                                <option value="3" data-title="Spread">Spread</option>                              
                             </select>
                         </div>
                         
@@ -228,7 +229,7 @@ foreach($country_benchmarkes as $cnt)
                                         
                                     @else
                                     <option data-tid="{{ $cnt['ticker_type'] }}" value="{{ $cnt['country_id'] }}">
-                                        @if(in_array($cnt['country_id'],$tickerIDs))
+                                        @if(in_array($cnt['country_id'],$tickerIDs) && $cnt['ticker_type'] == 2)
                                         {{ ucwords(strtolower($cnt['country_title'])) }} - {{ ucwords(strtolower($cnt['ticker_name'])) }} 
                                         @else
                                         {{ ucwords(strtolower($cnt['country_title'])) }} 
@@ -330,9 +331,9 @@ foreach($country_benchmarkes as $cnt)
                         </div>
                         <div class="col-md-4">
                             <select id="price-dropdown-10" style="display: none;">
-                                <option value="1" data-title="Price">PRICE</option>
-                                <option value="2" data-title="Yield">YIELD</option>
-                                <option value="3" data-title="Spread">SPREAD</option>
+                                <option value="1" data-title="Price">Price</option>
+                                <option value="2" data-title="Yield">Yield</option>
+                                <option value="3" data-title="Spread">Spread</option>                              
                             </select>
                         </div>
                         <div class="col-md-4">

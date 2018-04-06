@@ -72,7 +72,7 @@ class SecuritiesController extends Controller
         {
             return $checkrights;
         }
-
+        
 		$model = Securities::select('securities.*','market_type.market_name')
 						   ->join('market_type', 'securities.market_id','=','market_type.id');
 
@@ -87,7 +87,7 @@ class SecuritiesController extends Controller
 							 $str = "'$row->id','$benchmark_family','$row->benchmark'";
 							 if(\App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_SECURITY)){
 							 $html .='<div class="btn-group">';
-							 $html .= "<a title='Change Default Sataus' class='btn btn-primary btn-xs' onclick=\"edit(".$str.");\"><i class='
+							 $html .= "<a title='Change Default Status' class='btn btn-primary btn-xs' onclick=\"edit(".$str.");\"><i class='
 fa fa-check-square-o'></i></a>";
 							$html .="<a class='btn btn-success btn-xs' title='Edit' href='".$url."'><i class='fa fa-edit'></i></a></div>";
 }
@@ -172,7 +172,7 @@ fa fa-check-square-o'></i></a>";
 			//store logs detail
                 $params=array();
                 $adminAction = new AdminAction();
-
+                
                 $params['adminuserid']  = \Auth::guard('admins')->id();
                 $params['actionid']     = $adminAction->EDIT_SECURITY;
                 $params['actionvalue']  = $id;
@@ -315,7 +315,7 @@ fa fa-check-square-o'></i></a>";
 						$idata['yld_ytm_mid'] = ($data[$fields['yld_ytm_mid']] == "#N/A N/A" || !isset($data[$fields['yld_ytm_mid']])) ? '' : $data[$fields['yld_ytm_mid']];
 						$idata['z_sprd_mid'] = ($data[$fields['z_sprd_mid']] == "#N/A N/A" || !isset($data[$fields['z_sprd_mid']])) ? '' : $data[$fields['z_sprd_mid']];
 						$idata['dur_adj_mid'] = ($data[$fields['dur_adj_mid']] == "#N/A N/A" || !isset($data[$fields['dur_adj_mid']])) ? '' : $data[$fields['dur_adj_mid']];
-
+						
 						$idata['market_id'] = '';
 						if(isset($data[$fields['market']]) && $data[$fields['market']] != "#N/A N/A" && !empty($data[$fields['market']]))
 						{
@@ -325,7 +325,7 @@ fa fa-check-square-o'></i></a>";
 						$idata['country'] = ($data[$fields['country']] == "#N/A N/A" || !isset($data[$fields['country']])) ? '' : $data[$fields['country']];
 
 
-
+						
 						$idata['country_id'] = '';
 						if(isset($data[$fields['country']]) && $data[$fields['country']] != "#N/A N/A" && !empty($data[$fields['country']]))
 						{
@@ -367,7 +367,7 @@ fa fa-check-square-o'></i></a>";
 						$idata['benchmark_family'] = ($data[$fields['benchmark']] == "#N/A N/A" || !isset($data[$fields['benchmark']])) ? '' : $data[$fields['benchmark']];
 						$idata['cpn'] = ($data[$fields['cpn']] == "#N/A N/A" || !isset($data[$fields['cpn']])) ? '' : $data[$fields['cpn']];
 						$idata['security_name'] = ($data[$fields['security_name']] == "#N/A N/A" || !isset($data[$fields['security_name']])) ? '' : $data[$fields['security_name']];
-
+						
 						$idata['maturity_date'] =  '0000-00-00';
 						if(isset($data[$fields['maturity']]) && !empty($data[$fields['maturity']])){
 							$arr_date = explode("/", $data[$fields['maturity']]);
@@ -500,14 +500,14 @@ fa fa-check-square-o'></i></a>";
         }
         $status = 1;
         $msg = 'Security has been updated successfully !';
-        $data = array();
+        $data = array();        
         $model = Securities::find($id);
 		// check validations
         if(!$model)
         {
             $status = 0;
             $msg = "Record not found !";
-        	return ['status' => $status,'msg' => $msg, 'data' => $data];
+        	return ['status' => $status,'msg' => $msg, 'data' => $data]; 
         }
 
         $validator = Validator::make($request->all(), [
@@ -531,24 +531,24 @@ fa fa-check-square-o'></i></a>";
             'benchmark' => Rule::in([1,0]),
         ]);
 
-        if ($validator->fails())
+        if ($validator->fails()) 
         {
             $messages = $validator->messages();
-
+            
             $status = 0;
             $msg = "";
-
-            foreach ($messages->all() as $message)
+            
+            foreach ($messages->all() as $message) 
             {
                 $msg .= $message . "<br />";
             }
-        }
+        }         
         else
         {
             $benchmark = $request->get('benchmark');
             $new_benchmark = $request->get('new_benchmark_family');
 			$select_benchmark = $request->get('benchmark_family');
-
+			
 			if(empty($new_benchmark) && empty($select_benchmark)){
 				$status = 0;
 				$msg = 'please enter at least one benchmark!';
@@ -574,16 +574,16 @@ fa fa-check-square-o'></i></a>";
 			}
 			$country_id = $request->get('country_id');
             $country = \App\Models\Country::find($country_id);
-
+            
 			if($country){
             	$model->country =$country->country_code;
             	$model->save();
-            }
+            }			
 
             //store logs detail
                 $params=array();
                 $adminAction = new AdminAction();
-
+                
                 $params['adminuserid']  = \Auth::guard('admins')->id();
                 $params['actionid']     = $adminAction->EDIT_SECURITY;
                 $params['actionvalue']  = $id;
@@ -593,8 +593,8 @@ fa fa-check-square-o'></i></a>";
 
             session()->flash('success_message', $msg);
         }
-
-        return ['status' => $status,'msg' => $msg, 'data' => $data];
+        
+        return ['status' => $status,'msg' => $msg, 'data' => $data]; 
     }
 
 	// public function massinsert(Request $request)

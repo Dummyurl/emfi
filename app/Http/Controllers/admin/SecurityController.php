@@ -353,7 +353,13 @@ class SecurityController extends Controller
                 else
                     return '';
             })
-            ->rawColumns(['action','default'])
+            ->addColumn('bond_default',  function ($row){
+                if($row->bond_default == 1)
+                    return '<a class="btn btn-info btn-xs">Yes</a>';
+                else
+                    return '';
+            })
+            ->rawColumns(['action','default', 'bond_default'])
             ->filter( function ($query){
                 $search_cusip = request()->get('search_cusip');
                 $search_market = request()->get('search_market');
@@ -377,6 +383,10 @@ class SecurityController extends Controller
                 if($search_status == "1" || $search_status == "0")
                 {
                     $query = $query->where(TBL_SECURITY.".default", $search_status);
+                }
+                if($search_analyzer_default == "1" || $search_analyzer_default == "0")
+                {
+                    $query = $query->where(TBL_SECURITY.".bond_default", $search_analyzer_default);
                 }
             })
             ->make(true);

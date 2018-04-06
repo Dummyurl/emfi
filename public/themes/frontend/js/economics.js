@@ -104,36 +104,41 @@ function drawChart(data_values, elementID, chartType)
     {
         if(chartType == 1)
         {
-            formatedData.push([{label:'', type:'number'}, $columnTitle]);
+            formatedData.push([{label:'', type:'number'}, $columnTitle,{label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);
             var j = 1;
             for (var i in data_values)
             {
                 if($("#duration-dropdown-1").val() == 1)
                 {
-                    formatedData.push([{v:parseFloat(data_values[i]['date_difference']), f:data_values[i]['category']}, parseFloat(data_values[i]['price'])]);
+                    var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['tooltip'] + "<br /> <b>" + data_values[i]['category'] + ", " + data_values[i]['price'] + "</b>"+"</p>";
+                    formatedData.push([{v:parseFloat(data_values[i]['date_difference']), f:data_values[i]['category']}, parseFloat(data_values[i]['price']), html]);
                 }
                 else
                 {
-                    formatedData.push([data_values[i]['category'], parseFloat(data_values[i]['price'])]);
+                    var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['tooltip'] + "<br /> <b>" + data_values[i]['category'] + ", " + data_values[i]['price'] + "</b>"+"</p>";
+                    formatedData.push([data_values[i]['category'], parseFloat(data_values[i]['price']), html]);
                 }                
                 j++;
             }
         }   
         else if(chartType == 2)
         {
-            formatedData.push([{label:'', type:'number'}, $columnTitle]);
+            formatedData.push([{label:'', type:'number'}, $columnTitle, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);
             var j = 1;
             for (var i in data_values)
             {
-                if($("#duration-dropdown-1").val() == 1)
+                if($("#duration-dropdown-"+chartType).val() == 1)
                 {
-                    formatedData.push([{v:parseFloat(data_values[i]['date_difference']), f:data_values[i]['category']}, parseFloat(data_values[i]['price'])]);
+                    var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['tooltip'] + "<br /> <b>" + data_values[i]['category'] + ", " + data_values[i]['price'] + "</b>"+"</p>";
+                    formatedData.push([{v:parseFloat(data_values[i]['date_difference']), f:data_values[i]['category']}, parseFloat(data_values[i]['price']), html]);
                 }
                 else
                 {
-                    formatedData.push([data_values[i]['category'], parseFloat(data_values[i]['price'])]);
+                    var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['tooltip'] + "<br /> <b>" + data_values[i]['category'] + ", " + data_values[i]['price'] + "</b>"+"</p>";
+                    formatedData.push([data_values[i]['category'], parseFloat(data_values[i]['price']),html]);
                 }                
             }
+            // console.log(formatedData);
         } 
     } 
     else
@@ -146,6 +151,7 @@ function drawChart(data_values, elementID, chartType)
 
     var options = {        
         curveType: 'function',
+        tooltip: {isHtml: true},
         legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
@@ -175,12 +181,30 @@ function drawBenchmarkChart(data_values, chartType)
     $("#main-chart-title-"+chartType).html($("#hid-main-chart-title-"+chartType).html() +" VS "+ $("select#benchmark-dropdown-"+chartType+" option:selected").text());    
 
     var formatedData = [];
-    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $("select#benchmark-dropdown-"+chartType+" option:selected").text(), type:'number'}]);
 
+    formatedData.push([{label:'', type:'number'}, {label:$columnTitle, type:'number'},{label: 'tooltip', role: 'tooltip', 'p': {'html': true}},{label: $("select#benchmark-dropdown-"+chartType+" option:selected").text(), type:'number'},{label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);
+    
+    // console.log("ID: "+$("#duration-dropdown-"+chartType).val());
+    
     for(var i in data_values.benchmark_history_data)
     {
-       formatedData.push([data_values.benchmark_history_data[i]['title1'],data_values.benchmark_history_data[i]['price1'], data_values.benchmark_history_data[i]['price2']]);
+       if($("#duration-dropdown-"+chartType).val() == 1)
+       {
+            // alert(data_values[i]['title1']);
+            var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title1'] + ", " + data_values.benchmark_history_data[i]['price1'] + "</b>"+"</p>";
+            var html2 = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip2'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title2'] + ", " + data_values.benchmark_history_data[i]['price2'] + "</b>"+"</p>";
+            formatedData.push([{v:parseFloat(data_values.benchmark_history_data[i]['date_difference']), f:data_values.benchmark_history_data[i]['title1']}, data_values.benchmark_history_data[i]['price1'], html, data_values.benchmark_history_data[i]['price2'],html2]);
+       }
+       else
+       {
+            var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title1'] + ", " + data_values.benchmark_history_data[i]['price1'] + "</b>"+"</p>";
+            var html2 = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip2'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title2'] + ", " + data_values.benchmark_history_data[i]['price2'] + "</b>"+"</p>";
+            formatedData.push([data_values.benchmark_history_data[i]['title1'],data_values.benchmark_history_data[i]['price1'], html,data_values.benchmark_history_data[i]['price2'],html2]);
+       } 
+       
     }
+
+    // console.log(formatedData);    
 
     var data = google.visualization.arrayToDataTable(formatedData);
 
@@ -188,7 +212,8 @@ function drawBenchmarkChart(data_values, chartType)
     var options = {
         title: '',
         curveType: 'function',
-        legend: {position: 'none'},        
+        legend: {position: 'none'},
+        tooltip: {isHtml: true},        
         // series: {
         //   0: {targetAxisIndex: 0},
         //   1: {targetAxisIndex: 1}

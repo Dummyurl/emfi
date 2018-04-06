@@ -68,14 +68,20 @@
                     </li>
                     */ ?>
                     <li class="{{ \Request::is('economics','economics/*') ? 'active':'' }}"><a href="{{ url('economics')}}">{{ __('header.economics') }}</a></li>
-                    <li class="dropdown">
+                    <li class="dropdown {{ \Request::is('analyzer','analyzer/*') ? 'active':'' }}">
                         <a href="{{ url('analyzer') }}">
                             {{ __('header.analyzer') }}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ url('analyzer') }}#relval">{{ __('header.relval') }}</a></li>
-                            <li><a href="{{ url('analyzer') }}#regression">{{ __('header.regression') }}</a></li>
-                            <li><a href="{{ url('analyzer') }}#slope">{{ __('header.slope') }}</a></li>
+                            @if(\Request::is('analyzer','analyzer/*'))                            
+                                <li><a href="javascript:void(0);" onclick="navigateToDiv('relval')">{{ __('header.relval') }}</a></li>
+                                <li><a href="javascript:void(0);" onclick="navigateToDiv('regression')">{{ __('header.regression') }}</a></li>
+                                <li><a href="javascript:void(0);" onclick="navigateToDiv('slope')">{{ __('header.slope') }}</a></li>
+                            @else
+                                <li><a href="{{ url('analyzer/relval') }}">{{ __('header.relval') }}</a></li>
+                                <li><a href="{{ url('analyzer/regression') }}">{{ __('header.regression') }}</a></li>
+                                <li><a href="{{ url('analyzer/slope') }}">{{ __('header.slope') }}</a></li>                            
+                            @endif
                         </ul>
                     </li>
                     <?php /*

@@ -481,7 +481,7 @@ $(document).ready(function () {
         $('#AjaxLoaderDiv').fadeIn('slow');
         window.location = $(this).find("option:selected").data("url");
         $(".market-chart-title").html($(this).find("option:selected").text());
-        if ($.trim($(this).find("option:selected").text()) == "credit" || $.trim($(this).find("option:selected").text()) == "CREDIT")
+        if ($.trim($(this).find("option:selected").text()) == "Credit")
         {
             $("#price-dropdown").show();
         } else
@@ -497,7 +497,7 @@ $(document).ready(function () {
 
     $(".market-chart-title").html($("select#markets").find("option:selected").text());
     
-    if ($.trim($("select#markets").find("option:selected").text()) == "credit" || $.trim($("select#markets").find("option:selected").text()) == "CREDIT")
+    if ($.trim($("select#markets").find("option:selected").text()) == "Credit" || $.trim($("select#markets").find("option:selected").text()) == "CREDIT")
     {
         $("#price-dropdown").show();
     }

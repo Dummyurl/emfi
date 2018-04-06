@@ -5,6 +5,12 @@
     <div class="owl-carousel owl-theme home_carousel">
 		@foreach($sliders as $slider)
 		        <div class="item">
+		        	<?php 
+		        		// echo "<pre>";
+		        		// print_r($slider->option_maturity);
+		        		// print_r($slider->option_price);
+		        		// exit(); 
+		        	?>
 		            <div class="home_slider_item bgcover" style="background:url({{ asset('themes/frontend/images/home-bg-1.jpg') }})">
 		                <div class="container">
 		                    <div class="row">
@@ -25,14 +31,16 @@
 			                    <div class="row">
 			                        <div class="col-md-6">
 			                            <div class="chart_left">
-			                                <div class="charts-container" data-id="{{ $slider->security_id }}"
+			                                <div class="charts-container" data-mainid="{{ $slider->id }}" data-id="{{ $slider->security_id }}"
 			                                	data-date="{{ $slider->graph_period != -1 ? date('Y-m-d', strtotime('-'.$slider->graph_period.' month')):date('Y-01-01') }}"
 												data-period="{{ $slider->graph_period }}"
 												data-title="{{ $slider->graph_title }}"
 												data-type="{{ $slider->graph_type }}"
 												data-country="{{ $slider->country_id }}"
 												data-country_name="{{ $slider->country_name }}"
-												id="chart_home_{{$slider->security_id }}" 
+												data-maturity="{{ $slider->option_maturity }}"
+												data-price="{{ $slider->option_price }}"
+												id="chart_home_{{$slider->id }}" 
 												style="width: 100%; height: 440px"></div>
 			                            </div>
 			                        </div>

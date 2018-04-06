@@ -218,7 +218,7 @@ class HomeSlidersController extends Controller
             $order = $request->get('order');
 			$post_title = $request->get('post_title');
 			$post_description = $request->get('post_description');
-            $graph_period = $request->get('graph_period');
+			$graph_period = $request->get('graph_period');
             $option_maturity = $request->get('option_maturity');
 			$option_price = $request->get('option_price');
 
@@ -340,6 +340,7 @@ class HomeSlidersController extends Controller
      */
     public function edit($id)
     {
+
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_HOME_SLIDER);
 
         if($checkrights)
@@ -367,6 +368,7 @@ class HomeSlidersController extends Controller
         $data['orderMax'] = null;
         $data['languages']= \App\Custom::getLanguages();
         $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)'];
+
         $data['maturities']= ['maturity'=>'Maturity','duration'=>'Duration'];
         $data['prices']= ['price'=>'Price','yield'=>'Yield','spread'=>'Spread'];
 

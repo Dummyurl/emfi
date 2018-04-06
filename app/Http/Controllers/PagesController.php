@@ -97,22 +97,26 @@ class PagesController extends Controller {
         return view('about', $data);
     }
 
-    public function analyzer(Request $request) {
+    public function analyzer(Request $request, $type = '') 
+    {
         $data = array();
         $data['page_title'] = "EMFI: Analyzer";
-		$locale = session('locale');
-		if (empty($locale)) {
-			$locale = 'en';
-		}
+        $data['page_type'] = $type;
+        
+        $locale = session('locale');
+        if (empty($locale)) 
+        {
+            $locale = 'en';
+        }        
 
-		app()->setLocale($locale);
+	    app()->setLocale($locale);
+        
         $data['last_update_date'] = getLastUpdateDate();
         $treeMapData = callCustomSP('CALL select_tree_map_data(0)');
         $data['treeMap'] = [];
 
         $equities = [];
         $credits = [];
-
         foreach($treeMapData as $r)
         {
             if($r['market_id'] == 5)
@@ -130,14 +134,24 @@ class PagesController extends Controller {
         $data['equities'] = $equities;
         $data['credits'] = $credits;
 
-//        echo "<pre>";
-//        print_r($equities);
-//        print_r($credits);
-//        print_r();
-//        exit;
+        $default_security_id1 = 0;
+        $default_security_id2 = 0;        
+        $treeMapData_default = callCustomSP('CALL select_tree_map_data(1)');
 
+        if(isset($treeMapData_default[0]) && !empty(($treeMapData_default[0])))
+        {
+            $default_security_id1 = $treeMapData_default[0]['id'];
+        }
+
+        if(isset($treeMapData_default[1]) && !empty(($treeMapData_default[1])))
+        {
+            $default_security_id2 = $treeMapData_default[1]['id'];
+        }
+        
+        $data['default_security_id1'] = $default_security_id1;
+        $data['default_security_id2'] = $default_security_id2;
         return view('analyzer', $data);
-    }
+    }    
 
     public function market(Request $request, $type = '') {
         $main_categories = [

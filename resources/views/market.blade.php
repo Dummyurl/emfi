@@ -53,7 +53,7 @@
                     </div>
                 </div>
             </div>
-            
+
             @endforeach
             @endif
             <?php /*
@@ -105,7 +105,8 @@
     <div class="container">
         <div class="title">
             <h2>Market Movers</h2>
-            <span class="market-chart-title"></span></div>
+            <span class="market-chart-title"></span>
+        </div>
     </div>
     <div class="container chart_section">
         <div class="row">
@@ -125,7 +126,8 @@
     <div class="container">
         <div class="title">
             <h2>Market History</h2>
-            <span class="market-chart-title-security"></span> </div>
+            <span class="market-chart-title-security"></span>
+        </div>
     </div>
     <div class="container chart_section">
         <div class="row">
@@ -144,9 +146,9 @@
                         </div>
                         <div class="col-md-4">
                             <select id="price-dropdown" style="display: none;">
-                                <option value="1" data-title="Price">PRICE</option>
-                                <option value="2" data-title="Yield">YIELD</option>
-                                <option value="3" data-title="Spread">SPREAD</option>                              
+                                <option value="1" data-title="Price">Price</option>
+                                <option value="2" data-title="Yield">Yield</option>
+                                <option value="3" data-title="Spread">Spread</option>                              
                             </select>
                         </div>
                         <div class="col-md-4 pull-right">
