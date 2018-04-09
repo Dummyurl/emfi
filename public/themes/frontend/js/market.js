@@ -149,7 +149,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
     {
         $columnTitle = global_line_graph_text;
         $columnTitle = $columnTitle + " "+$("select#price-dropdown option:selected").data("title");
-        $(".market-chart-title-security").html(global_line_graph_text +" VS "+$("select#benchmark-dropdown option:selected").text());
+        $(".market-chart-title-security").html(global_line_graph_text +"<br /><span>"+$("select#benchmark-dropdown option:selected").text()+"</span>");
     }  
 
     var formatedData = [];
@@ -214,10 +214,11 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
 //      };
 
 
-    var options = {
+    var options = 
+    {
         title: '',
         curveType: 'function',
-        legend: {position: 'bottom'},
+        legend: {position: 'none'},
         series: {
           0: {targetAxisIndex: 0},
           1: {targetAxisIndex: 1}
@@ -303,7 +304,7 @@ function drawChart(data_values, elementID, fromBenchMark)
     var options = {
         title: '',
         curveType: 'function',
-        legend: {position: 'bottom'},
+        legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
         titleTextStyle: {color: '#fff'},

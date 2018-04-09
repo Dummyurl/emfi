@@ -163,7 +163,7 @@
     </div>
 </section>
 
-@include('includes.twitter')
+@include('includes.twitter',['tweet_sub_title' => 'Latin America'])
 
 @stop
 

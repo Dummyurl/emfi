@@ -32,7 +32,7 @@
 <section class="equities">
     <div class="container">
         <div class="title">
-            <h2>Slope</h2>
+            <h2>Market History</h2>
             <span class="main-bond-securities"></span>
         </div>
     </div>
@@ -72,7 +72,7 @@
 <section class="equities">
     <div class="container">
         <div class="title">
-            <h2>Security</h2>
+            <h2>Differential</h2>
             <span class="main-bond-securities"></span> 
         </div>
     </div>
@@ -155,11 +155,10 @@
 
 <div id="relval" class="clearfix">&nbsp;</div>
 <div class="clearfix"></div>
-
 <section class="equities">
     <div class="container">
         <div class="title">
-            <h2>RELVAL</h2>
+            <h2>Relative Value</h2>
             <span>Historical Chart</span>
         </div>
     </div>
@@ -187,8 +186,8 @@
                         </div>
                         <div class="col-md-3">
                             <select id="relvalRating">                                
-                                <option value="1">Rating</option>
-                                <option value="2">OECD</option>
+                                <option value="1">S&P Rating</option>
+                                <option value="2">OECD Rating</option>
                             </select>
                         </div>
                         <div class="col-md-3">

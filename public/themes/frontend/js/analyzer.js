@@ -312,7 +312,7 @@ function drawRelvalChart(data_values)
 
         for(j in data_values[i])
         {
-            prices.push(parseFloat(data_values[i][j]));            
+            prices.push({v: parseFloat(data_values[i][j]['price']), f: (parseFloat(data_values[i][j]['price'])) + "("+data_values[i][j]['country_title']+")"});            
             cnt++;
         }  
 
@@ -409,11 +409,15 @@ function drawHistoryChart(data_values)
     var options = {
         title: '',
         curveType: 'function',
-        legend: {position: 'bottom'},
+        legend: {position: none},
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
         titleTextStyle: {color: '#fff'},
         legendTextStyle: {color: '#ccc'},
+        series: {
+          0: {targetAxisIndex: 0},
+          1: {targetAxisIndex: 1}
+        },        
         colors: ['white'],
         hAxis: {
             textStyle: {color: '#fff'},

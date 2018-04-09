@@ -13,9 +13,9 @@
 	'credit'=>'CREDIT',
 	'economics'=>'Economies',
 	'analyzer'=>'Analyzer',
-	'relval'=>'RELVAL',
-	'regression'=>'REGRESSION',
-	'slope'=>'SLOPE',
+	'relval'=>'Relative Value',
+	'regression'=>'Regression',
+	'slope'=>'Slope',
 	'about'=>'About',
 	'contact'=>'Contact',
 	

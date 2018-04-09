@@ -31,6 +31,8 @@ class ApiController extends Controller
         $relvalCreditEquity = $request->get("relvalCreditEquity");
         $relval_chart = callCustomSP('CALL select_relval_chart_data('.$relvalCreditEquity.',"'.$relvalMonth.'")');
 
+//        dd($relval_chart);
+
         $status = 1;
         $msg = "OK";
         $data = [];
@@ -63,6 +65,7 @@ class ApiController extends Controller
                     $data[$i]['price'] = $r['Z_SPRD_MID'];
                 }    
 
+                $data[$i]['country_title'] = ucwords(strtolower($r['country_title']));
                 $data[$i]['security_name'] = $r['security_name'];
                 $data[$i]['created_format'] = $r['created_format'];
                 
@@ -73,7 +76,7 @@ class ApiController extends Controller
             $i = 0;
             foreach($data as $r)
             {
-                $finalArray[$r['category']][] = $r['price'];
+                $finalArray[$r['category']][] = ['price' => $r['price'], 'country_title' => $r['country_title']];
             }       
 
 //            echo "<pre>";

@@ -348,7 +348,7 @@ foreach($country_benchmarkes as $cnt)
     </div>
 </section>
 
-@include('includes.twitter')
+@include('includes.twitter',['tweet_sub_title' => ucwords(strtolower($countryObj->title))])
 
 @stop
 @section('scripts')

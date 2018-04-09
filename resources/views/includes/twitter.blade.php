@@ -2,7 +2,7 @@
     <div class="container">
         <div class="title">
             <h2>Market News</h2>
-            <span>Latest Tweets</span>
+            <span>{{ $tweet_sub_title or '' }}</span>
         </div>
         <div class="row">
             @if(!empty($tweets))
