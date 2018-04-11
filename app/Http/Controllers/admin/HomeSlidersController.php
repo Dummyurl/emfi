@@ -64,7 +64,7 @@ class HomeSlidersController extends Controller
         $data['graphs'] = \App\Models\Securities::pluck('security_name','id')->all();
         $data['orderMax'] = \App\Models\HomeSlider::getMaxOrder();
         $data['languages']= \App\Custom::getLanguages();
-        $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)',];
+        $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)', 'relval' =>  'Relval Historical Chart'];
 
 
         $data['maturities']= ['maturity'=>'Maturity','duration'=>'Duration'];
@@ -148,7 +148,8 @@ class HomeSlidersController extends Controller
         $data['countries'] = \App\Models\Country::getCountryList();
 		$data['orderMax'] = \App\Models\HomeSlider::getMaxOrder();
         $data['languages']= \App\Custom::getLanguages();
-        $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)'];
+        $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)', 'relval' =>  'Relval Historical Chart',];
+
         $data['maturities']= ['maturity'=>'Maturity','duration'=>'Duration'];
         $data['prices']= ['price'=>'Price','yield'=>'Yield','spread'=>'Spread'];
 
@@ -193,10 +194,12 @@ class HomeSlidersController extends Controller
 		$validator = Validator::make($request->all(), [
             'country_id' => 'required|exists:'.TBL_COUNTRY.',id',
 			'graph_period' => ['required', Rule::in($months)],
-            'graph_type' => ['required', Rule::in(['line','yield_curve'])],
+            'graph_type' => ['required', Rule::in(['line','yield_curve', 'relval'])],
             'security_id' => 'exists:'.TBL_SECURITY.',id',
             'option_maturity' => Rule::in(['maturity','duration']),
             'option_price' => Rule::in(['price','yield','spread']),
+            'option_rating' => Rule::in([0,1]),
+            'option_credit' => Rule::in([5,1]),
             'status' => ['required', Rule::in([1,0])],
             'order' => 'required|min:0|numeric',
             'post_title.en.*' => 'min:2',
@@ -230,6 +233,8 @@ class HomeSlidersController extends Controller
 			$graph_period = $request->get('graph_period');
             $option_maturity = $request->get('option_maturity');
 			$option_price = $request->get('option_price');
+            $option_rating = $request->get('option_rating');
+			$option_credit = $request->get('option_credit');
 
             if($graph_type == 'line' && empty($security_id))
             {
@@ -293,6 +298,8 @@ class HomeSlidersController extends Controller
             $obj->option_price = $option_price;
             $obj->status = $statuss;
             $obj->order = $order;
+            $obj->option_rating = $option_rating;
+            $obj->option_credit = $option_credit;
             $obj->save();
 
             $languages = \App\Custom::getLanguages();

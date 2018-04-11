@@ -39,6 +39,12 @@
                             </div>
                             <div id="yield_curve_div" style="display: none;">
                                 <div id="option_maturity_div" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="control-label">Maturity/Duration<span class="required">*</span></label>
+                                            {!! Form::select('option_maturity',[''=>'Select Option']+$maturities,$selected_maturities,['class' => 'form-control','id'=>'option_maturity_id']) !!}
+                                        </div>
+                                    </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <label class="control-label">Maturity/Duration<span class="required">*</span></label>

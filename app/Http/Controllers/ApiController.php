@@ -31,7 +31,6 @@ class ApiController extends Controller
         $relvalCreditEquity = $request->get("relvalCreditEquity");
         $relval_chart = callCustomSP('CALL select_relval_chart_data('.$relvalCreditEquity.',"'.$relvalMonth.'")');
 
-//        dd($relval_chart);
 
         $status = 1;
         $msg = "OK";
