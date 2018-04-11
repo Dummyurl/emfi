@@ -29,20 +29,15 @@ $bred_crumb_array = array(
                 <div class="col-md-3">
                     <!-- BEGIN WIDGET THUMB -->
                     <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
-                        <h4 class="widget-thumb-heading">Current Balance</h4>
-                        <div class="widget-thumb-wrap">
-                            <i class="widget-thumb-icon bg-green icon-bulb"></i>
-                            <div class="widget-thumb-body">
-                                <span class="widget-thumb-subtitle">USD</span>
-                                <span class="widget-thumb-body-stat" data-counter="counterup" data-value="7,644">0</span>
-                            </div>
-                        </div>
+                        <a href="https://analytics.google.com/analytics/web/provision/?authuser=0#provision/SignUp/" target="_blank"> 
+                                <h4 class="widget-thumb-heading">Google Analytics</h4>
+                        </a>
                     </div>
                     <!-- END WIDGET THUMB -->
                 </div>
                 <div class="col-md-3">
                     <!-- BEGIN WIDGET THUMB -->
-                    <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                    <!-- <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
                         <h4 class="widget-thumb-heading">Weekly Sales</h4>
                         <div class="widget-thumb-wrap">
                             <i class="widget-thumb-icon bg-red icon-layers"></i>
@@ -51,12 +46,12 @@ $bred_crumb_array = array(
                                 <span class="widget-thumb-body-stat" data-counter="counterup" data-value="1,293">0</span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- END WIDGET THUMB -->
                 </div>
                 <div class="col-md-3">
                     <!-- BEGIN WIDGET THUMB -->
-                    <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                    <!-- <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
                         <h4 class="widget-thumb-heading">Biggest Purchase</h4>
                         <div class="widget-thumb-wrap">
                             <i class="widget-thumb-icon bg-purple icon-screen-desktop"></i>
@@ -65,12 +60,12 @@ $bred_crumb_array = array(
                                 <span class="widget-thumb-body-stat" data-counter="counterup" data-value="815">0</span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- END WIDGET THUMB -->
                 </div>
                 <div class="col-md-3">
                     <!-- BEGIN WIDGET THUMB -->
-                    <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
+                    <!-- <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
                         <h4 class="widget-thumb-heading">Average Monthly</h4>
                         <div class="widget-thumb-wrap">
                             <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
@@ -79,12 +74,12 @@ $bred_crumb_array = array(
                                 <span class="widget-thumb-body-stat" data-counter="counterup" data-value="5,071">0</span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- END WIDGET THUMB -->
                 </div>
             </div>
 
-            <div class="row">
+           <!--  <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="portlet light ">
                         <div class="portlet-title">
@@ -180,7 +175,7 @@ $bred_crumb_array = array(
                     </div>
                 </div>
             </div>
-
+ -->
         </div>
 
 

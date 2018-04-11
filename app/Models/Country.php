@@ -18,7 +18,7 @@ class Country extends Model
     	{
     		foreach ($rows as $cn)
     		{
-    			$data[$cn->id] = $cn->title.'   ('.$cn->country_code.')'; 
+    			$data[$cn->id] = $cn->title; 
     		}
     	}
     	return $data;

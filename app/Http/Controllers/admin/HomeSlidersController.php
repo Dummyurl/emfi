@@ -10,6 +10,7 @@ use Datatables;
 use App\Models\HomeSlider;
 use App\models\AdminLog;
 use App\Models\AdminAction;
+use App\Models\Securities;
 
 class HomeSlidersController extends Controller
 {
@@ -63,9 +64,17 @@ class HomeSlidersController extends Controller
         $data['graphs'] = \App\Models\Securities::pluck('security_name','id')->all();
         $data['orderMax'] = \App\Models\HomeSlider::getMaxOrder();
         $data['languages']= \App\Custom::getLanguages();
-        $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)'];
+        $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)',];
+
+
         $data['maturities']= ['maturity'=>'Maturity','duration'=>'Duration'];
         $data['prices']= ['price'=>'Price','yield'=>'Yield','spread'=>'Spread'];
+        $data['rating_orcd']= [1 => 'Rating', 0 => 'OECD'];
+        $data['credit_equities']= [5 => 'Credit',1 => 'Equities'];
+
+        $data['selected_month']         = 12;
+        $data['selected_maturities']    = 'duration';
+        $data['selected_prices']        = 'spread';
 
         if($request->get("changeID") > 0)
         {
@@ -693,5 +702,15 @@ class HomeSlidersController extends Controller
 
                 })
             ->make(true);
+    }
+
+    public function getsecurities(Request $request)
+    {
+        $country_id = $request->get("country_id");
+        $arr_security = array();
+        if(!empty($country_id)){
+            $arr_security = Securities::where('country_id', $country_id)->pluck('security_name','id')->all();
+        }
+        return $arr_security;
     }
 }

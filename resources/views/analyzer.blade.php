@@ -159,7 +159,7 @@
     <div class="container">
         <div class="title">
             <h2>Relative Value</h2>
-            <span>Historical Chart</span>
+            <span class="rel-val-sub-title">Credit</span>
         </div>
     </div>
     <div class="container chart_section">
@@ -199,7 +199,7 @@
                         </div>
                         <div class="col-md-3">
                             <select id="relvalCreditEquity">                                
-                                <option value="5">Credit</option>
+                                <option value="5" selected="selected">Credit</option>
                                 <option value="1">Equities</option>
                             </select>
                         </div>

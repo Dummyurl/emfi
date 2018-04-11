@@ -178,7 +178,7 @@ function drawBenchmarkChart(data_values, chartType)
     elementID = "curve_chart-"+chartType;
     $columnTitle = $("#country-combo option:selected").text();
 
-    $("#main-chart-title-"+chartType).html($("#hid-main-chart-title-"+chartType).html() +" VS "+ $("select#benchmark-dropdown-"+chartType+" option:selected").text());    
+    $("#main-chart-title-"+chartType).html($("#hid-main-chart-title-"+chartType).html() +"<br /><span>"+ $("select#benchmark-dropdown-"+chartType+" option:selected").text()+"</span>");    
 
     var formatedData = [];
 
@@ -340,7 +340,7 @@ function drawChart2(data_values, elementID)
 
             "labelRotation": 80,
         },
-        legend: {position: 'bottom'},
+        legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
         titleTextStyle: {color: '#fff'},
@@ -366,7 +366,7 @@ function drawBenchmarkChart2(data_values)
     $columnTitle = global_secure_id_2_text+ " "+$("select#price-dropdown-10 option:selected").data("title");
     $columnTitle2 = $("select#benchmark-dropdown-10 option:selected").text()+ " "+$("select#price-dropdown-10 option:selected").data("title");
 
-    $(".market-chart-title-2").html(global_secure_id_2_text+ " VS "+$("select#benchmark-dropdown-10 option:selected").text());
+    $(".market-chart-title-2").html(global_secure_id_2_text+ "<br /><span>"+$("select#benchmark-dropdown-10 option:selected").text()+"</span>");
      
     var formatedData = [];
     formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $columnTitle2, type:'number'}]);
@@ -385,7 +385,7 @@ function drawBenchmarkChart2(data_values)
           0: {targetAxisIndex: 0},
           1: {targetAxisIndex: 1}
         },
-        legend: {position: 'bottom'},
+        legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
         titleTextStyle: {color: '#fff'},

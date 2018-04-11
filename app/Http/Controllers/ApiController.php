@@ -132,7 +132,7 @@ class ApiController extends Controller
 
         if($security1 && $security2)
         {
-            $main_title = $security1->security_name." VS ".$security2->security_name;
+            $main_title = $security1->security_name."<br /><span>".$security2->security_name."</span>";
         }
 
 

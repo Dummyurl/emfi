@@ -51,7 +51,7 @@
                             <div id="yield_curve_div" style="display: none;">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label class="control-label">Maturity/Duration<span class="required">*</span></label>
+                                    <label class="control-label">Maturity / Duration<span class="required">*</span></label>
                                     {!! Form::select('option_maturity',[''=>'Select Option']+$maturities,null,['class' => 'form-control','id'=>'option_maturity_id']) !!}
                                 </div>
                             </div>

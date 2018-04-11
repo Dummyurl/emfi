@@ -6,7 +6,7 @@
         <div class="title_belt">
             <div class="row">
                 <div class="col-md-6">
-                    <h2>Markets</h2>
+                    <h2>Market Update</h2>
                     <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
                 </div>
                 <div class="col-md-6 select_r">

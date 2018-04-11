@@ -2,6 +2,7 @@
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <ul class="rightlinks">
+                <?php /*
                 <li class="dropdown"> 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         {{ __('header.login') }}
@@ -11,6 +12,7 @@
                         <li><a href="#">{{ __('header.research') }}</a></li>
                     </ul>
                 </li>
+                */ ?>
                 <li class="dropdown"> 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         @if(session('locale') == "es")
@@ -97,8 +99,12 @@
                     </li>
                     */ ?>
                     <li class="{{ \Request::is('about') ? 'active':'' }}"><a href="{{ route('about')}}">{{ __('header.about') }}</a></li>
-                    <li class="{{ \Request::is('contact') ? 'active':'' }}"><a href="{{ route('contact')}}">{{ __('header.contact') }}</a></li>
-                    
+                    <li class="{{ \Request::is('contact') ? 'active':'' }}">
+                        <a href="{{ route('contact')}}">{{ __('header.contact') }}</a>
+                    </li>
+                    <li class="">
+                        <a href="#">{{ __('header.login') }}</a>
+                    </li>                    
                 </ul>
             </div>
             <!--/.nav-collapse -->

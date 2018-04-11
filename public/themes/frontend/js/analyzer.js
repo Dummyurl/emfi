@@ -409,7 +409,7 @@ function drawHistoryChart(data_values)
     var options = {
         title: '',
         curveType: 'function',
-        legend: {position: none},
+        legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
         titleTextStyle: {color: '#fff'},
@@ -563,5 +563,6 @@ $(document).ready(function () {
 
     $(document).on("change","#relvalCreditEquity",function(){
         initRelvalChart();
+        $(".rel-val-sub-title").text($("#relvalCreditEquity option:selected").text())
     });        
 });

@@ -66,7 +66,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="clearfix">&nbsp;</div>
+                            <!-- <div class="clearfix">&nbsp;</div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label class="control-label">Dur Adj Mid<span class="required">*</span></label>
@@ -120,7 +120,7 @@
                                     <label class="control-label">Percentage Change<span class="required">*</span></label>
                                     {!! Form::text('percentage_change',null,['class' => 'form-control', 'data-required' => true]) !!}
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="clearfix">&nbsp;</div>
                             <div class="note note-info">
                                 <div class="row">

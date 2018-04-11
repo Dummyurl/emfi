@@ -22,16 +22,16 @@ class SecurityController extends Controller
         $this->list_url = route($this->moduleRouteText.".index");
 
         $module = "Security";
-        $this->module = $module;
+        $this->module = $module;  
 
-        $this->adminAction= new AdminAction;
-
-        $this->modelObj = new Securities();
+        $this->adminAction= new AdminAction; 
+        
+        $this->modelObj = new Securities();  
 
         $this->addMsg = $module . " has been added successfully!";
         $this->updateMsg = $module . " has been updated successfully!";
         $this->deleteMsg = $module . " has been deleted successfully!";
-        $this->deleteErrorMsg = $module . " can not deleted!";
+        $this->deleteErrorMsg = $module . " can not deleted!";       
 
         view()->share("list_url", $this->list_url);
         view()->share("moduleRouteText", $this->moduleRouteText);
@@ -45,23 +45,24 @@ class SecurityController extends Controller
     public function index(Request $request)
     {
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_SECURITY);
-
-        if($checkrights)
+        
+        if($checkrights) 
         {
             return $checkrights;
         }
-
-        $data = array();
+         
+        $data = array();        
         $data['page_title'] = "Manage Securities";
-        $data['MarketType'] = MarketType::getArrayList();
+        $data['MarketType'] = MarketType::getArrayList();  
+        $data['Countries'] = Country::getCountryList();
 
         if($request->get("changeDefault") > 0)
         {
-            $security_id = $request->get("changeID");
+            $security_id = $request->get("changeID");   
             $status = $request->get("changeDefault");
 
             $rows = \App\Models\Securities::find($security_id);
-
+            
                 if($rows)
                 {
                     $market_id = $rows->market_id;
@@ -90,13 +91,13 @@ class SecurityController extends Controller
                     //store logs detail
                     $params=array();
                     $adminAction = new AdminAction();
-
+                    
                     $params['adminuserid']  = \Auth::guard('admins')->id();
                     $params['actionid']     = $adminAction->EDIT_SECURITY;
                     $params['actionvalue']  = $security_id;
                     $params['remark']       = "Change Default Sataus::".$security_id;
 
-                    $logs=\App\Models\AdminLog::writeadminlog($params);
+                    $logs=\App\Models\AdminLog::writeadminlog($params);      
 
                     session()->flash('success_message', "Status has been changed successfully.");
                     return redirect($this->list_url);
@@ -110,7 +111,50 @@ class SecurityController extends Controller
             return redirect($this->list_url);
         }
 
-        return view($this->moduleViewName.".index", $data);
+        if($request->get("changeAnalyzerDefault") > 0)
+        {
+            $security_id = $request->get("changeID");
+            $status = $request->get("changeAnalyzerDefault");
+            $rows = \App\Models\Securities::find($security_id);
+            if($rows)
+            {
+                $market_id = $rows->market_id;
+                $count_Rows = Securities::where('market_id',$market_id)->where('bond_default', 1)->orderBy('updated_at')->count();
+
+                if($count_Rows >=2){
+                    $marketRows = Securities::where('market_id',$market_id)->where('bond_default', 1)->orderBy('updated_at')->first();
+                    if($marketRows)
+                    {
+                        $marketRows->bond_default = 0;
+                        $marketRows->save();
+                    }
+                }
+
+                $rows->bond_default = $status;
+                $rows->save();
+
+                //store logs detail
+                $params=array();
+                $adminAction = new AdminAction();
+                
+                $params['adminuserid']  = \Auth::guard('admins')->id();
+                $params['actionid']     = $adminAction->EDIT_SECURITY;
+                $params['actionvalue']  = $security_id;
+                $params['remark']       = "Change Default Sataus::".$security_id;
+
+                $logs=\App\Models\AdminLog::writeadminlog($params);      
+
+                session()->flash('success_message', "Status has been changed successfully.");
+                return redirect($this->list_url);
+            } else {
+                session()->flash('success_message', "Status not changed, Please try again");
+                return redirect($this->list_url);
+            }
+
+            return redirect($this->list_url);
+        }
+
+        return view($this->moduleViewName.".index", $data);    
     }
 
     /**
@@ -153,10 +197,10 @@ class SecurityController extends Controller
      */
     public function edit($id)
     {
-
+        
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_SECURITY);
-
-        if($checkrights)
+        
+        if($checkrights) 
         {
             return $checkrights;
         }
@@ -166,7 +210,7 @@ class SecurityController extends Controller
         if(!$formObj)
         {
             abort(404);
-        }
+        }   
 
         $data = array();
         $data['formObj'] = $formObj;
@@ -201,14 +245,14 @@ class SecurityController extends Controller
         }
         $status = 1;
         $msg = 'Security has been updated successfully !';
-        $data = array();
+        $data = array();        
         $model = Securities::find($id);
         // check validations
         if(!$model)
         {
             $status = 0;
             $msg = "Record not found !";
-            return ['status' => $status,'msg' => $msg, 'data' => $data];
+            return ['status' => $status,'msg' => $msg, 'data' => $data]; 
         }
 
         $validator = Validator::make($request->all(), [
@@ -232,24 +276,24 @@ class SecurityController extends Controller
             'benchmark' => Rule::in([1,0]),
         ]);
 
-        if ($validator->fails())
+        if ($validator->fails()) 
         {
             $messages = $validator->messages();
-
+            
             $status = 0;
             $msg = "";
-
-            foreach ($messages->all() as $message)
+            
+            foreach ($messages->all() as $message) 
             {
                 $msg .= $message . "<br />";
             }
-        }
+        }         
         else
         {
             $benchmark = $request->get('benchmark');
             $new_benchmark = $request->get('new_benchmark_family');
             $select_benchmark = $request->get('benchmark_family');
-
+            
             if(empty($new_benchmark) && empty($select_benchmark)){
                 $status = 0;
                 $msg = 'please enter at least one benchmark!';
@@ -282,16 +326,16 @@ class SecurityController extends Controller
             }
             $country_id = $request->get('country_id');
             $country = \App\Models\Country::find($country_id);
-
+            
             if($country){
                 $model->country =$country->country_code;
                 $model->save();
-            }
+            }           
 
             //store logs detail
                 $params=array();
                 $adminAction = new AdminAction();
-
+                
                 $params['adminuserid']  = \Auth::guard('admins')->id();
                 $params['actionid']     = $adminAction->EDIT_SECURITY;
                 $params['actionvalue']  = $id;
@@ -301,8 +345,8 @@ class SecurityController extends Controller
 
             session()->flash('success_message', $msg);
         }
-
-        return ['status' => $status,'msg' => $msg, 'data' => $data];
+        
+        return ['status' => $status,'msg' => $msg, 'data' => $data]; 
     }
 
     /**
@@ -318,34 +362,35 @@ class SecurityController extends Controller
     public function data(Request $request)
     {
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_SECURITY);
-
-        if($checkrights)
+        
+        if($checkrights) 
         {
             return $checkrights;
         }
-
+     
         $model = Securities::select(TBL_SECURITY.'.*',TBL_MARKETS.'.market_name',\DB::raw("CONCAT(".TBL_COUNTRY.".title,' (',".TBL_COUNTRY.".country_code,')')  AS country"))
                     ->join(TBL_MARKETS, TBL_SECURITY.'.market_id','=',TBL_MARKETS.'.id')
                 ->leftJoin(TBL_COUNTRY,TBL_COUNTRY.".id","=",TBL_SECURITY.".country_id");
 
         return Datatables::eloquent($model)
-
+            
             ->addColumn('action', function(Securities $row) {
                 return view("admin.partials.action",
                     [
                     'currentRoute' => $this->moduleRouteText,
-                    'row' => $row,
+                    'row' => $row,                             
                     'isEdit' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_SECURITY),
-                    'isDefault' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_SECURITY),
+                    'isDefault' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_SECURITY),                                                     
+                    'isAnalyzerDefault' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_SECURITY),
                     ])->render();
             })
-
+            
             ->editColumn('created_at', function($row){
-
+                
                 if(!empty($row->created_at))
                     return date("j M, Y h:i:s A",strtotime($row->created_at));
                 else
-                    return '-';
+                    return '-';    
             })
             ->addColumn('default',  function ($row){
                 if($row->default == 1)
@@ -364,19 +409,16 @@ class SecurityController extends Controller
                 $search_cusip = request()->get('search_cusip');
                 $search_market = request()->get('search_market');
                 $search_status = request()->get('search_status');
-				$search_country = request()->get("search_country");
-                $search_security_name = request()->get("search_security_name");
+                $search_analyzer_default = request()->get('search_analyzer_default');
+                $search_country = request()->get("search_country"); 
 
                 if (!empty($search_cusip)) {
                     $query = $query->where(TBL_SECURITY.'.CUSIP',"LIKE", '%'.$search_cusip.'%');
                 }
-                if (!empty($search_security_name)) {
-                    $query = $query->where(TBL_SECURITY.'.security_name',"LIKE", '%'.$search_security_name.'%');
-                }
                 if(!empty($search_country))
-                {
-                    $query = $query->where(TBL_COUNTRY.".title", 'LIKE', '%'.$search_country.'%');
-                }
+                    {
+                        $query = $query->where(TBL_COUNTRY.".id", '=', $search_country);
+                    }
                 if (!empty($search_market)) {
                     $query = $query->where(TBL_SECURITY.'.market_id', '=', $search_market);
                 }
@@ -389,6 +431,6 @@ class SecurityController extends Controller
                     $query = $query->where(TBL_SECURITY.".bond_default", $search_analyzer_default);
                 }
             })
-            ->make(true);
+            ->make(true);       
     }
 }

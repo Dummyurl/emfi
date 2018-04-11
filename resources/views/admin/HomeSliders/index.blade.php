@@ -107,10 +107,29 @@
     $(document).ready(function(){
 
         $('.country').on('change',function(){
+                $(".setValue").val($(".country option:selected").text());
             var country_val = $('.country').val();
             if(country_val != '')
             {
                 $('#graph_type_row').show();
+                 $.ajax({
+                        type: "GET",
+                        url: "/admin/getsecurities/",
+                        data: {country_id:country_val},
+                        success: function (result)
+                        {
+                            var $country = $('#security_id_val');
+                            $country.empty();
+                            $('#city').empty();
+                            $.each(result, function(k, v) {
+                                $country.append('<option value="' + k + '">' + v + '</option>');
+                            });
+                            $country.change();
+
+                        },
+                        error: function (error) {
+                        }
+                    });
             }else{
                 $('#graph_type_row').hide();
                 $('.down_content').hide();
@@ -131,6 +150,18 @@
             else if(graph_val == 'yield_curve'){
                 $('.down_content').show();
                 $('#security_id').hide();
+                $('#relval_option_2').hide();
+                $('#relval_option_4').hide();
+                $('#security_id_val').attr('disabled',true);
+                $('#yield_curve_div').show();
+                $('#option_maturity_div').show();
+                $('#AjaxLoaderDiv').fadeOut('slow');
+            }else if(graph_val == 'relval'){
+                $('.down_content').show();
+                $('#security_id').hide();
+                $('#option_maturity_div').hide();
+                $('#relval_option_2').show();
+                $('#relval_option_4').show();
                 $('#security_id_val').attr('disabled',true);
                 $('#yield_curve_div').show();
                 $('#AjaxLoaderDiv').fadeOut('slow');

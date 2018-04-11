@@ -42,7 +42,6 @@ class HomeSlider extends Model
                 // })
                 ->orderBy(TBL_HOME_SLIDER.'.order')
                 ->get();
-                
         return $sliders;
     }
 

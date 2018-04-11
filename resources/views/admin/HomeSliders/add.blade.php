@@ -3,9 +3,7 @@
         <div class="caption">
             <i class="fa fa-file"></i>Add News
         </div>
-        <div class="tools">
-            <a href="javascript:;" class="collapse"> </a>
-        </div>
+        
     </div>
     <div class="portlet-body">
         <div class="portlet-body">
@@ -29,7 +27,7 @@
                             <div class="clearfix">&nbsp;</div>
                                 <div class="col-md-12" >
                                     <label class="control-label">Graph Period<span class="required">*</span></label>
-                                    {!! Form::select('graph_period',[''=>'Select Period']+$months,null,['class' => 'form-control', 'data-required' => true,'id'=>'graph_period_id']) !!}
+                                    {!! Form::select('graph_period',[''=>'Select Period']+$months,$selected_month,['class' => 'form-control', 'data-required' => true,'id'=>'graph_period_id']) !!}
                                 </div>
                             </div>
                             <div class="clearfix">&nbsp;</div>
@@ -40,17 +38,36 @@
                                 </div>
                             </div>
                             <div id="yield_curve_div" style="display: none;">
+                                <div id="option_maturity_div" style="display: none;">
                             <div class="row">
                                 <div class="col-md-12">
                                     <label class="control-label">Maturity/Duration<span class="required">*</span></label>
-                                    {!! Form::select('option_maturity',[''=>'Select Option']+$maturities,null,['class' => 'form-control','id'=>'option_maturity_id']) !!}
+                                    {!! Form::select('option_maturity',[''=>'Select Option']+$maturities,$selected_maturities,['class' => 'form-control','id'=>'option_maturity_id']) !!}
+                                </div>
+                            </div>
+                                </div>
+                            <div id="relval_option_2"  style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label class="control-label">Rating / OECD <span class="required">*</span></label>
+                                        {!! Form::select('option_rating',[''=>'Select Option']+$rating_orcd,null,['class' => 'form-control', 'data-required' => true, 'id'=>'option_maturity_id']) !!}
+                                    </div>
                                 </div>
                             </div>
                             <div class="clearfix">&nbsp;</div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <label class="control-label">Price<span class="required">*</span></label>
-                                    {!! Form::select('option_price',[''=>'Select Option']+$prices,'price',['class' => 'form-control','id'=>'option_price_id']) !!}
+                                    {!! Form::select('option_price',[''=>'Select Option']+$prices,$selected_prices,['class' => 'form-control','id'=>'option_price_id']) !!}
+                                </div>
+                            </div>
+                            <div class="clearfix">&nbsp;</div>
+                            <div id="relval_option_4"  style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label class="control-label">Credit / Equities <span class="required">*</span></label>
+                                        {!! Form::select('option_credit',[''=>'Select Option']+$credit_equities,null,['class' => 'form-control', 'data-required' => true, 'id'=>'option_maturity_id']) !!}
+                                    </div>
                                 </div>
                             </div>
                             </div>
@@ -93,7 +110,7 @@
                                 <div class="col-md-12">
                                     <label for="" class="control-label">Post Title [{{ $lng }}]
                                     </label>
-                                    {!! Form::text('post_title['.$lng.'][]',$title,['class' => 'form-control']) !!}
+                                    {!! Form::text('post_title['.$lng.'][]',$title,['class' => 'form-control setValue']) !!}
                                 </div>
                                 <div class="clearfix">&nbsp;</div>
                                 <div class="col-md-12">

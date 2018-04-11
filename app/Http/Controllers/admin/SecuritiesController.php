@@ -40,7 +40,7 @@ class SecuritiesController extends Controller
         }
         $data['page_title'] = "Upload Data";
         $data['validate_url'] = url('admin/validate');
-        $data['buttonText '] = "Upload";
+        $data['buttonText '] = "Upload File";
 
         return view('admin.uploadExcel.upload', $data);
     }
@@ -412,7 +412,9 @@ fa fa-check-square-o'></i></a>";
 								$security_id = $create_security->id;
 							}
 							$hdata['security_id'] 	= $security_id;
-							if ($security->market_id == 5) {
+							if ($idata['market_id'] == 5) 
+							{
+
 								$hdata['DUR_ADJ_MID'] 	= $idata['dur_adj_mid'];
 								$hdata['YLD_YTM_MID'] 	= $idata['yld_ytm_mid'];
 								$hdata['Z_SPRD_MID'] 	= $idata['z_sprd_mid'];
@@ -426,6 +428,8 @@ fa fa-check-square-o'></i></a>";
 									$bond_histotry_el->create($hdata);
 								}
 							} else {
+								$hdata['YLD_YTM_MID'] 	= $idata['yld_ytm_mid'];
+								$hdata['Z_SPRD_MID'] 	= $idata['z_sprd_mid'];
 								$Historical_data = HistoricalData::where("security_id", $security_id)
 																->where("created", $created_date)->first();
 								if(!empty($Historical_data)){
