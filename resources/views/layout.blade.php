@@ -18,6 +18,12 @@
         <link href="{{ asset('themes/frontend/css/responsive.css') }}" rel="stylesheet">
 
         <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700" rel="stylesheet">
+		@yield('styles')
+		<style media="screen">
+			#tweetText{
+				margin-top: 12px;
+			}
+		</style>
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -35,15 +41,15 @@
     <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script type="text/javascript" src="{{ asset('themes/frontend/js/bootstrap.min.js') }}"></script>
-    
-    @if(\Request::is("analyzer","analyzer/*"))    
+
+    @if(\Request::is("analyzer","analyzer/*"))
         <script src="https://www.google.com/jsapi"></script>
-    @endif    
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>    
-    <script type="text/javascript" src="{{ asset('themes/frontend/js/owl.carousel.min.js') }}"></script>    
+    @endif
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="{{ asset('themes/frontend/js/owl.carousel.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/jquery.bootstrap-growl.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('themes/frontend/js/parallax.min.js') }}"></script>    
-    <script src="{{ asset("/themes/admin/assets")}}/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>            
+    <script type="text/javascript" src="{{ asset('themes/frontend/js/parallax.min.js') }}"></script>
+    <script src="{{ asset("/themes/admin/assets")}}/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="{{ asset('themes/frontend/js/app.js') }}"></script>
     @yield('scripts')
-</html>	
+</html>

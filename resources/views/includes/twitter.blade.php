@@ -26,7 +26,7 @@
                             <!-- <a href="{{ $tweet['link'] }}" target="_blank">@emfisecurities</a> -->
                         </div>
                         <!-- <div class="subtxt">#Venezuela</div> -->
-                        <p>{!! $tweet['comment'] !!}</p>                        
+                        <p id="tweetText">{!! $tweet['comment'] !!}</p>                        
                     </div>
                     <div class="clearfix"></div>
                 </div>
