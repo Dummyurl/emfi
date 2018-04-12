@@ -12,8 +12,9 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
-        //
+    protected $commands = 
+    [
+        'App\Console\Commands\UploadData'
     ];
 
     /**

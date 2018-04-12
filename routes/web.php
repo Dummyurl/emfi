@@ -106,6 +106,8 @@ Route::group(['prefix' => $ADMIN_PREFIX], function(){
  	Route::any('posts/data', 'admin\PostsController@data')->name('posts.data');
  	Route::resource('posts', 'admin\PostsController');
 
+ 	Route::get('getsecurities', 'admin\HomeSlidersController@getsecurities');
+
  	Route::any('home-sliders/data', 'admin\HomeSlidersController@data')->name('home-sliders.data');
  	Route::resource('home-sliders', 'admin\HomeSlidersController');
 
