@@ -27,13 +27,13 @@ foreach($country_benchmarkes as $r)
         <div class="title_belt">
             <div class="row">
                 <div class="col-md-6">
-                  <h2>Economies</h2>
+                  <h2>Country Update</h2>
                   <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
                 </div>
                 <div class="col-md-6 select_r">
                     <select id="country-combo">
                         @foreach($countries as $cnt)
-                            <option {{ $cnt->id == $countryObj->id ? 'selected="selected"':'' }} value="{{ $cnt->country_code }}">
+                            <option {{ $cnt->id == $countryObj->id ? 'selected="selected"':'' }} value="{{ $cnt->slug }}">
                                 {{ ucwords(strtolower($cnt->title)) }}
                             </option>
                         @endforeach
@@ -167,16 +167,18 @@ foreach($country_benchmarkes as $cnt)
     <div class="container">
         <div class="title">
             <h2>Yield Curve</h2>
-            <span class="market-chart-title" id="main-chart-title-{{ $counter}}">
-                {{ ucwords(strtolower($countryObj->title)) }}
-                @if(in_array($countryObj->id, $tickerIDs))
-                    {{ ' - '.ucwords(strtolower($key)) }}
+            <span class="market-chart-title" id="main-chart-title-{{ $counter}}">                
+                @if(in_array($countryObj->id, $tickerIDs) && $tickerType == 2)
+                    {{ strtoupper($key) }}
+                @else
+                    {{ ucwords(strtolower($countryObj->title)) }}    
                 @endif
             </span> 
             <div style="display: none;" id="hid-main-chart-title-{{ $counter}}">
-                {{ ucwords(strtolower($countryObj->title)) }}
-                @if(in_array($countryObj->id, $tickerIDs))
-                    {{ ' - '.ucwords(strtolower($key)) }}
+                @if(in_array($countryObj->id, $tickerIDs) && $tickerType == 2)
+                    {{ strtoupper($key) }}
+                @else
+                    {{ ucwords(strtolower($countryObj->title)) }}    
                 @endif                
             </div>
         </div>
@@ -215,8 +217,8 @@ foreach($country_benchmarkes as $cnt)
                         <div class="col-md-3">
                             <select id="price-dropdown-{{ $counter }}">
                                 <option value="1" data-title="Price">Price</option>
-                                <option value="2" data-title="Yield" selected="selected">Yield</option>
-                                <option value="3" data-title="Spread">Spread</option>                              
+                                <option value="2" data-title="Yield">Yield</option>
+                                <option value="3" data-title="Spread" selected="selected">Spread</option>                              
                             </select>
                         </div>
                         
@@ -230,7 +232,7 @@ foreach($country_benchmarkes as $cnt)
                                     @else
                                     <option data-tid="{{ $cnt['ticker_type'] }}" value="{{ $cnt['country_id'] }}">
                                         @if(in_array($cnt['country_id'],$tickerIDs) && $cnt['ticker_type'] == 2)
-                                        {{ ucwords(strtolower($cnt['country_title'])) }} - {{ ucwords(strtolower($cnt['ticker_name'])) }} 
+                                        {{ strtoupper($cnt['ticker_name']) }} 
                                         @else
                                         {{ ucwords(strtolower($cnt['country_title'])) }} 
                                         @endif
@@ -250,10 +252,11 @@ foreach($country_benchmarkes as $cnt)
         <div class="title">
             <h2>Market Prices</h2>
             <span>
-                {{ ucwords(strtolower($countryObj->title)) }}
-                @if(in_array($countryObj->id, $tickerIDs))
-                    {{ ' - '.ucwords(strtolower($key)) }}
-                @endif                
+                @if(in_array($countryObj->id, $tickerIDs) && $tickerType == 2)
+                    {{ strtoupper($key) }}
+                @else
+                    {{ ucwords(strtolower($countryObj->title)) }}    
+                @endif                                
             </span>
         </div>
     </div>

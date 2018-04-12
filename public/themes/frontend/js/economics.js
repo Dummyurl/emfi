@@ -6,8 +6,10 @@ var global_market_text;
 var global_secure_id_2;
 var global_secure_id_2_text;
 var is_first;
+var is_bond_first;
 
 is_first = 1;
+is_bond_first = 1;
 
 function resetFields(chartType)
 {
@@ -256,6 +258,13 @@ function generateLineGraph2()
     else
         $("#price-dropdown-10").hide();
 
+    if(is_bond_first == 1 && $market_id == 5)
+    {
+        is_bond_first++;   
+        $("select#price-dropdown-10").val(3);
+        $priceID = $("select#price-dropdown-10").val();
+    }        
+
     if(true)
     {
         $url = "/api/market/get-market-data/history";
@@ -477,6 +486,7 @@ $(document).ready(function() {
        global_secure_id_2_text = $.trim($(this).text());
 
        resetFields(3);
+       $("#price-dropdown-10").val(3);
 
        $(".market-chart-title-2").html(global_secure_id_2_text);
        generateLineGraph2();

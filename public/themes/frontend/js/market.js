@@ -498,7 +498,7 @@ $(document).ready(function () {
 
     $(".market-chart-title").html($("select#markets").find("option:selected").text());
     
-    if ($.trim($("select#markets").find("option:selected").text()) == "Credit" || $.trim($("select#markets").find("option:selected").text()) == "CREDIT")
+    if ($.trim($("select#markets").find("option:selected").text()) == "Credit" || $.trim($("select#markets").find("option:selected").text()) == "CREDIT" || $("select#markets").val() == 5)
     {
         $("#price-dropdown").show();
     }

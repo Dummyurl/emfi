@@ -21,6 +21,7 @@ class PagesController extends Controller {
     }
 
     public function home(Request $request) {
+
         $data = array();
         $data['page_title'] = "EMFI: Home Page";
         $locale = session('locale');
@@ -36,7 +37,7 @@ class PagesController extends Controller {
 
     public function economics(Request $request, $country = "") {
         $data = array();
-        $data['page_title'] = "EMFI: Economics";
+        $data['page_title'] = "EMFI: Countries";
 		$locale = session('locale');
 		if (empty($locale)) {
 			$locale = 'en';
@@ -47,10 +48,10 @@ class PagesController extends Controller {
         if (!empty($country)) {
             $defaultCountry = $country;
         } else {
-            $defaultCountry = "VZ";
+            $defaultCountry = "venezuela";
         }
 
-        $data['countryObj'] = Country::where("country_code", $defaultCountry)->first();
+        $data['countryObj'] = Country::where("slug", $defaultCountry)->first();
 
         if (!$data['countryObj']) {
             abort(404);
@@ -58,7 +59,7 @@ class PagesController extends Controller {
 
         $data['market_boxes'] = callCustomSP('CALL Select_economics_country(' . $data['countryObj']->id . ')');
         $bond_data = callCustomSP('CALL select_economic_bond(' . $data['countryObj']->id . ')');
-        $data['countries'] = Country::orderBy("title")->get();
+        $data['countries'] = Country::where("country_type",2)->orderBy("title")->get();
         $data['bond_data'] = [];
 
         foreach ($bond_data as $r) {

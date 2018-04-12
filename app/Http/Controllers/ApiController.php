@@ -31,7 +31,7 @@ class ApiController extends Controller
         $relvalCreditEquity = $request->get("relvalCreditEquity");
         $relval_chart = callCustomSP('CALL select_relval_chart_data('.$relvalCreditEquity.',"'.$relvalMonth.'")');
 
-//        dd($relval_chart);
+        // dd($relval_chart);
 
         $status = 1;
         $msg = "OK";
@@ -122,6 +122,12 @@ class ApiController extends Controller
             $isEquity = 1;
         }        
 
+
+        if($isEquity == 1 && $areaPrice == 3)
+        {
+            $areaPrice = 1;
+        }
+
         $month_id = 1;        
         $data = [];        
         
@@ -164,6 +170,12 @@ class ApiController extends Controller
         $dataTemp           = callCustomSP($history_data);        
         $returnData['history_data'] = $dataTemp;
         $returnData['benchmark_history_data'] = [];
+
+        if($isEquity == 1 && $price_id == 3)
+        {
+            $price_id = 1;
+        }
+
                 
         if($benchmark_id > 0)
         {
@@ -244,9 +256,16 @@ class ApiController extends Controller
         $regressionMonth = $request->get("regressionMonth");
         $regressionPrice = $request->get("regressionPrice");
 
+        if($isEquity == 1 && $regressionPrice == 3)
+        {
+            $regressionPrice = 1;
+        }
+        
+
         $regression_chart = callCustomSP('CALL select_analyzer_bond_data('.$id1.','.$id2.','.$regressionMonth.')');
         if(!empty($regression_chart))
         {
+            $i = 0;
             foreach($regression_chart as $key => $val)
             {
                 $regression_chart[$key]['created_format'] = date("d M Y",strtotime($regression_chart[$key]['created']));   
@@ -265,7 +284,14 @@ class ApiController extends Controller
                 {
                     $regression_chart[$key]['main_price'] = $regression_chart[$key]['Z_SPRD_MID'];
                     $regression_chart[$key]['main_price2'] = $regression_chart[$key]['Z_SPRD_MID2'];    
-                }                                
+                }    
+
+                if($i == 0)
+                $regression_chart[$key]['is_recent'] = 1;                            
+                else 
+                $regression_chart[$key]['is_recent'] = 0;                            
+
+                $i++;                
             }
 
             $returnData['regression_chart'] = $regression_chart;    
@@ -306,7 +332,9 @@ class ApiController extends Controller
         $returnData['top_gainer'] = $gainer_data;
         
         if(isset($gainer_data[0])){
-            $security_id = $gainer_data[0]['id']; $month_id = 12; $benchmark = '';
+            $security_id = $gainer_data[0]['id']; 
+            $month_id = 12; 
+            $benchmark = '';
             $market_data  = "CALL Select_Historical_Data(".$security_id.", ".$month_id.")";
             $History_data = callCustomSP($market_data);
             $returnData['gainer_history_data'] = $History_data;
