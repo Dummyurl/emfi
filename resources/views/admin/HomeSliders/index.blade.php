@@ -142,35 +142,105 @@
             var graph_val = $('#graph_type_id').val();
             if(graph_val == 'line'){
                 $('.down_content').show();
+                $('#period_div').show();
+                $('#prices_div').hide();
+                $('#maturity_div').hide();
+                $('#market_div').hide();
                 $('#security_id').show();
                 $('#security_id_val').attr('disabled',false);
-                $('#yield_curve_div').hide();
+                $('#rating_div').hide();
+                $('#banchmark_div').show();
+                $('#credit_div').hide();
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
             else if(graph_val == 'yield_curve'){
                 $('.down_content').show();
+                $('#period_div').show();
+                $('#prices_div').show();
+                $('#maturity_div').show();
+                $('#market_div').hide();
                 $('#security_id').hide();
-                $('#relval_option_2').hide();
-                $('#relval_option_4').hide();
                 $('#security_id_val').attr('disabled',true);
-                $('#yield_curve_div').show();
-                $('#option_maturity_div').show();
+                $('#rating_div').hide();
+                $('#banchmark_div').show();
+                $('#credit_div').hide();
                 $('#AjaxLoaderDiv').fadeOut('slow');
-            }else if(graph_val == 'relval'){
+            }else if(graph_val == 'market_movers_gainers' || graph_val == 'market_movers_laggers'){
                 $('.down_content').show();
+                $('#period_div').hide();
+                $('#prices_div').hide();
+                $('#maturity_div').hide();
+                $('#market_div').show();
                 $('#security_id').hide();
-                $('#option_maturity_div').hide();
-                $('#relval_option_2').show();
-                $('#relval_option_4').show();
                 $('#security_id_val').attr('disabled',true);
-                $('#yield_curve_div').show();
+                $('#rating_div').hide();
+                $('#banchmark_div').hide();
+                $('#credit_div').hide();
+                $('#AjaxLoaderDiv').fadeOut('slow');
+            }
+            else if(graph_val == 'market_history'){
+                $('.down_content').show();
+                $('#period_div').show();
+                $('#prices_div').show();
+                $('#maturity_div').hide();
+                $('#market_div').hide();
+                $('#security_id').show();
+                $('#security_id_val').attr('disabled',false);
+                $('#rating_div').hide();
+                $('#banchmark_div').show();
+                $('#credit_div').hide();
+                $('#AjaxLoaderDiv').fadeOut('slow');
+            }
+            else if(graph_val == 'differential'){
+                $('.down_content').show();
+                $('#period_div').show();
+                $('#prices_div').show();
+                $('#maturity_div').hide();
+                $('#market_div').hide();
+                $('#security_id').show();
+                $('#security_id_val').attr('disabled',false);
+                $('#rating_div').hide();
+                $('#banchmark_div').hide();
+                $('#credit_div').hide();
+                $('#AjaxLoaderDiv').fadeOut('slow');
+            }
+            else if(graph_val == 'regression'){
+                $('.down_content').show();
+                $('#period_div').show();
+                $('#prices_div').show();
+                $('#maturity_div').hide();
+                $('#market_div').hide();
+                $('#security_id').show();
+                $('#security_id_val').attr('disabled',false);
+                $('#rating_div').hide();
+                $('#banchmark_div').hide();
+                $('#credit_div').hide();
+                $('#AjaxLoaderDiv').fadeOut('slow');
+            }
+            else if(graph_val == 'relative_value'){
+                $('.down_content').show();
+                $('#period_div').show();
+                $('#prices_div').show();
+                $('#maturity_div').hide();
+                $('#market_div').hide();
+                $('#security_id').hide();
+                $('#security_id_val').attr('disabled',true);
+                $('#rating_div').show();
+                $('#banchmark_div').hide();
+                $('#credit_div').show();
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
             else if(graph_val == ''){
                 $('.down_content').show();
+                $('#period_div').hide();
+                $('#prices_div').hide();
+                $('#maturity_div').hide();
+                $('#market_div').hide();
                 $('#security_id').hide();
+                $('#rating_div').hide();
+                $('#banchmark_div').hide();
+                $('#credit_div').hide();
                 $('#security_id_val').attr('disabled',true);
-                $('#yield_curve_div').hide();
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
             else{
