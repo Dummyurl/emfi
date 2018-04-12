@@ -11,7 +11,7 @@
 	'commodities'=>'COMMODITIES',
 	'rates'=>'RATES',
 	'credit'=>'CREDIT',
-	'economics'=>'Economies',
+	'economics'=>'Countries',
 	'analyzer'=>'Analyzer',
 	'relval'=>'Relative Value',
 	'regression'=>'Regression',

@@ -45,7 +45,7 @@
                         <div class="col-md-3">
                             <select id="period-month-1">                                
                                 @foreach(getMonths() as $month => $label)
-                                <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
+                                <option {!! 12 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
                                     {{ $label }}
                                 </option>
                                 @endforeach
@@ -59,7 +59,7 @@
                             <select id="price-dropdown-1">
                                 <option value="1" data-title="Price">Price</option>
                                 <option value="2" data-title="Yield">Yield</option>
-                                <option value="3" data-title="Spread">Spread</option>                              
+                                <option value="3" data-title="Spread" selected="selected">Spread</option>                              
                             </select>
                         </div>
                     </form>
@@ -85,7 +85,7 @@
                         <div class="col-md-3">
                             <select id="period-month-2">                                
                                 @foreach(getMonths() as $month => $label)
-                                <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
+                                <option {!! 12 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
                                     {{ $label }}
                                 </option>
                                 @endforeach
@@ -99,7 +99,7 @@
                             <select id="price-dropdown-2">
                                 <option value="1" data-title="Price">Price</option>
                                 <option value="2" data-title="Yield">Yield</option>
-                                <option value="3" data-title="Spread">Spread</option>                              
+                                <option value="3" data-title="Spread" selected="selected">Spread</option>                              
                             </select>
                         </div>
                     </form>
@@ -127,7 +127,7 @@
                         <div class="col-md-3">
                             <select id="period-month-3">                                
                                 @foreach(getMonths() as $month => $label)
-                                <option {!! 1 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
+                                <option {!! 12 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
                                     {{ $label }}
                                 </option>
                                 @endforeach
@@ -141,7 +141,7 @@
                             <select id="price-dropdown-3">
                                 <option value="1" data-title="Price">Price</option>
                                 <option value="2" data-title="Yield">Yield</option>
-                                <option value="3" data-title="Spread">Spread</option>                              
+                                <option value="3" data-title="Spread" selected="selected">Spread</option>                              
                             </select>
                         </div>
                     </form>
@@ -194,7 +194,7 @@
                             <select id="price-dropdown-4">
                                 <option value="1" data-title="Price">Price</option>
                                 <option value="2" data-title="Yield">Yield</option>
-                                <option value="3" data-title="Spread">Spread</option>                              
+                                <option value="3" data-title="Spread" selected="selected">Spread</option>                              
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -252,13 +252,13 @@ function drawTreetChart(data_values, elementID) {
         @foreach($equities['countries'] as $k=>$v)
             [{v: '{{ $equities['countries'][$k]['title'] }} - Equities', f:'{{ $equities['countries'][$k]['title'] }}'},'Equities', 0, 0],
             @foreach($equities['countries'][$k]['records'] as $r)
-            ['{{ $r['security_name'].' - '.$r['id'] }}','{{ $equities['countries'][$k]['title'] }} - Equities', {{ (int) $r['data']['market_size'] }}, {{ (int) $r['id'] }}],
+            [{v: '{{ $r['id'] }}', f:'{{ $r['security_name'] }}'},'{{ $equities['countries'][$k]['title'] }} - Equities', {{ $r['data']['market_size'] }}, {{ $r['data']['percentage_change'] }}],
             @endforeach
         @endforeach
         @foreach($credits['countries'] as $k=>$v)
             [{v:'{{ $credits['countries'][$k]['title'] }} - Credit',f:'{{ $credits['countries'][$k]['title'] }}'},'Credit', 0, 0],
             @foreach($credits['countries'][$k]['records'] as $r)
-            [{v: '{{ $r['security_name'].' - '.$r['id'] }}', f:'{{ $r['security_name'] }}'},'{{ $credits['countries'][$k]['title'] }} - Credit', {{ (int) $r['data']['market_size'] }}, {{ (int) $r['id'] }}],
+            [{v: '{{ $r['id'] }}', f:'{{ $r['security_name'] }}'},'{{ $credits['countries'][$k]['title'] }} - Credit', {{ $r['data']['market_size'] }}, {{ $r['data']['percentage_change'] }}],
             @endforeach 
         @endforeach
     ];
@@ -285,20 +285,43 @@ function drawTreetChart(data_values, elementID) {
     {
         dataChart1 = google.visualization.arrayToDataTable(dataTemp);
         treeObject = new google.visualization.TreeMap(document.getElementById(elementID));
-        
+
         treeObject.draw(dataChart1, {
-            minColor: '#051b34',
-            midColor: '#051b34',
-            maxColor: '#051b34',
+            // minColor: '#051b34',
+            // midColor: '#051b34',
+            // maxColor: '#051b34',
+            minColor: '#f00',
+            midColor: '#ddd',
+            maxColor: '#0d0',                        
             fontColor: 'white',
             showScale: true,
             title: '',
         });
         
         google.visualization.events.addListener(treeObject, 'select', function () {
+
             var selection = treeObject.getSelection();
-            var node_val = dataChart1.getValue(selection[0].row, 3);
-        
+            var node_val = dataChart1.getValue(selection[0].row, 0);       
+            var str = node_val;
+
+            // alert(str);
+
+            if(str.toLowerCase().indexOf("credit") >= 0)
+            {
+                node_val = 0;                
+            }    
+            else if(str.toLowerCase().indexOf("equities") >= 0)
+            {
+                node_val = 0;
+            }    
+            else if(str.toLowerCase().indexOf("global") >= 0)
+            {
+                node_val = 0;
+            }    
+
+            // alert(node_val);
+
+
             if(node_val > 0)
             {
                 global_bond_id1 =  node_val;
@@ -329,10 +352,13 @@ function drawTreetChart(data_values, elementID) {
         
         treeObject2.draw(dataChart2, {
             
-            minColor: '#051b34',
-            midColor: '#051b34',
-            maxColor: '#051b34',
-//            headerHeight: 15,
+            // minColor: '#051b34',
+            // midColor: '#051b34',
+            // maxColor: '#051b34',
+            minColor: '#f00',
+            midColor: '#ddd',
+            maxColor: '#0d0',            
+            // headerHeight: 15,
             fontColor: 'white',
             showScale: true,
             title: '',
@@ -341,7 +367,26 @@ function drawTreetChart(data_values, elementID) {
         
         google.visualization.events.addListener(treeObject2, 'select', function () {
             var selection = treeObject2.getSelection();
-            var node_val = dataChart2.getValue(selection[0].row, 3);
+            var node_val = dataChart1.getValue(selection[0].row, 0);       
+            var str = node_val;
+
+            // alert(str)
+
+            if(str.toLowerCase().indexOf("credit") >= 0)
+            {
+                node_val = 0;                
+            }    
+            else if(str.toLowerCase().indexOf("equities") >= 0)
+            {
+                node_val = 0;
+            }    
+            else if(str.toLowerCase().indexOf("global") >= 0)
+            {
+                node_val = 0;
+            }    
+
+            // alert(node_val);
+            
             
             // alert(node_val);
             

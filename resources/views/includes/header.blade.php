@@ -14,18 +14,18 @@
                 </li>
                 */ ?>
                 <li class="dropdown"> 
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <a title="Change Language" onclick="window.location='{{ session('locale') == "es" ? url('change-language/en'):url('change-language/es')}}';" href="{{ session('locale') == "es" ? url('change-language/en'):url('change-language/es')}}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         @if(session('locale') == "es")
                             ESPAÑOL
                         @else
-                            English
+                            ENGLISH
                         @endif
                     </a>
                     <ul class="dropdown-menu">
                         @if(session('locale') == "es")
-                            <li><a href="{{ url('change-language/en') }}">English</a></li>
+                            <li><a title="Change Language" href="{{ url('change-language/en') }}">ENGLISH</a></li>
                         @else
-                            <li><a href="{{ url('change-language/es') }}">ESPAÑOL</a></li>
+                            <li><a title="Change Language" href="{{ url('change-language/es') }}">ESPAÑOL</a></li>
                         @endif                        
                     </ul>
                 </li>
@@ -44,10 +44,11 @@
                     <li class="{{ \Request::is('/','home') ? 'active':'' }}">
                         <a href="{{ route('home') }}">{{ __('header.home') }}</a>
                     </li>
-                    <li class="dropdown {{ \Request::is('markets','markets/*') ? 'active':'' }}">
+                    <li class="{{ \Request::is('markets','markets/*') ? 'active':'' }}">
                         <a href="{{ url('markets') }}">
                             {{ __('header.markets') }}
                         </a>
+                        <?php /*
                         <ul class="dropdown-menu">
                             <li><a href="{{ url('markets/equities') }}">{{ __('header.equities') }}</a></li>
                             <li><a href="{{ url('markets/currencies') }}">{{ __('header.currencies') }}</a></li>
@@ -55,6 +56,7 @@
                             <li><a href="{{ url('markets/rates') }}">{{ __('header.rates') }}</a></li>
                             <li><a href="{{ url('markets/credit') }}">{{ __('header.credit') }}</a></li>
                         </ul>
+                        */ ?>
                     </li>
                     <?php 
                     /*
@@ -70,10 +72,11 @@
                     </li>
                     */ ?>
                     <li class="{{ \Request::is('economics','economics/*') ? 'active':'' }}"><a href="{{ url('economics')}}">{{ __('header.economics') }}</a></li>
-                    <li class="dropdown {{ \Request::is('analyzer','analyzer/*') ? 'active':'' }}">
+                    <li class="{{ \Request::is('analyzer','analyzer/*') ? 'active':'' }}">
                         <a href="{{ url('analyzer') }}">
                             {{ __('header.analyzer') }}
                         </a>
+                        <?php /*
                         <ul class="dropdown-menu">
                             @if(\Request::is('analyzer','analyzer/*'))                            
                                 <li><a href="javascript:void(0);" onclick="navigateToDiv('relval')">{{ __('header.relval') }}</a></li>
@@ -85,6 +88,7 @@
                                 <li><a href="{{ url('analyzer/slope') }}">{{ __('header.slope') }}</a></li>                            
                             @endif
                         </ul>
+                         */ ?>
                     </li>
                     <?php /*
                     <li class="dropdown">

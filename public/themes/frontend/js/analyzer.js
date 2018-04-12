@@ -38,13 +38,13 @@ function generateSecurityBasedChart(isScrollDown)
         }    
         
 
-        $("#price-dropdown-1").val($("#price-dropdown-1 option:first").attr("value"));
-        $("#price-dropdown-2").val($("#price-dropdown-2 option:first").attr("value"));
-        $("#price-dropdown-3").val($("#price-dropdown-3 option:first").attr("value"));
+        $("#price-dropdown-1").val(3);
+        $("#price-dropdown-2").val(3);
+        $("#price-dropdown-3").val(3);
 
-        $("#period-month-1").val($("#period-month-1 option:first").attr("value"));
-        $("#period-month-2").val($("#period-month-2 option:first").attr("value"));
-        $("#period-month-3").val($("#period-month-3 option:first").attr("value"));
+        $("#period-month-1").val($("#period-month-1 option[value=12]").attr("value"));
+        $("#period-month-2").val($("#period-month-2 option[value=12]").attr("value"));
+        $("#period-month-3").val($("#period-month-3 option[value=12]").attr("value"));
         
         reInitChart();
     }   
@@ -98,6 +98,21 @@ function reInitChart()
                     $("#price-dropdown-1 option[value=3]").hide();
                     $("#price-dropdown-2 option[value=3]").hide();
                     $("#price-dropdown-3 option[value=3]").hide();
+
+                    if($("#price-dropdown-1").val() == 3)
+                    {
+                        $("#price-dropdown-1").val(1);                        
+                    }
+
+                    if($("#price-dropdown-2").val() == 3)
+                    {
+                        $("#price-dropdown-2").val(1);                        
+                    }
+
+                    if($("#price-dropdown-3").val() == 3)
+                    {
+                        $("#price-dropdown-3").val(1);                        
+                    }
                 }   
                 else
                 {
@@ -127,17 +142,25 @@ function drawRegression(data_values)
 
     if(counter > 0)
     {
-        formatedData.push([{label:'', type:'number'}, {label:'', type:'number'},{label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);
+        formatedData.push([{label:'', type:'number'}, {label:$("#price-dropdown-3 option:selected").text(), type:'number'},{label: 'tooltip', role: 'tooltip', 'p': {'html': true}},{'type': 'string', 'role': 'style'}]);
         var j = 1;
         for (var i in data_values)
         {
             var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['created_format'] + "<br /> <b>" + data_values[i]['main_price'] + ", " + data_values[i]['main_price2'] + "</b>"+"</p>";
 
+            $style = null;
+
+            if(data_values[i]['is_recent'] == 1)
+            {
+                $style = 'point {fill-color: #FF0000; }';
+            }
+
             formatedData.push(
                 [
                     {v:parseFloat(data_values[i]['main_price']), f:data_values[i]['created_format']}, 
                     {v:parseFloat(data_values[i]['main_price2']), f:data_values[i]['created_format']},
-                    html
+                    html,
+                    $style
                 ]
             );
             j++;
@@ -154,11 +177,10 @@ function drawRegression(data_values)
 
     var options = 
     {
-        title: '',
-        legend: 'none',
+        title: '',        
         tooltip: {isHtml: true},
+        legend: {textStyle: {color: '#fff'}},
         hAxis: {title: '', titleTextStyle: {color: '#333'}},
-        // vAxis: {minValue: 0},
         backgroundColor: {fill: 'transparent'},
         hAxis: 
         {
@@ -173,8 +195,23 @@ function drawRegression(data_values)
         },
         colors: ['#fff', '#8ab3e2'],
         auraColor: ['#11abc3', '#c7c3af'],        
-        trendlines: { 0: {} }    // Draw a trendline for data series 0.
-    };
+        series: 
+        {
+            0: 
+            {
+                visibleInLegend: false
+            }
+        },        
+        trendlines: 
+        {
+            0: 
+            {
+              type: 'linear',
+              showR2: true,
+              visibleInLegend: true
+            }
+        },            
+      };
 
     var chart = new google.visualization.ScatterChart(document.getElementById('scatter_chart'));
     chart.draw(data, options);
@@ -299,9 +336,10 @@ function drawRelvalChart(data_values)
     var data = new google.visualization.DataTable();
     data.addColumn('string', '');
 
-    for(j = 1;j<=100;j++)
+    for(j = 1;j<=1000;j++)
     {
         data.addColumn('number', '');
+        data.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
     }    
 
     for(var i in data_values)
@@ -310,15 +348,20 @@ function drawRelvalChart(data_values)
         var cnt = 0;
         prices.push(i);
 
+
+
         for(j in data_values[i])
-        {
-            prices.push({v: parseFloat(data_values[i][j]['price']), f: (parseFloat(data_values[i][j]['price'])) + "("+data_values[i][j]['country_title']+")"});            
+        {   
+            prices.push(parseFloat(data_values[i][j]['price']));                     
+            var html = '<p style="white-space: nowrap;padding: 3px;"><b>'+data_values[i][j]['country_title']+'</b><br />'+i+', '+parseFloat(data_values[i][j]['price'])+'</p>';    
+            prices.push(html);
             cnt++;
         }  
 
-        for(k = cnt+1;k<=100;k++)
+        for(k = cnt+1;k<=1000;k++)
         {
             prices.push(null);            
+            prices.push('');
         }
 
         data.addRow(prices);
@@ -352,7 +395,7 @@ function drawRelvalChart(data_values)
 
     var options = {        
         curveType: 'function',
-        // tooltip: {isHtml: true},
+        tooltip: {isHtml: true},
         legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
@@ -562,6 +605,20 @@ $(document).ready(function () {
     });
 
     $(document).on("change","#relvalCreditEquity",function(){
+
+        if($(this).val() == 1)
+        {
+            $("#price-dropdown-4 option[value=3]").hide();
+            if($("#price-dropdown-4").val() == 3)
+            {
+                $("#price-dropdown-4").val(1);
+            }
+        }
+        else
+        {
+            $("#price-dropdown-4 option[value=3]").show();
+        }
+
         initRelvalChart();
         $(".rel-val-sub-title").text($("#relvalCreditEquity option:selected").text())
     });        

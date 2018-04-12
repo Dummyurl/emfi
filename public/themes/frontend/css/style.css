@@ -897,9 +897,10 @@ position:relative;
 }
 
 .market-page svg g > rect:hover + text { fill: #8ab3e2;}
+/*.market-page svg g > rect:hover + text { fill: #8ab3e2;}
 analyzer-page svg g rect:hover + text { fill: #8ab3e2;}
 .analyzer-page svg text { fill: #8ab3e2;}
-
+*/
 .top_section .select_r {
 text-align:right;
 /*margin-top:15px;*/
