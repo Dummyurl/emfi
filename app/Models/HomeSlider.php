@@ -51,4 +51,57 @@ class HomeSlider extends Model
 		$orderMax = $orderMax + 1;
         return $orderMax;
     }
+
+
+    public static function getGraphTypes(){
+      $array = [
+                        // 'line'=>'Line Graph',
+                        'market_movers_gainers'=> 'Market Movers Gainers',
+                        'market_movers_laggers'=> 'Market Movers Laggers',
+                        'market_history'=> 'Market History',
+                        'yield_curve'=>'Yield Curve (Scatter)', 
+                        'differential'=> 'Differential', 
+                        'regression'=> 'Regression',
+                        'relative_value'=> 'Relative Value',
+                    ];
+          return $array;
+
+    }
+
+    public static function getDuration()
+    {
+        $array = [
+                1=>'Maturity',
+                2=>'Duration',
+                ];
+      return $array;   
+    }
+    public static function getPrices()
+    {
+       $array = [
+                1=>'Price',
+                2=>'Yield',
+                3=>'Spread',
+                ];
+      return $array; 
+    }
+    public static function getRatings()
+    {
+       $array = [
+                1 => 'Rating',
+                0 => 'OECD'
+                ];
+      return $array; 
+    }
+    public static function getCredits()
+    {
+       $array = [
+                5 => 'Credit',
+                1 => 'Equities'
+                    ];
+          return $array;
+
+    }
+
+
 }
