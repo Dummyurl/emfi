@@ -64,17 +64,18 @@ class HomeSlidersController extends Controller
         $data['graphs'] = \App\Models\Securities::pluck('security_name','id')->all();
         $data['orderMax'] = \App\Models\HomeSlider::getMaxOrder();
         $data['languages']= \App\Custom::getLanguages();
-        $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)',];
 
+        $data['graphTypes']= \App\Models\HomeSlider::getGraphTypes();
+        $data['marketTypes'] = \App\Models\MarketType::getArrayList();
 
-        $data['maturities']= ['maturity'=>'Maturity','duration'=>'Duration'];
-        $data['prices']= ['price'=>'Price','yield'=>'Yield','spread'=>'Spread'];
-        $data['rating_orcd']= [1 => 'Rating', 0 => 'OECD'];
-        $data['credit_equities']= [5 => 'Credit',1 => 'Equities'];
-
+        $data['maturities']= \App\Models\HomeSlider::getDuration();
+        $data['prices']= \App\Models\HomeSlider::getPrices();
+        $data['rating_orcd']= \App\Models\HomeSlider::getRatings();
+        $data['credit_equities']= \App\Models\HomeSlider::getCredits();
+        $data['option_security']= \App\Models\Securities::getOptionSecurity();
         $data['selected_month']         = 12;
-        $data['selected_maturities']    = 'duration';
-        $data['selected_prices']        = 'spread';
+        $data['selected_maturities']    = 2;
+        $data['selected_prices']        = 3;
 
         if($request->get("changeID") > 0)
         {
@@ -148,7 +149,8 @@ class HomeSlidersController extends Controller
         $data['countries'] = \App\Models\Country::getCountryList();
 		$data['orderMax'] = \App\Models\HomeSlider::getMaxOrder();
         $data['languages']= \App\Custom::getLanguages();
-        $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)'];
+        $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)', 'relval' =>  'Relval Historical Chart',];
+
         $data['maturities']= ['maturity'=>'Maturity','duration'=>'Duration'];
         $data['prices']= ['price'=>'Price','yield'=>'Yield','spread'=>'Spread'];
 
@@ -177,26 +179,31 @@ class HomeSlidersController extends Controller
 		$months = getMonths();
 		$months = array_keys($months);
 
-        $graph_type = $request->get("graph_type");
-        $country_id = $request->get("country_id");
-        if($graph_type == "yield_curve" && (empty($country_id) || $country_id == ""))
-        {
-            return ["status" => 0, "msg" => "Country is required on Yield Curve Chart"];
-        }
+        $graphTypes = array_keys(\App\Models\HomeSlider::getGraphTypes());
+        $marketTypes = array_keys(\App\Models\MarketType::getArrayList());
+        $maturities = array_keys(\App\Models\HomeSlider::getDuration());
+        $prices = array_keys(\App\Models\HomeSlider::getPrices());
+        $rating_orcd = array_keys(\App\Models\HomeSlider::getRatings());
+        $credit_equities = array_keys(\App\Models\HomeSlider::getCredits());
+
         $rules = [
             'post_title.en.*.min'=>'English post title is min 2 character!',
             'post_description.en.*.min'=>'English post description is min 2 character!',
             'post_title.es.*.min'=>'English post title is min 2 character!',
             'post_description.es.*.min'=>'English post description is min 2 character!',
+            'security_id.exists'=>'Selected security is invalid!',
             ];
 
 		$validator = Validator::make($request->all(), [
             'country_id' => 'required|exists:'.TBL_COUNTRY.',id',
-			'graph_period' => ['required', Rule::in($months)],
-            'graph_type' => ['required', Rule::in(['line','yield_curve'])],
+            'graph_type' => ['required', Rule::in($graphTypes)],
             'security_id' => 'exists:'.TBL_SECURITY.',id',
-            'option_maturity' => Rule::in(['maturity','duration']),
-            'option_price' => Rule::in(['price','yield','spread']),
+            'option_market' => Rule::in($marketTypes),
+			'option_period' => Rule::in($months),
+            'option_price' => Rule::in($prices),
+            'option_maturity' => Rule::in($maturities),
+            'option_rating' => Rule::in($rating_orcd),
+            'option_credit' => Rule::in($credit_equities),
             'status' => ['required', Rule::in([1,0])],
             'order' => 'required|min:0|numeric',
             'post_title.en.*' => 'min:2',
@@ -220,45 +227,30 @@ class HomeSlidersController extends Controller
         }
         else
         {
-            $security_id = $request->get('security_id');
             $country_id = $request->get('country_id');
             $graph_type = $request->get('graph_type');
+            $security_id = $request->get('security_id');
+            $option_market = $request->get('option_market');
+            $option_period = $request->get('option_period');
+			$option_price = $request->get('option_prices');
+            $option_maturity = $request->get('option_maturity');
+            $option_banchmark = $request->get('option_banchmark');
+            $option_rating = $request->get('option_rating');
+            $option_credit = $request->get('option_credit');
             $statuss = $request->get('status');
             $order = $request->get('order');
 			$post_title = $request->get('post_title');
 			$post_description = $request->get('post_description');
-			$graph_period = $request->get('graph_period');
-            $option_maturity = $request->get('option_maturity');
-			$option_price = $request->get('option_price');
-
-            if($graph_type == 'line' && empty($security_id))
+            
+            if(!empty($order) && $order>0)
             {
-                $status = 0;
-                $msg = 'Please enter security !';
-                return ['status' => $status, 'msg' => $msg, 'data' => $data];
-            }
-            if(!empty($graph_type) && $graph_type == 'yield_curve' && !empty($security_id))
-            {
-                $status = 0;
-                $msg = "Please don't add graph type <b>Yield Curve</b> with security!";
-                return ['status' => $status, 'msg' => $msg, 'data' => $data];
-            }
-            if(!empty($graph_type) && $graph_type == 'line' && (!empty($option_maturity) || !empty($option_price)))
-            {
-                $option_maturity = null;
-                $option_price = null;
-            }
-            if($graph_type == 'yield_curve' && empty($option_maturity))
-            {
-                $status = 0;
-                $msg = 'Please select Maturities option !';
-                return ['status' => $status, 'msg' => $msg, 'data' => $data];
-            }
-            if($graph_type == 'yield_curve' && empty($option_price))
-            {
-                $status = 0;
-                $msg = 'Please select Price option !';
-                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+                $yes = HomeSlider::where('order',$order)->first();
+                if($yes)
+                {
+                    $status = 0;
+                    $msg = 'Order number already exsits!';
+                    return ['status' => $status, 'msg' => $msg, 'data' => $data];
+                }
             }
             if(empty($post_title['en'][0]) &&  empty($post_title['es'][0]))
             {
@@ -272,28 +264,139 @@ class HomeSlidersController extends Controller
                 $msg = 'Please enter at least one description!';
                 return ['status' => $status, 'msg' => $msg, 'data' => $data];
             }
-            if(!empty($order) && $order>0)
-            {
-                $yes = HomeSlider::where('order',$order)->first();
-                if($yes)
-                {
-                    $status = 0;
-                    $msg = 'Order number already exsits!';
-                    return ['status' => $status, 'msg' => $msg, 'data' => $data];
-                }
-            }
 
             $obj = new HomeSlider();
 
-			$obj->country_id = $country_id;
-			$obj->graph_period = $graph_period;
-            $obj->graph_type = $graph_type;
-            $obj->security_id = $security_id;
-            $obj->option_maturity = $option_maturity;
-            $obj->option_price = $option_price;
+            $obj->country_id = $country_id;
+            $obj->graph_type = $graph_type; 
             $obj->status = $statuss;
             $obj->order = $order;
-            $obj->save();
+
+            if($graph_type == 'line' && empty($security_id))
+            {
+                $status = 0;
+                $msg = 'Please enter security !';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            if($graph_type == 'line')
+            {
+                if(empty($option_period) || empty($security_id))
+                {
+                $status = 0;
+                    $msg = 'Please fillup required data !';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+                else
+            {
+                    $obj->option_period = $option_period;
+                    $obj->security_id = $security_id;
+                    $obj->option_banchmark = $option_banchmark;
+                    $obj->save();
+                }
+            }
+            //yield_curve
+            if($graph_type == 'yield_curve')
+            {
+                if(empty($option_period) || empty($option_maturity) || empty($option_price))
+            {
+                $status = 0;
+                    $msg = 'Please fillup required data !';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+                else
+            {
+                    $obj->option_period = $option_period;
+                    $obj->option_maturity = $option_maturity;
+                    $obj->option_prices = $option_price;
+                    $obj->option_banchmark = $option_banchmark;
+                    $obj->save();
+                }   
+            }
+            //Market Movers
+            if($graph_type == 'market_movers_gainers' || $graph_type == 'market_movers_laggers')
+            {
+                if(empty($option_market))
+                {
+                $status = 0;
+                    $msg = 'Please select valid Market !';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+                }else
+                {
+                    $obj->option_market = $option_market;
+                    $obj->option_period = 12;
+                    $obj->save();
+            }
+            }            
+            //Market History
+            if($graph_type == 'market_history')
+            {
+                if(empty($option_period) || empty($security_id))
+            {
+                $status = 0;
+                    $msg = 'Please fillup required data !';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+                else
+                {
+                    $obj->option_period = $option_period;
+                    $obj->security_id = $security_id;
+                    $obj->option_banchmark = $option_banchmark;
+                    $obj->option_prices = $option_price;
+                    $obj->save();
+                }   
+            }
+            //Differential
+            if($graph_type == 'differential')
+            {
+                if(empty($option_period) || empty($security_id) || empty($option_price))
+                {
+                $status = 0;
+                    $msg = 'Please fillup required data !';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+                else
+            {
+                    $obj->option_period = $option_period;
+                    $obj->security_id = $security_id;
+                    $obj->option_prices = $option_price;
+                    $obj->save();
+                }   
+            }
+            //Regression
+            if($graph_type == 'regression')
+            {
+                if(empty($option_period) || empty($security_id) || empty($option_price))
+                {
+                    $status = 0;
+                    $msg = 'Please fillup required data !';
+                    return ['status' => $status, 'msg' => $msg, 'data' => $data];
+                }
+                else
+                {
+                    $obj->option_period = $option_period;
+                    $obj->security_id = $security_id;
+                    $obj->option_prices = $option_price;
+                    $obj->save();
+                }   
+            }
+            //Relative Value
+            if($graph_type == 'relative_value')
+            {
+                if(empty($option_period) || empty($option_rating) || empty($option_price) || empty($option_credit))
+                {
+                    $status = 0;
+                    $msg = 'Please fillup required data !';
+                    return ['status' => $status, 'msg' => $msg, 'data' => $data];       
+                }
+                else
+                {
+                    $obj->option_period = $option_period;
+                    $obj->option_rating = $option_rating;
+                    $obj->option_prices = $option_price;
+                    $obj->option_credit = $option_credit;
+                    $obj->save();
+                }
+            }
 
             $languages = \App\Custom::getLanguages();
             foreach ($languages as $locale => $val)
@@ -349,7 +452,6 @@ class HomeSlidersController extends Controller
      */
     public function edit($id)
     {
-
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_HOME_SLIDER);
 
         if($checkrights)
@@ -371,15 +473,22 @@ class HomeSlidersController extends Controller
         $data['action_url'] = $this->moduleRouteText.".update";
         $data['action_params'] = $formObj->id;
         $data['method'] = "PUT";
-		$data['months'] = getMonths();
-        $data['graphs'] = \App\Models\Securities::pluck('security_name','id')->all();
         $data['countries'] = \App\Models\Country::getCountryList();
         $data['orderMax'] = null;
         $data['languages']= \App\Custom::getLanguages();
-        $data['graphTypes']= ['line'=>'Line Graph','yield_curve'=>'Yield Curve (Scatter)'];
-
-        $data['maturities']= ['maturity'=>'Maturity','duration'=>'Duration'];
-        $data['prices']= ['price'=>'Price','yield'=>'Yield','spread'=>'Spread'];
+        $data['months'] = getMonths();
+        $data['graphs'] = \App\Models\Securities::pluck('security_name','id')->all();
+        $data['languages']= \App\Custom::getLanguages();
+        $data['graphTypes']= \App\Models\HomeSlider::getGraphTypes();
+        $data['marketTypes'] = \App\Models\MarketType::getArrayList();
+        $data['maturities']= \App\Models\HomeSlider::getDuration();
+        $data['prices']= \App\Models\HomeSlider::getPrices();
+        $data['rating_orcd']= \App\Models\HomeSlider::getRatings();
+        $data['credit_equities']= \App\Models\HomeSlider::getCredits();
+        $data['option_security']= \App\Models\Securities::getOptionSecurity();
+        $data['selected_month']         = 12;
+        $data['selected_maturities']    = 'duration';
+        $data['selected_prices']        = 'spread';
 
         return view($this->moduleViewName.'.edit', $data);
     }
@@ -408,26 +517,31 @@ class HomeSlidersController extends Controller
 		$months = getMonths();
 		$months = array_keys($months);
 
-        $graph_type = $request->get("graph_type");
-        $country_id = $request->get("country_id");
-        if($graph_type == "yield_curve" && (empty($country_id) || $country_id == ""))
-        {
-            return ["status" => 0, "msg" => "Country is required on Yield Curve Chart"];
-        }
+        $graphTypes = array_keys(\App\Models\HomeSlider::getGraphTypes());
+        $marketTypes = array_keys(\App\Models\MarketType::getArrayList());
+        $maturities = array_keys(\App\Models\HomeSlider::getDuration());
+        $prices = array_keys(\App\Models\HomeSlider::getPrices());
+        $rating_orcd = array_keys(\App\Models\HomeSlider::getRatings());
+        $credit_equities = array_keys(\App\Models\HomeSlider::getCredits());
+
         $rules = [
             'post_title.en.*.min'=>'English post title is min 2 character!',
             'post_description.en.*.min'=>'English post description is min 2 character!',
             'post_title.es.*.min'=>'English post title is min 2 character!',
             'post_description.es.*.min'=>'English post description is min 2 character!',
+            'security_id.exists'=>'Selected security is invalid!',
             ];
 
 		$validator = Validator::make($request->all(), [
             'country_id' => 'exists:'.TBL_COUNTRY.',id',
+            'graph_type' => ['required', Rule::in($graphTypes)],
             'security_id' => 'exists:'.TBL_SECURITY.',id',
-            'graph_type' => ['required', Rule::in(['line','yield_curve'])],
-			'graph_period' => ['required', Rule::in($months)],
-            'option_maturity' => Rule::in(['maturity','duration']),
-            'option_price' => Rule::in(['price','yield','spread']),
+            'option_period' => Rule::in($months),
+            'option_price' => Rule::in($prices),
+            'option_maturity' => Rule::in($maturities),
+            'option_rating' => Rule::in($rating_orcd),
+            'option_market' => Rule::in($marketTypes),
+            'option_credit' => Rule::in($credit_equities),
             'status' => ['required', Rule::in([1,0])],
             'order' => 'required|min:0|numeric',
             'post_title.en.*' => 'min:2',
@@ -456,58 +570,27 @@ class HomeSlidersController extends Controller
         }
         else
         {
-			$security_id = $request->get('security_id');
-			$country_id = $request->get('country_id');			
+			$country_id = $request->get('country_id');
             $graph_type = $request->get('graph_type');
+            $security_id = $request->get('security_id');
+            $option_market = $request->get('option_market');
+            $option_period = $request->get('option_period');
+            $option_price = $request->get('option_prices');
+            $option_maturity = $request->get('option_maturity');
+            $option_banchmark = $request->get('option_banchmark');
+            $option_rating = $request->get('option_rating');
+            $option_credit = $request->get('option_credit');
+            $option_security = $request->get('option_security');
 			$statuss = $request->get('status');
 			$order = $request->get('order');
 		    $post_title = $request->get('post_title');
 		    $post_description = $request->get('post_description');
-			$graph_period = $request->get('graph_period');
-            $option_maturity = $request->get('option_maturity');
-            $option_price = $request->get('option_price');
 
-            if($graph_type == 'line' && empty($security_id))
-            {
-                $status = 0;
-                $msg = 'Please enter security !';
-                return ['status' => $status, 'msg' => $msg, 'data' => $data];
-            }
-            if($graph_type == 'yield_curve' && empty($option_maturity))
-            {
-                $status = 0;
-                $msg = 'Please select Maturities option !';
-                return ['status' => $status, 'msg' => $msg, 'data' => $data];
-            }
-            if(!empty($graph_type) && $graph_type == 'line' && (!empty($option_maturity) || !empty($option_price)))
-            {
-                $option_maturity = null;
-                $option_price = null;
-            }
-            if($graph_type == 'yield_curve' && empty($option_price))
-            {
-                $status = 0;
-                $msg = 'Please select Price option !';
-                return ['status' => $status, 'msg' => $msg, 'data' => $data];
-            }
-            if(!empty($graph_type) && $graph_type == 'yield_curve' && !empty($security_id))
-            {
-                $status = 0;
-                $msg = "Please don't add graph type <b>Yield Curve</b> with security!";
-                return ['status' => $status, 'msg' => $msg, 'data' => $data];
-            }
-            if(empty($post_title['en'][0]) &&  empty($post_title['es'][0]))
-            {
-                $status = 0;
-                $msg = 'Please enter at least one title!';
-                return ['status' => $status, 'msg' => $msg, 'data' => $data];
-            }
-            if(empty($post_description['en'][0]) && empty($post_description['es'][0]))
-            {
-                $status = 0;
-                $msg = 'Please enter at least one description!';
-                return ['status' => $status, 'msg' => $msg, 'data' => $data];
-            }
+            $model->country_id = $country_id;
+            $model->graph_type = $graph_type;
+            $model->status = $statuss;
+            $model->order = $order;
+
             if(!empty($order) && $order>0)
             {
                 $yes = HomeSlider::where('order',$order)->where('id','!=',$id)->first();
@@ -519,15 +602,130 @@ class HomeSlidersController extends Controller
                 }
             }
 
-			$model->country_id = $country_id;
-			$model->graph_period = $graph_period;
-            $model->graph_type = $graph_type;
-            $model->security_id = $security_id;
-            $model->status = $statuss;
-            $model->order = $order;
-            $model->option_maturity = $option_maturity;
-            $model->option_price = $option_price;
-            $model->save();
+            if(empty($post_title['en'][0]) &&  empty($post_title['es'][0]))
+            {
+                $status = 0;
+                $msg = 'Please enter at least one title!';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            
+            if(empty($post_description['en'][0]) && empty($post_description['es'][0]))
+            {
+                $status = 0;
+                $msg = 'Please enter at least one description!';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            //Line Graph
+            if($graph_type == 'line' && empty($security_id))
+            {
+                $status = 0;
+                $msg = 'Please enter security !';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+            //yield_curve
+            if($graph_type == 'yield_curve')
+            {
+                if(empty($option_period) || empty($option_maturity) || empty($option_price))
+            {
+                $status = 0;
+                    $msg = 'Please fillup required data !';
+                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            }
+                else
+                {
+                    $model->option_period = $option_period;
+                    $model->option_maturity = $option_maturity;
+                    $model->option_prices = $option_price;
+                    $model->option_banchmark = $option_banchmark;
+                    $model->save();
+                }   
+            }
+            //Market Movers
+            if($graph_type == 'market_movers_gainers' || $graph_type == 'market_movers_laggers')
+            {
+                if(empty($option_market))
+                {
+                    $status = 0;
+                    $msg = 'Please select valid Market !';
+                    return ['status' => $status, 'msg' => $msg, 'data' => $data];
+                }
+                $model->option_market = $option_market;
+                $model->option_period = 12;
+                $model->save();
+            }
+            //Market History
+            if($graph_type == 'market_history')
+            {
+                if(empty($option_period) || empty($security_id))
+                {
+                    $status = 0;
+                    $msg = 'Please fillup required data !';
+                    return ['status' => $status, 'msg' => $msg, 'data' => $data];
+                }
+                else
+            {
+                    $model->option_period = $option_period;
+                    $model->security_id = $security_id;
+                    $model->option_banchmark = $option_banchmark;
+                    $model->option_prices = $option_price;
+                    $model->save();
+                }   
+            }
+            //Differential
+            if($graph_type == 'differential')
+            {
+                if(empty($option_period) || empty($security_id) || empty($option_price) || empty($option_security))
+                {
+                    $status = 0;
+                    $msg = 'Please fillup required data !';
+                    return ['status' => $status, 'msg' => $msg, 'data' => $data];
+                }
+                else
+                {
+                    $model->option_period = $option_period;
+                    $model->security_id = $security_id;
+                    $model->option_prices = $option_price;
+                    $model->option_security = $option_security;
+                    $model->save();
+                }   
+            }
+
+            //Regression
+            if($graph_type == 'regression')
+            {
+                if(empty($option_period) || empty($security_id) || empty($option_price) || empty($option_security))
+                {
+                    $status = 0;
+                    $msg = 'Please fillup required data !';
+                    return ['status' => $status, 'msg' => $msg, 'data' => $data];       
+                }
+                else
+                {
+                    $model->option_period = $option_period;
+                    $model->security_id = $security_id;
+                    $model->option_prices = $option_price;
+                    $model->option_security = $option_security;
+                    $model->save();
+                }   
+            }
+            //Relative Value
+            if($graph_type == 'relative_value')
+            {
+                if(empty($option_period) || empty($option_rating) || empty($option_price) || empty($option_credit))
+                {
+                    $status = 0;
+                    $msg = 'Please fillup required data !';
+                    return ['status' => $status, 'msg' => $msg, 'data' => $data];       
+                }
+                else
+                {
+                    $model->option_period = $option_period;
+                    $model->option_rating = $option_rating;
+                    $model->option_prices = $option_price;
+                    $model->option_credit = $option_credit;
+                    $model->save();
+                }
+            }
 
             $languages = \App\Custom::getLanguages();
             foreach ($languages as $locale => $val) {
@@ -712,5 +910,32 @@ class HomeSlidersController extends Controller
             $arr_security = Securities::where('country_id', $country_id)->pluck('security_name','id')->all();
         }
         return $arr_security;
+    }
+
+    public function getsecuritiesbanchmark(Request $request)
+    {
+        $security_id = $request->get("security_id");
+        $arr_security = array();
+        if(!empty($security_id)){
+                $banchmark_data  = "CALL Select_banchmark(".$security_id.")";
+                $banchmark_data_arr = callCustomSP($banchmark_data);
+                $arr_security['banchmark'] = $banchmark_data_arr;
+                $sql = "SELECT market_id FROM securities WHERE id = ".$security_id;
+                $rows = callCustomSP($sql);
+                if(isset($rows[0]) && isset($rows[0]['market_id'])){
+                    $arr_security['price'] = $rows[0]['market_id'];
+                }
+        }
+        return $arr_security;
+    }
+
+    public function getcountriesbanchmark(Request $request)
+    {
+        $country_id = $request->get("country_id");
+        $arr_country = array();
+        if(!empty($country_id)){
+            $arr_country  = \App\Models\Tickers::getCountriesList();
+        }
+        return $arr_country;
     }
 }

@@ -597,3 +597,9 @@ function convertDateFromTimezone($date,$timezone,$timezone_to,$format){
      $date->setTimezone( new DateTimeZone($timezone_to) );
      return $date->format($format);
 }
+
+function prd($arr){
+    echo "<pre>";
+    print_r($arr);
+    exit();
+}
