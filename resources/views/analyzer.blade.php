@@ -234,16 +234,42 @@ var column1 = 0;
 
 var row2 = 0;
 var column2 = 0;
-
+var dataTemp;
 
 function showStaticTooltip(row, size, value) 
-{
-    return '<div style="background:#fd9; padding:10px; border-style:solid">Val: '+value+'</div>';
+{   
+    // console.log(row +" "+value);
+
+    $mainTitle = dataChart1.getFormattedValue(row, 0); 
+    $parent = dataChart1.getFormattedValue(row, 1);
+    $per = dataChart1.getFormattedValue(row, 3);
+    // if(typeof dataTemp[row][0]['f'] !== 'undefined')
+    // {
+    //     $mainTitle = dataTemp[row][0]['f'];
+    // }    
+    // else
+    // {
+    //     $mainTitle = dataTemp[row][0];
+    // }
+
+    if
+    (
+        $mainTitle != 'Country' && $mainTitle != 'Global' && $mainTitle != 'Equities' && $mainTitle != 'Credit' && 
+        $parent != 'Country' && $parent != 'Global' && $parent != 'Equities' && $parent != 'Credit'
+    )
+    {
+        return '<div style="background:#fd9; padding:10px; border-style:solid">'+$mainTitle+'<br />'+$per+'%</div>';        
+    }
+    else
+    {
+        return '<div style="background:#fd9; padding:10px; border-style:solid">'+$mainTitle+'</div>';
+    }        
 }
+
 
 function drawTreetChart(data_values, elementID) {
 
-    var dataTemp =  
+    dataTemp =  
     [
         ['Country', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
         ['Global', null, 0, 0],
@@ -296,6 +322,7 @@ function drawTreetChart(data_values, elementID) {
             fontColor: 'white',
             showScale: true,
             title: '',
+            generateTooltip: showStaticTooltip
         });
         
         google.visualization.events.addListener(treeObject, 'select', function () {
@@ -362,7 +389,7 @@ function drawTreetChart(data_values, elementID) {
             fontColor: 'white',
             showScale: true,
             title: '',
-            // generateTooltip: showStaticTooltip
+            generateTooltip: showStaticTooltip
         });
         
         google.visualization.events.addListener(treeObject2, 'select', function () {
