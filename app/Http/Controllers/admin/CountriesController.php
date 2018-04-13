@@ -44,7 +44,7 @@ class CountriesController extends Controller
      */
     public function index()
     {
-
+         
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_COUNTRIES);
         
         if($checkrights) 
@@ -380,13 +380,11 @@ class CountriesController extends Controller
         return Datatables::eloquent($model)
             
             ->addColumn('action', function(Country $row) {
-                return view("admin.countries.action",
+                return view("admin.partials.action",
                     [
                         'currentRoute' => $this->moduleRouteText,
                         'row' => $row,                             
                         'isEdit' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_COUNTRIES),
-                        'isDelete' => \App\Models\Admin::isAccess(\App\Models\Admin::$DELETE_COUNTRIES),
-                                                     
                     ]
                     )->render();
             })

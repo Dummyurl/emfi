@@ -261,18 +261,7 @@ class SecurityController extends Controller
             'CUSIP' => 'required|min:2',
             'ticker' => 'required',
             'cpn' => 'required',
-            'security_name' => 'required',
-            'maturity_date' => 'required',
-            'dur_adj_mid' => 'required',
-            'bid_price' => 'required|numeric|min:0',
-            'ask_price' => 'required|numeric|min:0',
-            'last_price' => 'required|numeric|min:0',
-            'low_price' => 'required|numeric|min:0',
-            'high_price' => 'required|numeric|min:0',
-            'yld_ytm_mid' => 'required',
-            'z_sprd_mid' => 'required',
-            'net_change' => 'required',
-            'percentage_change' => 'required',
+            'security_name' => 'required',       
             'benchmark' => Rule::in([1,0]),
         ]);
 
@@ -293,37 +282,40 @@ class SecurityController extends Controller
             $benchmark = $request->get('benchmark');
             $new_benchmark = $request->get('new_benchmark_family');
             $select_benchmark = $request->get('benchmark_family');
-            
-            if(empty($new_benchmark) && empty($select_benchmark)){
-                $status = 0;
-                $msg = 'please enter at least one benchmark!';
-                return ['status' => $status, 'msg'=>$msg];
-            }
-            elseif (!empty($new_benchmark) && !empty($select_benchmark)) {
-                $status = 0;
-                $msg = 'Please enter only one benchmark';
-                return ['status' => $status, 'msg'=>$msg];
-            }
-            else {
-                $input = $request->all();
-                $model->update($input);
+            $benchmark_family = null;
+
+            if($benchmark == 1)
+            {
+                if(empty($new_benchmark) && empty($select_benchmark)){
+                    $status = 0;
+                    $msg = 'please enter at least one benchmark!';
+                    return ['status' => $status, 'msg'=>$msg];
+                }
+                if (!empty($new_benchmark) && !empty($select_benchmark)) {
+                    $status = 0;
+                    $msg = 'Please enter only one benchmark';
+                    return ['status' => $status, 'msg'=>$msg];
+                }
 
                 if (isset($new_benchmark) && !empty($new_benchmark)) {
-                    if(empty($benchmark))
-                        $benchmark = 0;
-
-                    $model->benchmark_family = $new_benchmark;
-                    $model->benchmark = $benchmark;
-                    $model->save();
+                    $benchmark_family = $new_benchmark;
                 }
                 elseif (isset($select_benchmark) && !empty($select_benchmark)) {
-                    if(empty($benchmark))
-                        $benchmark = 0;
-                    $model->benchmark_family = $select_benchmark;
-                    $model->benchmark = $benchmark;
-                    $model->save();
+                    $benchmark_family = $select_benchmark;
                 }
             }
+           
+            $input = $request->all();
+            $model->update($input);
+            
+            $market_id = $request->get('market_id');
+            if($market_id != 5)
+            {
+                $model->maturity_date = null;
+            }
+            $model->benchmark_family = $benchmark_family;
+            $model->benchmark = $benchmark;
+            
             $country_id = $request->get('country_id');
             $country = \App\Models\Country::find($country_id);
             

@@ -21,136 +21,90 @@
                     <div class="portlet-body">
                         <div class="form-body">
                              {!! Form::model($formObj,['method' => $method,'files' => true, 'route' => [$action_url,$action_params],'class' => 'sky-form form form-group', 'id' => 'main-frm']) !!} 
-
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label class="control-label">CUSIP<span class="required">*</span></label>
-                                    {!! Form::text('CUSIP',null,['class' => 'form-control', 'data-required' => true]) !!}
+                                    <div class="form-group">
+                                        <label class="control-label">CUSIP<span class="required">*</span></label>
+                                        {!! Form::text('CUSIP',null,['class' => 'form-control', 'data-required' => true]) !!}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="clearfix">&nbsp;</div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="control-label">Market<span class="required">*</span></label>
-                                    {!! Form::select('market_id',[''=>'Select Market']+$markets,null,['class' => 'form-control', 'data-required' => true,'id'=>'market']) !!}
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Market<span class="required">*</span></label>
+                                        {!! Form::select('market_id',[''=>'Select Market']+$markets,null,['class' => 'form-control', 'data-required' => true,'id'=>'market']) !!}
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="control-label">Country<span class="required">*</span></label>
-                                    {!! Form::select('country_id',[''=>'Select Country']+$countries,null,['class' => 'form-control', 'data-required' => true,'id'=>'country']) !!}
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Country<span class="required">*</span></label>
+                                        {!! Form::select('country_id',[''=>'Select Country']+$countries,null,['class' => 'form-control', 'data-required' => true,'id'=>'country']) !!}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="clearfix">&nbsp;</div>
-                            <div class="row">                                
-                                <div class="col-md-6">
-                                    <label class="control-label">Ticker<span class="required">*</span></label>
-                                    {!! Form::text('ticker',null,['class' => 'form-control', 'data-required' => true]) !!}
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                         <label class="control-label">Ticker<span class="required">*</span></label>
+                                        {!! Form::text('ticker',null,['class' => 'form-control', 'data-required' => true]) !!}
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="control-label">CPN<span class="required">*</span></label>
-                                    {!! Form::text('cpn',null,['class' => 'form-control', 'data-required' => true]) !!}
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">CPN<span class="required">*</span></label>
+                                        {!! Form::text('cpn',null,['class' => 'form-control', 'data-required' => true]) !!}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="clearfix">&nbsp;</div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="control-label">Security Name<span class="required">*</span></label>
-                                    {!! Form::text('security_name',null,['class' => 'form-control', 'data-required' => true]) !!}
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Security Name<span class="required">*</span></label>
+                                        {!! Form::text('security_name',null,['class' => 'form-control', 'data-required' => true]) !!}
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="control-label">Maturity Date<span class="required">*</span></label>
-                                    <div class="input-group input-large date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
-                                        {!! Form::text('maturity_date',null,['class' => 'form-control pick_date', 'data-required' => true]) !!}
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </span>
+                                <div class="col-md-12" id="maturity_date_div" style="display: none;">
+                                    <div class="form-group">
+                                        <label class="control-label">Maturity Date<span class="required">*</span></label>
+                                        <div class="input-group input-large date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
+                                            {!! Form::text('maturity_date',null,['class' => 'form-control pick_date', 'data-required' => false]) !!}
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="clearfix">&nbsp;</div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label class="control-label">Dur Adj Mid<span class="required">*</span></label>
-                                    {!! Form::text('dur_adj_mid',null,['class' => 'form-control', 'data-required' => true]) !!}
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="control-label">Bid Price<span class="required">*</span></label>
-                                    {!! Form::text('bid_price',null,['class' => 'form-control', 'data-required' => true]) !!}
+                                    <div class="mt-checkbox-inline">
+                                        <label class="mt-checkbox">
+                                            {!! Form::checkbox('benchmark',1, $formObj->benchmark,['class' => 'form-control','id'=>'check_id']) !!}Enable Benchmark
+                                            <span></span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="clearfix">&nbsp;</div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="control-label">Ask Price<span class="required">*</span></label>
-                                    {!! Form::text('ask_price',null,['class' => 'form-control', 'data-required' => true]) !!}
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="control-label">Last Price<span class="required">*</span></label>
-                                    {!! Form::text('last_price',null,['class' => 'form-control', 'data-required' => true]) !!}
-                                </div>
-                            </div>
-                            <div class="clearfix">&nbsp;</div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="control-label">Low Price<span class="required">*</span></label>
-                                    {!! Form::text('low_price',null,['class' => 'form-control', 'data-required' => true]) !!}
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="control-label">High Price<span class="required">*</span></label>
-                                    {!! Form::text('high_price',null,['class' => 'form-control', 'data-required' => true]) !!}
-                                </div>
-                            </div>
-                            <div class="clearfix">&nbsp;</div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="control-label">Yld Ytm Mid<span class="required">*</span></label>
-                                    {!! Form::text('yld_ytm_mid',null,['class' => 'form-control', 'data-required' => true]) !!}
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="control-label">Z Sprd Mid<span class="required">*</span></label>
-                                    {!! Form::text('z_sprd_mid',null,['class' => 'form-control', 'data-required' => true]) !!}
-                                </div>
-                            </div>
-                            <div class="clearfix">&nbsp;</div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="control-label">Net Change<span class="required">*</span></label>
-                                    {!! Form::text('net_change',null,['class' => 'form-control', 'data-required' => true]) !!}
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="control-label">Percentage Change<span class="required">*</span></label>
-                                    {!! Form::text('percentage_change',null,['class' => 'form-control', 'data-required' => true]) !!}
-                                </div>
-                            </div> -->
-                            <div class="clearfix">&nbsp;</div>
-                            <div class="note note-info">
+                        <div id="benchmark_div">
+                            <!--<div class="clearfix">&nbsp;</div>
+                             <div class="note note-info">
                                 <div class="row">
                                     <div class="col-md-10" style="padding-left: 30px;">
                                         <h4>Benchmark Details</h4>
                                     </div>   
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="row">
-                                <div class="col-md-6">
-                                    <label class="control-label">Benchmark</label>
-                                    {!! Form::select('benchmark_family', ['0'=>'Select Benchmark'] + $benchmark_family_list, null, ['class' => 'form-control', 'id' => 'select_benchmark']) !!}
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="control-label">Add Benchmark</label>
-                                    {!! Form::text('new_benchmark_family',null,['class' => 'form-control', 'data-required' => false,'id'=>'new_benchmark']) !!}
-                                </div>
-                            </div>
-                            <div class="clearfix">&nbsp;</div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mt-checkbox-inline">
-                                        <label class="mt-checkbox">
-                                            {!! Form::checkbox('benchmark',1, $formObj->benchmark,['class' => 'form-control']) !!}Inable Benchmark
-                                            <span></span>
-                                        </label>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Benchmark</label>
+                                        {!! Form::select('benchmark_family', ['0'=>'Other Benchmark'] + $benchmark_family_list, null, ['class' => 'form-control', 'id' => 'select_benchmark']) !!}
                                     </div>
                                 </div>
-                            </div>   
-                        </div>                                  
+                                <div class="col-md-12" id="new_benchmark_div" style="display: none;">
+                                    <div class="form-group">
+                                        <label class="control-label">Add Benchmark</label>
+                                        {!! Form::text('new_benchmark_family',null,['class' => 'form-control', 'data-required' => false,'id'=>'new_benchmark']) !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
                             <div class="clearfix">&nbsp;</div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -171,7 +125,19 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#country").select2({
+        var formObj_market = '{{ $formObj->market_id}}';
+        var benchmark = '{{ $formObj->benchmark}}';
+        var benchmark_family = '{{ $formObj->benchmark_family}}';
+
+        if(formObj_market != '' && formObj_market == 5)
+        {
+            $('#maturity_date_div').show();
+        }
+        if(benchmark != 1)
+        {
+            $("#benchmark_div").hide();
+        }
+        /*$("#country").select2({
                 placeholder: "Search Country",
                 allowClear: true,
                 minimumInputLength: 2,
@@ -182,7 +148,32 @@
                 allowClear: true,
                 minimumInputLength: 2,
                 width: null
+        });*/
+        $('#market').on('change',function(){
+            var market_val = $('#market').val();
+
+            if(market_val == 5)
+            {
+                $('#maturity_date_div').show();
+            }else{
+                $('#maturity_date_div').hide();
+            }
+
         });
+        $("#check_id").click(function () {
+            if ($(this).is(":checked")) {
+                $("#benchmark_div").show();
+                var bench = $("#select_benchmark").val();
+                if(bench == 0)
+                {
+                    $('#new_benchmark').attr('disabled' , false);
+                    $('#new_benchmark_div').show();
+                }
+            } else {
+                $("#benchmark_div").hide();
+            }
+        });
+
         var bench = $("#select_benchmark").val();
         if(bench != '0'){
             $('#new_benchmark').attr('disabled' , true);
@@ -191,9 +182,11 @@
             if ($(this).val() != "0") {
                 $('#new_benchmark').val('');
                 $('#new_benchmark').attr('disabled' , true);
+                $('#new_benchmark_div').hide();
             }
             else {
                 $('#new_benchmark').attr('disabled' , false);
+                $('#new_benchmark_div').show();
             }
         });
         $('#main-frm').submit(function () {
