@@ -237,6 +237,7 @@ class HomeSlidersController extends Controller
             $option_banchmark = $request->get('option_banchmark');
             $option_rating = $request->get('option_rating');
             $option_credit = $request->get('option_credit');
+            $option_security = $request->get('option_security');
             $statuss = $request->get('status');
             $order = $request->get('order');
 			$post_title = $request->get('post_title');
@@ -348,24 +349,24 @@ class HomeSlidersController extends Controller
             //Differential
             if($graph_type == 'differential')
             {
-                if(empty($option_period) || empty($security_id) || empty($option_price))
+                if(empty($option_period) || empty($security_id) || empty($option_price) || empty($option_security))
                 {
-                $status = 0;
-                    $msg = 'Please fillup required data !';
-                return ['status' => $status, 'msg' => $msg, 'data' => $data];
-            }
-                else
-            {
+	                $status = 0;
+					$msg = 'Please fillup required data !';
+	                return ['status' => $status, 'msg' => $msg, 'data' => $data];
+            	} else
+            	{
                     $obj->option_period = $option_period;
                     $obj->security_id = $security_id;
                     $obj->option_prices = $option_price;
+                    $obj->option_security = $option_security;
                     $obj->save();
                 }   
             }
             //Regression
             if($graph_type == 'regression')
             {
-                if(empty($option_period) || empty($security_id) || empty($option_price))
+                if(empty($option_period) || empty($security_id) || empty($option_price) || empty($option_security))
                 {
                     $status = 0;
                     $msg = 'Please fillup required data !';
@@ -376,6 +377,7 @@ class HomeSlidersController extends Controller
                     $obj->option_period = $option_period;
                     $obj->security_id = $security_id;
                     $obj->option_prices = $option_price;
+                    $obj->option_security = $option_security;
                     $obj->save();
                 }   
             }
@@ -674,7 +676,7 @@ class HomeSlidersController extends Controller
             //Differential
             if($graph_type == 'differential')
             {
-                if(empty($option_period) || empty($security_id) || empty($option_price) || empty($option_security))
+                if(empty($option_period) || empty($security_id) || empty($option_security) || empty($option_price))
                 {
                     $status = 0;
                     $msg = 'Please fillup required data !';
@@ -693,7 +695,7 @@ class HomeSlidersController extends Controller
             //Regression
             if($graph_type == 'regression')
             {
-                if(empty($option_period) || empty($security_id) || empty($option_price) || empty($option_security))
+                if(empty($option_period) || empty($security_id) || empty($option_security) || empty($option_price))
                 {
                     $status = 0;
                     $msg = 'Please fillup required data !';

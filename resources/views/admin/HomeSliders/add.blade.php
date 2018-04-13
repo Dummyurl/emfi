@@ -44,8 +44,8 @@
                         <!--  Period  -->
                         <div id="period_div" style="display: none;">
                         <div class="clearfix">&nbsp;</div>
-                        <div class="row">
-                            <div class="col-md-12" >
+                            <div class="row">
+                                <div class="col-md-12" >
                                     <label class="control-label">Graph Period<span class="required">*</span></label>
                                 {!! Form::select('option_period',[''=>'Select Period']+$months,$selected_month,['class' => 'form-control', 'data-required' => false,'id'=>'graph_period_id']) !!}
                             </div>
@@ -64,18 +64,18 @@
                         <!-- Maturity -->
                         <div id="maturity_div" style="display: none;">
                         <div class="clearfix">&nbsp;</div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label class="control-label">Maturity/Duration<span class="required">*</span></label>
-                                            {!! Form::select('option_maturity',[''=>'Select Option']+$maturities,$selected_maturities,['class' => 'form-control','id'=>'option_maturity_id']) !!}
-                                        </div>
-                                    </div>
-                        </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="control-label">Maturity/Duration<span class="required">*</span></label>
+                                    {!! Form::select('option_maturity',[''=>'Select Option']+$maturities,$selected_maturities,['class' => 'form-control','id'=>'option_maturity_id']) !!}
+                                </div>
+                            </div>
+                                </div>
                         <!-- Markets -->
                         <div id="market_div" style="display: none;">
                         <div class="clearfix">&nbsp;</div>
-                            <div class="row">
-                                <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12">
                                 <label class="control-label">Markets<span class="required">*</span></label>
                                 {!! Form::select('option_market',[''=>'Select Option']+$marketTypes,null,['class' => 'form-control','id'=>'option_market_id']) !!}
                                 </div>
@@ -110,7 +110,6 @@
                                     {!! Form::select('option_credit',[''=>'Select Option']+$credit_equities,null,['class' => 'form-control', 'data-required' => false, 'id'=>'option_maturity_id']) !!}
                                     </div>
                                 </div>
-                            </div>
                             </div>
                             <div class="row" style="display: none;">
                                 <div class="col-md-12">
@@ -163,6 +162,7 @@
                             </div>
                             @endforeach
                         </div>
+                    </div>
                             <div class="clearfix">&nbsp;</div>
                             <div class="row">
                                 <div class="col-md-12">

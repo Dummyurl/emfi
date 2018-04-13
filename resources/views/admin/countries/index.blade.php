@@ -79,8 +79,13 @@
                     data.search_country = $("#search-frm input[name='search_country']").val();
                     data.search_type = $("#search-frm select[name='search_type']").val();
                 }
-            },            
-            "order": [[ 0, "desc" ]],    
+            },
+            lengthMenu:
+              [
+                [-1,10,25,50,100],
+                ['All',10,25,50,100]
+              ],          
+            "order": [[ 1, "asc" ]],
             columns: [
                 { data: 'id', name: 'id' },
                 { data: 'title', name: 'title' },

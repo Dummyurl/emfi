@@ -76,8 +76,13 @@
                     data.search_analyzer_default = $("#search-frm select[name='search_analyzer_default']").val();
                     data.search_country = $("#search-frm select[name='search_country']").val();
                 }
-            },            
-            "order": [[ 0, "asc" ]],
+            },
+            lengthMenu:
+              [
+                [100,200,300,400,500],
+                [100,200,300,400,500]
+              ],      
+            "order": [[ 3, "asc" ]],
             columns: [
                 { data :'id' , name : 'id' },
                 { data: 'security_name', name: 'security_name' },

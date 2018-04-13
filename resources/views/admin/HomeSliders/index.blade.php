@@ -285,7 +285,7 @@
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
             else if(graph_val == ''){
-                $('.down_content').show();
+                $('.down_content').hide();
                 $('#period_div').hide();
                 $('#prices_div').hide();
                 $('#maturity_div').hide();

@@ -44,6 +44,7 @@ class CountriesController extends Controller
      */
     public function index()
     {
+         
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_COUNTRIES);
         
         if($checkrights) 
@@ -80,6 +81,7 @@ class CountriesController extends Controller
         $data['action_url'] = $this->moduleRouteText.".store";
         $data['action_params'] = 0;
         $data['buttonText'] = "Save";
+        $data['languages']= \App\Custom::getLanguages();
         $data["method"] = "POST"; 
 
         return view($this->moduleViewName.'.add', $data);
@@ -105,11 +107,19 @@ class CountriesController extends Controller
         $msg = $this->addMsg;
         $data = array();
 
+        $rules = [
+            'title.en.min'=>'English title is min 2 character!',
+            'title.en.required'=>'English title is required!',
+            'title.es.min'=>'Spanish title is min 2 character!',
+            'title.es.required'=>'Spanish title is required!',
+            ];
+
         $validator = Validator::make($request->all(), [
-            'title' => 'required|unique:countries,title|min:2',
             'country_code' => 'required|unique:countries,country_code|min:2',
-             'country_type' => ['required', Rule::in([1,2])],
-        ]);
+            'country_type' => ['required', Rule::in([1,2])],
+            'title.en' => 'required|min:2',
+            'title.es' => 'required|min:2',
+        ],$rules);
         
         // check validations
         if ($validator->fails())         
@@ -126,8 +136,24 @@ class CountriesController extends Controller
         }         
         else
         {
-            $input = $request->all();
-            $obj = $this->modelObj->create($input);
+            $title = $request->get('title');
+            $country_code = $request->get('country_code');
+            $country_type = $request->get('country_type');
+            
+            $obj = new Country();
+            $obj->title = isset($title['en']) ? $title['en'] : '';
+            $obj->country_code = $country_code;
+            $obj->country_type = $country_type;
+            $obj->save();
+
+            $languages = \App\Custom::getLanguages();
+            foreach ($languages as $locale => $val)
+            {
+                $val = isset($title[$locale]) ? $title[$locale] : '';
+                $obj->translateOrNew($locale)->country_name = $val;
+            }
+            $obj->save();
+
             $id = $obj->id;
             //store logs detail
             $params=array();    
@@ -184,9 +210,9 @@ class CountriesController extends Controller
         $data['formObj'] = $formObj;
         $data['page_title'] = "Edit ".$this->module;
         $data['buttonText'] = "Update";
-
         $data['action_url'] = $this->moduleRouteText.".update";
         $data['action_params'] = $formObj->id;
+        $data['languages']= \App\Custom::getLanguages();
         $data['method'] = "PUT";
 
         return view($this->moduleViewName.'.add', $data);
@@ -213,13 +239,19 @@ class CountriesController extends Controller
         $status = 1;
         $msg = $this->updateMsg;
         $data = array();        
-        
+     
+        $rules = [
+            'title.en.min'=>'English title is min 2 character!',
+            'title.en.required'=>'English title is required!',
+            'title.es.min'=>'Spanish title is min 2 character!',
+            'title.es.required'=>'Spanish title is required!',
+            ];   
         $validator = Validator::make($request->all(), [
-            'title' => 'required|min:2|unique:countries,title,'.$id,
             'country_code' => 'required|min:2|unique:countries,country_code,'.$id,
             'country_type' => ['required', Rule::in([1,2])],
-
-        ]);
+            'title.en' => 'required|min:2',
+            'title.es' => 'required|min:2',
+        ],$rules);
         
         // check validations
         if(!$model)
@@ -241,8 +273,23 @@ class CountriesController extends Controller
         }         
         else
         {
-            $input = $request->all();
-            $model->update($input); 
+            $title = $request->get('title');
+            $country_code = $request->get('country_code');
+            $country_type = $request->get('country_type');
+            
+            $model->title = isset($title['en']) ? $title['en'] : '';
+            $model->country_code = $country_code;
+            $model->country_type = $country_type;
+            $model->save();
+
+            $languages = \App\Custom::getLanguages();
+            foreach ($languages as $locale => $val)
+            {
+                $val = isset($title[$locale]) ? $title[$locale] : '';
+                $model->translateOrNew($locale)->country_name = $val;
+            }
+            $model->save();
+            
             $country_type = $request->get('country_type');
             if($country_type){
                 \DB::table('securities')->where('country_id', $id)->update(['country_type' => $country_type]);
@@ -271,7 +318,7 @@ class CountriesController extends Controller
      */
     public function destroy($id,Request $request)
     {
-        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$EDIT_COUNTRIES);
+        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$DELETE_COUNTRIES);
         
         if($checkrights) 
         {
@@ -285,6 +332,11 @@ class CountriesController extends Controller
             try 
             {             
                 $backUrl = $request->server('HTTP_REFERER');
+                $trans = \App\Models\CountryTranslation::where('country_id',$id);
+                if($trans)
+                {
+                    $trans->delete();
+                }
                 $modelObj->delete();
                 session()->flash('success_message', $this->deleteMsg); 
 
@@ -328,13 +380,11 @@ class CountriesController extends Controller
         return Datatables::eloquent($model)
             
             ->addColumn('action', function(Country $row) {
-                return view("admin.countries.action",
+                return view("admin.partials.action",
                     [
                         'currentRoute' => $this->moduleRouteText,
                         'row' => $row,                             
                         'isEdit' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_COUNTRIES),
-                        'isDelete' => \App\Models\Admin::isAccess(\App\Models\Admin::$DELETE_COUNTRIES),
-                                                     
                     ]
                     )->render();
             })
