@@ -24,12 +24,22 @@ class ApiController extends Controller
         $returnData['relval_chart'] = [];
 
         $relvalMonth = $request->get("relvalMonth");
-        $relvalMonth = "2018-03-30";
+        // $relvalMonth = "2018-03-30";
+
         
         $relvalPrice = $request->get("relvalPrice");
         $relvalRating = $request->get("relvalRating");
         $relvalCreditEquity = $request->get("relvalCreditEquity");
         $relval_chart = callCustomSP('CALL select_relval_chart_data('.$relvalCreditEquity.',"'.$relvalMonth.'")');
+
+        if($relvalMonth == date("Y-m-d"))
+        {
+            if(empty($relval_chart))
+            {
+                $relvalMonth = \App\Models\Securities::max("created");
+                $relval_chart = callCustomSP('CALL select_relval_chart_data('.$relvalCreditEquity.',"'.$relvalMonth.'")');
+            }            
+        }        
 
         // dd($relval_chart);
 

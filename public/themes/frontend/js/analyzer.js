@@ -152,7 +152,7 @@ function drawRegression(data_values)
 
             if(data_values[i]['is_recent'] == 1)
             {
-                $style = 'point {fill-color: #FF0000; }';
+                $style = 'point {fill-color: #FF0000;zIndex: 99999;size: 18}';
             }
 
             formatedData.push(
@@ -200,6 +200,10 @@ function drawRegression(data_values)
             0: 
             {
                 visibleInLegend: false
+            },
+            1: 
+            {
+                visibleInLegend: false
             }
         },        
         trendlines: 
@@ -215,6 +219,17 @@ function drawRegression(data_values)
 
     var chart = new google.visualization.ScatterChart(document.getElementById('scatter_chart'));
     chart.draw(data, options);
+
+    setTimeout(function(){
+        var i = 1;
+        $("#scatter_chart g [column-id='_trendline'] rect").each(function(){
+            if(i != 1)
+            {
+                $(this).hide();
+            }
+            i++;
+        });
+    },400)
 }
 
 function drawAreaChart(data_values) {
@@ -440,6 +455,16 @@ function drawHistoryChart(data_values)
         for(var i in data_values.benchmark_history_data)
         {
            formatedData.push([data_values.benchmark_history_data[i][0],data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);        
+           
+           if(data_values.benchmark_history_data[i][1] < 0)
+           {
+                alert(data_values.benchmark_history_data[i][1]);
+           }            
+
+           if(data_values.benchmark_history_data[i][2] < 0)
+           {
+                alert(data_values.benchmark_history_data[i][2]);
+           }            
         }   
     } 
     else
@@ -466,10 +491,11 @@ function drawHistoryChart(data_values)
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"}
         },
-        vAxis: {
+        vAxis: 
+        {
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"}
+            baselineColor: {color: "#39536b"},
         },
         colors: ['#fff', '#8ab3e2']
     };
