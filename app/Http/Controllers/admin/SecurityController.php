@@ -262,6 +262,7 @@ class SecurityController extends Controller
             'ticker' => 'required',
             'cpn' => 'required',
             'security_name' => 'required',       
+            'display_title' => 'required',       
             'benchmark' => Rule::in([1,0]),
         ]);
 

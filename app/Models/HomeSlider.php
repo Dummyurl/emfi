@@ -59,7 +59,7 @@ class HomeSlider extends Model
                         'market_movers_gainers'=> 'Market Movers Gainers',
                         'market_movers_laggers'=> 'Market Movers Laggers',
                         'market_history'=> 'Market History',
-                        'yield_curve'=>'Yield Curve (Scatter)', 
+                        'yield_curve'=>'Yield Curve', 
                         'differential'=> 'Differential', 
                         'regression'=> 'Regression',
                         'relative_value'=> 'Relative Value',

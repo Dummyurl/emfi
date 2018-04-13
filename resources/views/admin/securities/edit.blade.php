@@ -58,6 +58,12 @@
                                         {!! Form::text('security_name',null,['class' => 'form-control', 'data-required' => true]) !!}
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Display Title<span class="required">*</span></label>
+                                        {!! Form::text('display_title',null,['class' => 'form-control', 'data-required' => true]) !!}
+                                    </div>
+                                </div>
                                 <div class="col-md-12" id="maturity_date_div" style="display: none;">
                                     <div class="form-group">
                                         <label class="control-label">Maturity Date<span class="required">*</span></label>
