@@ -1,16 +1,20 @@
 <?php
 
-namespace App\models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class Country extends Model
 {
+    use \Dimsav\Translatable\Translatable;
     use Sluggable;
-    protected $fillable = ['title','country_code', 'country_type'];
+
+    protected $fillable = ['title','country_code', 'country_type','slug'];
     protected $table = TBL_COUNTRY;
 
+    public $translatedAttributes = ['country_name'];
+    
     public function sluggable()
     {
         return 
