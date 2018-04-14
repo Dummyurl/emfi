@@ -102,9 +102,13 @@ class UploadData extends Command
                     $idata['percentage_change'] = ($data[$fields['chg_pct_1d']] == "#N/A N/A" || !isset($data[$fields['chg_pct_1d']])) ? '' : str_replace(',','',$data[$fields['chg_pct_1d']]);
                     // Only historical_data table's colums will be added to this array.
                     $hdata = $idata;
-                    $idata['yld_ytm_mid'] = ($data[$fields['yld_ytm_mid']] == "#N/A N/A" || !isset($data[$fields['yld_ytm_mid']])) ? '' : $data[$fields['yld_ytm_mid']];
-                    $idata['z_sprd_mid'] = (trim($data[$fields['z_sprd_mid']]) == "#N/A N/A" || !isset($data[$fields['z_sprd_mid']])) ? '' : $data[$fields['z_sprd_mid']];
-                    $idata['dur_adj_mid'] = ($data[$fields['dur_adj_mid']] == "#N/A N/A" || !isset($data[$fields['dur_adj_mid']])) ? '' : $data[$fields['dur_adj_mid']];
+                    
+                    $idata['yld_ytm_mid'] = ($data[$fields['yld_ytm_mid']] == "#N/A N/A" || !isset($data[$fields['yld_ytm_mid']])) ? '' : str_replace(',','',$data[$fields['yld_ytm_mid']]);
+
+                    $idata['z_sprd_mid'] = (trim($data[$fields['z_sprd_mid']]) == "#N/A N/A" || !isset($data[$fields['z_sprd_mid']])) ? '' : str_replace(',','',$data[$fields['z_sprd_mid']]);
+
+                    $idata['dur_adj_mid'] = ($data[$fields['dur_adj_mid']] == "#N/A N/A" || !isset($data[$fields['dur_adj_mid']])) ? '' : str_replace(',','',$data[$fields['dur_adj_mid']]);
+
                     $idata['CUSIP'] = ($data[$fields['cusip']] == "#N/A N/A" || !isset($data[$fields['cusip']])) ? "" : $data[$fields['cusip']] ;
                     
                     // $idata['market_id'] = ($data[$fields['market']] == "#N/A N/A" || !isset($data[$fields['market']])) ? '' : $markets[$data[$fields['market']]];

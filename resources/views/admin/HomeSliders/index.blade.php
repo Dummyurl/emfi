@@ -166,6 +166,14 @@
                     {
                         if(result.price == 5){
                             $('#prices_div').show();
+                        }else if(result.price == 1){
+                            $('#prices_div').show();
+                            var $country = $('#prices_div');
+                            $country.empty();
+                            $country.append('<option value="">Select Option</option>');
+                            $country.append('<option value="1">Price</option>');
+                            $country.append('<option value="2">Yield</option>');
+                            $country.change();
                         }else{
                             $('#prices_div').hide();
                         }
@@ -231,7 +239,7 @@
             else if(graph_val == 'market_history'){
                 $('.down_content').show();
                 $('#period_div').show();
-                $('#prices_div').hide();
+                $('#prices_div').show();
                 $('#maturity_div').hide();
                 $('#market_div').hide();
                 $('#security_id').show();
