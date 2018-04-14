@@ -1,7 +1,7 @@
 <section class="twitter_updates">
     <div class="container">
         <div class="title">
-            <h2>Market News</h2>
+            <h2>{{ __('market.market_news') }}</h2>
             <span>{{ $tweet_sub_title or '' }}</span>
         </div>
         <div class="row">
@@ -35,7 +35,7 @@
             </div>
             @else
                 <div class="col-md-12">
-                    No Tweets Found !
+                    {{ __('market.no_tweets') }} !
                 </div>
             @endif
         </div>

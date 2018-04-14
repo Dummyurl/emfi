@@ -6,7 +6,7 @@
         <div class="title_belt">
             <div class="row">
                 <div class="col-md-6">
-                    <h2>Market Update</h2>
+                    <h2>{{ __('market.title') }}</h2>
                     <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
                 </div>
                 <div class="col-md-6 select_r">
@@ -26,7 +26,7 @@
             <div class="col-lg-3 col-md-3 col-sm-6 four_block">
                 <div class="inner_blue_box">
                     <a data-id="{{ $row['id'] }}" data-name="{{ ucwords(strtolower($row['market_name'])) }}" href="javascript:void(0);" class="view-btn custom-market-change">
-                        <span>View Chart</span>
+                        <span>{{ __('market.view_chart') }}</span>
                     </a>                  
                     <h3>{{ ucwords(strtolower($row['market_name'])) }}</h3>
                     <span class="value">
@@ -104,18 +104,18 @@
 <section class="chart_wrapper">
     <div class="container">
         <div class="title">
-            <h2>Market Movers</h2>
+            <h2>{{ __('market.market_movers') }}</h2>
             <span class="market-chart-title"></span>
         </div>
     </div>
     <div class="container chart_section">
         <div class="row">
             <div class="col-lg-6">
-                <div class="sub_title"><h3>Gainers</h3></div>
+                <div class="sub_title"><h3>{{ __('market.gainers') }}</h3></div>
                 <div id="bar_chart" class="bar_chart" style="width: 100%; height: 400px"> </div>
             </div>
             <div class="col-lg-6">
-                <div class="sub_title"><h3>Laggers</h3></div>
+                <div class="sub_title"><h3>{{ __('market.laggers') }}</h3></div>
                 <div id="bar_chart2" class="bar_chart" style="width: 100%; height: 400px"> </div>
             </div>
         </div>
@@ -125,7 +125,7 @@
 <section class="equities">
     <div class="container">
         <div class="title">
-            <h2>Market History</h2>
+            <h2>{{ __('market.market_history') }}</h2>
             <span class="market-chart-title-security"></span>
         </div>
     </div>

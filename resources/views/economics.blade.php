@@ -27,7 +27,7 @@ foreach($country_benchmarkes as $r)
         <div class="title_belt">
             <div class="row">
                 <div class="col-md-6">
-                  <h2>Country Update</h2>
+                  <h2>{{ __('country.title') }}</h2>
                   <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
                 </div>
                 <div class="col-md-6 select_r">
@@ -49,7 +49,7 @@ foreach($country_benchmarkes as $r)
                     <div data-market="{{ $row['market_id'] }}" data-id="{{ $row['id'] }}" class="col-lg-3 col-md-3 col-sm-6 four_block market-action" style="cursor: pointer;" title="View Graph">
                         <div class="inner_blue_box">
                             <a class="view-btn">
-                                <span>View Chart</span>
+                                <span>{{ __('country.view_chart') }}</span>
                             </a>                  
                             <h3>{{ $row['market_name'] or '' }}</h3>
                             <span class="value">
@@ -166,7 +166,7 @@ foreach($country_benchmarkes as $cnt)
 <section class="equities">
     <div class="container">
         <div class="title">
-            <h2>Yield Curve</h2>
+            <h2>{{ __('country.yield_curve') }}</h2>
             <span class="market-chart-title" id="main-chart-title-{{ $counter}}">                
                 @if(in_array($countryObj->id, $tickerIDs) && $tickerType == 2)
                     {{ strtoupper($key) }}
@@ -250,7 +250,7 @@ foreach($country_benchmarkes as $cnt)
 <section class="chart_table grey_bg">
     <div class="container">
         <div class="title">
-            <h2>Market Prices</h2>
+            <h2>{{ __('country.market_price') }}</h2>
             <span>
                 @if(in_array($countryObj->id, $tickerIDs) && $tickerType == 2)
                     {{ strtoupper($key) }}
@@ -313,7 +313,7 @@ foreach($country_benchmarkes as $cnt)
 <section class="equities" id="secondChartPart">
     <div class="container">
         <div class="title">
-            <h2>Market History</h2>
+            <h2>{{ __('country.market_history') }}</h2>
             <span class="market-chart-title-2"></span> 
         </div>
     </div>

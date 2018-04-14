@@ -9,7 +9,7 @@
 <section class="top_section top_bg economics_bg analyzer-page">
     <div class="container">
         <div class="title_belt">
-            <h2>Analyzer</h2>
+            <h2>{{ __('analyzer.title') }}</h2>
             <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span> 
         </div>
         <div class="treechart"></div>
@@ -32,7 +32,7 @@
 <section class="equities">
     <div class="container">
         <div class="title">
-            <h2>Market History</h2>
+            <h2>{{ __('analyzer.market_history') }}</h2>
             <span class="main-bond-securities"></span>
         </div>
     </div>
@@ -59,7 +59,7 @@
                             <select id="price-dropdown-1">
                                 <option value="1" data-title="Price">Price</option>
                                 <option value="2" data-title="Yield">Yield</option>
-                                <option value="3" data-title="Spread" selected="selected">Spread</option>                              
+                                <option value="3" data-title="Spread" selected="selected">Spread</option>
                             </select>
                         </div>
                     </form>
@@ -72,7 +72,7 @@
 <section class="equities">
     <div class="container">
         <div class="title">
-            <h2>Differential</h2>
+            <h2>{{ __('analyzer.differential') }}</h2>
             <span class="main-bond-securities"></span> 
         </div>
     </div>
@@ -114,7 +114,7 @@
 <section class="equities">
     <div class="container">
         <div class="title">
-            <h2>Regression</h2>
+            <h2>{{ __('analyzer.regression') }}</h2>
             <span class="main-bond-securities"></span> 
         </div>
     </div>
@@ -158,8 +158,8 @@
 <section class="equities">
     <div class="container">
         <div class="title">
-            <h2>Relative Value</h2>
-            <span class="rel-val-sub-title">Credit</span>
+            <h2>{{ __('analyzer.relative_value') }}</h2>
+            <span class="rel-val-sub-title">{{ __('analyzer.credit') }}</span>
         </div>
     </div>
     <div class="container chart_section">

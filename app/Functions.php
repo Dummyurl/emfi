@@ -81,10 +81,10 @@ function getFilename($fullpath, $uploaded_filename) {
 function getLatestTweets()
 {
     $settings = array(
-        'oauth_access_token' => "967009378825056258-EJVMJL4ZH4xwpR1PzcIym3h3T14qkNS",
-        'oauth_access_token_secret' => "ghGjIOl2FMNV9nQRDXDkVzdMSOU2de00Utm85fuxh1hrT",
-        'consumer_key' => "gWbSYBsV8RSJXwr0wimDjnw7r",
-        'consumer_secret' => "glpsLqdMeGG8WK0NwN2wijnkmY88LrHtkqDJ1WdrpZHnDFGcFq"
+        'oauth_access_token' => env('TWITTER_ACCESS_TOKEN'),
+        'oauth_access_token_secret' => env('TWITTER_ACCESS_TOKEN_SECRET'),
+        'consumer_key' => env('TWITTER_CONSUMER_KEY'),
+        'consumer_secret' => env('TWITTER_CONSUMER_SECRET')
     );
 
     $url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
@@ -117,13 +117,13 @@ function getLatestTweets()
 function getSearchTweets($search)
 {
     $settings = array(
-        'oauth_access_token' => "967009378825056258-EJVMJL4ZH4xwpR1PzcIym3h3T14qkNS",
-        'oauth_access_token_secret' => "ghGjIOl2FMNV9nQRDXDkVzdMSOU2de00Utm85fuxh1hrT",
-        'consumer_key' => "gWbSYBsV8RSJXwr0wimDjnw7r",
-        'consumer_secret' => "glpsLqdMeGG8WK0NwN2wijnkmY88LrHtkqDJ1WdrpZHnDFGcFq"
+        'oauth_access_token' => env('TWITTER_ACCESS_TOKEN'),
+        'oauth_access_token_secret' => env('TWITTER_ACCESS_TOKEN_SECRET'),
+        'consumer_key' => env('TWITTER_CONSUMER_KEY'),
+        'consumer_secret' => env('TWITTER_CONSUMER_SECRET')
     );
     $url = 'https://api.twitter.com/1.1/search/tweets.json';
-    $from = "@emfisecurities";
+    $from = "@EmfiSecurities";
     $getfield = '?q=#'.$search.' from:'.$from.'&count=20';
     $requestMethod = 'GET';
 
@@ -134,35 +134,36 @@ function getSearchTweets($search)
                  ->performRequest();
 
     $tweets = json_decode($tweet,1);
-	if (empty($tweets['statuses'])) {
-		$url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
-	    $screen_name = '@EmfiSecurities';
-	    $getfield = "?screen_name=".$screen_name;
-	    $requestMethod = 'GET';
+	// if (empty($tweets['statuses'])) {
+	// 	$url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+	//     $screen_name = '@EmfiSecurities';
+	//     $getfield = "?screen_name=".$screen_name;
+	//     $requestMethod = 'GET';
 
-	    $twitter = new \App\TwitterAPIExchange($settings);
+	//     $twitter = new \App\TwitterAPIExchange($settings);
 
-	    $tweet =  $twitter->setGetfield($getfield)
-	                 ->buildOauth($url, $requestMethod)
-	                 ->performRequest();
+	//     $tweet =  $twitter->setGetfield($getfield)
+	//                  ->buildOauth($url, $requestMethod)
+	//                  ->performRequest();
 
-	    $tweets = json_decode($tweet,1);
-		$data = [];
-	    $i = 0;
+	//     $tweets = json_decode($tweet,1);
+	// 	$data = [];
+	//     $i = 0;
 
-	    if(!empty($tweets))
-	    {
-	        foreach($tweets as $tweet)
-	        {
-				$data[$i]['link'] = "https://twitter.com/itdoesnotmatter/status/".$tweet['id_str'];
-	            $data[$i]['comment'] = linkify_twitter_status($tweet['text']);
-	            $data[$i]['date'] = date("d M, Y",strtotime($tweet['created_at']));
-	            $i++;
-	        }
-	    }
+	//     if(!empty($tweets))
+	//     {
+	//         foreach($tweets as $tweet)
+	//         {
+	// 			$data[$i]['link'] = "https://twitter.com/itdoesnotmatter/status/".$tweet['id_str'];
+	//             $data[$i]['comment'] = linkify_twitter_status($tweet['text']);
+	//             $data[$i]['date'] = date("d M, Y",strtotime($tweet['created_at']));
+	//             $i++;
+	//         }
+	//     }
 
-	    return $data;
-	}
+	//     return $data;
+	// }
+
     $data = [];
     $i = 0;
 
@@ -183,14 +184,13 @@ function getSearchTweets($search)
 
 function getPeopleTweets($from)
 {
-    // return [];
-
     $settings = array(
-        'oauth_access_token' => "967009378825056258-EJVMJL4ZH4xwpR1PzcIym3h3T14qkNS",
-        'oauth_access_token_secret' => "ghGjIOl2FMNV9nQRDXDkVzdMSOU2de00Utm85fuxh1hrT",
-        'consumer_key' => "gWbSYBsV8RSJXwr0wimDjnw7r",
-        'consumer_secret' => "glpsLqdMeGG8WK0NwN2wijnkmY88LrHtkqDJ1WdrpZHnDFGcFq"
+        'oauth_access_token' => env('TWITTER_ACCESS_TOKEN'),
+        'oauth_access_token_secret' => env('TWITTER_ACCESS_TOKEN_SECRET'),
+        'consumer_key' => env('TWITTER_CONSUMER_KEY'),
+        'consumer_secret' => env('TWITTER_CONSUMER_SECRET')
     );
+
     $url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
     $screen_name = '@EmfiSecurities';
     $getfield = '?screen_name='.$screen_name;
@@ -207,10 +207,6 @@ function getPeopleTweets($from)
     $tweets = json_decode($tweet,1);
     $data = [];
     $i = 0;
-
-    // echo "<pre>";
-    // print_r($tweet);
-    // exit();
 
     if(!empty($tweets))
     {

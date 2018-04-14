@@ -6,10 +6,10 @@
 		@foreach($sliders as $slider)
 		        <div class="item">
 		        	<?php 
-		        		// echo "<pre>";
-		        		// print_r($slider->option_maturity);
+		        		 //echo "<pre>";
+		        		 //print_r($slider);
 		        		// print_r($slider->option_price);
-		        		// exit(); 
+		        		 //exit(); 
 		        	?>
 		            <div class="home_slider_item bgcover" style="background:url({{ asset('themes/frontend/images/home-bg-1.jpg') }})">
 		                <div class="container">
