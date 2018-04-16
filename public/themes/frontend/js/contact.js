@@ -71,3 +71,40 @@ $(document).ready(function () {
         imageSrc: '/themes/frontend/images/economics-bg.jpg'
     });
 });
+
+$(document).ready(function () {
+    $('#contact_form_id').submit(function()
+    {
+        if (true)
+            {
+                $('#AjaxLoaderDiv').fadeIn('slow');
+                $.ajax({
+                    type: "POST",
+                    url: $(this).attr("action"),
+                    data: new FormData(this),
+                    contentType: false,
+                    processData: false,
+                    enctype: 'multipart/form-data',
+                    success: function (result)
+                    {
+                        $('#AjaxLoaderDiv').fadeOut('slow');
+                        if (result.status == 1)
+                        {
+                            $.bootstrapGrowl(result.msg, {type: 'success', delay: 4000});
+                            window.location.reload();    
+                        }   
+                        else
+                        {
+                            $.bootstrapGrowl(result.msg, {type: 'danger', delay: 4000});
+                        }
+                    },
+                    error: function (error) {
+                        $('#AjaxLoaderDiv').fadeOut('slow');
+                        $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
+                    }
+                });
+            }
+            
+            return false;
+    });
+});

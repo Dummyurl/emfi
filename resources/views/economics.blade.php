@@ -171,14 +171,14 @@ foreach($country_benchmarkes as $cnt)
                 @if(in_array($countryObj->id, $tickerIDs) && $tickerType == 2)
                     {{ strtoupper($key) }}
                 @else
-                    {{ ucwords(strtolower($countryObj->title)) }}    
+                    {{ ucwords(strtolower($countryObj->country_name)) }}    
                 @endif
             </span> 
             <div style="display: none;" id="hid-main-chart-title-{{ $counter}}">
                 @if(in_array($countryObj->id, $tickerIDs) && $tickerType == 2)
                     {{ strtoupper($key) }}
                 @else
-                    {{ ucwords(strtolower($countryObj->title)) }}    
+                    {{ ucwords(strtolower($countryObj->country_name)) }}    
                 @endif                
             </div>
         </div>
@@ -255,7 +255,7 @@ foreach($country_benchmarkes as $cnt)
                 @if(in_array($countryObj->id, $tickerIDs) && $tickerType == 2)
                     {{ strtoupper($key) }}
                 @else
-                    {{ ucwords(strtolower($countryObj->title)) }}    
+                    {{ ucwords(strtolower($countryObj->country_name)) }}    
                 @endif                                
             </span>
         </div>
@@ -330,7 +330,7 @@ foreach($country_benchmarkes as $cnt)
                                     {{ $label }}
                                 </option>
                                 @endforeach                                
-                            </select>                            
+                            </select>
                         </div>
                         <div class="col-md-4">
                             <select id="price-dropdown-10" style="display: none;">
@@ -351,7 +351,7 @@ foreach($country_benchmarkes as $cnt)
     </div>
 </section>
 
-@include('includes.twitter',['tweet_sub_title' => ucwords(strtolower($countryObj->title))])
+@include('includes.twitter',['tweet_sub_title' => ucwords(strtolower($countryObj->country_name))])
 
 @stop
 @section('scripts')
