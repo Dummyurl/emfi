@@ -275,7 +275,8 @@ class ApiController extends Controller
         $regression_chart = callCustomSP('CALL select_analyzer_bond_data('.$id1.','.$id2.','.$regressionMonth.')');
         if(!empty($regression_chart))
         {
-            $i = 0;
+            $i = 1;
+            $counterMain = count($regression_chart);
             foreach($regression_chart as $key => $val)
             {
                 $regression_chart[$key]['created_format'] = date("d M Y",strtotime($regression_chart[$key]['created']));   
@@ -296,7 +297,7 @@ class ApiController extends Controller
                     $regression_chart[$key]['main_price2'] = $regression_chart[$key]['Z_SPRD_MID2'];    
                 }    
 
-                if($i == 0)
+                if($i == $counterMain)
                 $regression_chart[$key]['is_recent'] = 1;                            
                 else 
                 $regression_chart[$key]['is_recent'] = 0;                            
