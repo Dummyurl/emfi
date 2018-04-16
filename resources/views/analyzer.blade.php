@@ -275,10 +275,10 @@ function drawTreetChart(data_values, elementID) {
         ['Global', null, 0, 0],
         ['Equities', 'Global', 0, 0],
         ['Credit','Global', 0, 0],        
-        @foreach($equities['countries'] as $k=>$v)
-            [{v: '{{ $equities['countries'][$k]['title'] }} - Equities', f:'{{ $equities['countries'][$k]['title'] }}'},'Equities', 0, 0],
+        @foreach($equities['countries'] as $k=>$v)            
             @foreach($equities['countries'][$k]['records'] as $r)
-            [{v: '{{ $r['id'] }}', f:'{{ $r['security_name'] }}'},'{{ $equities['countries'][$k]['title'] }} - Equities', {{ $r['data']['market_size'] }}, {{ $r['data']['percentage_change'] }}],
+            [{v: '{{ $r['id'] }} - Equities', f:'{{ $equities['countries'][$k]['title'] }}'},'Equities', 0, 0],
+            [{v: '{{ $r['id'] }}', f:'{{ $r['security_name'] }}'},'{{ $r['id'] }} - Equities', {{ $r['data']['market_size'] }}, {{ $r['data']['percentage_change'] }}],
             @endforeach
         @endforeach
         @foreach($credits['countries'] as $k=>$v)
@@ -317,9 +317,11 @@ function drawTreetChart(data_values, elementID) {
             // midColor: '#051b34',
             // maxColor: '#051b34',
             minColor: '#f00',
-            midColor: '#ddd',
+            midColor: '#0d0',
             maxColor: '#0d0',                        
             fontColor: 'white',
+            minColorValue: 0,
+            maxColorValue: 100,
             showScale: true,
             title: '',
             generateTooltip: showStaticTooltip
@@ -331,15 +333,16 @@ function drawTreetChart(data_values, elementID) {
             var node_val = dataChart1.getValue(selection[0].row, 0);       
             var str = node_val;
 
-            // alert(str);
+            
 
             if(str.toLowerCase().indexOf("credit") >= 0)
             {
                 node_val = 0;                
             }    
             else if(str.toLowerCase().indexOf("equities") >= 0)
-            {
-                node_val = 0;
+            {                       
+                str = str.replace(" - Equities", "");
+                node_val = parseInt(str);
             }    
             else if(str.toLowerCase().indexOf("global") >= 0)
             {
@@ -347,7 +350,6 @@ function drawTreetChart(data_values, elementID) {
             }    
 
             // alert(node_val);
-
 
             if(node_val > 0)
             {
@@ -383,8 +385,10 @@ function drawTreetChart(data_values, elementID) {
             // midColor: '#051b34',
             // maxColor: '#051b34',
             minColor: '#f00',
-            midColor: '#ddd',
-            maxColor: '#0d0',            
+            midColor: '#0d0',
+            maxColor: '#0d0',   
+            minColorValue: 0,
+            maxColorValue: 100,                     
             // headerHeight: 15,
             fontColor: 'white',
             showScale: true,
@@ -405,7 +409,8 @@ function drawTreetChart(data_values, elementID) {
             }    
             else if(str.toLowerCase().indexOf("equities") >= 0)
             {
-                node_val = 0;
+                str = str.replace(" - Equities", "");
+                node_val = parseInt(str);                
             }    
             else if(str.toLowerCase().indexOf("global") >= 0)
             {
