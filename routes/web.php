@@ -23,6 +23,7 @@ Route::get('terms-of-uses', 'PagesController@terms_of_uses')->name("terms-of-use
 Route::get('privacy-statements', 'PagesController@privacy_statements')->name("privacy-statements");
 Route::get('cookies', 'PagesController@cookies')->name("cookies");
 Route::get('change-language/{locale}', 'PagesController@change_locale');
+Route::post('contact-form', 'PagesController@contact_form_data');
 
 Route::get('clear-cache', function () {
 	$exitCode = Artisan::call('cache:clear');

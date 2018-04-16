@@ -10,41 +10,41 @@
         <div class="contact_form">
             <div class="row">
                 <p>{{ __('contact.any_qtn') }}.</p>
-                <form>
+                <form action="{{ url('contact-form')}}" method="post" id="contact_form_id">
                     <div class="col-md-6">
                         <div class="form-group">
 
-                            <input class="form-control" id="" placeholder="{{ __('contact.first_name') }}" type="text">
+                            <input name="first_name" class="form-control" id="" placeholder="{{ __('contact.first_name') }}" type="text" required="required">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input class="form-control" id="" placeholder="{{ __('contact.last_name') }}" type="text">
+                            <input name="last_name" class="form-control" id="" placeholder="{{ __('contact.last_name') }}" type="text" required="required">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input class="form-control" id="" placeholder="{{ __('contact.country') }}" type="text">
+                            <input name="country" class="form-control" id="" placeholder="{{ __('contact.country') }}" type="text" required="required">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input class="form-control" id="" placeholder="{{ __('contact.email') }}" type="text">
+                            <input name="email" class="form-control" id="" placeholder="{{ __('contact.email') }}" type="text" required="required">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input class="form-control" id="" placeholder="{{ __('contact.company') }}" type="text">
+                            <input name="company" class="form-control" id="" placeholder="{{ __('contact.company') }}" type="text" required="required">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input class="form-control" id="" placeholder="{{ __('contact.subject') }}" type="text">
+                            <input name="subject" class="form-control" id="" placeholder="{{ __('contact.subject') }}" type="text" required="required">
                         </div>
                     </div>
                     <div class="col-md-12 txtarea">
                         <div class="form-group">
-                            <textarea name="" cols="" rows="4" class="form-control" placeholder="{{ __('contact.message') }}"></textarea>
+                            <textarea name="message" cols="" rows="4" class="form-control" placeholder="{{ __('contact.message') }}" required="required"></textarea>
                         </div>
                     </div>
                     <div class="col-md-12 submit_btn">
