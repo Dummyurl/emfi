@@ -191,11 +191,89 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript">
+    function getBanchmarkViaCountry(country_id)
+    {
+        $('#AjaxLoaderDiv').fadeIn('slow');
+        var country_val = country_id;
 
+        $.ajax({
+            type: "GET",
+            url: "/admin/getcountries/banchmark/",
+            data: {country_id:country_val},
+            success: function (result)
+            {
+                var $country = $('#option_banchmark');
+                $country.empty();
+                $country.append('<option>Select Banchmark</option>');
+                $.each(result, function(k, v) {
+                    if(v.country_id != country_val){
+                        $country.append('<option value="' + v.country_id + '">' + v.country_title + '</option>');
+                    }
+                });
+                $('#AjaxLoaderDiv').fadeOut('slow');
+            },
+            error: function (error) {
+            }
+        });
+    }
+    function getBanchmarkViaSecurity(security_id,option_banchmark)
+    {
+        $('#AjaxLoaderDiv').fadeIn('slow');
+        $.ajax({
+            type: "GET",
+            url: "/admin/getsecurities/banchmark/",
+            data: {security_id:security_id},
+            success: function (result)
+            {
+                if(result.price == 5){
+                    $('#prices_div').show();
+                }
+                var $country = $('#option_banchmark');
+                $country.empty();
+                $country.append('<option>Select Banchmark</option>');
+                $.each(result.banchmark, function(k, v) {
+                    $country.append('<option value="' + v.id + '">' + v.title + '</option>');
+                });
+                $('#option_banchmark').val(option_banchmark);
+                $('#AjaxLoaderDiv').fadeOut('slow');
+                $country.change();
+            },
+            error: function (error) {
+            }
+        });
+    }
+    function getSecurity(country_id)
+    {
+        $('#AjaxLoaderDiv').fadeIn('slow');
+        var country_val = country_id;
+        $.ajax({
+            type: "GET",
+            url: "/admin/getsecurities/",
+            data: {country_id:country_val},
+            success: function (result)
+            {
+                var $country = $('#security_id_val');
+                $country.empty();
+                $country.append('<option>Select Security</option>');
+                $.each(result, function(k, v)
+                {
+                    $country.append('<option value="' + k + '">' + v + '</option>');
+                });
+                $('#AjaxLoaderDiv').fadeOut('slow');
+                $country.change();
+            },
+            error: function (error) {
+            }
+        });
+    }
+</script>
 <script type="text/javascript">
     $(document).ready(function(){
         var formdata = '{{ $formObj }}';
         var option_prices = '{{ $formObj->option_prices }}';
+        var country_id = '{{ $formObj->country_id }}';
+        var option_banchmark = '{{ $formObj->option_banchmark }}';
 
         if(formdata != '')
         {
@@ -260,6 +338,7 @@
                 $('#banchmark_div').show();
                 $('#credit_div').hide();
                 $('#option_security_div').hide();
+                getBanchmarkViaSecurity('{{$formObj->security_id}}',option_banchmark)
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
             else if(graph_val == 'differential'){
@@ -309,50 +388,13 @@
                 alert('Invalid graph type !');
             }
         }
-
         $('.country').on('change',function(){
             var country_val = $('.country').val();
             if(country_val != '')
             {
                 $('#graph_type_row').show();
-                $.ajax({
-                        type: "GET",
-                        url: "/admin/getsecurities/",
-                        data: {country_id:country_val},
-                        success: function (result)
-                        {
-                            var $country = $('#security_id_val');
-                            $country.empty();
-                            $country.append('<option>Select Security</option>');
-                            $.each(result, function(k, v) {
-                                $country.append('<option value="' + k + '">' + v + '</option>');
-                            });
-                            $country.change();
-
-                        },
-                        error: function (error) {
-                        }
-                    });
-                    $.ajax({
-                        type: "GET",
-                        url: "/admin/getcountries/banchmark/",
-                        data: {country_id:country_val},
-                        success: function (result)
-                        {
-                            var $country = $('#option_banchmark');
-                            $country.empty();
-                            $country.append('<option>Select Banchmark</option>');
-                            $.each(result, function(k, v) {
-                                if(v.country_id != country_val){
-                                    $country.append('<option value="' + v.country_id + '">' + v.country_title + '</option>');
-                                }
-                            });
-                            $country.change(); 
-                        },
-                        error: function (error) {
-                        }
-                    });
-
+                getSecurity(country_val);
+                getBanchmarkViaCountry(country_val);
 
             }else{
                 $('#graph_type_row').hide();
@@ -390,6 +432,8 @@
                 $('#banchmark_div').show();
                 $('#credit_div').hide();
                 $('#option_security_div').hide();
+                
+                getBanchmarkViaCountry($('.country').val());
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }else if(graph_val == 'market_movers_gainers' || graph_val == 'market_movers_laggers'){
                 $('.down_content').show();
@@ -406,6 +450,7 @@
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
             else if(graph_val == 'market_history'){
+                $('#AjaxLoaderDiv').fadeIn('slow');
                 $('.down_content').show();
                 $('#period_div').show();
                 $('#prices_div').hide();
@@ -417,6 +462,10 @@
                 $('#banchmark_div').show();
                 $('#credit_div').hide();
                 $('#option_security_div').hide();
+                
+                getSecurity($('.country').val());
+                $('#option_banchmark').empty();
+                $('#option_banchmark').append('<option>Select Banchmark</option>');
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
             else if(graph_val == 'differential'){
@@ -483,27 +532,7 @@
         $('#security_id_val').on('change',function(){
             var security_id = $('#security_id_val').val();
             if(security_id > 0){
-                $.ajax({
-                    type: "GET",
-                    url: "/admin/getsecurities/banchmark/",
-                    data: {security_id:security_id},
-                    success: function (result)
-                    {
-                        if(result.price == 5){
-                            $('#prices_div').show();
-                        }
-                        var $country = $('#option_banchmark');
-                        $country.empty();
-                        $country.append('<option>Select Banchmark</option>');
-                        $.each(result.banchmark, function(k, v) {
-                            $country.append('<option value="' + v.id + '">' + v.title + '</option>');
-                        });
-                        $country.change();
-                        
-                    },
-                    error: function (error) {
-                    }
-                    });
+                getBanchmarkViaSecurity(security_id,null)
             }
         });
         
