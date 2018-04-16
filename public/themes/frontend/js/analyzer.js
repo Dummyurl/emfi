@@ -28,6 +28,8 @@ function generateSecurityBasedChart(isScrollDown)
 {
     if(global_bond_id1 > 0 && global_bond_id2 > 0)
     {
+        // alert(global_bond_id1 +" "+ global_bond_id2);
+
         $("#bond-area").show();
 
         if(isScrollDown == 1)
@@ -152,7 +154,8 @@ function drawRegression(data_values)
 
             if(data_values[i]['is_recent'] == 1)
             {
-                $style = 'point {fill-color: #FF0000;zIndex: 99999;size: 18}';
+                // $style = 'point {fill-color: #FF0000;zIndex: 99999;size: 18}';
+                $style = 'point {fill-color: #FF0000;}';
             }
 
             formatedData.push(
