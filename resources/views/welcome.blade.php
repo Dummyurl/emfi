@@ -6,12 +6,16 @@
 		@foreach($sliders as $slider)
 		        <div class="item">
 		        	<?php 
-		        		 //echo "<pre>";
-		        		 //print_r($slider);
-		        		// print_r($slider->option_price);
-		        		 //exit(); 
+		        		$country = \App\Models\Country::find($slider->country_id);
+		        		if($country)
+		        		{
+		        			$c_slug = $country->slug;
+		        			$image = asset('themes/frontend/images/country/'.$c_slug.'-top.jpg');
+		        		}else{
+		        			$image = asset('themes/frontend/images/home-bg-1.jpg');
+		        		}
 		        	?>
-		            <div class="home_slider_item bgcover" style="background:url({{ asset('themes/frontend/images/home-bg-1.jpg') }})">
+		            <div class="home_slider_item bgcover" style="background:url({{ $image }})">
 		                <div class="container">
 		                    <div class="row">
 								<div class="title_belt">

@@ -34,10 +34,10 @@ foreach($country_benchmarkes as $r)
                     <select id="country-combo">
                         @foreach($countries as $cnt)
                             <option {{ $cnt->id == $countryObj->id ? 'selected="selected"':'' }} value="{{ $cnt->slug }}">
-                                {{ ucwords(strtolower($cnt->title)) }}
+                                {{ ucwords(strtolower($cnt->country_name)) }}
                             </option>
                         @endforeach
-                    </select>                    
+                    </select>
                 </div>
             </div>
         </div>
