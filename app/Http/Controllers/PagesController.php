@@ -20,8 +20,8 @@ class PagesController extends Controller {
 
     }
 
-    public function home(Request $request) {
-
+    public function home(Request $request) 
+    {
         $data = array();
         $data['page_title'] = "EMFI: Home Page";
         $locale = session('locale');
@@ -30,10 +30,66 @@ class PagesController extends Controller {
             $locale = 'en';
         }
         app()->setLocale($locale);
-        $data['sliders'] = HomeSlider::getHomeSliders(15);
+        $sliders = HomeSlider::getHomeSliders(15);
+        $slider_rows = [];
+
+        $i = 0;
+
+        foreach($sliders as $slider)
+        {
+            $title = $slider->title;
+            $description = $slider->description;
+            if(empty($slider->title) && $slider->title == '')
+            {
+                $title = $slider->translate('en',true)->title;
+                if(empty($title))
+                    $title = $slider->translate('es',true)->title;                
+            }
+
+            if(empty($slider->description) && $slider->description == '')
+            {
+                $description = $slider->translate('en',true)->description;   
+
+                if(empty($description))
+                $description = $slider->translate('es',true)->description;                
+            }    
+
+            // Get Chart Data
+            $chart_data = $this->getChartData($slider);
+            $slider_rows[$i]['id'] = $slider->id;
+            $slider_rows[$i]['title'] = $title;
+            $slider_rows[$i]['description'] = $description;
+            $slider_rows[$i]['chart_data'] = $chart_data;
+            $slider_rows[$i]['graph_type'] = $slider->graph_type;
+            $i++;
+        }   
+
+        $data['sliders'] = $slider_rows;
+
+        
+        
         $data['last_update_date'] = getLastUpdateDate();
         return view('welcome', $data);
     }
+
+    public function getChartData($slider)
+    {
+        $chart_data = [];
+        if($slider->graph_type == "market_movers_gainers")
+        {
+            $market_id = $slider->option_market;
+            $market_data  = "CALL select_Top_Gainer(".$market_id.",0)";
+            $gainer_data = callCustomSP($market_data);
+        }
+        else if($slider->graph_type == "market_movers_laggers")
+        {
+            $market_id = $slider->option_market;
+            $market_data  = "CALL select_Top_Loser(".$market_id.",0)";
+            $lagger_data = callCustomSP($market_data);
+        }
+
+        return $chart_data;
+    }    
 
     public function economics(Request $request, $country = "") {
         $data = array();
@@ -133,6 +189,9 @@ class PagesController extends Controller {
         }
 
         $data['equities'] = $equities;
+
+        // echo "<pre>";print_r($data['equities']);exit;
+
         $data['credits'] = $credits;
 
         $default_security_id1 = 0;
