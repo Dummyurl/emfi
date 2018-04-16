@@ -5,61 +5,28 @@
     <div class="owl-carousel owl-theme home_carousel">
 		@foreach($sliders as $slider)
 		        <div class="item">
-		        	<?php 
-		        		$country = \App\Models\Country::find($slider->country_id);
-		        		if($country)
-		        		{
-		        			$c_slug = $country->slug;
-		        			$image = asset('themes/frontend/images/country/'.$c_slug.'-top.jpg');
-		        		}else{
-		        			$image = asset('themes/frontend/images/home-bg-1.jpg');
-		        		}
-		        	?>
-		            <div class="home_slider_item bgcover" style="background:url({{ $image }})">
+		            <div class="home_slider_item bgcover" style="background:url({{ asset('themes/frontend/images/home-bg-1.jpg') }})">
 		                <div class="container">
 		                    <div class="row">
 								<div class="title_belt">
-			                        <h2>@if(empty($slider->title) && $slider->title == '')
-		                               	<?php 
-		                               		$val = $slider->translate('en',true)->title;
-		                               		if(empty($val))
-		                               			$val = $slider->translate('es',true)->title;
-		                               	?>
-		                               		{{ $val }}
-			                            @else
-			                               		{!! $slider->title !!}
-			                            @endif
+			                        <h2>
+			                        	{{ $slider['title'] }}
 			                        </h2>
 			                        <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
 			                    </div>
 			                    <div class="row">
 			                        <div class="col-md-6">
 			                            <div class="chart_left">
-			                                <div class="charts-container" data-mainid="{{ $slider->id }}" data-id="{{ $slider->security_id }}"
-			                                	data-date="{{ $slider->graph_period != -1 ? date('Y-m-d', strtotime('-'.$slider->graph_period.' month')):date('Y-01-01') }}"
-												data-period="{{ $slider->graph_period }}"
-												data-title="{{ $slider->graph_title }}"
-												data-type="{{ $slider->graph_type }}"
-												data-country="{{ $slider->country_id }}"
-												data-country_name="{{ $slider->country_name }}"
-												data-maturity="{{ $slider->option_maturity }}"
-												data-price="{{ $slider->option_price }}"
-												id="chart_home_{{$slider->id }}" 
+			                            	<div style="display: none;" id="chart-data-{{ $slider['id'] }}">
+			                            		{!! json_encode($slider['chart_data']) !!}
+			                            	</div>
+			                                <div class="charts-container"  id="chart-{{ $slider['id'] }}" data-id="{{ $slider['id'] }}" data-type="{{ $slider['graph_type'] }}" data-banchmark="{{ $slider['option_banchmark'] }}" data-prices="{{ $slider['option_prices'] }}"
 												style="width: 100%; height: 440px"></div>
 			                            </div>
 			                        </div>
 			                        <div class="col-md-6">
 			                            <div class="text_right" style="color:white;">
-			                               	@if(empty($slider->description) && $slider->description == '')
-			                               	<?php 
-			                               	$desc = $slider->translate('en',true)->description;
-			                               	if(empty($desc))
-			                               	$desc = $slider->translate('es',true)->description;
-			                               	?>
-			                               	{!! $desc !!}
-			                               	@else
-			                               		{!! $slider->description !!}
-			                               	@endif
+			                            	{!! $slider['description'] !!}
 			                            </div>
 			                        </div>
 			                    </div>
