@@ -63,9 +63,10 @@ class PagesController extends Controller {
             $slider_rows[$i]['graph_type'] = $slider->graph_type;
             $slider_rows[$i]['option_banchmark'] = $slider->option_banchmark;
             $slider_rows[$i]['option_prices'] = $slider->option_prices;
+            $slider_rows[$i]['country_id'] = $slider->country_id;
             $i++;
         }   
-
+        
         $data['sliders'] = $slider_rows;
         $data['last_update_date'] = getLastUpdateDate();
         return view('welcome', $data);

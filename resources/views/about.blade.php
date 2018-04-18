@@ -90,7 +90,7 @@
       <div class="col-lg-12">
         <div class="inner_block office_1">
           <div class="txt_block col-lg-3 col-lg-push-1">
-            <h2>LONDON</h2>
+            <h2>{{ __('about.london') }}</h2>
             <address>
             <strong>EMFI</strong> SECURITIES<br>
             32 Devonshire Pl<br>

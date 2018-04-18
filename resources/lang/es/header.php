@@ -4,7 +4,7 @@
 	'portfolio'=>'PORTAFOLIO',
 	'research'=>'INVESTIGACIÓN',
 	'toggle'=>'Navegación de palanca',
-	'home'=>'CASA',
+	'home'=>'INICIO',
 	'markets'=>'MERCADOS',
 	'equities'=>'EQUIDADES',
 	'currencies'=>'MONEDAS',
@@ -16,7 +16,7 @@
 	'relval'=>'RELVAL',
 	'regression'=>'REGRESIÓN',
 	'slope'=>'CUESTA ABAJO',
-	'about'=>'ACERCA DE',
+	'about'=>'NOSOTROS',
 	'contact'=>'CONTACTO',
 	];
 ?>
