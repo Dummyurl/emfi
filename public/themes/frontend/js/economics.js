@@ -36,7 +36,8 @@ function initChart()
     if($("#curve_chart-2").size() > 0)
     generateLineGraph(2);
     
-    $(".market-action:first").trigger("click");
+    $(".generate-bond-chart.b10:first").trigger("click");
+    // $(".market-action:first").trigger("click");
 }
 
 function fillBanchMark(data, elementID)

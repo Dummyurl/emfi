@@ -277,7 +277,12 @@ foreach($country_benchmarkes as $cnt)
                     @foreach($bond_data[$key] as $row)
                     <tr>
                         <td>
-                            <a data-market="{{ $row['market_id'] }}" class="generate-bond-chart" href="javascript:void(0);" data-id="{{ $row['id'] }}" title="View Graph">
+
+                            <?php 
+                                $cssClassName = trim(strtolower($row['benchmark_family'])) == "b10" ? ' b10':'';
+                            ?>
+
+                            <a data-market="{{ $row['market_id'] }}" class="generate-bond-chart{{ $cssClassName }}" href="javascript:void(0);" data-id="{{ $row['id'] }}" title="View Graph">
                                 {{ $row['security_name'] }}
                             </a>
                         </td>

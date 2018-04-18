@@ -116,10 +116,20 @@ class PagesController extends Controller {
 
 		app()->setLocale($locale);
 
-        if (!empty($country)) {
+        if(!empty($country)) 
+        {
             $defaultCountry = $country;
-        } else {
-            $defaultCountry = "venezuela";
+        } 
+        else 
+        {         
+            $data = [];
+            $data['last_update_date'] = getLastUpdateDate();
+            $data['page_title'] = "EMFI: Countries";
+            $data['markets'] = MarketType::getArrayList();
+            $data['countries'] = Country::where("country_type",2)->orderBy("title")->get()->toArray();
+            $data['countries'] = json_encode($data['countries']);            
+            // echo $data['countries'];exit;
+            return view('defaultCountryPage', $data);        
         }
 
         $data['countryObj'] = Country::where("slug", $defaultCountry)->first();
@@ -138,22 +148,34 @@ class PagesController extends Controller {
         }
 
         $data['country_benchmarkes'] = \App\Models\Tickers::getCountriesList();
+        
         // dd($data['country_benchmarkes']);
+        
         $data['number_of_charts'] = count(array_keys($data['bond_data']));
         $data['tweets'] = getSearchTweets($data['countryObj']->title);
         $data['last_update_date'] = getLastUpdateDate();
         return view('economics', $data);
     }
 
-    public function contact(Request $request) {
+    public function defaultCountryPage($request)
+    {
+        $data = [];
+        $data['page_title'] = "EMFI: Countries";
+        return view('defaultCountryPage', $data);
+    }
+
+    public function contact(Request $request) 
+    {
         $data = array();
         $data['page_title'] = "EMFI: Contact";
         $locale = session('locale');
-        if (empty($locale)) {
+        
+        if(empty($locale)) 
+        {
             $locale = 'en';
         }
-        app()->setLocale($locale);
 
+        app()->setLocale($locale);
         return view('contact', $data);
     }
 
