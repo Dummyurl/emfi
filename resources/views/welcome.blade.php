@@ -5,7 +5,25 @@
     <div class="owl-carousel owl-theme home_carousel">
 		@foreach($sliders as $slider)
 		        <div class="item">
-		            <div class="home_slider_item bgcover" style="background:url({{ asset('themes/frontend/images/home-bg-1.jpg') }})">
+		        	<?php
+
+		        		$country = \App\Models\Country::find($slider['country_id']);
+		        		if($country)
+		        		{
+		        			$c_slug = $country->slug;
+		        			$file = public_path().'/themes/frontend/images/country/'.$c_slug.'-top.jpg';
+		        			if(is_file($file))
+		        			{
+		        				$image = asset('themes/frontend/images/country/'.$c_slug.'-top.jpg');
+		        			}
+		        			else{		
+		        				$image = asset('themes/frontend/images/home-bg-1.jpg');
+		        			}
+		        		}else{
+		        			$image = asset('themes/frontend/images/home-bg-1.jpg');
+		        		}
+		        	?>
+		            <div class="home_slider_item bgcover" style="background:url({{ $image }})">
 		                <div class="container">
 		                    <div class="row">
 								<div class="title_belt">

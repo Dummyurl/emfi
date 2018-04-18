@@ -1,16 +1,16 @@
 <?php
 	return [
-	'contact_us'=>'Contáctenos',
+	'contact_us'=>'CONTÁCTENOS',
 	'help_you'=>'como podemos ayudarte?',
-	'any_qtn'=>"Si tiene alguna pregunta, no dude en contactarnos",
-	'first_name'=>"Nombre de pila",
+	'any_qtn'=>"Si tiene alguna pregunta o inquietud, por favor contáctese con nosotros",
+	'first_name'=>"Nombre",
 	'last_name'=>"Apellido",
 	'country'=>"País",
-	'email'=>"Dirección de correo electrónico",
+	'email'=>"Correo electrónico",
 	'company'=>"Empresa",
-	'subject'=>"Tema",
+	'subject'=>"Asunto",
 	'message'=>"Mensaje",
 	'send'=>"Enviar",
-	'at_a_glance'=>"De un vistazo",
+	'at_a_glance'=>"Resumen",
 	]; 
 ?>
