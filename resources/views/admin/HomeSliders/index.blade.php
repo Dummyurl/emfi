@@ -105,58 +105,59 @@
     </script>
     <script type="text/javascript">
         function getBanchmarkViaCountry(country_id)
-        {
+                        {
             $('#AjaxLoaderDiv').fadeIn('slow');
             var country_val = country_id;
-            $.ajax({
-                type: "GET",
-                url: "/admin/getcountries/banchmark/",
-                data: {country_id:country_val},
-                success: function (result)
-                {
-                    var $country = $('#option_banchmark');
-                    $country.empty();
-                    $country.append('<option>Select Banchmark</option>');
-                    $.each(result, function(k, v) {
-                        if(v.country_id != country_val){
-                            $country.append('<option value="' + v.country_id + '">' + v.country_title + '</option>');
+                 $.ajax({
+                        type: "GET",
+                        url: "/admin/getcountries/banchmark/",
+                        data: {country_id:country_val},
+                        success: function (result)
+                        {
+                            var $country = $('#option_banchmark');
+                            $country.empty();
+                            $country.append('<option>Select Banchmark</option>');
+                            $.each(result, function(k, v) {
+                                if(v.country_id != country_val){
+                                    $country.append('<option value="' + v.country_id + '">' + v.country_title + '</option>');
+                                }
+                            });
+                    $('#AjaxLoaderDiv').fadeOut('slow');
+                            $country.change();  
+                        },
+                        error: function (error) {
                         }
                     });
-                    $('#AjaxLoaderDiv').fadeOut('slow');
-                    $country.change();  
-                },
-                error: function (error) {
-                }
-            });
-        }
+            }
+
         function getBanchmarkViaSecurity(security_id)
         {
             $('#AjaxLoaderDiv').fadeIn('slow');
-            $.ajax({
-                type: "GET",
-                url: "/admin/getsecurities/banchmark/",
-                data: {security_id:security_id},
-                success: function (result)
-                {
-                    if(result.price == 5){
-                        $('#prices_div').show();
-                    }else if(result.price == 1){
-                        $('#prices_div').show();
-                        var $country = $('#prices_div');
+                $.ajax({
+                    type: "GET",
+                    url: "/admin/getsecurities/banchmark/",
+                    data: {security_id:security_id},
+                    success: function (result)
+                    {
+                        if(result.price == 5){
+                            $('#prices_div').show();
+                        }else if(result.price == 1){
+                            $('#prices_div').show();
+                            var $country = $('#option_price_id');
+                            $country.empty();
+                            $country.append('<option value="">Select Option</option>');
+                            $country.append('<option value="1">Price</option>');
+                            $country.append('<option value="2">Yield</option>');
+                            $country.change();
+                        }else{
+                            $('#prices_div').hide();
+                        }
+                        var $country = $('#option_banchmark');
                         $country.empty();
-                        $country.append('<option value="">Select Option</option>');
-                        $country.append('<option value="1">Price</option>');
-                        $country.append('<option value="2">Yield</option>');
-                        $country.change();
-                    }else{
-                        $('#prices_div').hide();
-                    }
-                    var $country = $('#option_banchmark');
-                    $country.empty();
-                    $country.append('<option>Select Banchmark</option>');
-                    $.each(result.banchmark, function(k, v) {
-                        $country.append('<option value="' + v.id + '">' + v.title + '</option>');
-                    });
+                        $country.append('<option>Select Banchmark</option>');
+                        $.each(result.banchmark, function(k, v) {
+                            $country.append('<option value="' + v.id + '">' + v.title + '</option>');
+                        });
                     $('#AjaxLoaderDiv').fadeOut('slow');
                     $country.change();
 
@@ -181,13 +182,14 @@
                     $.each(result, function(k, v) {
                         $country.append('<option value="' + k + '">' + v + '</option>');
                     });
-                    $country.change();
+                        $country.change();
                 $('#AjaxLoaderDiv').fadeOut('slow');
-                },
-                error: function (error) {
-                }
-            });
-        }
+
+                    },
+                    error: function (error) {
+                    }
+                    });
+            }
     $(document).ready(function(){
 
         $('.country').on('change',function(){

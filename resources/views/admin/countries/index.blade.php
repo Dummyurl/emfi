@@ -79,7 +79,7 @@
                     data.search_country = $("#search-frm input[name='search_country']").val();
                     data.search_type = $("#search-frm select[name='search_type']").val();
                 }
-            },
+            },            
             lengthMenu:
               [
                 [-1,10,25,50,100],

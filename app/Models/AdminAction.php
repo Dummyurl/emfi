@@ -105,5 +105,6 @@ class AdminAction extends Model
     public $DELETE_HOME_SLIDER = 54;
 
     public $EDIT_SECURITY = 55;
+    public $ADD_SECURITY = 56;
 
 }

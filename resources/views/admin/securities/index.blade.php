@@ -17,6 +17,9 @@
                     <div class="caption">
                         <i class="fa fa-list"></i>{{ $page_title }}    
                     </div>
+                    @if($btnAdd)
+                        <a class="btn btn-default pull-right btn-sm mTop5" href="{{ route('securities.create') }}">Add New</a>
+                    @endif 
                 </div>
                 <div class="portlet-body">                    
                         <table class="table table-bordered table-striped table-condensed flip-content" id="server-side-datatables">
@@ -76,11 +79,11 @@
                     data.search_analyzer_default = $("#search-frm select[name='search_analyzer_default']").val();
                     data.search_country = $("#search-frm select[name='search_country']").val();
                 }
-            },
+            },            
             lengthMenu:
               [
-                [100,200,300,400,500],
-                [100,200,300,400,500]
+                [-1,25,50,100,200],
+                ['All',25,50,100,200]
               ],      
             "order": [[ 3, "asc" ]],
             columns: [

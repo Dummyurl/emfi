@@ -261,6 +261,7 @@ fa fa-check-square-o'></i></a>";
 				$i = 0;
 				$bytes = ftell($file);
 				$fields = [];
+				$newSecurityCount = 0;
 
 				while(! feof($file))
 				{
@@ -281,140 +282,151 @@ fa fa-check-square-o'></i></a>";
 								$fields[trim(strtolower($value))] = $key;
 							}
 						}
-						// echo "<pre>";
-						// print_r($fields);
-						// exit();
 					}
 					else
 					{
 						// Array for historical data
 						$hdata = [];
 						$idata['created'] = $created_date;
+						/*if(isset($fields['rtg_sp'])){
 						$idata['rtg_sp'] = ($data[$fields['rtg_sp']] == "#N/A N/A" || !isset($data[$fields['rtg_sp']])) ? '' : str_replace(',','',$data[$fields['rtg_sp']]);
-						$idata['current_oecd_member_cor_class'] = ($data[$fields['current_oecd_member_cor_class']] == "#N/A N/A" || !isset($data[$fields['current_oecd_member_cor_class']])) ? '' : str_replace(',','',$data[$fields['current_oecd_member_cor_class']]);
-						$idata['market_size'] = ($data[$fields['market_size']] == "#N/A N/A" || !isset($data[$fields['market_size']])) ? '' : str_replace(',','',$data[$fields['market_size']]);
-						$idata['volume'] = ($data[$fields['volume']] == "#N/A N/A" || !isset($data[$fields['volume']])) ? '' : str_replace(',','',$data[$fields['volume']]);
+
+						}
+						if(isset($idata['rtg_sp']) && !empty($idata['rtg_sp'])){
+							$arr_rating = \DB::table('sp_rating')->where('sp_name', $idata['rtg_sp'])->first();
+			                if($arr_rating){
+			                    $rating_id = $arr_rating->id;
+			                } else {
+			                    $SP = new \App\Models\SpRating();
+			                    $SP->sp_name = $idata['rtg_sp'];
+			                    $SP->save();
+			                    $rating_id = $SP->id;
+			                }
+							$idata['sp_rating_id'] = $rating_id;
+						}*/
+						//$idata['current_oecd_member_cor_class'] = ($data[$fields['current_oecd_member_cor_class']] == "#N/A N/A" || !isset($data[$fields['current_oecd_member_cor_class']])) ? '' : str_replace(',','',$data[$fields['current_oecd_member_cor_class']]);
 
 						$idata['bid_price'] = ($data[$fields['px_bid']] == "#N/A N/A" || !isset($data[$fields['px_bid']])) ? '' : str_replace(',','',$data[$fields['px_bid']]);
 						$idata['ask_price'] = ($data[$fields['px_ask']] == "#N/A N/A" || !isset($data[$fields['px_ask']])) ? '' : str_replace(',','',$data[$fields['px_ask']]);
 						$idata['last_price'] = ($data[$fields['px_last']] == "#N/A N/A" || !isset($data[$fields['px_last']])) ? '' : str_replace(',','',$data[$fields['px_last']]);
 						$idata['low_price'] = ($data[$fields['px_low']] == "#N/A N/A" || !isset($data[$fields['px_low']])) ? '' : str_replace(',','',$data[$fields['px_low']]);
 						$idata['high_price'] = ($data[$fields['px_high']] == "#N/A N/A" || !isset($data[$fields['px_high']])) ? '' : str_replace(',','',$data[$fields['px_high']]);
-						$idata['net_change'] = ($data[$fields['chg_net_1d']] == "#N/A N/A" || !isset($data[$fields['chg_net_1d']])) ? '' : str_replace(',','',$data[$fields['chg_net_1d']]);
-						$idata['percentage_change'] = ($data[$fields['chg_pct_1d']] == "#N/A N/A" || !isset($data[$fields['chg_pct_1d']])) ? '' : $data[$fields['chg_pct_1d']];
-
-						$idata['net_change'] = str_replace('(', "-", $idata['net_change']);
-						$idata['net_change'] = str_replace(')', "", $idata['net_change']);
-
-						$idata['percentage_change'] = str_replace('(', "-", $idata['percentage_change']);
-						$idata['percentage_change'] = str_replace(')', "", $idata['percentage_change']);
-						// Only historical_data table's colums will be added to this array.
-						$hdata = $idata;
-						$idata['CUSIP'] = ($data[$fields['cusip']] == "#N/A N/A" || !isset($data[$fields['cusip']])) ? "" : $data[$fields['cusip']];
 
 						$idata['yld_ytm_mid'] = ($data[$fields['yld_ytm_mid']] == "#N/A N/A" || !isset($data[$fields['yld_ytm_mid']])) ? '' : str_replace(',','',$data[$fields['yld_ytm_mid']]);
 
 						$idata['z_sprd_mid'] = ($data[$fields['z_sprd_mid']] == "#N/A N/A" || !isset($data[$fields['z_sprd_mid']])) ? '' : str_replace(',','',$data[$fields['z_sprd_mid']]);
 
-						$idata['dur_adj_mid'] = ($data[$fields['dur_adj_mid']] == "#N/A N/A" || !isset($data[$fields['dur_adj_mid']])) ? '' : str_replace(',','',$data[$fields['dur_adj_mid']]);
-						
-						$idata['market_id'] = '';
-						if(isset($data[$fields['market']]) && $data[$fields['market']] != "#N/A N/A" && !empty($data[$fields['market']]))
-						{
-							$idata['market_id'] = $markets[$data[$fields['market']]];
-						}
+						$idata['net_change'] = ($data[$fields['chg_net_1d']] == "#N/A N/A" || !isset($data[$fields['chg_net_1d']])) ? '' : str_replace(',','',$data[$fields['chg_net_1d']]);
 
-						$idata['country'] = ($data[$fields['country']] == "#N/A N/A" || !isset($data[$fields['country']])) ? '' : $data[$fields['country']];
+						$idata['net_change'] = str_replace('(', "-", $idata['net_change']);
+						$idata['net_change'] = str_replace(')', "", $idata['net_change']);
 
+						$idata['percentage_change'] = ($data[$fields['chg_pct_1d']] == "#N/A N/A" || !isset($data[$fields['chg_pct_1d']])) ? '' : $data[$fields['chg_pct_1d']];
 
-						
-						$idata['country_id'] = '';
-						if(isset($data[$fields['country']]) && $data[$fields['country']] != "#N/A N/A" && !empty($data[$fields['country']]))
-						{
-							$countries = \App\Models\Country::where('country_code',$data[$fields['country']])->first();
-							if($countries){
-	                            $country_id = $countries->id;
-							} else {
-								$cc = new \App\Models\Country();
-	                            $cc->country_code = $data[$fields['country']];
-	                            $cc->save();
-	                            $country_id = $cc->id;
-							}
-							$idata['country_id'] = $country_id;
-						}
-						$idata['ticker'] = ($data[$fields['ticker']] == "#N/A N/A" || !isset($data[$fields['ticker']])) ? '' : $data[$fields['ticker']];
+						$idata['percentage_change'] = str_replace('(', "-", $idata['percentage_change']);
+						$idata['percentage_change'] = str_replace(')', "", $idata['percentage_change']);
 
-						if(!empty($idata['ticker']))
-						{
-							$arr_tickers = \DB::table('tickers')
-                                    ->where('ticker_name', $idata['ticker'])
-                                    ->where('country_id', $idata['country_id'])
-                                    ->where('market_id', $idata['market_id'])
-                                    ->first();
-			                if($arr_tickers){
-			                    $ticker_id = $arr_tickers->id;
-			                } else {
-			                    $TK = new \App\Models\Tickers();
-			                    $TK->ticker_name = $idata['ticker'];
-			                    $TK->country_id = $idata['country_id'];
-			                    $TK->market_id = $idata['market_id'];
-			                    $TK->ticker_type = 1;
-			                    $TK->save();
-			                    $ticker_id = $TK->id;
-			                }
-							$idata['ticker_id'] = $ticker_id;
-						}
+						$idata['market_size'] = ($data[$fields['market_size']] == "#N/A N/A" || !isset($data[$fields['market_size']])) ? '' : str_replace(',','',$data[$fields['market_size']]);
 
-						$idata['benchmark'] = ($data[$fields['benchmark']] == "#N/A N/A" || !isset($data[$fields['benchmark']]) || empty($data[$fields['benchmark']])) ? 0 : 1;
-						$idata['benchmark_family'] = ($data[$fields['benchmark']] == "#N/A N/A" || !isset($data[$fields['benchmark']])) ? '' : $data[$fields['benchmark']];
-						$idata['cpn'] = ($data[$fields['cpn']] == "#N/A N/A" || !isset($data[$fields['cpn']])) ? '' : $data[$fields['cpn']];
-						$idata['security_name'] = ($data[$fields['security_name']] == "#N/A N/A" || !isset($data[$fields['security_name']])) ? '' : $data[$fields['security_name']];
-						
-						$idata['maturity_date'] =  '0000-00-00';
-						if(isset($data[$fields['maturity']]) && !empty($data[$fields['maturity']])){
-							$arr_date = explode("/", $data[$fields['maturity']]);
-							if($arr_date[0] < 10){
-								$month = '0'.$arr_date[0];
-							} else {
-								$month = $arr_date[0];
-							}
-							if($arr_date[1] < 10){
-								$date = '0'.$arr_date[1];
-							} else {
-								$date = $arr_date[1];
-							}
-							$full_date = $arr_date[2]."-".$month."-".$date;
-							$idata['maturity_date'] = $full_date;
-						}
+						$idata['volume'] = ($data[$fields['volume']] == "#N/A N/A" || !isset($data[$fields['volume']])) ? '' : str_replace(',','',$data[$fields['volume']]);
+						// Only historical_data table's colums will be added to this array.
+						$hdata = $idata;
+						$idata['CUSIP'] = ($data[$fields['cusip']] == "#N/A N/A" || !isset($data[$fields['cusip']])) ? "" : $data[$fields['cusip']];
+
 
 						if(!isset($idata['CUSIP']) || empty($idata['CUSIP']))
 						{
 							continue;
 						}
+						$idata['dur_adj_mid'] = ($data[$fields['dur_adj_mid']] == "#N/A N/A" || !isset($data[$fields['dur_adj_mid']])) ? '' : str_replace(',','',$data[$fields['dur_adj_mid']]);
+
+						// $idata['market_id'] = '';
+						// if(isset($data[$fields['market']]) && $data[$fields['market']] != "#N/A N/A" && !empty($data[$fields['market']]))
+						// {
+						// 	$idata['market_id'] = $markets[$data[$fields['market']]];
+						// }
+
+						// $idata['country'] = ($data[$fields['country']] == "#N/A N/A" || !isset($data[$fields['country']])) ? '' : $data[$fields['country']];
+
+						// $idata['country_id'] = '';
+						// if(isset($data[$fields['country']]) && $data[$fields['country']] != "#N/A N/A" && !empty($data[$fields['country']]))
+						// {
+						// 	$countries = \App\Models\Country::where('country_code',$data[$fields['country']])->first();
+						// 	if($countries){
+	     				//$country_id = $countries->id;
+						// 	} else {
+						// 		$cc = new \App\Models\Country();
+	     				//	$cc->country_code = $data[$fields['country']];
+	    				//	$cc->save();
+	   					//	$country_id = $cc->id;
+						// 	}
+						// 	$idata['country_id'] = $country_id;
+						// }
+						// $idata['ticker'] = ($data[$fields['ticker']] == "#N/A N/A" || !isset($data[$fields['ticker']])) ? '' : $data[$fields['ticker']];
+
+						// if(!empty($idata['ticker']))
+						// {
+						// 	$arr_tickers = \DB::table('tickers')
+						//	->where('ticker_name', $idata['ticker'])
+						//	->where('country_id', $idata['country_id'])
+						//	->where('market_id', $idata['market_id'])
+						//	->first();
+						//	if($arr_tickers){
+						//	$ticker_id = $arr_tickers->id;
+						//	} else {
+						//	$TK = new \App\Models\Tickers();
+						//	$TK->ticker_name = $idata['ticker'];
+						//	$TK->country_id = $idata['country_id'];
+						//	$TK->market_id = $idata['market_id'];
+						//	$TK->ticker_type = 1;
+						//	$TK->save();
+						//	$ticker_id = $TK->id;
+						//	}
+						// 	$idata['ticker_id'] = $ticker_id;
+						// }
+
+						// $idata['benchmark'] = ($data[$fields['benchmark']] == "#N/A N/A" || !isset($data[$fields['benchmark']]) || empty($data[$fields['benchmark']])) ? 0 : 1;
+						// $idata['benchmark_family'] = ($data[$fields['benchmark']] == "#N/A N/A" || !isset($data[$fields['benchmark']])) ? '' : $data[$fields['benchmark']];
+						// $idata['cpn'] = ($data[$fields['cpn']] == "#N/A N/A" || !isset($data[$fields['cpn']])) ? '' : $data[$fields['cpn']];
+						// $idata['security_name'] = ($data[$fields['security_name']] == "#N/A N/A" || !isset($data[$fields['security_name']])) ? '' : $data[$fields['security_name']];
+						// $idata['maturity_date'] =  '0000-00-00';
+						// if(isset($data[$fields['maturity']]) && !empty($data[$fields['maturity']])){
+						// 	$arr_date = explode("/", $data[$fields['maturity']]);
+						// 	if($arr_date[0] < 10){
+						// 		$month = $arr_date[0];
+						// 	} else {
+						// 		$month = $arr_date[0];
+						// 	}
+						// 	if($arr_date[1] < 10){
+						// 		$date = $arr_date[1];
+						// 	} else {
+						// 		$date = $arr_date[1];
+						// 	}
+						// 	$full_date = $arr_date[2]."-".$date."-".$month;
+						// 	$idata['maturity_date'] = $full_date;
+						// }
 
 						\DB::enableQueryLog();
 
+						
 						if (!empty($idata) && is_array($idata))
 						{
 
-							$security = Securities::where("CUSIP",$idata['CUSIP'])
-							            ->where("market_id",$idata['market_id'])->first();
+							$security = Securities::where("CUSIP",$idata['CUSIP'])->first();
 							            // ->where("created","<=", $created_date)->first();
 							if($security){
 								$security_id = $security->id;
 								//update if date less then "created","<=", $created_date
 								if($security->created <= $created_date){
-									$security_data = Securities::where('id', $security->id)
-														   ->update($idata);
-								}
-							} else {
-								// new security create here
-								$security_el = new Securities;
-								$create_security = $security_el->create($idata);
-								$security_id = $create_security->id;
+									$security_data = Securities::where('id', $security->id)->update($idata);
 							}
+								
+								$market_id = $security->market_id;
+								
 							$hdata['security_id'] 	= $security_id;
-							if ($idata['market_id'] == 5) 
+								$hdata['sp_rating_id']	= $security->sp_rating_id;
+								$hdata['current_oecd_member_cor_class'] = $security->current_oecd_member_cor_class;
+								if ($market_id == 5) 
 							{
 
 								$hdata['DUR_ADJ_MID'] 	= $idata['dur_adj_mid'];
@@ -442,12 +454,23 @@ fa fa-check-square-o'></i></a>";
 									$histotry_el->create($hdata);
 								}
 							}
+							} else {
+								$newSecurityCount++;
+								// new security create here
+								// $security_el = new Securities;
+								// $create_security = $security_el->create($idata);
+								// $security_id = $create_security->id;
+								// $market_id = $create_security->market_id;
 						}
+					}
 					}
 					$bytes = ftell($file);
 					$i++;
 				}
 				fclose($file);
+				if($newSecurityCount > 0){
+					return ['status'=> 1, 'msg'=> 'Your data was inserted and <span style="font-size: 18px;color: #f60e0e;"> <b>Founded '.$newSecurityCount.' new securities</b></span>'];
+				}
 				return ['status'=> 1, 'msg'=> 'Your data was inserted'];
 			}
 		}

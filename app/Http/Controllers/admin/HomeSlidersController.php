@@ -479,7 +479,7 @@ class HomeSlidersController extends Controller
         $data['orderMax'] = null;
         $data['languages']= \App\Custom::getLanguages();
         $data['months'] = getMonths();
-        $data['graphs'] = \App\Models\Securities::where('country_id',$formObj->country_id)->pluck('security_name','id')->all();        
+        $data['graphs'] = \App\Models\Securities::where('country_id',$formObj->country_id)->pluck('security_name','id')->all();
         $data['languages']= \App\Custom::getLanguages();
         $data['graphTypes']= \App\Models\HomeSlider::getGraphTypes();
         $data['marketTypes'] = \App\Models\MarketType::getArrayList();

@@ -29,7 +29,7 @@
 								<div class="title_belt">
 			                        <h2>
 			                        	{{ $slider['title'] }}
-			                        </h2>
+		                           </h2>
 			                        <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
 			                    </div>
 			                    <div class="row">
@@ -45,7 +45,7 @@
 			                        <div class="col-md-6">
 			                            <div class="text_right" style="color:white;">
 			                            	{!! $slider['description'] !!}
-			                            </div>
+			                               </div>
 			                        </div>
 			                    </div>
 		                    </div>

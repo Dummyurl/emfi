@@ -20,9 +20,8 @@
                     </div>
                     <div class="portlet-body">
                         <div class="form-body">
-                             {!! Form::model($formObj,['method' => $method,'files' => true, 'route' => [$action_url,$action_params],'class' => 'sky-form form form-group', 'id' => 'main-frm']) !!}
-
-                            <div class="clearfix">&nbsp;</div>
+                             {!! Form::model($formObj,['method' => $method,'files' => true, 'route' => [$action_url,$action_params],'class' => 'sky-form form form-group', 'id' => 'main-frm']) !!} 
+                             <div class="clearfix">&nbsp;</div>
                             <div class="row">
                              @foreach($languages as $lng => $val)
                              <?php 
@@ -42,7 +41,7 @@
                             @endforeach
                             </div>
                             <div class="clearfix">&nbsp;</div>
-                            <div class="row">                                  
+                            <div class="row">
                                 <div class="col-md-6">
                                     <label class="control-label">Country Code<span class="required">*</span></label>
                                     {!! Form::text('country_code',null,['class' => 'form-control', 'data-required' => true]) !!}
@@ -51,7 +50,7 @@
                                     <label class="control-label">Type<span class="required">*</span></label>
                                     {!! Form::select('country_type',[1=>DEVELOPED_COUNTRY, 2=>EMERGING_COUNTRY],null,['class' => 'form-control', 'data-required' => true,]) !!}
                                 </div>
-                            </div>
+                            </div>                                  
                             <div class="clearfix">&nbsp;</div>
                             <div class="row">
                                 <div class="col-md-12">

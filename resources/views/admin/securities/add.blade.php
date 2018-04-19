@@ -43,7 +43,25 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                          <label class="control-label">Ticker<span class="required">*</span></label>
-                                        {!! Form::text('ticker',null,['class' => 'form-control', 'data-required' => true]) !!}
+                                         {!! Form::select('ticker_id',[''=>'Select Ticker']+$tickers,null,['class' => 'form-control', 'data-required' => true]) !!}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                         <label class="control-label">S&P Rating<span class="required">*</span></label>
+                                         {!! Form::select('sp_rating_id',[''=>'Select Option']+$ratings,null,['class' => 'form-control', 'data-required' => true]) !!}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                         <label class="control-label">Current OECD Member Cor Class<span class="required">*</span></label>
+                                         {!! Form::select('current_oecd_member_cor_class',[''=>'Select Option']+$oecds,null,['class' => 'form-control', 'data-required' => true]) !!}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">CPN<span class="required">*</span></label>
+                                        {!! Form::text('cpn',null,['class' => 'form-control', 'data-required' => true]) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -52,23 +70,24 @@
                                         {!! Form::text('security_name',null,['class' => 'form-control', 'data-required' => true]) !!}
                                     </div>
                                 </div>
-                                <div class="col-md-12" id="maturity_date_div" style="display: none;">
+                                <div id="maturity_date_div" style="display: none;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Display Title<span class="required">*</span></label>
+                                        {!! Form::text('display_title',null,['class' => 'form-control', 'data-required' => false]) !!}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="control-label">Maturity Date<span class="required">*</span></label>
-                                        <div class="input-group input-large date-picker input-daterange">
-                                            @php
-                                                $maturity_date = '';
-                                                if($formObj->maturity_date != '' && $formObj->maturity_date != '0000-00-00')
-                                                {
-                                                    $maturity_date = $formObj->maturity_date;
-                                                }
-                                            @endphp
-                                            <input type="text" name="maturity_date" class="form-control pick_date" value="{{ $maturity_date }}" />
+                                        <div class="input-group input-large date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
+                                            {!! Form::text('maturity_date',null,['class' => 'form-control pick_date', 'data-required' => false]) !!}
                                             <span class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </span>
                                         </div>
                                     </div>
+                                </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -81,42 +100,33 @@
                                     </div>
                                 </div>
                             </div>
-                        <div id="benchmark_div">
-                            <!--<div class="clearfix">&nbsp;</div>
-                            
-                            <div class="note note-info">
-                                <div class="row">
-                                    <div class="col-md-10" style="padding-left: 30px;">
-                                        <h4>Benchmark Details</h4>
-                                    </div>   
-                                </div>
-                            </div> -->
+                        <div id="benchmark_div" style="display: none;">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                    <label class="control-label">Benchmark</label>
+                                        <label class="control-label">Benchmark</label>
                                         {!! Form::select('benchmark_family', ['0'=>'Other Benchmark'] + $benchmark_family_list, null, ['class' => 'form-control', 'id' => 'select_benchmark']) !!}
-                                </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-12" id="new_benchmark_div" style="display: none;">
                                     <div class="form-group">
-                                    <label class="control-label">Add Benchmark</label>
-                                    {!! Form::text('new_benchmark_family',null,['class' => 'form-control', 'data-required' => false,'id'=>'new_benchmark']) !!}
+                                        <label class="control-label">Add Benchmark</label>
+                                        {!! Form::text('new_benchmark_family',null,['class' => 'form-control', 'data-required' => false,'id'=>'new_benchmark']) !!}
+                                    </div>
                                 </div>
                             </div>
-                                </div>
-                            </div>   
-                        </div>                                  
+                        </div>
+                        </div>
                             <div class="clearfix">&nbsp;</div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input type="submit" value="Save" class="btn btn-success pull-right" />
+                                    <input type="submit" value="{{$buttonText}}" class="btn btn-success pull-right" />
                                 </div>
                             </div>
                             {!! Form::close() !!}
                         </div>
                     </div>
-                </div>                 
+                </div>       
             </div>
         </div>
     </div>
@@ -127,6 +137,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+
         var formObj_market = '{{ $formObj->market_id}}';
         var benchmark = '{{ $formObj->benchmark}}';
         var benchmark_family = '{{ $formObj->benchmark_family}}';
@@ -135,22 +146,11 @@
         {
             $('#maturity_date_div').show();
         }
-        if(benchmark != 1)
+        if(benchmark == 1)
         {
-            $("#benchmark_div").hide();
+            $("#benchmark_div").show();
         }
-        /*$("#country").select2({
-                placeholder: "Search Country",
-                allowClear: true,
-                minimumInputLength: 2,
-                width: null
-        });
-        $("#market").select2({
-                placeholder: "Search Market",
-                allowClear: true,
-                minimumInputLength: 2,
-                width: null
-        });*/
+
         $('#market').on('change',function(){
             var market_val = $('#market').val();
 
@@ -175,6 +175,7 @@
                 $("#benchmark_div").hide();
             }
         });
+
         var bench = $("#select_benchmark").val();
         if(bench != '0'){
             $('#new_benchmark').attr('disabled' , true);

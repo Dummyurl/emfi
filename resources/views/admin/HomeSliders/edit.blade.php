@@ -191,6 +191,7 @@
 @endsection
 
 @section('scripts')
+
 <script type="text/javascript">
     function getBanchmarkViaCountry(country_id)
     {
@@ -388,6 +389,7 @@
                 alert('Invalid graph type !');
             }
         }
+
         $('.country').on('change',function(){
             var country_val = $('.country').val();
             if(country_val != '')
@@ -395,7 +397,6 @@
                 $('#graph_type_row').show();
                 getSecurity(country_val);
                 getBanchmarkViaCountry(country_val);
-
             }else{
                 $('#graph_type_row').hide();
                 $('.down_content').hide();
