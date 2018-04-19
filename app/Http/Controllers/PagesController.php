@@ -784,15 +784,17 @@ class PagesController extends Controller {
 
             $html ='<p> Hi,</p>';
             $html .='<p>Country name : '.$country.'</p>';
-            $html .='<p>Company name : '.$company.'</p><bt/>';
+            $html .='<p>Company name : '.$company.'</p><br/>';
+            $html .='<p>Subject : '.$subject.'</p><br/>';
             $html .='<p>'.$message.'</p><br/>';
             $html .='<p>'.ucfirst($first_name).' '.ucfirst($last_name).'</p>';
             $html .='<p>Thank you !</p>';
 
             $params["to"] = 'reports.phpdots@gmail.com';
             $params["from"] = $email;
-            $params["subject"] = $subject;
+            $params["subject"] = "EMFI: Contact Details";
             $params["body"] = $html;
+
             sendHtmlMail($params);
         }
         return ['status'=>$status, 'msg'=>$msg];
