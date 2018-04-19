@@ -33,12 +33,14 @@ class ApiController extends Controller
         $relvalCreditEquity = $request->get("relvalCreditEquity");
         $relval_chart = callCustomSP('CALL select_relval_chart_data('.$relvalCreditEquity.',"'.$relvalMonth.'")');
 
+
+
         if($relvalMonth == date("Y-m-d"))
         {
             if(empty($relval_chart))
             {
                 $relvalMonth = \App\Models\Securities::max("created");
-                $relval_chart = callCustomSP('CALL select_relval_chart_data('.$relvalCreditEquity.',"'.$relvalMonth.'")');
+                $relval_chart = callCustomSP('CALL select_relval_chart_data('.$relvalCreditEquity.',"'.$relvalMonth.'")');                
             }            
         }        
 
@@ -178,7 +180,7 @@ class ApiController extends Controller
         $benchmark_id       =  $id2;
         $price_id = $request->get("historyPrice");
         $market_id = $request->get("market_id");
-        $history_data   = "CALL Select_Historical_Data(".$id1.", ".$month_id.")";
+        $history_data   = "CALL select_security_historical_data(".$id1.", ".$month_id.")";
         $dataTemp           = callCustomSP($history_data);        
         $returnData['history_data'] = $dataTemp;
         $returnData['benchmark_history_data'] = [];
@@ -191,7 +193,7 @@ class ApiController extends Controller
                 
         if($benchmark_id > 0)
         {
-            $history_data   = "CALL Select_Historical_Data(".$benchmark_id.", ".$month_id.")";
+            $history_data   = "CALL select_security_historical_data(".$benchmark_id.", ".$month_id.")";
             $dataTemp           = callCustomSP($history_data);
             $benchmark_history_data = $dataTemp;            
             if(!empty($benchmark_history_data))
@@ -361,12 +363,12 @@ class ApiController extends Controller
             $security_id = $gainer_data[0]['id']; 
             $month_id = 12; 
             $benchmark = '';
-            $market_data  = "CALL Select_Historical_Data(".$security_id.", ".$month_id.")";
+            $market_data  = "CALL select_security_historical_data(".$security_id.", ".$month_id.")";
             $History_data = callCustomSP($market_data);
             $returnData['gainer_history_data'] = $History_data;
 
             $security_id = $gainer_data[0]['id'];
-            $banchmark_data  = "CALL Select_banchmark(".$security_id.")";
+            $banchmark_data  = "CALL select_security_banchmark(".$security_id.")";
             $banchmark_data_arr = callCustomSP($banchmark_data);
             $returnData['arr_banchmark'] = $banchmark_data_arr;
         }
@@ -376,7 +378,7 @@ class ApiController extends Controller
         $returnData['top_loser'] = $loser_data;
         if(isset($loser_data[0])){
             $security_id = $loser_data[0]['id']; $month_id = 12; $benchmark = '';
-            $market_data  = "CALL Select_Historical_Data(".$security_id.", ".$month_id.")";
+            $market_data  = "CALL select_security_historical_data(".$security_id.", ".$month_id.")";
             $History_data = callCustomSP($market_data);
             $returnData['loser_history_data'] = $History_data;
         }
@@ -393,7 +395,7 @@ class ApiController extends Controller
         $price_id = $request->get("price_id");
         $market_id = $request->get("market_id");
 
-        $history_data   = "CALL Select_Historical_Data(".$security_id.", ".$month_id.")";
+        $history_data   = "CALL select_security_historical_data(".$security_id.", ".$month_id.")";
         $data           = callCustomSP($history_data);
         $returnData['history_data'] = $data;
 
@@ -401,7 +403,7 @@ class ApiController extends Controller
 
         if($benchmark_id > 0)
         {
-            $history_data   = "CALL Select_Historical_Data(".$benchmark_id.", ".$month_id.")";
+            $history_data   = "CALL select_security_historical_data(".$benchmark_id.", ".$month_id.")";
             $data           = callCustomSP($history_data);
             $benchmark_history_data = $data;            
 
@@ -491,7 +493,7 @@ class ApiController extends Controller
             }
         }    
 
-        $banchmark_data     = "CALL Select_banchmark(".$security_id.")";
+        $banchmark_data     = "CALL select_security_banchmark(".$security_id.")";
         $banchmark_data_arr = callCustomSP($banchmark_data);
         $returnData['arr_banchmark'] = $banchmark_data_arr;
 
@@ -516,7 +518,7 @@ class ApiController extends Controller
 
         if($benchmark_id > 0)
         {
-            $history_data   = "CALL Select_Historical_Data(".$benchmark_id.", ".$month_id.")";
+            $history_data   = "CALL select_security_historical_data(".$benchmark_id.", ".$month_id.")";
             $dataTemp           = callCustomSP($history_data);
             $benchmark_history_data = $dataTemp;            
 
@@ -632,7 +634,7 @@ class ApiController extends Controller
 
         // $month_id = "2018-03-24";
 
-        $history_data   = "CALL select_bond_scatter_data(".$country.", '".$month_id."',".$tickerType.")";
+        $history_data   = "CALL select_counrty_yield_curve_bond_data(".$country.", '".$month_id."',".$tickerType.")";
         $history_data  = callCustomSP($history_data);
         $rows = [];
 
@@ -686,7 +688,7 @@ class ApiController extends Controller
 
         if($benchmark_id > 0)
         {
-            $history_data   = "CALL select_bond_scatter_data(".$benchmark_id.", '".$month_id."',".$tid.")";
+            $history_data   = "CALL select_counrty_yield_curve_bond_data(".$benchmark_id.", '".$month_id."',".$tid.")";
             $dataTemp           = callCustomSP($history_data);
             $benchmark_history_data = $dataTemp;            
 

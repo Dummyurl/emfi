@@ -492,9 +492,19 @@ $(document).ready(function() {
        $(".market-chart-title-2").html(global_secure_id_2_text);
        generateLineGraph2();
        
-       $('html, body').animate({
-                scrollTop: $("#secondChartPart").offset().top
-       }, 600);
+
+        if(is_first == 1)
+        {
+            // do nothing
+        }
+        else
+        {
+           $('html, body').animate({
+                    scrollTop: $("#secondChartPart").offset().top
+           }, 600);
+        }
+
+        is_first++;       
     });
 
     $(document).on("click",".market-action",function(){

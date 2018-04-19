@@ -136,7 +136,7 @@ class PagesController extends Controller {
             abort(404);
         }
 
-        $data['market_boxes'] = callCustomSP('CALL Select_economics_country(' . $data['countryObj']->id . ')');
+        $data['market_boxes'] = callCustomSP('CALL select_economics_country(' . $data['countryObj']->id . ')');
         $bond_data = callCustomSP('CALL select_economic_bond(' . $data['countryObj']->id . ')');
         $data['countries'] = Country::where("country_type",2)->orderBy("title")->get();
         $data['bond_data'] = [];
@@ -192,7 +192,7 @@ class PagesController extends Controller {
 	    app()->setLocale($locale);
         
         $data['last_update_date'] = getLastUpdateDate();
-        $treeMapData = callCustomSP('CALL select_tree_map_data(0)');
+        $treeMapData = callCustomSP('CALL select_analyzer_tree_map_data(0)');
         $data['treeMap'] = [];
 
         $equities = [];
@@ -216,7 +216,7 @@ class PagesController extends Controller {
 
         $default_security_id1 = 0;
         $default_security_id2 = 0;        
-        $treeMapData_default = callCustomSP('CALL select_tree_map_data(1)');
+        $treeMapData_default = callCustomSP('CALL select_analyzer_tree_map_data(1)');
 
         if(isset($treeMapData_default[0]) && !empty(($treeMapData_default[0])))
         {
@@ -342,13 +342,13 @@ class PagesController extends Controller {
         $chart_data['options']['option_period']     = $slider->option_period;
         $chart_data['options']['option_prices']     = $slider->option_prices;
 
-        $SP_data = "CALL Select_Historical_Data(".$security_id.", ".$month_id.")";
+        $SP_data = "CALL select_security_historical_data(".$security_id.", ".$month_id.")";
         $history_data = callCustomSP($SP_data);
         $chart_data['history_data'] = $history_data;
         $chart_data['benchmark_history_data'] = [];
         if($benchmark_id > 0)
         {
-            $history_data = "CALL Select_Historical_Data(".$benchmark_id.", ".$month_id.")";
+            $history_data = "CALL select_security_historical_data(".$benchmark_id.", ".$month_id.")";
             $data           = callCustomSP($history_data);
             $benchmark_history_data = $data;
             if(!empty($benchmark_history_data))
@@ -421,7 +421,7 @@ class PagesController extends Controller {
 
         $month_id =  date("Y-m-d", strtotime("-".$month_id." months"));
         // $month_id = '2017-04-07'; 
-        $history_data   = "CALL select_bond_scatter_data(".$country.", '".$month_id."',".$tickerType.")";
+        $history_data   = "CALL select_counrty_yield_curve_bond_data(".$country.", '".$month_id."',".$tickerType.")";
         $history_data  = callCustomSP($history_data);
         $rows = [];
         $i = 0;
@@ -463,7 +463,7 @@ class PagesController extends Controller {
         $data['benchmark_history_data'] = [];
         if($benchmark_id > 0)
         {
-            $history_data   = "CALL select_bond_scatter_data(".$benchmark_id.", '".$month_id."',".$tid.")";
+            $history_data   = "CALL select_counrty_yield_curve_bond_data(".$benchmark_id.", '".$month_id."',".$tid.")";
             $dataTemp           = callCustomSP($history_data);
             $benchmark_history_data = $dataTemp;
             if(true)

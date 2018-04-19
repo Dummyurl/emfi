@@ -20,7 +20,7 @@
                 </div>
             </div>
         </div>
-        <div id="geo-chart" style="width: 100%; height: 1000px;"></div>
+        <div id="geo-chart" style="width: 100%; height: 600px;"></div>
   </div>
 </section>  	
 @stop

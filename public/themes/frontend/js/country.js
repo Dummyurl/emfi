@@ -33,16 +33,22 @@ function drawChart(country_data)
 
    	var data = new google.visualization.DataTable();
    	data.addColumn('string', 'Country');
-   	data.addColumn('number', "Market Change");    
+   	data.addColumn('number', "Daily Percentage Change");    
 
 	for(var i in country_data)
 	{
-		data.addRow([{v: country_data[i].slug, f:country_data[i].title}, parseFloat(country_data[i].avg_percentage_change)]);
+		data.addRow
+        (
+            [
+                {v: country_data[i].slug, f:country_data[i].title}, 
+                {v: parseFloat(country_data[i].avg_percentage_change), f:parseFloat(country_data[i].avg_percentage_change)+"%"}                
+            ]);
 	}	
 
 	var options = 
     {
-        region: '019'
+        region: '019',
+        colorAxis: {colors: ['#f00', '#0d0']}
     };
 
 	var chart = new google.visualization.GeoChart(document.getElementById('geo-chart'));

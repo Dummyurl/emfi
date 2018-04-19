@@ -358,7 +358,7 @@ function drawRelvalChart(data_values)
     {
         data.addColumn('number', '');
         data.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
-        data.addColumn({type: 'string', role: 'annotation', 'p': {'html': true}});
+        // data.addColumn({type: 'string', role: 'annotation', 'p': {'html': true}});
     }    
 
     for(var i in data_values)
@@ -375,7 +375,7 @@ function drawRelvalChart(data_values)
             var html = '<p style="white-space: nowrap;padding: 3px;"><b>'+data_values[i][j]['country_title']+'</b><br />'+i+', '+parseFloat(data_values[i][j]['price'])+'</p>';    
             prices.push(html);
             var html = data_values[i][j]['country_code'];
-            prices.push(html);
+            // prices.push(html);
             cnt++;
         }  
 
@@ -383,7 +383,7 @@ function drawRelvalChart(data_values)
         {
             prices.push(null);            
             prices.push('');
-            prices.push('');
+            // prices.push('');
         }
 
         data.addRow(prices);
