@@ -234,6 +234,7 @@ class PagesController extends Controller {
     }    
 
     public function market(Request $request, $type = '') {
+
         $main_categories = [
             "equities" => 1,
             "currencies" => 2,
@@ -263,7 +264,35 @@ class PagesController extends Controller {
         // dd($data['market_boxes']);
 
         $data['last_update_date'] = getLastUpdateDate();
-        return view('market', $data);
+
+        if(!empty($type))
+        {
+            return view('market', $data);
+        }
+        else
+        {
+            $treeMapData = callCustomSP('CALL select_analyzer_tree_map_data(0)');
+            
+            $equities = [];
+            $credits = [];
+            foreach($treeMapData as $r)
+            {
+                if($r['market_id'] == 5)
+                {
+                    $credits['countries'][$r['country']]['title'] = $r['country_name'];
+                    $credits['countries'][$r['country']]['records'][] = ['id' => $r['id'],'security_name' => $r['security_name'],'data' => $r];
+                }
+                else
+                {
+                    $equities['countries'][$r['country']]['title'] = $r['country_name'];
+                    $equities['countries'][$r['country']]['records'][] = ['id' => $r['id'],'security_name' => $r['security_name'],'data' => $r];
+                }
+            }
+
+            $data['equities'] = $equities;
+            $data['credits'] = $credits;            
+            return view('marketDefault', $data);
+        }
     }
 
     public function terms_of_uses() {
