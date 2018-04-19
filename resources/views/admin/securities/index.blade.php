@@ -17,6 +17,9 @@
                     <div class="caption">
                         <i class="fa fa-list"></i>{{ $page_title }}    
                     </div>
+                    @if($btnAdd)
+                        <a class="btn btn-default pull-right btn-sm mTop5" href="{{ route('securities.create') }}">Add New</a>
+                    @endif 
                 </div>
                 <div class="portlet-body">                    
                         <table class="table table-bordered table-striped table-condensed flip-content" id="server-side-datatables">

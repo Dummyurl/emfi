@@ -55,6 +55,7 @@ class SecurityController extends Controller
         $data['page_title'] = "Manage Securities";
         $data['MarketType'] = MarketType::getArrayList();  
         $data['Countries'] = Country::getCountryList();
+        $data['btnAdd'] = \App\Models\Admin::isAccess(\App\Models\Admin::$ADD_SECURITY);
 
         if($request->get("changeDefault") > 0)
         {
@@ -164,7 +165,29 @@ class SecurityController extends Controller
      */
     public function create()
     {
-        //
+        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$ADD_SECURITY);
+        
+        if($checkrights) 
+        {
+            return $checkrights;
+        }
+        
+        $data = array();
+        $data['formObj'] = $this->modelObj;
+        $data['page_title'] = "Add ".$this->module;
+        $data['action_url'] = $this->moduleRouteText.".store";
+        $data['action_params'] = 0;
+        $data['buttonText'] = "Save";
+        $data["method"] = "POST"; 
+        $data['countries'] = Country::getCountryList();
+        $data['markets'] = \App\Models\MarketType::pluck('market_name','id')->all();
+        $data['tickers'] = \App\Models\Tickers::pluck('ticker_name','id')->all();
+        $data['ratings'] = \DB::table('sp_rating')->pluck('sp_name','id')->all();
+        $data['oecds'] = \App\Models\Securities::getCurrentOECD();
+        $data['benchmark_family_list'] = Securities::where('benchmark_family', "!=", "")
+        ->groupBy('benchmark_family')->pluck("benchmark_family","benchmark_family")->all();
+
+        return view($this->moduleViewName.'.add', $data);
     }
 
     /**
@@ -175,7 +198,146 @@ class SecurityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$ADD_SECURITY);
+        
+        if($checkrights) 
+        {
+            return $checkrights;
+        }
+
+        $status = 1;
+        $msg = $this->addMsg;
+        $data = array();
+        $oecds = array_keys(\App\Models\Securities::getCurrentOECD());
+        $rules = [
+                'CUSIP.required'=>'CUSIP is required !',
+                'CUSIP.unique'=>'CUSIP is already exists !',
+                ];
+        $input = array_map('trim', $request->all());
+        $validator = Validator::make($input, [
+            'country_id' => 'required|exists:'.TBL_COUNTRY.',id',
+            'market_id' => 'required|exists:'.TBL_MARKETS.',id',
+            'CUSIP' => 'required|min:2|unique:'.TBL_SECURITY.',CUSIP',
+            'ticker_id' => 'required|exists:tickers,id',
+            'cpn' => 'required',
+            'current_oecd_member_cor_class' => ['required',Rule::in($oecds)],
+            'sp_rating_id' => 'required|exists:sp_rating,id',       
+            'security_name' => 'required',
+            'benchmark' => Rule::in([1,0]),
+        ],$rules);
+        
+        // check validations
+        if ($validator->fails())         
+        {
+            $messages = $validator->messages();
+            
+            $status = 0;
+            $msg = "";
+            
+            foreach ($messages->all() as $message) 
+            {
+                $msg .= $message . "<br />";
+            }
+        }
+        else
+        {
+            $security = new Securities();
+
+            $market_id = $request->get('market_id');
+            $country_id = $request->get('country_id');
+            $ticker_id = $request->get('ticker_id');
+            $sp_rating_id = $request->get('sp_rating_id');
+            $benchmark = $request->get('benchmark');
+            $new_benchmark = $request->get('new_benchmark_family');
+            $select_benchmark = $request->get('benchmark_family');
+            $maturity_date = $request->get('maturity_date');
+            $display_title = $request->get('display_title');
+            $benchmark_family = null;
+            if($market_id == 5)
+            {
+                if(empty($display_title))
+                {
+                    $status = 0;
+                    $msg = 'Display title is required !';
+                    return ['status' => $status,'msg' => $msg, 'data' => $data];
+                }
+            }
+            if($benchmark == 1)
+            {
+                if(empty($new_benchmark) && empty($select_benchmark)){
+                    $status = 0;
+                    $msg = 'please enter at least one benchmark!';
+                    return ['status' => $status, 'msg'=>$msg];
+                }
+                if (!empty($new_benchmark) && !empty($select_benchmark)) {
+                    $status = 0;
+                    $msg = 'Please enter only one benchmark';
+                    return ['status' => $status, 'msg'=>$msg];
+                }
+
+                if (isset($new_benchmark) && !empty($new_benchmark)) {
+                    $benchmark_family = $new_benchmark;
+                }
+                elseif (isset($select_benchmark) && !empty($select_benchmark)) {
+                    $benchmark_family = $select_benchmark;
+                }
+            }
+            if($market_id != 5)
+            {
+                $maturity_date = null;
+                $display_title = null;
+            }
+
+            $security->CUSIP = $request->get('CUSIP');
+            $security->market_id = $market_id;
+            $security->country_id = $country_id;
+            $security->ticker_id = $ticker_id;
+            $security->sp_rating_id = $sp_rating_id;
+
+            $security->current_oecd_member_cor_class = $request->get('current_oecd_member_cor_class');
+            $security->cpn = $request->get('cpn');
+            $security->security_name = $request->get('security_name');
+            $security->display_title = $display_title;
+            $security->maturity_date = $maturity_date;
+            $security->benchmark_family = $benchmark_family;
+            $security->benchmark = $benchmark;
+            
+            $rating_row = \DB::table('sp_rating')->find($sp_rating_id);
+            
+            if($rating_row){
+                $security->rtg_sp =$rating_row->sp_name;
+                $security->save();
+            }
+            $ticker_row = \App\Models\Tickers::find($ticker_id);
+            
+            if($ticker_row){
+                $security->ticker =$ticker_row->ticker_name;
+                $security->save();
+            }
+
+            $country = \App\Models\Country::find($country_id);
+            
+            if($country){
+                $security->country =$country->country_code;
+                $security->save();
+            }
+            $security->save();
+            $id = $security->id;
+            //store logs detail
+            $params=array();
+            $adminAction = new AdminAction();
+            
+            $params['adminuserid']  = \Auth::guard('admins')->id();
+            $params['actionid']     = $adminAction->ADD_SECURITY;
+            $params['actionvalue']  = $id;
+            $params['remark']       = "Add Security::".$id;
+
+            $logs=\App\Models\AdminLog::writeadminlog($params);
+
+            session()->flash('success_message', $msg);
+
+        }
+        return ['status' => $status,'msg' => $msg, 'data' => $data]; 
     }
 
     /**
@@ -221,11 +383,14 @@ class SecurityController extends Controller
         $data['method'] = "PUT";
         $data['countries'] = Country::getCountryList();
         $data['markets'] = \App\Models\MarketType::pluck('market_name','id')->all();
+        $data['tickers'] = \App\Models\Tickers::pluck('ticker_name','id')->all();
+        $data['ratings'] = \DB::table('sp_rating')->pluck('sp_name','id')->all();
+        $data['oecds'] = \App\Models\Securities::getCurrentOECD();
         $data['benchmark_family_list'] = Securities::where('benchmark_family', "!=", "")
                                                    ->groupBy('benchmark_family')
                                                    ->pluck("benchmark_family","benchmark_family")->all();
 
-        return view($this->moduleViewName.'.edit', $data);
+        return view($this->moduleViewName.'.add', $data);
     }
 
     /**
@@ -246,6 +411,7 @@ class SecurityController extends Controller
         $status = 1;
         $msg = 'Security has been updated successfully !';
         $data = array();        
+        $oecds = array_keys(\App\Models\Securities::getCurrentOECD());
         $model = Securities::find($id);
         // check validations
         if(!$model)
@@ -254,17 +420,22 @@ class SecurityController extends Controller
             $msg = "Record not found !";
             return ['status' => $status,'msg' => $msg, 'data' => $data]; 
         }
-
-        $validator = Validator::make($request->all(), [
+        $rules = [
+                'CUSIP.required'=>'CUSIP is required !',
+                'CUSIP.unique'=>'CUSIP is already exists !',
+                ];
+        $input = array_map('trim', $request->all());
+        $validator = Validator::make($input, [
             'country_id' => 'required|exists:'.TBL_COUNTRY.',id',
             'market_id' => 'required|exists:'.TBL_MARKETS.',id',
-            'CUSIP' => 'required|min:2',
-            'ticker' => 'required',
+            'CUSIP' => 'required|min:2|unique:'.TBL_SECURITY.',CUSIP,'.$id,
+            'ticker_id' => 'required|exists:tickers,id',
             'cpn' => 'required',
-            'security_name' => 'required',       
-            'display_title' => 'required',       
+            'current_oecd_member_cor_class' => ['required',Rule::in($oecds)],
+            'sp_rating_id' => 'required|exists:sp_rating,id',       
+            'security_name' => 'required',
             'benchmark' => Rule::in([1,0]),
-        ]);
+        ],$rules);
 
         if ($validator->fails()) 
         {
@@ -280,11 +451,26 @@ class SecurityController extends Controller
         }         
         else
         {
+            $market_id = $request->get('market_id');
+            $country_id = $request->get('country_id');
+            $ticker_id = $request->get('ticker_id');
+            $sp_rating_id = $request->get('sp_rating_id');
             $benchmark = $request->get('benchmark');
             $new_benchmark = $request->get('new_benchmark_family');
             $select_benchmark = $request->get('benchmark_family');
+            $maturity_date = $request->get('maturity_date');
+            $display_title = $request->get('display_title');
             $benchmark_family = null;
-
+            
+            if($market_id == 5)
+            {
+                if(empty($display_title))
+                {
+                    $status = 0;
+                    $msg = 'Display title is required !';
+                    return ['status' => $status,'msg' => $msg, 'data' => $data];
+                }
+            }
             if($benchmark == 1)
             {
                 if(empty($new_benchmark) && empty($select_benchmark)){
@@ -305,25 +491,43 @@ class SecurityController extends Controller
                     $benchmark_family = $select_benchmark;
                 }
             }
-           
-            $input = $request->all();
-            $model->update($input);
-            
-            $market_id = $request->get('market_id');
             if($market_id != 5)
             {
-                $model->maturity_date = null;
+                $maturity_date = null;
+                $display_title = null;
             }
+            $model->CUSIP = $request->get('CUSIP');
+            $model->market_id = $market_id;
+            $model->country_id = $country_id;
+            $model->ticker_id = $ticker_id;
+            $model->sp_rating_id = $sp_rating_id;
+            $model->current_oecd_member_cor_class = $request->get('current_oecd_member_cor_class');
+            $model->cpn = $request->get('cpn');
+            $model->security_name = $request->get('security_name');
+            $model->display_title = $display_title;
+            $model->maturity_date = $maturity_date;
             $model->benchmark_family = $benchmark_family;
             $model->benchmark = $benchmark;
+
+            $rating_row = \DB::table('sp_rating')->find($sp_rating_id);
             
-            $country_id = $request->get('country_id');
+            if($rating_row){
+                $model->rtg_sp =$rating_row->sp_name;
+                $model->save();
+            }
+            $ticker_row = \App\Models\Tickers::find($ticker_id);
+            
+            if($ticker_row){
+                $model->ticker =$ticker_row->ticker_name;
+                $model->save();
+            }
             $country = \App\Models\Country::find($country_id);
             
             if($country){
                 $model->country =$country->country_code;
                 $model->save();
-            }           
+            }
+            $model->save();
 
             //store logs detail
                 $params=array();

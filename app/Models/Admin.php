@@ -122,6 +122,7 @@ class Admin extends Authenticatable
 
     public static $LIST_SECURITY = 73;
     public static $EDIT_SECURITY = 74;
+    public static $ADD_SECURITY = 74;
 
 
     /**
