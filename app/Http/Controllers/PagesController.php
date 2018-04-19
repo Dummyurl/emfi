@@ -745,5 +745,56 @@ class PagesController extends Controller {
 
         return $chart_data;
     }
+    public function contact_form_data(Request $request)
+    {
+        $status = 1;
+        $msg = 'Email has been sent successfully !';
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|min:2',
+            'last_name' => 'required|min:2',
+            'country' => 'required|min:2',
+            'email' => 'required|email',
+            'company' => 'required|min:2',
+            'subject' => 'required|min:2',
+            'message' => 'required|min:5',
+        ]);
+        
+        // check validations
+        if ($validator->fails())
+        {
+            $messages = $validator->messages();
+            
+            $status = 0;
+            $msg = "";
+            
+            foreach ($messages->all() as $message) 
+            {
+                $msg .= $message . "<br />";
+            }
+        }
+        else
+        {
+            $first_name = $request->get('first_name');
+            $last_name = $request->get('last_name');
+            $country = $request->get('country');
+            $email = $request->get('email');
+            $company = $request->get('company');
+            $subject = $request->get('subject');
+            $message = $request->get('message');
 
+            $html ='<p> Hi,</p>';
+            $html .='<p>Country name : '.$country.'</p>';
+            $html .='<p>Company name : '.$company.'</p><bt/>';
+            $html .='<p>'.$message.'</p><br/>';
+            $html .='<p>'.ucfirst($first_name).' '.ucfirst($last_name).'</p>';
+            $html .='<p>Thank you !</p>';
+
+            $params["to"] = 'reports.phpdots@gmail.com';
+            $params["from"] = $email;
+            $params["subject"] = $subject;
+            $params["body"] = $html;
+            sendHtmlMail($params);
+        }
+        return ['status'=>$status, 'msg'=>$msg];
+    }
 }

@@ -16,7 +16,7 @@
                                     <table width="100%" cellpadding="0" cellspacing="0">
                                         <tr>
                                             <td style="height: 45px; padding: 0 20px; background: #A8A8AA; border-bottom: solid 1px #dcdcdc; border-top: solid 1px #dcdcdc; font-family: Tahoma, Arial, sans-serif; font-size: 26px; color: #5998cb;">
-                                                <img src="{{ asset('images/logo.png') }}" style="width: 250px;"/>                        
+                                                <img src="{{ asset('themes/frontend/images/emfi-logo-dark.png') }}" style="width: 50px; height: 50px;"/>                        
                                             </td>
                                         </tr>
                                         <tr>
