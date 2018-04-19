@@ -610,7 +610,7 @@ left:0;
 	margin:50px 0;
 }
 
-.area_chart, .scatter_chart, #curve_chart2, #curve_chart, .curve_chart {
+.area_chart, .scatter_chart, #curve_chart2, #curve_chart, .curve_chart, #curve_chart23{
 	background-color:rgba(5, 27, 52, 1);
 }
 .area_chart *, .scatter_chart *, #curve_chart2 *, #curve_chart *, .bar_chart *, .curve_chart *{

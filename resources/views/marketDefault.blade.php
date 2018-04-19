@@ -10,9 +10,9 @@
                     <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
                 </div>
                 <div class="col-md-6 select_r">
-                    <select name="markets" id="markets">                        
-                        @foreach($markets as $val => $label)
+                    <select name="markets" id="markets">    
                         <option value="" selected="">Select Market</option>
+                        @foreach($markets as $val => $label)                        
                         <option data-url="{{ url(getMarketUrls($val)) }}" value="{{ $val }}">
                             {{ ucwords(strtolower($label)) }}
                         </option>
