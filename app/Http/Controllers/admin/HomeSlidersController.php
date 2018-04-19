@@ -919,7 +919,7 @@ class HomeSlidersController extends Controller
         $security_id = $request->get("security_id");
         $arr_security = array();
         if(!empty($security_id)){
-                $banchmark_data  = "CALL Select_banchmark(".$security_id.")";
+                $banchmark_data  = "CALL select_security_banchmark(".$security_id.")";
                 $banchmark_data_arr = callCustomSP($banchmark_data);
                 $arr_security['banchmark'] = $banchmark_data_arr;
                 $sql = "SELECT market_id FROM securities WHERE id = ".$security_id;
