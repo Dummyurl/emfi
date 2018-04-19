@@ -432,7 +432,8 @@ function drawRegression(elementID, data_values)
             var html ='';
             if(data_values.regression_chart[i]['is_recent'] == 1)
             {
-                $style = 'point {fill-color: #FF0000;zIndex: 99999;size: 18}';
+                // $style = 'point {fill-color: #FF0000;zIndex: 99999;size: 18}';
+                $style = 'point {fill-color: #FF0000;}';
             }
 
             formatedData.push(

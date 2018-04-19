@@ -20,6 +20,7 @@ Route::post('market/get-market-data/{market_id}', 'ApiController@TopGainer');
 // Route::post('economics/get-market-data/history/{country}', 'ApiController@getEconomicsHistoryChart');
 Route::post('economics/get-historical-bond-data/{country}', 'ApiController@getEconomicsHistoryChart');
 Route::post('economics/get-scatter-data', 'ApiController@getEconomicsScatterChart');
+Route::post('economics/get-country-data/{market_id}', 'ApiController@getEconomicsGeoChart');
 Route::get('get-last-date', 'ApiController@getLastUploadDate');
 Route::post('analyzer/get-area-chart', 'ApiController@getAreaChart');
 Route::post('analyzer/get-relval-chart', 'ApiController@getRelValData');

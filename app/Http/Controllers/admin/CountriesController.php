@@ -44,7 +44,6 @@ class CountriesController extends Controller
      */
     public function index()
     {
-         
         $checkrights = \App\Models\Admin::checkPermission(\App\Models\Admin::$LIST_COUNTRIES);
         
         if($checkrights) 
@@ -212,8 +211,8 @@ class CountriesController extends Controller
         $data['buttonText'] = "Update";
         $data['action_url'] = $this->moduleRouteText.".update";
         $data['action_params'] = $formObj->id;
-        $data['languages']= \App\Custom::getLanguages();
         $data['method'] = "PUT";
+        $data['languages']= \App\Custom::getLanguages();
 
         return view($this->moduleViewName.'.add', $data);
     }
@@ -239,7 +238,7 @@ class CountriesController extends Controller
         $status = 1;
         $msg = $this->updateMsg;
         $data = array();        
-     
+        
         $rules = [
             'title.en.min'=>'English title is min 2 character!',
             'title.en.required'=>'English title is required!',
@@ -289,7 +288,7 @@ class CountriesController extends Controller
                 $model->translateOrNew($locale)->country_name = $val;
             }
             $model->save();
-            
+
             $country_type = $request->get('country_type');
             if($country_type){
                 \DB::table('securities')->where('country_id', $id)->update(['country_type' => $country_type]);
@@ -385,6 +384,7 @@ class CountriesController extends Controller
                         'currentRoute' => $this->moduleRouteText,
                         'row' => $row,                             
                         'isEdit' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_COUNTRIES),
+                                                     
                     ]
                     )->render();
             })

@@ -7,14 +7,14 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 class Country extends Model
 {
-    use \Dimsav\Translatable\Translatable;
     use Sluggable;
+    use \Dimsav\Translatable\Translatable;
 
     protected $fillable = ['title','country_code', 'country_type','slug'];
     protected $table = TBL_COUNTRY;
 
     public $translatedAttributes = ['country_name'];
-    
+
     public function sluggable()
     {
         return 

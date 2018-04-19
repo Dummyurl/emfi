@@ -358,6 +358,7 @@ function drawRelvalChart(data_values)
     {
         data.addColumn('number', '');
         data.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
+        data.addColumn({type: 'string', role: 'annotation', 'p': {'html': true}});
     }    
 
     for(var i in data_values)
@@ -373,12 +374,15 @@ function drawRelvalChart(data_values)
             prices.push(parseFloat(data_values[i][j]['price']));                     
             var html = '<p style="white-space: nowrap;padding: 3px;"><b>'+data_values[i][j]['country_title']+'</b><br />'+i+', '+parseFloat(data_values[i][j]['price'])+'</p>';    
             prices.push(html);
+            var html = data_values[i][j]['country_code'];
+            prices.push(html);
             cnt++;
         }  
 
         for(k = cnt+1;k<=1000;k++)
         {
             prices.push(null);            
+            prices.push('');
             prices.push('');
         }
 
@@ -421,11 +425,17 @@ function drawRelvalChart(data_values)
         legendTextStyle: {color: '#ccc'},
         colors: ['white'],
         pointSize : 10,
-        hAxis: {
+        hAxis: 
+        {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "#39536b"},
+            annotations: 
+            {
+                color: '#337ab7'
+            }    
         },
-        vAxis: {
+        vAxis: 
+        {
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
             baselineColor: {color: "#39536b"}

@@ -66,7 +66,7 @@ class PagesController extends Controller {
             $slider_rows[$i]['country_id'] = $slider->country_id;
             $i++;
         }   
-        
+
         $data['sliders'] = $slider_rows;
         $data['last_update_date'] = getLastUpdateDate();
         return view('welcome', $data);
@@ -119,8 +119,15 @@ class PagesController extends Controller {
 
         if (!empty($country)) {
             $defaultCountry = $country;
-        } else {
-            $defaultCountry = "venezuela";
+        } else 
+        {
+            $data = [];
+            $data['last_update_date'] = getLastUpdateDate();
+            $data['page_title'] = "EMFI: Countries";
+            $data['markets'] = MarketType::getArrayList();
+            $data['countries'] = Country::where("country_type",2)->orderBy("title")->get()->toArray();
+            $data['countries'] = json_encode($data['countries']);            
+            return view('defaultCountryPage', $data);                    
         }
 
         $data['countryObj'] = Country::where("slug", $defaultCountry)->first();
@@ -321,58 +328,8 @@ class PagesController extends Controller {
             return redirect('/');
         }
     }
-    public function contact_form_data(Request $request)
-    {
-        $status = 1;
-        $msg = 'Email has been sent successfully !';
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|min:2',
-            'last_name' => 'required|min:2',
-            'country' => 'required|min:2',
-            'email' => 'required|email',
-            'company' => 'required|min:2',
-            'subject' => 'required|min:2',
-            'message' => 'required|min:5',
-        ]);
-        
-        // check validations
-        if ($validator->fails())
-        {
-            $messages = $validator->messages();
-            
-            $status = 0;
-            $msg = "";
-            
-            foreach ($messages->all() as $message) 
-            {
-                $msg .= $message . "<br />";
-            }
-        }
-        else
-        {
-            $first_name = $request->get('first_name');
-            $last_name = $request->get('last_name');
-            $country = $request->get('country');
-            $email = $request->get('email');
-            $company = $request->get('company');
-            $subject = $request->get('subject');
-            $message = $request->get('message');
 
-            $html ='<p> Hi,</p>';
-            $html .='<p>Country name : '.$country.'</p>';
-            $html .='<p>Company name : '.$company.'</p><bt/>';
-            $html .='<p>'.$message.'</p><br/>';
-            $html .='<p>'.ucfirst($first_name).' '.ucfirst($last_name).'</p>';
-            $html .='<p>Thank you !</p>';
 
-            $params["to"] = $email;
-            $params["subject"] = $subject;
-            $params["body"] = $html;
-            // sendHtmlMail($params);
-        }
-        return ['status'=>$status, 'msg'=>$msg];
-    }
-    
     public function GetMarketHistoryData($slider){
         
         $benchmark_id   = $slider->option_banchmark;
@@ -391,7 +348,7 @@ class PagesController extends Controller {
         $chart_data['benchmark_history_data'] = [];
         if($benchmark_id > 0)
         {
-            $history_data   = "CALL Select_Historical_Data(".$benchmark_id.", ".$month_id.")";
+            $history_data = "CALL Select_Historical_Data(".$benchmark_id.", ".$month_id.")";
             $data           = callCustomSP($history_data);
             $benchmark_history_data = $data;
             if(!empty($benchmark_history_data))
@@ -463,9 +420,8 @@ class PagesController extends Controller {
         $data['options']['option_maturity'] = $slider->option_maturity;
 
         $month_id =  date("Y-m-d", strtotime("-".$month_id." months"));
-        $month_id = '2017-04-07'; 
+        // $month_id = '2017-04-07'; 
         $history_data   = "CALL select_bond_scatter_data(".$country.", '".$month_id."',".$tickerType.")";
-
         $history_data  = callCustomSP($history_data);
         $rows = [];
         $i = 0;
@@ -648,7 +604,8 @@ class PagesController extends Controller {
         $regression_chart = callCustomSP($SP_Call);
         if(!empty($regression_chart))
         {
-            $i = 0;
+            $i = 1;
+            $last_count = count($regression_chart);
             foreach($regression_chart as $key => $val)
             {
                 $regression_chart[$key]['created_format'] = date("d M Y",strtotime($regression_chart[$key]['created']));   
@@ -669,7 +626,7 @@ class PagesController extends Controller {
                     $regression_chart[$key]['main_price2'] = $regression_chart[$key]['Z_SPRD_MID2'];    
                 }    
 
-                if($i == 0)
+                if($i == $last_count)
                 $regression_chart[$key]['is_recent'] = 1;
                 else 
                 $regression_chart[$key]['is_recent'] = 0;
@@ -759,4 +716,5 @@ class PagesController extends Controller {
 
         return $chart_data;
     }
+
 }

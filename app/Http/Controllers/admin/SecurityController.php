@@ -301,26 +301,7 @@ class SecurityController extends Controller
             $security->maturity_date = $maturity_date;
             $security->benchmark_family = $benchmark_family;
             $security->benchmark = $benchmark;
-            
-            $rating_row = \DB::table('sp_rating')->find($sp_rating_id);
-            
-            if($rating_row){
-                $security->rtg_sp =$rating_row->sp_name;
-                $security->save();
-            }
-            $ticker_row = \App\Models\Tickers::find($ticker_id);
-            
-            if($ticker_row){
-                $security->ticker =$ticker_row->ticker_name;
-                $security->save();
-            }
-
-            $country = \App\Models\Country::find($country_id);
-            
-            if($country){
-                $security->country =$country->country_code;
-                $security->save();
-            }
+     
             $security->save();
             $id = $security->id;
             //store logs detail
@@ -420,6 +401,7 @@ class SecurityController extends Controller
             $msg = "Record not found !";
             return ['status' => $status,'msg' => $msg, 'data' => $data]; 
         }
+
         $rules = [
                 'CUSIP.required'=>'CUSIP is required !',
                 'CUSIP.unique'=>'CUSIP is already exists !',
@@ -448,7 +430,7 @@ class SecurityController extends Controller
             {
                 $msg .= $message . "<br />";
             }
-        }         
+        }
         else
         {
             $market_id = $request->get('market_id');
@@ -471,18 +453,20 @@ class SecurityController extends Controller
                     return ['status' => $status,'msg' => $msg, 'data' => $data];
                 }
             }
+
             if($benchmark == 1)
             {
-                if(empty($new_benchmark) && empty($select_benchmark)){
-                    $status = 0;
-                    $msg = 'please enter at least one benchmark!';
-                    return ['status' => $status, 'msg'=>$msg];
-                }
+            
+            if(empty($new_benchmark) && empty($select_benchmark)){
+                $status = 0;
+                $msg = 'please enter at least one benchmark!';
+                return ['status' => $status, 'msg'=>$msg];
+            }
                 if (!empty($new_benchmark) && !empty($select_benchmark)) {
-                    $status = 0;
-                    $msg = 'Please enter only one benchmark';
-                    return ['status' => $status, 'msg'=>$msg];
-                }
+                $status = 0;
+                $msg = 'Please enter only one benchmark';
+                return ['status' => $status, 'msg'=>$msg];
+            }
 
                 if (isset($new_benchmark) && !empty($new_benchmark)) {
                     $benchmark_family = $new_benchmark;
@@ -490,7 +474,8 @@ class SecurityController extends Controller
                 elseif (isset($select_benchmark) && !empty($select_benchmark)) {
                     $benchmark_family = $select_benchmark;
                 }
-            }
+                }
+           
             if($market_id != 5)
             {
                 $maturity_date = null;
@@ -508,26 +493,8 @@ class SecurityController extends Controller
             $model->maturity_date = $maturity_date;
             $model->benchmark_family = $benchmark_family;
             $model->benchmark = $benchmark;
-
-            $rating_row = \DB::table('sp_rating')->find($sp_rating_id);
             
-            if($rating_row){
-                $model->rtg_sp =$rating_row->sp_name;
                 $model->save();
-            }
-            $ticker_row = \App\Models\Tickers::find($ticker_id);
-            
-            if($ticker_row){
-                $model->ticker =$ticker_row->ticker_name;
-                $model->save();
-            }
-            $country = \App\Models\Country::find($country_id);
-            
-            if($country){
-                $model->country =$country->country_code;
-                $model->save();
-            }
-            $model->save();
 
             //store logs detail
                 $params=array();

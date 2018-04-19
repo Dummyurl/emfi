@@ -48,27 +48,22 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="control-label">CPN<span class="required">*</span></label>
-                                        {!! Form::text('cpn',null,['class' => 'form-control', 'data-required' => true]) !!}
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
                                         <label class="control-label">Security Name<span class="required">*</span></label>
                                         {!! Form::text('security_name',null,['class' => 'form-control', 'data-required' => true]) !!}
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="control-label">Display Title<span class="required">*</span></label>
-                                        {!! Form::text('display_title',null,['class' => 'form-control', 'data-required' => true]) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-12" id="maturity_date_div" style="display: none;">
                                     <div class="form-group">
                                         <label class="control-label">Maturity Date<span class="required">*</span></label>
-                                        <div class="input-group input-large date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
-                                            {!! Form::text('maturity_date',null,['class' => 'form-control pick_date', 'data-required' => false]) !!}
+                                        <div class="input-group input-large date-picker input-daterange">
+                                            @php
+                                                $maturity_date = '';
+                                                if($formObj->maturity_date != '' && $formObj->maturity_date != '0000-00-00')
+                                                {
+                                                    $maturity_date = $formObj->maturity_date;
+                                                }
+                                            @endphp
+                                            <input type="text" name="maturity_date" class="form-control pick_date" value="{{ $maturity_date }}" />
                                             <span class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </span>
@@ -88,7 +83,8 @@
                             </div>
                         <div id="benchmark_div">
                             <!--<div class="clearfix">&nbsp;</div>
-                             <div class="note note-info">
+                            
+                            <div class="note note-info">
                                 <div class="row">
                                     <div class="col-md-10" style="padding-left: 30px;">
                                         <h4>Benchmark Details</h4>
@@ -98,19 +94,19 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="control-label">Benchmark</label>
+                                    <label class="control-label">Benchmark</label>
                                         {!! Form::select('benchmark_family', ['0'=>'Other Benchmark'] + $benchmark_family_list, null, ['class' => 'form-control', 'id' => 'select_benchmark']) !!}
-                                    </div>
+                                </div>
                                 </div>
                                 <div class="col-md-12" id="new_benchmark_div" style="display: none;">
                                     <div class="form-group">
-                                        <label class="control-label">Add Benchmark</label>
-                                        {!! Form::text('new_benchmark_family',null,['class' => 'form-control', 'data-required' => false,'id'=>'new_benchmark']) !!}
-                                    </div>
+                                    <label class="control-label">Add Benchmark</label>
+                                    {!! Form::text('new_benchmark_family',null,['class' => 'form-control', 'data-required' => false,'id'=>'new_benchmark']) !!}
                                 </div>
                             </div>
-                        </div>
-                        </div>
+                                </div>
+                            </div>   
+                        </div>                                  
                             <div class="clearfix">&nbsp;</div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -179,7 +175,6 @@
                 $("#benchmark_div").hide();
             }
         });
-
         var bench = $("#select_benchmark").val();
         if(bench != '0'){
             $('#new_benchmark').attr('disabled' , true);

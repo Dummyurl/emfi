@@ -79,11 +79,11 @@
                     data.search_analyzer_default = $("#search-frm select[name='search_analyzer_default']").val();
                     data.search_country = $("#search-frm select[name='search_country']").val();
                 }
-            },
+            },            
             lengthMenu:
               [
-                [100,200,300,400,500],
-                [100,200,300,400,500]
+                [-1,25,50,100,200],
+                ['All',25,50,100,200]
               ],      
             "order": [[ 3, "asc" ]],
             columns: [

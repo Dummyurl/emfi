@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use \PDO;
 use Validator;
+use App\models\Country;
 
 class ApiController extends Controller
 {
@@ -78,6 +79,7 @@ class ApiController extends Controller
                 $data[$i]['country_title'] = ucwords(strtolower($r['country_title']));
                 $data[$i]['security_name'] = $r['security_name'];
                 $data[$i]['created_format'] = $r['created_format'];
+                $data[$i]['country_code'] = $r['country_code'];
                 
 
                 $i++;
@@ -86,20 +88,20 @@ class ApiController extends Controller
             $i = 0;
             foreach($data as $r)
             {
-                $finalArray[$r['category']][] = ['price' => $r['price'], 'country_title' => $r['country_title']];
+                $finalArray[$r['category']][] = ['price' => $r['price'], 'country_title' => $r['country_title'], 'country_code' => $r['country_code']];
             }       
 
 //            echo "<pre>";
 //            print_r($finalArray);
             
-            if($relvalRating == 1)
-            {                
-                ksort($finalArray);
-            }   
-            else
-            {
-                krsort($finalArray);                
-            }                       
+            // if($relvalRating == 1)
+            // {                
+            //     ksort($finalArray);
+            // }   
+            // else
+            // {
+            //     krsort($finalArray);                
+            // }                       
             
             //  $finalArray = array_reverse($finalArray);            
             //            echo "<pre>";
@@ -334,6 +336,19 @@ class ApiController extends Controller
         $data = callCustomSP('CALL select_market()');
         $r_data = json_encode($data);
         return ['status' => 1,'msg' => "OK", "data" => $r_data];
+    }
+
+    public function getEconomicsGeoChart(Request $request, $market_id)
+    {
+        $status = 1;
+        $msg = "OK";
+        $data = [];
+        
+        $data['countries'] = callCustomSP('CALL select_country_geo_chart_data('.$market_id.')');        
+        // $data['countries'] = Country::where("country_type",2)->orderBy("title")->get()->toArray();
+        // $data['countries'] = json_encode();                    
+        
+        return ['status' => $status, 'msg' => $msg, 'data' => $data];
     }
 
     public function TopGainer(Request $request, $market_id = null)
