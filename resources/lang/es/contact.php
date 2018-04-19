@@ -1,6 +1,6 @@
 <?php
 	return [
-	'contact_us'=>'CONTÁCTENOS',
+	'contact_us'=>'Contáctenos',
 	'help_you'=>'como podemos ayudarte?',
 	'any_qtn'=>"Si tiene alguna pregunta o inquietud, por favor contáctese con nosotros",
 	'first_name'=>"Nombre",
@@ -11,6 +11,6 @@
 	'subject'=>"Asunto",
 	'message'=>"Mensaje",
 	'send'=>"Enviar",
-	'at_a_glance'=>"Resumen",
+	'at_a_glance'=>"De un vistazo",
 	]; 
 ?>
