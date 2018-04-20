@@ -323,13 +323,14 @@ function drawTreetChart(data_values, elementID) {
             // minColor: '#051b34',
             // midColor: '#051b34',
             // maxColor: '#051b34',
+            legend: {position: 'none'},
             minColor: '#f00',
             midColor: '#0d0',
             maxColor: '#0d0',                        
             fontColor: 'white',
             minColorValue: 0,
             maxColorValue: 100,
-            showScale: true,
+            showScale: false,
             title: '',
             generateTooltip: showStaticTooltip
         });
@@ -388,6 +389,7 @@ function drawTreetChart(data_values, elementID) {
         
         treeObject2.draw(dataChart2, {
             
+            legend: {position: 'none'},
             // minColor: '#051b34',
             // midColor: '#051b34',
             // maxColor: '#051b34',
@@ -398,7 +400,7 @@ function drawTreetChart(data_values, elementID) {
             maxColorValue: 100,                     
             // headerHeight: 15,
             fontColor: 'white',
-            showScale: true,
+            showScale: false,
             title: '',
             generateTooltip: showStaticTooltip
         });

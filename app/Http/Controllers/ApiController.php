@@ -347,10 +347,80 @@ class ApiController extends Controller
         $data = [];
         
         $data['countries'] = callCustomSP('CALL select_country_geo_chart_data('.$market_id.')');        
-        // $data['countries'] = Country::where("country_type",2)->orderBy("title")->get()->toArray();
-        // $data['countries'] = json_encode();                    
+        
+        $rows = [];
+
+        $colors = [];
+        $values = [];
+
+        $i = 0;
+        foreach($data['countries'] as $r)
+        {
+            $values[$i] = $r['avg_percentage_change'];
+            // $colors[] = $this->getColor($r['avg_percentage_change']);
+            $i++;
+        }
+
+        sort($values);
+        
+        $i = 0;
+
+        foreach($values as $val)
+        {
+            $colors[$i] = $this->getColor($val);
+            $i++;
+        }
+
+        // echo "<pre>";
+        // print_r($values);
+        // echo "</pre>";
+
+        // sort($values);
+
+        // echo "<pre>";
+        // print_r($values);
+        // echo "</pre>";
+
+        $data['colors'] = $colors;
+        $data['values'] = $values;
         
         return ['status' => $status, 'msg' => $msg, 'data' => $data];
+    }
+
+    public function getColor($val)
+    {
+        if($val >= 0)
+        {
+            if($val > 20)
+            {
+                $val = 20;                
+            }    
+
+            $color = "#00ff00";
+            $steps = round((245*$val) / 20);
+            $steps = 245 - $steps;
+            
+            $newSteps = $steps * 3;
+
+            $newColor = adjustBrightness($color, $steps);
+        }
+        else
+        {
+            $val = abs($val);
+
+            if($val > 20)
+            {
+                $val = 20;                
+            }    
+
+            $color = "#ff0000";
+            $steps = round((245*$val) / 20);
+            $steps = 245 - $steps;
+            // $steps = $steps * 3;
+            $newColor = adjustBrightness($color, $steps);
+        }
+
+        return $newColor;
     }
 
     public function TopGainer(Request $request, $market_id = null)
@@ -395,6 +465,28 @@ class ApiController extends Controller
         $price_id = $request->get("price_id");
         $market_id = $request->get("market_id");
 
+        $from = $request->get("from");
+        $isEquity = 0;
+        $s_title = '';
+        $s_title2 = '';
+        if($from == "default_market")
+        {
+            $security = \App\Models\Securities::find($security_id);
+            if($security)
+            {      
+                $s_title = $security->security_name;
+                $market_id = $security->market_id;          
+                if($market_id != 5)
+                {
+                    $isEquity = 1;
+                    if($price_id == 3)
+                    {
+                        $price_id = 1;
+                    }
+                }        
+            }
+        }
+
         $history_data   = "CALL select_security_historical_data(".$security_id.", ".$month_id.")";
         $data           = callCustomSP($history_data);
         $returnData['history_data'] = $data;
@@ -403,6 +495,12 @@ class ApiController extends Controller
 
         if($benchmark_id > 0)
         {
+            $security2 = \App\Models\Securities::find($benchmark_id);
+            if($security2)
+            {
+                $s_title2 = $security2->security_name;
+            }
+
             $history_data   = "CALL select_security_historical_data(".$benchmark_id.", ".$month_id.")";
             $data           = callCustomSP($history_data);
             $benchmark_history_data = $data;            
@@ -413,7 +511,7 @@ class ApiController extends Controller
 
                 foreach($returnData['history_data'] as $row)
                 {
-                    if($price_id != 1 && $market_id == 5)
+                    if($price_id != 1)
                     {
                         if($price_id == 2)
                         {
@@ -435,7 +533,7 @@ class ApiController extends Controller
 
                 foreach($benchmark_history_data as $row)
                 {
-                    if($price_id != 1 && $market_id == 5)
+                    if($price_id != 1)
                     {
                         if($price_id == 2)
                         {
@@ -497,7 +595,7 @@ class ApiController extends Controller
         $banchmark_data_arr = callCustomSP($banchmark_data);
         $returnData['arr_banchmark'] = $banchmark_data_arr;
 
-        return ['status' => 1,'msg' => "OK", "data" => $returnData];
+        return ['status' => 1,'msg' => "OK", "data" => $returnData,'title' => $s_title, 'title2' => $s_title2, 'isEquity' => $isEquity];
     }
     
     public function getEconomicsHistoryChart(Request $request, $country)
@@ -584,7 +682,7 @@ class ApiController extends Controller
             }
         }
         
-        return ["status" => $status, "msg" => $msg, "data" => $data];
+        return ["status" => $status, "msg" => $msg, "data" => $data, 'isEquity' => $isEquity];
     }
 
     public function getLastUploadDate(Request $request)

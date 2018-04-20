@@ -2,20 +2,34 @@ google.charts.load('current', {'packages': ['corechart', 'treemap','bar']});
 google.charts.setOnLoadCallback(initChart);
 
 var global_security_title1, global_security_title2;
-
 var global_line_graph_id;
 var global_line_graph_text;
 var global_historical_data;
 var global_gainer_data = [];
 var global_loser_data = [];
-
+var global_secure_id;
+var first_time_click_security;
+first_time_click_security = 1;
 
 function initChart()
 {
     drawTreetChart([], 'treechart_div');
-    drawTreetChart([], 'treechart_div2');  
-    initBarCharts();
-    initRelvalChart();
+
+    var top_gainer_data = JSON.parse($("#chart-data-gainer").html());
+    top_gainer_data = JSON.parse(top_gainer_data);
+
+    var top_loser_data = JSON.parse($("#chart-data-loser").html());
+    top_loser_data = JSON.parse(top_loser_data);
+    
+    drawBarChart(top_gainer_data, "bar_chart", "Gainer");
+    drawBarChart(top_loser_data, "bar_chart2", "Loser");        
+
+    global_secure_id = 30; 
+    loadMarketHistory();    
+
+    // drawTreetChart([], 'treechart_div2');
+    // initBarCharts();
+    // initRelvalChart();
 }
 
 function initRelvalChart()
@@ -58,6 +72,120 @@ function initRelvalChart()
         }
     });    
 
+}
+
+function drawBenchmarkChart(data_values, elementID)
+{
+    $columnTitle = "";
+    $columnTitle2 = "";
+
+    var formatedData = [];
+    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $columnTitle2, type:'number'}]);    
+    for(var i in data_values.benchmark_history_data)
+    {
+       formatedData.push([data_values.benchmark_history_data[i][0],data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);        
+    }   
+
+    var data = google.visualization.arrayToDataTable(formatedData);
+
+
+    var options = 
+    {
+        title: '',
+        curveType: 'function',
+        legend: {position: 'none'},
+        series: {
+          0: {targetAxisIndex: 0},
+          1: {targetAxisIndex: 1}
+        },        
+        backgroundColor: {fill: 'transparent'},
+        axisTextStyle: {color: '#344b61'},
+        titleTextStyle: {color: '#fff'},
+        legendTextStyle: {color: '#ccc'},
+        colors: ['white', 'blue'],
+        hAxis: {
+            textStyle: {color: '#fff'},
+            gridlines: {color: "#39536b"}
+        },
+        vAxis: {
+            textStyle: {color: '#fff'},
+            gridlines: {color: "#39536b"},
+            baselineColor: {color: "#39536b"},            
+        }
+    };
+    var chart = new google.visualization.LineChart(document.getElementById(elementID));
+    chart.draw(data, options);
+
+}
+function loadMarketHistory()
+{
+    // alert(global_secure_id);
+    // return false;
+
+    $url = "/api/market/get-market-data/history";
+    $month_id = $("#period-month").val();
+    $benchmark = $("#benchmark-dropdown").val();
+    $priceID = $("#price-dropdown").val();
+
+    if(first_time_click_security == 1)
+    {
+
+    }
+    else
+    {
+        $('html, body').animate({
+                scrollTop: $("#linegraph-data").offset().top - 30
+        }, 600);                        
+    }
+    first_time_click_security++;
+
+    $('#AjaxLoaderDiv').fadeIn('slow');
+    $.ajax({
+        type: "POST",
+        url: $url,
+        data: {security_id: global_secure_id, month_id: $month_id, benchmark_id: $benchmark, price_id: $priceID, from: 'default_market'},
+        success: function (result)
+        {
+            $('#AjaxLoaderDiv').fadeOut('slow');
+
+            if (result.status == 1)
+            {
+                $(".market-chart-title-security").html(result.title);
+                if($benchmark > 0)
+                {
+                    $(".market-chart-title-security").html(result.title +"<br /><span>"+result.title2+"</span>");
+                    drawBenchmarkChart(result.data, "curve_chart");
+                }
+                else
+                {
+                    drawChart(result.data.history_data, 'curve_chart');
+                    fillBanchMark(result.data.arr_banchmark);
+
+                    if(result.isEquity == 1)
+                    {
+                        $("#price-dropdown option[value=3]").hide();
+                        if($("#price-dropdown").val() == 3)
+                        {
+                            $("#price-dropdown").val(1);                        
+                        }
+                    }   
+                    else
+                    {
+                        $("#price-dropdown option[value=3]").show();
+                    } 
+                }
+            }
+            else
+            {
+                $.bootstrapGrowl(result.msg, {type: 'danger', delay: 4000});
+            }
+        },
+        error: function (error)
+        {
+            $('#AjaxLoaderDiv').fadeOut('slow');
+            $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
+        }
+    });
 }
 
 function drawRelvalChart(data_values) 
@@ -238,7 +366,7 @@ function initBarCharts()
 
 }
 
-function drawChart(data_values, elementID, fromBenchMark)
+function drawChart(data_values, elementID)
 {
     // console.log(data_values);
 
@@ -246,16 +374,9 @@ function drawChart(data_values, elementID, fromBenchMark)
 
     var counter = data_values.length;
 
-    if (fromBenchMark != 1)
-        global_historical_data = data_values;
 
     $columnTitle = "";
 
-    if (typeof global_line_graph_text !== 'undefined')
-    {
-        $columnTitle = global_line_graph_text;
-        $(".market-chart-title-security").html(global_line_graph_text);
-    }               
     
     // 
 
@@ -267,12 +388,8 @@ function drawChart(data_values, elementID, fromBenchMark)
         var j = 1;
         for (var i in data_values)
         {
-            if (j == 1)
-            {
-                global_line_graph_id = data_values[i]['security_id'];
-            }
 
-            if ($("select#price-dropdown").val() != 1 && $("select#markets").val() == 5)
+            if ($("select#price-dropdown").val() != 1)
             {
                 if ($("select#price-dropdown").val() == 2)
                     formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['YLD_YTM_MID'])]);
@@ -331,6 +448,16 @@ function fillBanchMark(data)
     $("#benchmark-dropdown").html(html);
 }
 
+function resetFields()
+{
+    $("#period-month").val(12);
+    $("#price-dropdown").val(1);
+    $("#price-dropdown option[value=3]").show();
+
+    var html = '<option value="">Add Benchmark</option>';
+    $("#benchmark-dropdown").html(html);
+
+}
 
 function drawBarChart(data_values, elementID, chartType) {
     var formatedData = [];
@@ -356,24 +483,23 @@ function drawBarChart(data_values, elementID, chartType) {
         {
             $per = parseFloat(data_values[i]['percentage_change']).toFixed(2);
 
-
+            $title = data_values[i]['title'];
+            $title = $title.replace("&amp;", "&");            
 
             if(elementID != "bar_chart")
             {
                 $val = Math.abs($per);
-                formatedData.push([data_values[i]['title'], $val, data_values[i]['title'] + ": "+$per+" %"]);
+                formatedData.push([$title, $val, $title + ": "+$per+" %"]);
             }
             else
             {
-                formatedData.push([data_values[i]['title'], $per, data_values[i]['title'] + ": "+$per+" %"]);
-            }
-
-            
+                formatedData.push([$title, $per, $title + ": "+$per+" %"]);
+            }            
 
             if(elementID == "bar_chart")
-            global_gainer_data[data_values[i]['title']] = data_values[i]['id'];
+            global_gainer_data[$title] = data_values[i]['id'];
             else
-            global_loser_data[data_values[i]['title']] = data_values[i]['id'];    
+            global_loser_data[$title] = data_values[i]['id'];    
 
         }            
     } 
@@ -431,26 +557,18 @@ function drawBarChart(data_values, elementID, chartType) {
         {
             if (typeof global_gainer_data[category] !== 'undefined')
             {
-                global_line_graph_text = category;
-                global_line_graph_id = global_gainer_data[category];
-                $("#benchmark-dropdown").html("");
-                generateLineGraph(); 
-                $('html, body').animate({
-                        scrollTop: $("#linegraph-data").offset().top
-                }, 600);                
+                resetFields();
+                global_secure_id = global_gainer_data[category]; 
+                loadMarketHistory();
             }                
         }    
         else
         {
             if (typeof global_loser_data[category] !== 'undefined')
             {
-                global_line_graph_text = category;
-                global_line_graph_id = global_loser_data[category];
-                $("#benchmark-dropdown").html("");
-                generateLineGraph();                    
-                $('html, body').animate({
-                        scrollTop: $("#linegraph-data").offset().top
-                }, 600);                
+                resetFields();
+                global_secure_id = global_loser_data[category];
+                loadMarketHistory();
             }                 
         }        
     });        
@@ -472,4 +590,33 @@ $(document).ready(function () {
         $('#AjaxLoaderDiv').fadeIn('slow');
         window.location = $(this).find("option:selected").data("url");
     });
+
+    $(document).on("click", ".view-security-chart", function () {
+        global_secure_id = $(this).data("id");
+        resetFields();
+        loadMarketHistory();        
+    });
+
+    $(document).on("change", "select#period-month", function () {
+        loadMarketHistory();
+    });
+
+    $(document).on("change", "select#price-dropdown", function () {
+        loadMarketHistory();
+    });
+
+    $(document).on("change", "select#benchmark-dropdown", function () {
+
+        if($.trim($(this).val()) == '' || $.trim($(this).val()) == 'Add Benchmark')
+        {
+            $("#benchmark-dropdown option:first").text("Add Benchmark");
+        }
+        else
+        {
+            $("#benchmark-dropdown option:first").text("Remove Benchmark");
+        }
+
+        loadMarketHistory();
+    });
+
 });	
