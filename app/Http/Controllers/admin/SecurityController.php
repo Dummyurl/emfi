@@ -489,7 +489,7 @@ class SecurityController extends Controller
             $cpn = $request->get('cpn');
             $benchmark_family = null;
             
-             if($market_id == 5)
+            if($market_id == 5)
             {
                 if(empty($sp_rating_id))
                 {

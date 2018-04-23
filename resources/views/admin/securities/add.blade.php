@@ -84,8 +84,15 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="control-label">Maturity Date<span class="required">*</span></label>
-                                        <div class="input-group input-large date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
-                                            {!! Form::text('maturity_date',null,['class' => 'form-control pick_date', 'data-required' => false]) !!}
+                                        <div class="input-group input-large date-picker input-daterange">
+                                              @php
+                                                $maturity_date = '';
+                                                if($formObj->maturity_date != '' && $formObj->maturity_date != '0000-00-00')
+                                                {
+                                                    $maturity_date = $formObj->maturity_date;
+                                                }
+                                            @endphp
+                                            <input type="text" name="maturity_date" class="form-control pick_date" value="{{ $maturity_date }}" />
                                             <span class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </span>
@@ -179,6 +186,9 @@
             }
 
         });
+        $('#market').trigger('change');
+
+
         $("#check_id").click(function () {
             if ($(this).is(":checked")) {
                 $("#benchmark_div").show();
