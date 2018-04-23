@@ -58,16 +58,23 @@
             @endforeach
             @endif
         </div>
-        <div class="treechart"></div>
-        <div class="row analyzer-page">
-            <div class="col-lg-12 col-md-12 treechart_block">
-                <div class="inner_blue_box">
-                    <div id="treechart_div" style="width: 100%;height: 450px;"></div>          
-                </div>
-            </div>
-        </div>        
     </div>
 </section> 
+
+<div class="treechart"></div>
+<section class="full_chart_wrapper">
+    <div id="treechart_div" style="width: 100%;height: 450px;"></div>          
+</section>
+
+<?php /*
+<div class="row analyzer-page">
+    <div class="col-lg-12 col-md-12 treechart_block">
+        <div class="inner_blue_box">
+            
+        </div>
+    </div>
+</div>        
+*/ ?>
 
 <section class="chart_wrapper">
     <div class="container">
@@ -104,8 +111,8 @@
                     <tr>
                         <th>Security</th>
                         <th>Last Price</th>
-                        <th>Change Percentage</th>
                         <th>Net Change</th>
+                        <th>Change Percentage</th>                        
                     </tr>
                 </thead>                
                 <tbody>
@@ -121,10 +128,10 @@
                                     {{ $row['last_price'] }}
                                 </td>
                                 <td>
-                                    {{ $row['percentage_change'] }}%
-                                </td>
-                                <td>
                                     {{ $row['net_change'] }}
+                                </td>                                
+                                <td>
+                                    {{ $row['percentage_change'] }}%
                                 </td>
                             </tr>
                         @endforeach
@@ -182,7 +189,8 @@
         </div>
     </div>
 </section>
-@include('includes.twitter',['tweet_sub_title' => 'Latin America'])
+
+
 <div style="display: none;" id="chart-data-gainer">{!! json_encode($gainer_data) !!}</div>
 <div style="display: none;" id="chart-data-loser">{!! json_encode($loser_data) !!}</div>
 @stop

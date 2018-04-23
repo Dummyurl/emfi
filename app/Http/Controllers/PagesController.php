@@ -250,38 +250,44 @@ class PagesController extends Controller {
         $data['tweets'] = getPeopleTweets($from);
 
         $data['markets'] = MarketType::getArrayList();
-        $data['market_boxes'] = callCustomSP('CALL select_market()');
-        // dd($data['market_boxes']);
+        // $data['market_boxes'] = callCustomSP('CALL select_market()');        
 
-        $data['selected_market'] = isset($main_categories[$type]) ? $main_categories[$type] : 1;
-        // dd($data['market_boxes']);
+        $market_type_id = isset($main_categories[$type]) ? $main_categories[$type] : 1;
+        $data['market_boxes'] = callCustomSP('CALL select_market_by_market_type('.$market_type_id.')');
 
+        $data['selected_market'] = $market_type_id;
         $data['last_update_date'] = getLastUpdateDate();
 
-        if (!empty($type)) {
+        // Get Tree Map Data
+        $treeMapData = callCustomSP('CALL select_analyzer_tree_map_data(0)');
+        $equities = [];
+        $credits = [];
+        foreach ($treeMapData as $r) {
+            if ($r['market_id'] == 5) {
+                $credits['countries'][$r['country']]['title'] = $r['country_name'];
+                $credits['countries'][$r['country']]['records'][] = ['id' => $r['id'], 'security_name' => $r['security_name'], 'data' => $r];
+            } else {
+                $equities['countries'][$r['country']]['title'] = $r['country_name'];
+                $equities['countries'][$r['country']]['records'][] = ['id' => $r['id'], 'security_name' => $r['security_name'], 'data' => $r];
+            }
+        }
+
+        $data['equities'] = $equities;
+        $data['credits'] = $credits;        
+
+        if (!empty($type)) 
+        {
+            // Get Market Pricer
+            $pricer_data = callCustomSP('CALL select_emerging_countries_security_data('.$market_type_id.')');
+            $data['pricer_data'] = $pricer_data;
             return view('market', $data);
-        } else {
+        } 
+        else 
+        {
             $country_id = 14;
 
             // Get Top 4 Box Data
             $data['market_boxes'] = callCustomSP('CALL select_economics_country(' . $country_id . ')');
-
-            // Get Tree Map Data
-            $treeMapData = callCustomSP('CALL select_analyzer_tree_map_data(0)');
-            $equities = [];
-            $credits = [];
-            foreach ($treeMapData as $r) {
-                if ($r['market_id'] == 5) {
-                    $credits['countries'][$r['country']]['title'] = $r['country_name'];
-                    $credits['countries'][$r['country']]['records'][] = ['id' => $r['id'], 'security_name' => $r['security_name'], 'data' => $r];
-                } else {
-                    $equities['countries'][$r['country']]['title'] = $r['country_name'];
-                    $equities['countries'][$r['country']]['records'][] = ['id' => $r['id'], 'security_name' => $r['security_name'], 'data' => $r];
-                }
-            }
-
-            $data['equities'] = $equities;
-            $data['credits'] = $credits;
 
             // Get Top Gainer
             $gainer_data = callCustomSP('CALL select_Top_Gainer(0,1)');
@@ -293,9 +299,7 @@ class PagesController extends Controller {
             
             // Get Market Pricer
             $pricer_data = callCustomSP('CALL select_developed_countries_security_data()');
-            $data['pricer_data'] = $pricer_data;            
-            
-            // dd($data['pricer_data']);
+            $data['pricer_data'] = $pricer_data;                        
 
             return view('marketDefault', $data);
         }

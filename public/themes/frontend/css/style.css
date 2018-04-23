@@ -1303,3 +1303,23 @@ position: relative;
 .bottom-select .select2-container{
      background: #051b34; 
 }
+.full_chart_wrapper{
+	background-color: #fff;
+	padding: 10px 0;
+}
+.select2-results__option[aria-selected=true] {
+    display: none;
+}
+
+.custom-bg-header{
+	background: url('/themes/frontend/images/custom-header-bg.jpg');	
+	-webkit-background-size:cover;
+	-moz-background-size:cover; 
+	background-size:cover;
+	background-position:center top;
+}
+.nav_wrapper.custom-bg-header.sticky
+{
+	background: none;
+	background-color: #fff;
+}

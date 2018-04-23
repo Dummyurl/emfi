@@ -31,8 +31,7 @@ class ApiController extends Controller
         $relvalPrice = $request->get("relvalPrice");
         $relvalRating = $request->get("relvalRating");
         $relvalCreditEquity = $request->get("relvalCreditEquity");
-        $relval_chart = callCustomSP('CALL select_relval_chart_data('.$relvalCreditEquity.',"'.$relvalMonth.'")');
-
+        $relval_chart = callCustomSP('CALL select_relval_chart_data('.$relvalCreditEquity.',"'.$relvalMonth.'",0)');
 
 
         if($relvalMonth == date("Y-m-d"))
@@ -40,7 +39,7 @@ class ApiController extends Controller
             if(empty($relval_chart))
             {
                 $relvalMonth = \App\Models\Securities::max("created");
-                $relval_chart = callCustomSP('CALL select_relval_chart_data('.$relvalCreditEquity.',"'.$relvalMonth.'")');                
+                $relval_chart = callCustomSP('CALL select_relval_chart_data('.$relvalCreditEquity.',"'.$relvalMonth.'",0)');                
             }            
         }        
 
@@ -469,6 +468,7 @@ class ApiController extends Controller
         $isEquity = 0;
         $s_title = '';
         $s_title2 = '';
+
         if($from == "default_market")
         {
             $security = \App\Models\Securities::find($security_id);
