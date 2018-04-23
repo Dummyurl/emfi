@@ -46,22 +46,26 @@
                                          {!! Form::select('ticker_id',[''=>'Select Ticker']+$tickers,null,['class' => 'form-control', 'data-required' => true]) !!}
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                         <label class="control-label">S&P Rating<span class="required">*</span></label>
-                                         {!! Form::select('sp_rating_id',[''=>'Select Option']+$ratings,null,['class' => 'form-control', 'data-required' => true]) !!}
+                                <div id="s_p_rating_div" style="display: none;"> 
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="control-label">S&P Rating<span class="required">*</span></label>
+                                             {!! Form::select('sp_rating_id',[''=>'Select Option']+$ratings,null,['class' => 'form-control', 'data-required' => false]) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="control-label">OECD<span class="required">*</span></label>
+                                             {!! Form::select('current_oecd_member_cor_class',[''=>'Select Option']+$oecds,null,['class' => 'form-control', 'data-required' => false]) !!}
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                         <label class="control-label">Current OECD Member Cor Class<span class="required">*</span></label>
-                                         {!! Form::select('current_oecd_member_cor_class',[''=>'Select Option']+$oecds,null,['class' => 'form-control', 'data-required' => true]) !!}
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="control-label">CPN<span class="required">*</span></label>
-                                        {!! Form::text('cpn',null,['class' => 'form-control', 'data-required' => true]) !!}
+                                <div id="cpn_rating_div" style="display: none;"> 
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label">CPN<span class="required">*</span></label>
+                                            {!! Form::text('cpn',null,['class' => 'form-control', 'data-required' => false]) !!}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -88,6 +92,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Display Order <span class="required">*</span></label>
+                                        {!! Form::number('display_order',null,['class' => 'form-control', 'data-required' => true, 'min' => 1]) !!}
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -153,11 +163,18 @@
 
         $('#market').on('change',function(){
             var market_val = $('#market').val();
-
-            if(market_val == 5)
-            {
+            if(market_val == 5) {
                 $('#maturity_date_div').show();
-            }else{
+                $('#cpn_rating_div').show();
+                $('#s_p_rating_div').show();
+
+            } else if(market_val == 1) {
+                $('#s_p_rating_div').show();
+                $('#maturity_date_div').hide();
+                $('#cpn_rating_div').hide();
+            } else {
+                $('#s_p_rating_div').hide();
+                $('#cpn_rating_div').hide();
                 $('#maturity_date_div').hide();
             }
 

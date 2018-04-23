@@ -219,15 +219,13 @@ class SecurityController extends Controller
             'market_id' => 'required|exists:'.TBL_MARKETS.',id',
             'CUSIP' => 'required|min:2|unique:'.TBL_SECURITY.',CUSIP',
             'ticker_id' => 'required|exists:tickers,id',
-            'cpn' => 'required',
-            'current_oecd_member_cor_class' => ['required',Rule::in($oecds)],
-            'sp_rating_id' => 'required|exists:sp_rating,id',       
             'security_name' => 'required',
+            'display_order' => 'numeric|min:0',
             'benchmark' => Rule::in([1,0]),
         ],$rules);
         
         // check validations
-        if ($validator->fails())         
+        if ($validator->fails())
         {
             $messages = $validator->messages();
             
@@ -243,25 +241,73 @@ class SecurityController extends Controller
         {
             $security = new Securities();
 
-            $market_id = $request->get('market_id');
-            $country_id = $request->get('country_id');
-            $ticker_id = $request->get('ticker_id');
-            $sp_rating_id = $request->get('sp_rating_id');
-            $benchmark = $request->get('benchmark');
-            $new_benchmark = $request->get('new_benchmark_family');
-            $select_benchmark = $request->get('benchmark_family');
-            $maturity_date = $request->get('maturity_date');
-            $display_title = $request->get('display_title');
+            $market_id          = $request->get('market_id');
+            $country_id         = $request->get('country_id');
+            $ticker_id          = $request->get('ticker_id');
+            $sp_rating_id       = $request->get('sp_rating_id');
+            $benchmark          = $request->get('benchmark');
+            $new_benchmark      = $request->get('new_benchmark_family');
+            $select_benchmark   = $request->get('benchmark_family');
+            $maturity_date      = $request->get('maturity_date');
+            $display_title      = $request->get('display_title');
+            $cpn                = $request->get('cpn');
+            $display_order      = $request->get('display_order');
+            $current_oecd_member_cor_class = $request->get('current_oecd_member_cor_class');
             $benchmark_family = null;
             if($market_id == 5)
             {
+                if(empty($sp_rating_id))
+                {
+                    $status = 0;
+                    $msg = 'S&P rating is required !';
+                    return ['status' => $status,'msg' => $msg, 'data' => $data];
+                }
+                if(empty($current_oecd_member_cor_class))
+                {
+                    $status = 0;
+                    $msg = 'OECD is required !';
+                    return ['status' => $status,'msg' => $msg, 'data' => $data];
+                }
+                if(empty($cpn))
+                {
+                    $status = 0;
+                    $msg = 'CPN is required !';
+                    return ['status' => $status,'msg' => $msg, 'data' => $data];
+                }
                 if(empty($display_title))
                 {
                     $status = 0;
                     $msg = 'Display title is required !';
                     return ['status' => $status,'msg' => $msg, 'data' => $data];
                 }
+                if(empty($maturity_date))
+                {
+                    $status = 0;
+                    $msg = 'Maturity date is required !';
+                    return ['status' => $status,'msg' => $msg, 'data' => $data];
+                }
+            } elseif ($market_id == 1)
+            {
+                if(empty($sp_rating_id))
+                {
+                    $status = 0;
+                    $msg = 'S&P rating is required !';
+                    return ['status' => $status,'msg' => $msg, 'data' => $data];
+                }
+                if(empty($current_oecd_member_cor_class))
+                {
+                    $status = 0;
+                    $msg = 'OECD is required !';
+                    return ['status' => $status,'msg' => $msg, 'data' => $data];
+                }
+            } else {
+                $maturity_date = null;
+                $display_title = null;
+                $sp_rating_id = null;
+                $current_oecd_member_cor_class = null;
+                $cpn = null;
             }
+
             if($benchmark == 1)
             {
                 if(empty($new_benchmark) && empty($select_benchmark)){
@@ -282,11 +328,8 @@ class SecurityController extends Controller
                     $benchmark_family = $select_benchmark;
                 }
             }
-            if($market_id != 5)
-            {
-                $maturity_date = null;
-                $display_title = null;
-            }
+
+            
 
             $security->CUSIP = $request->get('CUSIP');
             $security->market_id = $market_id;
@@ -294,13 +337,14 @@ class SecurityController extends Controller
             $security->ticker_id = $ticker_id;
             $security->sp_rating_id = $sp_rating_id;
 
-            $security->current_oecd_member_cor_class = $request->get('current_oecd_member_cor_class');
-            $security->cpn = $request->get('cpn');
+            $security->current_oecd_member_cor_class = $current_oecd_member_cor_class;
+            $security->cpn = $cpn;
             $security->security_name = $request->get('security_name');
             $security->display_title = $display_title;
             $security->maturity_date = $maturity_date;
             $security->benchmark_family = $benchmark_family;
             $security->benchmark = $benchmark;
+            $security->display_order = $display_order;
      
             $security->save();
             $id = $security->id;
@@ -412,10 +456,8 @@ class SecurityController extends Controller
             'market_id' => 'required|exists:'.TBL_MARKETS.',id',
             'CUSIP' => 'required|min:2|unique:'.TBL_SECURITY.',CUSIP,'.$id,
             'ticker_id' => 'required|exists:tickers,id',
-            'cpn' => 'required',
-            'current_oecd_member_cor_class' => ['required',Rule::in($oecds)],
-            'sp_rating_id' => 'required|exists:sp_rating,id',       
             'security_name' => 'required',
+            'display_order' => 'numeric|min:0',
             'benchmark' => Rule::in([1,0]),
         ],$rules);
 
@@ -442,57 +484,99 @@ class SecurityController extends Controller
             $select_benchmark = $request->get('benchmark_family');
             $maturity_date = $request->get('maturity_date');
             $display_title = $request->get('display_title');
+            $display_order = $request->get('display_order');
+            $current_oecd_member_cor_class = $request->get('current_oecd_member_cor_class');
+            $cpn = $request->get('cpn');
             $benchmark_family = null;
             
-            if($market_id == 5)
+             if($market_id == 5)
             {
+                if(empty($sp_rating_id))
+                {
+                    $status = 0;
+                    $msg = 'S&P rating is required !';
+                    return ['status' => $status,'msg' => $msg, 'data' => $data];
+                }
+                if(empty($current_oecd_member_cor_class))
+                {
+                    $status = 0;
+                    $msg = 'OECD is required !';
+                    return ['status' => $status,'msg' => $msg, 'data' => $data];
+                }
+                if(empty($cpn))
+                {
+                    $status = 0;
+                    $msg = 'CPN is required !';
+                    return ['status' => $status,'msg' => $msg, 'data' => $data];
+                }
                 if(empty($display_title))
                 {
                     $status = 0;
                     $msg = 'Display title is required !';
                     return ['status' => $status,'msg' => $msg, 'data' => $data];
                 }
+                if(empty($maturity_date))
+                {
+                    $status = 0;
+                    $msg = 'Maturity date is required !';
+                    return ['status' => $status,'msg' => $msg, 'data' => $data];
+                }
+            } elseif ($market_id == 1)
+            {
+                if(empty($sp_rating_id))
+                {
+                    $status = 0;
+                    $msg = 'S&P rating is required !';
+                    return ['status' => $status,'msg' => $msg, 'data' => $data];
+                }
+                if(empty($current_oecd_member_cor_class))
+                {
+                    $status = 0;
+                    $msg = 'OECD is required !';
+                    return ['status' => $status,'msg' => $msg, 'data' => $data];
+                }
+            } else {
+                $maturity_date = null;
+                $display_title = null;
+                $sp_rating_id = null;
+                $current_oecd_member_cor_class = null;
+                $cpn = null;
             }
 
             if($benchmark == 1)
             {
             
-            if(empty($new_benchmark) && empty($select_benchmark)){
-                $status = 0;
-                $msg = 'please enter at least one benchmark!';
-                return ['status' => $status, 'msg'=>$msg];
-            }
+                if(empty($new_benchmark) && empty($select_benchmark)){
+                    $status = 0;
+                    $msg = 'please enter at least one benchmark!';
+                    return ['status' => $status, 'msg'=>$msg];
+                }
                 if (!empty($new_benchmark) && !empty($select_benchmark)) {
-                $status = 0;
-                $msg = 'Please enter only one benchmark';
-                return ['status' => $status, 'msg'=>$msg];
-            }
-
+                    $status = 0;
+                    $msg = 'Please enter only one benchmark';
+                    return ['status' => $status, 'msg'=>$msg];
+                }
                 if (isset($new_benchmark) && !empty($new_benchmark)) {
                     $benchmark_family = $new_benchmark;
                 }
                 elseif (isset($select_benchmark) && !empty($select_benchmark)) {
                     $benchmark_family = $select_benchmark;
                 }
-                }
-           
-            if($market_id != 5)
-            {
-                $maturity_date = null;
-                $display_title = null;
             }
+
             $model->CUSIP = $request->get('CUSIP');
             $model->market_id = $market_id;
             $model->country_id = $country_id;
             $model->ticker_id = $ticker_id;
             $model->sp_rating_id = $sp_rating_id;
-            $model->current_oecd_member_cor_class = $request->get('current_oecd_member_cor_class');
-            $model->cpn = $request->get('cpn');
+            $model->current_oecd_member_cor_class = $current_oecd_member_cor_class;
+            $model->cpn = $cpn;
             $model->security_name = $request->get('security_name');
             $model->display_title = $display_title;
             $model->maturity_date = $maturity_date;
             $model->benchmark_family = $benchmark_family;
             $model->benchmark = $benchmark;
+            $model->display_order = $display_order;
             
                 $model->save();
 
