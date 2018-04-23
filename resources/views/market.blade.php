@@ -128,56 +128,6 @@
 </section>
 <div class="clearfix"></div>
 
-<section class="chart_table grey_bg">
-    <div class="container">
-        <div class="title">
-            <h2>{{ __('country.market_price') }}</h2>
-        </div>
-    </div>
-    <div class="container">
-        <div class="table_wrapper">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Security</th>
-                        <th>Last Price</th>
-                        <th>Net Change</th>
-                        <th>Change Percentage</th>                        
-                    </tr>
-                </thead>                
-                <tbody>
-                    @if(count($pricer_data) > 0)
-                        @foreach($pricer_data as $row)
-                            <tr>
-                                <td>
-                                    <a class="view-security-chart" href="javascript:void(0);" data-id="{{ $row['id'] }}" title="View Graph">
-                                        {{ $row['security_name'] }}
-                                    </a>                                    
-                                </td>
-                                <td>
-                                    {{ $row['last_price'] }}
-                                </td>
-                                <td>
-                                    {{ $row['net_change'] }}
-                                </td>                                
-                                <td>
-                                    {{ $row['percentage_change'] }}%
-                                </td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="5">
-                                No Data Found !
-                            </td>
-                        </tr>
-                    @endif
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>                
-
 <div id="relval" class="clearfix"></div>
 <div class="clearfix"></div>
 <section class="equities">
@@ -258,9 +208,63 @@
     </div>
 </section>
 
+
+<div class="clearfix"></div>
+
+<section class="chart_table grey_bg">
+    <div class="container">
+        <div class="title">
+            <h2>{{ __('country.market_price') }}</h2>
+        </div>
+    </div>
+    <div class="container">
+        <div class="table_wrapper">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Security</th>
+                        <th>Last Price</th>
+                        <th>Net Change</th>
+                        <th>Change Percentage</th>                        
+                    </tr>
+                </thead>                
+                <tbody>
+                    @if(count($pricer_data) > 0)
+                        @foreach($pricer_data as $row)
+                            <tr>
+                                <td>
+                                    <a class="view-security-chart" href="javascript:void(0);" data-id="{{ $row['id'] }}" title="View Graph">
+                                        {{ $row['security_name'] }}
+                                    </a>                                    
+                                </td>
+                                <td>
+                                    {{ $row['last_price'] }}
+                                </td>
+                                <td>
+                                    {{ $row['net_change'] }}
+                                </td>                                
+                                <td>
+                                    {{ $row['percentage_change'] }}%
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="5">
+                                No Data Found !
+                            </td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>                
+
+
 <div id="linegraph-data"></div>
 
-<section class="equities grey_bg" style="padding-top: 15px;padding-bottom: 15px;">
+<section class="equities">
     <div class="container">
         <div class="title">
             <h2>{{ __('market.market_history') }}</h2>
@@ -395,7 +399,7 @@
                                 $("#benchmark-dropdown").html("");
                                 generateLineGraph();                    
                                 $('html, body').animate({
-                                        scrollTop: $("#linegraph-data").offset().top
+                                        scrollTop: $("#linegraph-data").offset().top - 50
                                 }, 600);                                                
                             }
                         });    

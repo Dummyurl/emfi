@@ -390,16 +390,16 @@ class ApiController extends Controller
     {
         if($val >= 0)
         {
-            if($val > 20)
+            if($val > 2)
             {
-                $val = 20;                
+                $val = 2;                
             }    
 
             $color = "#00ff00";
-            $steps = round((245*$val) / 20);
+            $steps = round((245*$val) / 2);
             $steps = 245 - $steps;
             
-            $newSteps = $steps * 3;
+            // $newSteps = $steps * 3;
 
             $newColor = adjustBrightness($color, $steps);
         }
@@ -407,13 +407,13 @@ class ApiController extends Controller
         {
             $val = abs($val);
 
-            if($val > 20)
+            if($val > 2)
             {
-                $val = 20;                
+                $val = 2;                
             }    
 
             $color = "#ff0000";
-            $steps = round((245*$val) / 20);
+            $steps = round((245*$val) / 2);
             $steps = 245 - $steps;
             // $steps = $steps * 3;
             $newColor = adjustBrightness($color, $steps);
@@ -424,7 +424,7 @@ class ApiController extends Controller
 
     public function TopGainer(Request $request, $market_id = null)
     {
-        $market_data  = "CALL select_Top_Gainer(".$market_id.",0)";
+        $market_data  = "CALL select_Top_Gainer(".$market_id.",2)";
         $gainer_data = callCustomSP($market_data);
         $returnData['top_gainer'] = $gainer_data;
         
@@ -442,7 +442,7 @@ class ApiController extends Controller
             $returnData['arr_banchmark'] = $banchmark_data_arr;
         }
 
-        $market_data  = "CALL select_Top_Loser(".$market_id.",0)";
+        $market_data  = "CALL select_Top_Loser(".$market_id.",2)";
         $loser_data = callCustomSP($market_data);
         $returnData['top_loser'] = $loser_data;
         if(isset($loser_data[0])){
@@ -529,6 +529,7 @@ class ApiController extends Controller
 
                     $dataKeys[$row['created']]['column2'] = NULL;
                     $dataKeys[$row['created']]['date'] = $row['created_format'];
+                    $dataKeys[$row['created']]['main_date'] = $row['created'];
                 }
 
                 foreach($benchmark_history_data as $row)
@@ -552,7 +553,7 @@ class ApiController extends Controller
                     if(!isset($dataKeys[$row['created']]['column1']))
                     $dataKeys[$row['created']]['column1'] = NULL;
 
-                    $dataKeys[$row['created']]['date'] = $row['created_format'];                                                             
+                    $dataKeys[$row['created']]['main_date'] = $row['created'];                                                             
                 }
 
                 // echo "<pre>";
@@ -572,7 +573,7 @@ class ApiController extends Controller
                 {
                     if(!empty($dataKeys[$key]['date']))
                     {
-                        $finalData[$i] = [$dataKeys[$key]['date'], $dataKeys[$key]['column1'], $dataKeys[$key]['column2']];
+                        $finalData[$i] = [$dataKeys[$key]['date'], $dataKeys[$key]['column1'], $dataKeys[$key]['column2'], $dataKeys[$key]['main_date']];
 
                         $i++;                        
                     }    

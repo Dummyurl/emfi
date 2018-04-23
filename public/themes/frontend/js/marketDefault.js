@@ -83,7 +83,9 @@ function drawBenchmarkChart(data_values, elementID)
     formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $columnTitle2, type:'number'}]);    
     for(var i in data_values.benchmark_history_data)
     {
-       formatedData.push([data_values.benchmark_history_data[i][0],data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);        
+       var d = new Date(data_values.benchmark_history_data[i][3]);
+       var $created = d;        
+       formatedData.push([{f: data_values.benchmark_history_data[i][0], v: $created},data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);        
     }   
 
     var data = google.visualization.arrayToDataTable(formatedData);
@@ -105,7 +107,7 @@ function drawBenchmarkChart(data_values, elementID)
         colors: ['white', 'blue'],
         hAxis: {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "#39536b", count: 12}
         },
         vAxis: {
             textStyle: {color: '#fff'},
@@ -389,17 +391,20 @@ function drawChart(data_values, elementID)
         for (var i in data_values)
         {
 
-            if ($("select#price-dropdown").val() != 1)
-            {
-                if ($("select#price-dropdown").val() == 2)
-                    formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['YLD_YTM_MID'])]);
-                else if ($("select#price-dropdown").val() == 3)
-                    formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['Z_SPRD_MID'])]);
-            } else
-            {
-                formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['last_price'])]);
-            }
+            var d = new Date(data_values[i]['created']);
+            var $created = d;
 
+            if($("select#price-dropdown").val() != 1 && $("select#markets").val() == 5)
+            {
+                if($("select#price-dropdown").val() == 2)
+                    formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['YLD_YTM_MID'])]);
+                else if ($("select#price-dropdown").val() == 3)
+                    formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['Z_SPRD_MID'])]);
+            } 
+            else
+            {
+                formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['last_price'])]);
+            }
 
             j++;
         }
@@ -424,7 +429,7 @@ function drawChart(data_values, elementID)
         colors: ['white'],
         hAxis: {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "#39536b",count: 12}
         },
         vAxis: {
             textStyle: {color: '#fff'},

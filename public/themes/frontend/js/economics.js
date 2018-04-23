@@ -323,16 +323,21 @@ function drawChart2(data_values, elementID)
         var j = 1;
         for (var i in data_values)
         {
+
+           var d = new Date(data_values[i]['created']);
+           var $created = d;           
+
             if ($("select#price-dropdown-10").val() != 1)
             {
                 if ($("select#price-dropdown-10").val() == 2)
-                    formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['YLD_YTM_MID'])]);
+                    formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['YLD_YTM_MID'])]);
                 else if ($("select#price-dropdown-10").val() == 3)
-                    formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['Z_SPRD_MID'])]);
+                    formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['Z_SPRD_MID'])]);
             } else
             {
-                formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['last_price'])]);
+                formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['last_price'])]);
             }
+
             j++;
         }
     } else
@@ -358,7 +363,7 @@ function drawChart2(data_values, elementID)
         colors: ['white'],
         hAxis: {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "#39536b", count: 12}
         },
         vAxis: {
             textStyle: {color: '#fff'},
@@ -383,7 +388,9 @@ function drawBenchmarkChart2(data_values)
 
     for(var i in data_values.benchmark_history_data)
     {
-       formatedData.push([data_values.benchmark_history_data[i][0],data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);
+       var d = new Date(data_values.benchmark_history_data[i][3]);
+       var $created = d;        
+       formatedData.push([{f: data_values.benchmark_history_data[i][0], v: $created},data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);
     }
 
     var data = google.visualization.arrayToDataTable(formatedData);

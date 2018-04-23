@@ -20,8 +20,8 @@
   </section>
  */ ?>
 
-<div class="clearfix" style="margin-top: 70px;"></div>
-<div id="geo-chart" style="width: 100%; height: 600px;"></div>
+<!-- <div class="clearfix" style="margin-top: 70px;"></div> -->
+<div id="geo-chart" style="width: 100%; height: 100vh;"></div>
 
 <div class="bottom-select">
     <select name="markets" id="markets">                        

@@ -56,7 +56,8 @@ function drawChart(country_data)
     {
         legend: 'none',
         region: '005',
-        backgroundColor: '#f2f5f7',
+        // backgroundColor: '#f2f5f7',
+        backgroundColor: '#808080',
         width: '100%',
         // colorAxis: {colors: ['#f00', '#0d0']}
         colorAxis: 

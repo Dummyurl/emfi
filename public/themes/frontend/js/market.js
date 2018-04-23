@@ -153,10 +153,28 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
     }  
 
     var formatedData = [];
-    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $columnTitle2, type:'number'}]);    
+    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}, {label: $columnTitle2, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);    
     for(var i in data_values.benchmark_history_data)
     {
-       formatedData.push([data_values.benchmark_history_data[i][0],data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);        
+       var d = new Date(data_values.benchmark_history_data[i][3]);
+       var $created = d;       
+
+       // var html1 = '';
+       // var html2 = '';
+
+       var html1 = "<p style='white-space: nowrap;padding: 3px;'>"+global_line_graph_text + "<br /> <b>" + data_values.benchmark_history_data[i][0] + ", " + data_values.benchmark_history_data[i][1] + "</b>"+"</p>";
+       var html2 = "<p style='white-space: nowrap;padding: 3px;'>"+$("select#benchmark-dropdown option:selected").text() + "<br /> <b>" + data_values.benchmark_history_data[i][0] + ", " + data_values.benchmark_history_data[i][2] + "</b>"+"</p>";
+
+       formatedData.push
+       (
+            [
+                {f: data_values.benchmark_history_data[i][0], v: $created},
+                data_values.benchmark_history_data[i][1], 
+                html1,
+                data_values.benchmark_history_data[i][2],
+                html2
+            ]
+      );        
     }   
 
     // console.log(formatedData);
@@ -218,6 +236,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
     {
         title: '',
         curveType: 'function',
+        tooltip: {isHtml: true},
         legend: {position: 'none'},
         series: {
           0: {targetAxisIndex: 0},
@@ -230,7 +249,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         colors: ['white', 'blue'],
         hAxis: {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "#39536b", count: 12}
         },
         vAxis: {
             textStyle: {color: '#fff'},
@@ -268,10 +287,13 @@ function drawChart(data_values, elementID, fromBenchMark)
     {
         $columnTitle = $columnTitle + " "+$("select#price-dropdown option:selected").data("title");
         // alert("Title: " + $columnTitle); 
-        formatedData.push([$columnTitle, $columnTitle]);
+        formatedData.push([$columnTitle, $columnTitle,{label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);
         var j = 1;
         for (var i in data_values)
         {
+            var d = new Date(data_values[i]['created']);
+            var $created = d;
+
             if (j == 1)
             {
                 global_line_graph_id = data_values[i]['security_id'];
@@ -280,12 +302,19 @@ function drawChart(data_values, elementID, fromBenchMark)
             if ($("select#price-dropdown").val() != 1 && $("select#markets").val() == 5)
             {
                 if ($("select#price-dropdown").val() == 2)
-                    formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['YLD_YTM_MID'])]);
+                {
+                    var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['YLD_YTM_MID'] + "</b>"+"</p>";    
+                    formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['YLD_YTM_MID']), html]);
+                }    
                 else if ($("select#price-dropdown").val() == 3)
-                    formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['Z_SPRD_MID'])]);
+                {    
+                    var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['Z_SPRD_MID'] + "</b>"+"</p>"; 
+                    formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['Z_SPRD_MID']), html]);
+                }    
             } else
             {
-                formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['last_price'])]);
+                var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['last_price'] + "</b>"+"</p>"; 
+                formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['last_price']),html]);
             }
 
 
@@ -305,14 +334,16 @@ function drawChart(data_values, elementID, fromBenchMark)
         title: '',
         curveType: 'function',
         legend: {position: 'none'},
+        tooltip: {isHtml: true},
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
         titleTextStyle: {color: '#fff'},
         legendTextStyle: {color: '#ccc'},
         colors: ['white'],
-        hAxis: {
+        hAxis: 
+        {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "#39536b",count: 12},
         },
         vAxis: {
             textStyle: {color: '#fff'},
@@ -591,7 +622,7 @@ $(document).ready(function () {
         $("#benchmark-dropdown").html('<option value="">Add Benchmark</option>');
         generateLineGraph();                
         $('html, body').animate({
-                scrollTop: $("#linegraph-data").offset().top
+                scrollTop: $("#linegraph-data").offset().top - 50
         }, 600);                        
     });
 
@@ -601,7 +632,7 @@ $(document).ready(function () {
         $("#benchmark-dropdown").html('<option value="">Add Benchmark</option>');
         generateLineGraph();                
         $('html, body').animate({
-                scrollTop: $("#linegraph-data").offset().top
+                scrollTop: $("#linegraph-data").offset().top - 50
         }, 600);                        
     });
 
