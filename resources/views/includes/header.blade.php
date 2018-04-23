@@ -1,4 +1,4 @@
-<div class="nav_wrapper">
+<div class="nav_wrapper{{ \Request::is('economics') ? ' custom-bg-header':'' }}">
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <ul class="rightlinks">

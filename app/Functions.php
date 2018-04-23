@@ -290,6 +290,7 @@ function sendHtmlMail($params) {
     $files = isset($params['files']) ? $params['files'] : array();
 
     \Mail::send('emails.index', $params, function($message) use ($params, $files) {
+        $message->from($params['from'], '');
         $message->to($params['to'], '')->subject($params['subject']);
 
         if (count($files) > 0) {
@@ -592,6 +593,29 @@ function convertDateFromTimezone($date,$timezone,$timezone_to,$format){
      $date = new DateTime($date,new DateTimeZone($timezone));
      $date->setTimezone( new DateTimeZone($timezone_to) );
      return $date->format($format);
+}
+
+function adjustBrightness($hex, $steps) {
+    // Steps should be between -255 and 255. Negative = darker, positive = lighter
+    $steps = max(-255, min(255, $steps));
+
+    // Normalize into a six character long hex string
+    $hex = str_replace('#', '', $hex);
+    if (strlen($hex) == 3) {
+        $hex = str_repeat(substr($hex,0,1), 2).str_repeat(substr($hex,1,1), 2).str_repeat(substr($hex,2,1), 2);
+    }
+
+    // Split into three parts: R, G and B
+    $color_parts = str_split($hex, 2);
+    $return = '#';
+
+    foreach ($color_parts as $color) {
+        $color   = hexdec($color); // Convert to decimal
+        $color   = max(0,min(255,$color + $steps)); // Adjust color
+        $return .= str_pad(dechex($color), 2, '0', STR_PAD_LEFT); // Make two char hex code
+    }
+
+    return $return;
 }
 
 function prd($arr){

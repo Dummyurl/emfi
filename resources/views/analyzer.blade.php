@@ -165,7 +165,7 @@
     <div class="container chart_section">
         <div class="row">
             <div class="col-lg-12">
-                <div id="curve_chart2" style="width: 100%; height: 480px"> </div>
+                <div id="curve_chart23" style="width: 100%; height: 480px"> </div>
                 <div class="chart_dropdown clearfix">
                     <form>
                         <div class="col-md-3">
@@ -210,6 +210,13 @@
     </div>
 </section>
 @stop
+
+@section('styles')
+<style>
+    svg[area-label='A chart.'] g g g text{font-size: 9px !important;}
+</style>
+@stop
+
 @section('scripts')
 <script type="text/javascript">
 var global_page_type = '{{ $page_type }}';
@@ -316,13 +323,14 @@ function drawTreetChart(data_values, elementID) {
             // minColor: '#051b34',
             // midColor: '#051b34',
             // maxColor: '#051b34',
+            legend: {position: 'none'},
             minColor: '#f00',
             midColor: '#0d0',
             maxColor: '#0d0',                        
             fontColor: 'white',
             minColorValue: 0,
             maxColorValue: 100,
-            showScale: true,
+            showScale: false,
             title: '',
             generateTooltip: showStaticTooltip
         });
@@ -381,6 +389,7 @@ function drawTreetChart(data_values, elementID) {
         
         treeObject2.draw(dataChart2, {
             
+            legend: {position: 'none'},
             // minColor: '#051b34',
             // midColor: '#051b34',
             // maxColor: '#051b34',
@@ -391,7 +400,7 @@ function drawTreetChart(data_values, elementID) {
             maxColorValue: 100,                     
             // headerHeight: 15,
             fontColor: 'white',
-            showScale: true,
+            showScale: false,
             title: '',
             generateTooltip: showStaticTooltip
         });

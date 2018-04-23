@@ -14,7 +14,7 @@ function initChart()
             $('#AjaxLoaderDiv').fadeOut('slow');
             if (result.status == 1)
             {
-				drawChart(result.data.countries);            	
+				drawChart(result.data);            	
             } 
             else
             {
@@ -30,10 +30,17 @@ function initChart()
 
 function drawChart(country_data)
 {
+    var mainData = country_data;
+    
+    country_data = mainData.countries;
+
+    var colors_data = mainData.colors;
+    var values_data = mainData.values;
 
    	var data = new google.visualization.DataTable();
    	data.addColumn('string', 'Country');
-   	data.addColumn('number', "Daily Percentage Change");    
+   	data.addColumn('number', "Daily Percentage Change");
+    // data.addColumn({type: 'string', role: 'style'});    
 
 	for(var i in country_data)
 	{
@@ -47,8 +54,16 @@ function drawChart(country_data)
 
 	var options = 
     {
-        region: '019',
-        colorAxis: {colors: ['#f00', '#0d0']}
+        legend: 'none',
+        region: '005',
+        backgroundColor: '#f2f5f7',
+        width: '100%',
+        // colorAxis: {colors: ['#f00', '#0d0']}
+        colorAxis: 
+        {
+             values: values_data,
+             colors: colors_data
+        }    
     };
 
 	var chart = new google.visualization.GeoChart(document.getElementById('geo-chart'));

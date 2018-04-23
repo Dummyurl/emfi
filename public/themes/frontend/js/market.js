@@ -1,6 +1,6 @@
 google.charts.load('current', {'packages': ['corechart']});
 
-google.charts.load('current', {'packages': ['bar']});
+google.charts.load('current', {'packages': ['bar','treemap']});
 
 google.charts.setOnLoadCallback(initBarCharts);
 
@@ -326,6 +326,8 @@ function drawChart(data_values, elementID, fromBenchMark)
 
 function initBarCharts()
 {
+    drawTreetChart([], 'treechart_div');
+
     $marketID = $("select#markets").val();
     $url = "/api/market/get-market-data/" + $marketID;
     $('#AjaxLoaderDiv').fadeIn('slow');
@@ -367,7 +369,130 @@ function initBarCharts()
             $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
         }
     });
+
+    initRelvalChart();
 }
+
+function initRelvalChart()
+{
+    $url = "/api/analyzer/get-relval-chart";
+
+    $('#AjaxLoaderDiv').fadeIn('slow');
+
+    $relvalMonth = $("#period-month-4").val();
+    $relvalPrice = $("#price-dropdown-4").val();
+    $relvalRating = $("#relvalRating").val();
+    $relvalCreditEquity = $("#relvalCreditEquity").val();
+
+    $.ajax({
+        type: "POST",
+        url: $url,
+        data: 
+        {
+               relvalMonth: $relvalMonth,
+               relvalPrice: $relvalPrice,
+               relvalRating: $relvalRating,
+               relvalCreditEquity: $relvalCreditEquity
+        },
+        success: function (result)
+        {
+            $('#AjaxLoaderDiv').fadeOut('slow');
+            if (result.status == 1)
+            {
+                drawRelvalChart(result.data);
+            } 
+            else
+            {
+                $.bootstrapGrowl(result.msg, {type: 'danger', delay: 4000});
+            }
+        },
+        error: function (error) 
+        {
+            $('#AjaxLoaderDiv').fadeOut('slow');
+            $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
+        }
+    });    
+
+}
+
+function drawRelvalChart(data_values) 
+{
+    var elementID = "curve_chart23";
+    var formatedData = [];
+
+    var counter = 1;
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', '');
+
+    for(j = 1;j<=1000;j++)
+    {
+        data.addColumn('number', '');
+        data.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
+        data.addColumn({type: 'string', role: 'annotation', 'p': {'html': true}});
+    }    
+
+    for(var i in data_values)
+    {
+        var prices = [];
+        var cnt = 0;
+        prices.push(i);
+
+        for(j in data_values[i])
+        {   
+            prices.push(parseFloat(data_values[i][j]['price']));                     
+            var html = '<p style="white-space: nowrap;padding: 3px;"><b>'+data_values[i][j]['country_title']+'</b><br />'+i+', '+parseFloat(data_values[i][j]['price'])+'</p>';    
+            prices.push(html);
+            var html = data_values[i][j]['country_code'];
+            prices.push(html);
+            cnt++;
+        }  
+
+        for(k = cnt+1;k<=1000;k++)
+        {
+            prices.push(null);            
+            prices.push('');
+            prices.push('');
+        }
+
+        data.addRow(prices);
+    }        
+
+
+    var options = {        
+        curveType: 'function',
+        annotations: 
+        {            
+            textStyle: 
+            {
+                    fontSize: 10,
+                    // color: 'red',                                        
+            }
+        },        
+        tooltip: {isHtml: true},
+        legend: {position: 'none'},
+        backgroundColor: {fill: 'transparent'},
+        axisTextStyle: {color: '#344b61'},
+        titleTextStyle: {color: '#fff'},
+        legendTextStyle: {color: '#ccc'},
+        colors: ['white'],
+        pointSize : 10,
+        hAxis: 
+        {
+            textStyle: {color: '#fff'},
+            gridlines: {color: "#39536b"}
+        },
+        vAxis: 
+        {
+            textStyle: {color: '#fff'},
+            gridlines: {color: "#39536b"},
+            baselineColor: {color: "#39536b"}
+        }
+    };    
+
+    var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
+    chart.draw(data, options);
+}
+
 
 function resetFields()
 {
@@ -406,7 +531,7 @@ function generateLineGraph()
         $.ajax({
             type: "POST",
             url: $url,
-            data: {security_id: global_line_graph_id, month_id: $val, benchmark_id: $benchmark, price_id: $priceID, market_id: $market_id},
+            data: {security_id: global_line_graph_id, month_id: $val, benchmark_id: $benchmark, price_id: $priceID, market_id: $market_id,from: 'default_market'},
             success: function (result)
             {
                 $('#AjaxLoaderDiv').fadeOut('slow');
@@ -420,6 +545,20 @@ function generateLineGraph()
                         drawChart(result.data.history_data, 'curve_chart', 0);
                         fillBanchMark(result.data.arr_banchmark);
                     }
+
+                    if(result.isEquity == 1)
+                    {
+                        $("#price-dropdown option[value=3]").hide();
+                        if($("#price-dropdown").val() == 3)
+                        {
+                            $("#price-dropdown").val(1);                        
+                        }
+                    }   
+                    else
+                    {
+                        $("#price-dropdown option[value=3]").show();
+                    } 
+
                 } else
                 {
                     $.bootstrapGrowl(result.msg, {type: 'danger', delay: 4000});
@@ -448,6 +587,16 @@ $(document).ready(function () {
 
     $(document).on("click", ".custom-market-change", function () {
         global_line_graph_text = $(this).data("name");
+        global_line_graph_id = $(this).data("id");
+        $("#benchmark-dropdown").html('<option value="">Add Benchmark</option>');
+        generateLineGraph();                
+        $('html, body').animate({
+                scrollTop: $("#linegraph-data").offset().top
+        }, 600);                        
+    });
+
+    $(document).on("click", ".view-security-chart", function () {
+        global_line_graph_text = $(this).text();
         global_line_graph_id = $(this).data("id");
         $("#benchmark-dropdown").html('<option value="">Add Benchmark</option>');
         generateLineGraph();                
@@ -495,17 +644,47 @@ $(document).ready(function () {
         initBarCharts();
     });
 
+    $(document).on("change","#period-month-4",function(){
+        initRelvalChart();
+    });
+
+    $(document).on("change","#price-dropdown-4",function(){
+        initRelvalChart();
+    });
+
+    $(document).on("change","#relvalRating",function(){
+        initRelvalChart();
+    });
+
+    $(document).on("change","#relvalCreditEquity",function(){
+
+        if($(this).val() == 1)
+        {
+            $("#price-dropdown-4 option[value=3]").hide();
+            if($("#price-dropdown-4").val() == 3)
+            {
+                $("#price-dropdown-4").val(1);
+            }
+        }
+        else
+        {
+            $("#price-dropdown-4 option[value=3]").show();
+        }
+
+        initRelvalChart();
+        $(".rel-val-sub-title").text($("#relvalCreditEquity option:selected").text())
+    });        
 
     $(".market-chart-title").html($("select#markets").find("option:selected").text());
     
-    if ($.trim($("select#markets").find("option:selected").text()) == "Credit" || $.trim($("select#markets").find("option:selected").text()) == "CREDIT" || $("select#markets").val() == 5)
-    {
-        $("#price-dropdown").show();
-    }
-    else
-    {
-        $("#price-dropdown").hide();
-    }
+    // if ($.trim($("select#markets").find("option:selected").text()) == "Credit" || $.trim($("select#markets").find("option:selected").text()) == "CREDIT" || $("select#markets").val() == 5)
+    // {
+    //     $("#price-dropdown").show();
+    // }
+    // else
+    // {
+    //     $("#price-dropdown").hide();
+    // }
 
     // $("#period-month").val(12);
     // $("#period-month").trigger("change");

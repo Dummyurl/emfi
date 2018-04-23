@@ -10,9 +10,10 @@
                     <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
                 </div>
                 <div class="col-md-6 select_r">
-                    <select name="markets" id="markets">                        
-                        @foreach($markets as $val => $label)
-                        <option data-url="{{ url(getMarketUrls($val)) }}" {{ $selected_market == $val ? 'selected="selected"':'' }} value="{{ $val }}">
+                    <select name="markets" id="markets">    
+                        <option value="" selected="">Selector</option>
+                        @foreach($markets as $val => $label)                        
+                        <option data-url="{{ url(getMarketUrls($val)) }}" value="{{ $val }}">
                             {{ ucwords(strtolower($label)) }}
                         </option>
                         @endforeach                                                 
@@ -25,7 +26,7 @@
             @foreach($market_boxes as $row)            
             <div class="col-lg-3 col-md-3 col-sm-6 four_block">
                 <div class="inner_blue_box">
-                    <a data-id="{{ $row['id'] }}" data-name="{{ ucwords(strtolower($row['market_name'])) }}" href="javascript:void(0);" class="view-btn custom-market-change">
+                    <a data-id="{{ $row['id'] }}" data-name="{{ ucwords(strtolower($row['market_name'])) }}" href="javascript:void(0);" class="view-btn custom-market-change view-security-chart">
                         <span>{{ __('market.view_chart') }}</span>
                     </a>                  
                     <h3>{{ ucwords(strtolower($row['market_name'])) }}</h3>
@@ -56,61 +57,29 @@
 
             @endforeach
             @endif
-            <?php /*
-              <div class="col-lg-3 col-md-3 col-sm-6 four_block">
-              <div class="inner_blue_box">
-              <h3>Currency</h3>
-              <span class="value">24.6789</span>
-              <div class="botm clearfix">
-              <div class="arrow"> <i class="up"><img src="{{ asset('themes/frontend/images/white-arrow-down.png') }}" alt=""></i> </div>
-              <div class="value_num">
-              <p>-0.8124</p>
-              <p>-3.00%</p>
-              </div>
-              </div>
-              </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 four_block">
-              <div class="inner_blue_box">
-              <h3>Commodity</h3>
-              <span class="value">100.84</span>
-              <div class="botm clearfix">
-              <div class="arrow"> <i class="up"><img src="{{ asset('themes/frontend/images/white-arrow-up.png') }}" alt=""></i> </div>
-              <div class="value_num">
-              <p>+2.34</p>
-              <p>+0.85%</p>
-              </div>
-              </div>
-              </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 four_block">
-              <div class="inner_blue_box">
-              <h3>Rates</h3>
-              <span class="value">1200.12</span>
-              <div class="botm clearfix">
-              <div class="arrow"> <i class="up"><img src="{{ asset('themes/frontend/images/white-arrow-down.png') }}" alt=""></i> </div>
-              <div class="value_num">
-              <p>-0.345</p>
-              <p>-1.80%</p>
-              </div>
-              </div>
-              </div>
-              </div>
-             */ ?>
         </div>
     </div>
-</section>
+</section> 
 
 <div class="treechart"></div>
 <section class="full_chart_wrapper">
     <div id="treechart_div" style="width: 100%;height: 450px;"></div>          
 </section>
 
+<?php /*
+<div class="row analyzer-page">
+    <div class="col-lg-12 col-md-12 treechart_block">
+        <div class="inner_blue_box">
+            
+        </div>
+    </div>
+</div>        
+*/ ?>
+
 <section class="chart_wrapper">
     <div class="container">
         <div class="title">
             <h2>{{ __('market.market_movers') }}</h2>
-            <span class="market-chart-title"></span>
         </div>
     </div>
     <div class="container chart_section">
@@ -126,6 +95,7 @@
         </div>
     </div>
 </section>
+
 <div class="clearfix"></div>
 
 <section class="chart_table grey_bg">
@@ -178,89 +148,8 @@
     </div>
 </section>                
 
-<div id="relval" class="clearfix"></div>
-<div class="clearfix"></div>
-<section class="equities">
-    <div class="container">
-        <div class="title">
-            <h2>{{ __('analyzer.relative_value') }}</h2>
-            <span class="rel-val-sub-title">                
-                @if($selected_market == 1)
-                    Equities
-                @else
-                    Credit
-                @endif
-            </span>
-        </div>
-    </div>
-    <div class="container chart_section">
-        <div class="row">
-            <div class="col-lg-12">
-                <div id="curve_chart23" style="width: 100%; height: 480px"> </div>
-                <div class="chart_dropdown clearfix">
-                    <form>
-                        <div class="col-md-3">
-                            <select id="period-month-4">
-                                <option selected value="{{ date('Y-m-d') }}">Today</option>   
-                                @foreach(getMonths() as $month => $label)                               
-                                @if($month == -1) 
-                                    <option value="{{ date('Y-01-01') }}">
-                                        {{ $label }}
-                                    </option>                                
-                                @else
-                                    <option value="{{ date('Y-m-d', strtotime('-'.$month.' month')) }}">
-                                        {{ $label }}
-                                    </option>                                
-                                @endif
-                                @endforeach                                
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select id="relvalRating">                                
-                                <option value="1">S&P Rating</option>
-                                <option value="2">OECD Rating</option>
-                            </select>
-                        </div>
-                        
-                        @if($selected_market == 1)
-                            <div class="col-md-3">
-                                <select id="price-dropdown-4">
-                                    <option value="1" data-title="Price" selected="selected">Price</option>
-                                    <option value="2" data-title="Yield">Yield</option>
-                                    <option value="3" data-title="Spread" style="display: none;">Spread</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <select id="relvalCreditEquity">                                
-                                    <option value="5">Credit</option>
-                                    <option value="1" selected="selected">Equities</option>
-                                </select>
-                            </div>                                                
-                        @else
-                            <div class="col-md-3">
-                                <select id="price-dropdown-4">
-                                    <option value="1" data-title="Price">Price</option>
-                                    <option value="2" data-title="Yield">Yield</option>
-                                    <option value="3" data-title="Spread" selected="selected">Spread</option>                              
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <select id="relvalCreditEquity">                                
-                                    <option value="5" selected="selected">Credit</option>
-                                    <option value="1">Equities</option>
-                                </select>
-                            </div>                        
-                        @endif
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <div id="linegraph-data"></div>
-
-<section class="equities grey_bg" style="padding-top: 15px;padding-bottom: 15px;">
+<section class="equities">
     <div class="container">
         <div class="title">
             <h2>{{ __('market.market_history') }}</h2>
@@ -286,7 +175,7 @@
                             <select id="price-dropdown">
                                 <option value="1" data-title="Price">Price</option>
                                 <option value="2" data-title="Yield">Yield</option>
-                                <option value="3" data-title="Spread" {!! ($selected_market == 5) ? 'selected="selected"':'' !!}>Spread</option>
+                                <option value="3" data-title="Spread">Spread</option>
                             </select>
                         </div>
                         <div class="col-md-4 pull-right">
@@ -301,14 +190,19 @@
     </div>
 </section>
 
-@include('includes.twitter',['tweet_sub_title' => 'Latin America'])
 
+<div style="display: none;" id="chart-data-gainer">{!! json_encode($gainer_data) !!}</div>
+<div style="display: none;" id="chart-data-loser">{!! json_encode($loser_data) !!}</div>
 @stop
 
+
 @section('scripts')
+<script src="{{ asset('themes/frontend/js/marketDefault.js') }}"></script>
 <script type="text/javascript">
-    var treeObject, treeObject2, dataChart1, dataChart2;
+    var treeObject, treeObject2, dataChart1, dataChart2, global_bond_id1, global_bond_id2;
     var dataTemp;
+    var top_gainer_data;
+    var top_loser_data;
     
     function showStaticTooltip(row, size, value)
     {
@@ -331,6 +225,7 @@
 
     function drawTreetChart(data_values, elementID) 
     {
+
         dataTemp =
         [
                 ['Country', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
@@ -374,6 +269,7 @@
                             var str = node_val;
 
 
+
                             if(str.toLowerCase().indexOf("credit") >= 0)
                             {
                                 node_val = 0;                
@@ -390,23 +286,18 @@
 
                             if(node_val > 0)
                             {
-                                global_line_graph_text = dataChart1.getFormattedValue(selection[0].row, 0);
-                                global_line_graph_id = node_val;
-                                $("#benchmark-dropdown").html("");
-                                generateLineGraph();                    
-                                $('html, body').animate({
-                                        scrollTop: $("#linegraph-data").offset().top
-                                }, 600);                                                
+                                resetFields();
+                                global_secure_id = node_val; 
+                                loadMarketHistory();                                
                             }
+                            else
+                            {
+                                global_bond_id1 =  0;
+                            }            
                         });    
                         
-                        @if($selected_market == 1)
-                            treeObject.setSelection([{row:1,column: 0}]);
-                        @else
-                            treeObject.setSelection([{row:2,column: 0}]);    
-                        @endif
+                        treeObject.setSelection([{row:2,column: 0}]);
                 }
-    }    
-</script>
-<script src="{{ asset('themes/frontend/js/market.js') }}"></script>
+    }
+</script>  
 @stop

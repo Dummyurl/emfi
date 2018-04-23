@@ -320,7 +320,7 @@ function drawRelvalChart(data_values)
     // console.log("values");
     // console.log(data_values);
 
-    var elementID = "curve_chart2";
+    var elementID = "curve_chart23";
     var formatedData = [];
 
     var counter = 1;
@@ -358,7 +358,7 @@ function drawRelvalChart(data_values)
     {
         data.addColumn('number', '');
         data.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
-        // data.addColumn({type: 'string', role: 'annotation', 'p': {'html': true}});
+        data.addColumn({type: 'string', role: 'annotation', 'p': {'html': true}});
     }    
 
     for(var i in data_values)
@@ -375,7 +375,7 @@ function drawRelvalChart(data_values)
             var html = '<p style="white-space: nowrap;padding: 3px;"><b>'+data_values[i][j]['country_title']+'</b><br />'+i+', '+parseFloat(data_values[i][j]['price'])+'</p>';    
             prices.push(html);
             var html = data_values[i][j]['country_code'];
-            // prices.push(html);
+            prices.push(html);
             cnt++;
         }  
 
@@ -383,7 +383,7 @@ function drawRelvalChart(data_values)
         {
             prices.push(null);            
             prices.push('');
-            // prices.push('');
+            prices.push('');
         }
 
         data.addRow(prices);
@@ -417,6 +417,14 @@ function drawRelvalChart(data_values)
 
     var options = {        
         curveType: 'function',
+        annotations: 
+        {            
+            textStyle: 
+            {
+                    fontSize: 10,
+                    // color: 'red',                                        
+            }
+        },        
         tooltip: {isHtml: true},
         legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
@@ -428,11 +436,7 @@ function drawRelvalChart(data_values)
         hAxis: 
         {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            annotations: 
-            {
-                color: '#337ab7'
-            }    
+            gridlines: {color: "#39536b"}
         },
         vAxis: 
         {
@@ -548,7 +552,7 @@ function drawHistoryChart2(data_values) {
         colors: ['#fff', '#8ab3e2']
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById('curve_chart2'));
+    var chart = new google.visualization.LineChart(document.getElementById('curve_chart23'));
     chart.draw(data, options);
 }
 
