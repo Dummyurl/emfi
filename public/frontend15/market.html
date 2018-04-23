@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -8,11 +8,12 @@
 <title>EMFI</title>
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/carousel-.css" rel="stylesheet">
 <link href="css/fonts.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <link href="css/style.css" rel="stylesheet">
 <link href="css/responsive.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700" rel="stylesheet">
+
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -91,8 +92,8 @@
       <div class="row">
       <div class="col-md-6"><h2>Markets</h2></div>
       <div class="col-md-6 select_r">
-      <select name="">
-                <option selected>Select option</option>
+      <select name="" placeholder="">
+      <option selected>Select an option</option>
                 <option>Option 1</option>
                 <option>Option 2</option>
               </select>
@@ -102,6 +103,7 @@
     <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-6 four_block">
         <div class="inner_blue_box">
+        <a href="#" class="view-btn"><span>View Chart</span></a>
           <h3>Equities</h3>
           <span class="value">1200.12</span>
           <div class="botm clearfix">
@@ -115,6 +117,7 @@
       </div>
       <div class="col-lg-3 col-md-3 col-sm-6 four_block">
         <div class="inner_blue_box">
+    	<a href="#" class="view-btn"><span>View Chart</span></a>
           <h3>Currency</h3>
           <span class="value">24.6789</span>
           <div class="botm clearfix">
@@ -128,6 +131,7 @@
       </div>
       <div class="col-lg-3 col-md-3 col-sm-6 four_block">
         <div class="inner_blue_box">
+       <a href="#" class="view-btn"><span>View Chart</span></a>
           <h3>Commodity</h3>
           <span class="value">100.84</span>
           <div class="botm clearfix">
@@ -141,6 +145,7 @@
       </div>
       <div class="col-lg-3 col-md-3 col-sm-6 four_block">
         <div class="inner_blue_box">
+       <a href="#" class="view-btn"><span>View Chart</span></a>
           <h3>Rates</h3>
           <span class="value">1200.12</span>
           <div class="botm clearfix">
@@ -318,6 +323,7 @@ Authorised And Regulated By The Financial Conduct Authority.</p>
 <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <script>
 if ( $(window).width() > 767) {
             $('#navbar .dropdown, .rightlinks .dropdown').hover(function() {
@@ -465,6 +471,14 @@ $(function(){
 //	$('#section2').parallax({
 	//	imageSrc: 'images/background-3.jpg'
 	//});
+});
+
+$(document).ready(function() {
+    $('.select_r select').select2({
+	allowClear: true,
+	multiple: false,
+	placeholder: "Select an option"
+	});
 });
     </script>
 </body>
