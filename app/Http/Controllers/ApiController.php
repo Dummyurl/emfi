@@ -151,6 +151,9 @@ class ApiController extends Controller
 
         if($security1 && $security2)
         {
+            $global_security_title1 = $security1->security_name;
+            $global_security_title2 = $security2->security_name;
+            
             $main_title = $security1->security_name."<br /><span>".$security2->security_name."</span>";
         }
 
@@ -219,6 +222,7 @@ class ApiController extends Controller
 
                     $dataKeys[$row['created']]['column2'] = NULL;
                     $dataKeys[$row['created']]['date'] = $row['created_format'];
+                    $dataKeys[$row['created']]['main_date'] = $row['created'];
                 }
 
                 foreach($benchmark_history_data as $row)
@@ -242,7 +246,8 @@ class ApiController extends Controller
                     if(!isset($dataKeys[$row['created']]['column1']))
                     $dataKeys[$row['created']]['column1'] = NULL;
 
-                    $dataKeys[$row['created']]['date'] = $row['created_format'];                                                             
+                    $dataKeys[$row['created']]['date'] = $row['created_format'];
+                    $dataKeys[$row['created']]['main_date'] = $row['created'];                                                             
                 }
 
 
@@ -255,7 +260,7 @@ class ApiController extends Controller
                 {
                     if(!empty($dataKeys[$key]['date']))
                     {
-                        $finalData[$i] = [$dataKeys[$key]['date'], $dataKeys[$key]['column1'], $dataKeys[$key]['column2']];
+                        $finalData[$i] = [$dataKeys[$key]['date'], $dataKeys[$key]['column1'], $dataKeys[$key]['column2'],$dataKeys[$key]['main_date']];
 
                         $i++;                        
                     }    

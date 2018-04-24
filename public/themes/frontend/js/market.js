@@ -249,7 +249,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         colors: ['white', 'blue'],
         hAxis: {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b", count: 12}
+            gridlines: {color: "transparent",count: 12}
         },
         vAxis: {
             textStyle: {color: '#fff'},
@@ -343,7 +343,7 @@ function drawChart(data_values, elementID, fromBenchMark)
         hAxis: 
         {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b",count: 12},
+            gridlines: {color: "transparent",count: 12}
         },
         vAxis: {
             textStyle: {color: '#fff'},

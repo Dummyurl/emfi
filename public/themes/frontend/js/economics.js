@@ -319,7 +319,8 @@ function drawChart2(data_values, elementID)
     if (counter > 0)
     {
         $columnTitle = $columnTitle + " "+$("select#price-dropdown-10 option:selected").data("title");
-        formatedData.push(["", $columnTitle]);
+        formatedData.push(["", $columnTitle,{label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);
+
         var j = 1;
         for (var i in data_values)
         {
@@ -328,14 +329,23 @@ function drawChart2(data_values, elementID)
            var $created = d;           
 
             if ($("select#price-dropdown-10").val() != 1)
-            {
+            {                
                 if ($("select#price-dropdown-10").val() == 2)
-                    formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['YLD_YTM_MID'])]);
+                {
+                    var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['YLD_YTM_MID'] + "</b>"+"</p>";    
+                    formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['YLD_YTM_MID']),html]);
+                }    
                 else if ($("select#price-dropdown-10").val() == 3)
-                    formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['Z_SPRD_MID'])]);
-            } else
+                {
+                    var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['Z_SPRD_MID'] + "</b>"+"</p>";
+                    formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['Z_SPRD_MID']),html]);
+                }    
+                    
+            } 
+            else
             {
-                formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['last_price'])]);
+                var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['last_price'] + "</b>"+"</p>";
+                formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['last_price']),html]);
             }
 
             j++;
@@ -350,6 +360,7 @@ function drawChart2(data_values, elementID)
 
     var options = {
         title: '',
+        tooltip: {isHtml: true},
         curveType: 'function',
         "categoryAxis": {
 
@@ -363,7 +374,7 @@ function drawChart2(data_values, elementID)
         colors: ['white'],
         hAxis: {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b", count: 12}
+            gridlines: {color: "transparent",count: 12}
         },
         vAxis: {
             textStyle: {color: '#fff'},
@@ -384,13 +395,17 @@ function drawBenchmarkChart2(data_values)
     $(".market-chart-title-2").html(global_secure_id_2_text+ "<br /><span>"+$("select#benchmark-dropdown-10 option:selected").text()+"</span>");
      
     var formatedData = [];
-    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $columnTitle2, type:'number'}]);
+    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}, {label: $columnTitle2, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);
 
     for(var i in data_values.benchmark_history_data)
     {
        var d = new Date(data_values.benchmark_history_data[i][3]);
        var $created = d;        
-       formatedData.push([{f: data_values.benchmark_history_data[i][0], v: $created},data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);
+
+       var html1 = "<p style='white-space: nowrap;padding: 3px;'>"+global_secure_id_2_text + "<br /> <b>" + data_values.benchmark_history_data[i][0] + ", " + data_values.benchmark_history_data[i][1] + "</b>"+"</p>";
+       var html2 = "<p style='white-space: nowrap;padding: 3px;'>"+$("select#benchmark-dropdown-10 option:selected").text() + "<br /> <b>" + data_values.benchmark_history_data[i][0] + ", " + data_values.benchmark_history_data[i][2] + "</b>"+"</p>";
+
+       formatedData.push([{f: data_values.benchmark_history_data[i][0], v: $created},data_values.benchmark_history_data[i][1], html1, data_values.benchmark_history_data[i][2], html2]);
     }
 
     var data = google.visualization.arrayToDataTable(formatedData);
@@ -398,6 +413,7 @@ function drawBenchmarkChart2(data_values)
     var options = {
         title: '',
         curveType: 'function',
+        tooltip: {isHtml: true},
         series: {
           0: {targetAxisIndex: 0},
           1: {targetAxisIndex: 1}
@@ -410,7 +426,7 @@ function drawBenchmarkChart2(data_values)
         colors: ['white', 'blue'],
         hAxis: {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "transparent",count: 12}
         },
         vAxis: {
             textStyle: {color: '#fff'},

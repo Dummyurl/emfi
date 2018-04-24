@@ -222,10 +222,19 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Security</th>
-                        <th>Last Price</th>
-                        <th>Net Change</th>
-                        <th>Change Percentage</th>                        
+                        @if($selected_market == 5)
+                            <th>Security</th>
+                            <th>Bid</th>
+                            <th>Ask</th>
+                            <th>Yield</th>
+                            <th>Spread</th>
+                            <th>Change</th>
+                        @else
+                            <th>Security</th>
+                            <th>Last Price</th>
+                            <th>Net Change</th>
+                            <th>Change Percentage</th>
+                        @endif
                     </tr>
                 </thead>                
                 <tbody>
@@ -237,15 +246,33 @@
                                         {{ $row['security_name'] }}
                                     </a>                                    
                                 </td>
-                                <td>
-                                    {{ $row['last_price'] }}
-                                </td>
-                                <td>
-                                    {{ $row['net_change'] }}
-                                </td>                                
-                                <td>
-                                    {{ $row['percentage_change'] }}%
-                                </td>
+                                @if($selected_market == 5)
+                                    <td>
+                                        {{ $row['bid_price'] }}
+                                    </td>
+                                    <td>
+                                        {{ $row['ask_price'] }}
+                                    </td>
+                                    <td>
+                                        {{ $row['yld_ytm_mid'] }}
+                                    </td>
+                                    <td>
+                                        {{ $row['z_sprd_mid'] }}
+                                    </td>
+                                    <td>
+                                        {{ $row['net_change'] }}
+                                    </td>                                
+                                @else
+                                    <td>
+                                        {{ $row['last_price'] }}
+                                    </td>
+                                    <td>
+                                        {{ $row['net_change'] }}
+                                    </td>                                
+                                    <td>
+                                        {{ $row['percentage_change'] }}%
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     @else

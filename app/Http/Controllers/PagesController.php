@@ -128,8 +128,11 @@ class PagesController extends Controller {
         $data['bond_data'] = [];
 
         foreach ($bond_data as $r) {
+            $r['id'] = $r['security_id'];
             $data['bond_data'][$r['ticker']][] = $r;
         }
+
+        // dd($data['bond_data']);
 
         $data['country_benchmarkes'] = \App\Models\Tickers::getCountriesList();
         // dd($data['country_benchmarkes']);

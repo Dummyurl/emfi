@@ -90,7 +90,7 @@ function reInitChart()
                 global_security_title1 = result.global_security_title1;
                 global_security_title2 = result.global_security_title2;        
 
-                drawHistoryChart(result.data);
+                drawHistoryChart(result);
                 drawAreaChart(result.data.area_chart);
                 drawRegression(result.data.regression_chart);
                 // drawRelvalChart(result.data.relval_chart);
@@ -244,7 +244,9 @@ function drawAreaChart(data_values) {
     {
         for(var i in data_values)
         {
-            formatedData.push([data_values[i]['created_format'], parseFloat(data_values[i]['main_price'])]);        
+            var d = new Date(data_values[i]['created']);
+            var $created = d;           
+            formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['main_price'])]);        
         }           
     }    
     else
@@ -265,7 +267,7 @@ function drawAreaChart(data_values) {
         hAxis: 
         {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "transparent",count: 12}
         },
         vAxis: 
         {
@@ -452,6 +454,11 @@ function drawRelvalChart(data_values)
 
 function drawHistoryChart(data_values)
 {
+    result = data_values;
+    data_values = result.data;
+
+    global_security_title1 = result.global_security_title1;
+    global_security_title2 = result.global_security_title2;        
 
     var formatedData = [];
 
@@ -468,19 +475,34 @@ function drawHistoryChart(data_values)
         $columnTitle2 = "";
         var formatedData = [];
 
-        formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $columnTitle2, type:'number'}]);    
+        formatedData.push(["", {label:$columnTitle, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}},{label: $columnTitle2, type:'number'},{label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);    
         for(var i in data_values.benchmark_history_data)
         {
-           formatedData.push([data_values.benchmark_history_data[i][0],data_values.benchmark_history_data[i][1], data_values.benchmark_history_data[i][2]]);        
+           var d = new Date(data_values.benchmark_history_data[i][3]);
+           var $created = d;        
+
+           var html1 = "<p style='white-space: nowrap;padding: 3px;'>"+global_security_title1  + "<br /> <b>" + data_values.benchmark_history_data[i][0] + ", " + data_values.benchmark_history_data[i][1] + "</b>"+"</p>";
+           var html2 = "<p style='white-space: nowrap;padding: 3px;'>"+global_security_title2  + "<br /> <b>" + data_values.benchmark_history_data[i][0] + ", " + data_values.benchmark_history_data[i][2] + "</b>"+"</p>";
+
+           formatedData.push
+           (
+                [
+                    {v: $created, f: data_values.benchmark_history_data[i][0]},
+                    data_values.benchmark_history_data[i][1], 
+                    html1,
+                    data_values.benchmark_history_data[i][2],
+                    html2
+                ]
+           );        
            
            if(data_values.benchmark_history_data[i][1] < 0)
            {
-                alert(data_values.benchmark_history_data[i][1]);
+                // alert(data_values.benchmark_history_data[i][1]);
            }            
 
            if(data_values.benchmark_history_data[i][2] < 0)
            {
-                alert(data_values.benchmark_history_data[i][2]);
+                // alert(data_values.benchmark_history_data[i][2]);
            }            
         }   
     } 
@@ -494,6 +516,7 @@ function drawHistoryChart(data_values)
     var options = {
         title: '',
         curveType: 'function',
+        tooltip: {isHtml: true},
         legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
@@ -506,7 +529,7 @@ function drawHistoryChart(data_values)
         colors: ['white'],
         hAxis: {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "transparent",count: 12}
         },
         vAxis: 
         {
