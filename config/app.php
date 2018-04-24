@@ -12,6 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
+    'map_tree_max_percentage' => 2,
     'name' => 'Laravel',
 
     /*
