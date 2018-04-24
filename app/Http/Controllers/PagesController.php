@@ -185,17 +185,11 @@ class PagesController extends Controller {
 
         $equities = [];
         $credits = [];
-        foreach ($treeMapData as $r) 
-        {
-            if ($r['market_id'] == 5) 
-            {
-                $r['color'] = $this->getColor($r['percentage_change']);
+        foreach ($treeMapData as $r) {
+            if ($r['market_id'] == 5) {
                 $credits['countries'][$r['country']]['title'] = $r['country_name'];
                 $credits['countries'][$r['country']]['records'][] = ['id' => $r['id'], 'security_name' => $r['security_name'], 'data' => $r];
-            } 
-            else 
-            {
-                $r['color'] = $this->getColor($r['percentage_change']);
+            } else {
                 $equities['countries'][$r['country']]['title'] = $r['country_name'];
                 $equities['countries'][$r['country']]['records'][] = ['id' => $r['id'], 'security_name' => $r['security_name'], 'data' => $r];
             }
@@ -204,12 +198,6 @@ class PagesController extends Controller {
         $data['equities'] = $equities;
         $data['credits'] = $credits;
 
-        // echo "<pre>";
-        // print_r($data['equities']);
-        // print_r($data['credits']);
-        // echo "</pre>";
-
-        // exit;
 
 
         $default_security_id1 = 0;
@@ -229,47 +217,10 @@ class PagesController extends Controller {
         return view('analyzer', $data);
     }
 
-    public function getColor($val)
-    {
-        
-
-        if($val >= 0)
-        {
-            if($val > 2)
-            {
-                $val = 2;                
-            }    
-
-            $color = "#00ff00";
-            $steps = round((245*$val) / 2);
-            $steps = 245 - $steps;
-            
-            // $newSteps = $steps * 3;
-
-            $newColor = adjustBrightness($color, $steps);
-        }
-        else
-        {
-            $val = abs($val);
-
-            if($val > 2)
-            {
-                $val = 2;                
-            }    
-
-            $color = "#ff0000";
-            $steps = round((245*$val) / 2);
-            $steps = 245 - $steps;
-            // $steps = $steps * 3;
-            $newColor = adjustBrightness($color, $steps);
-        }
-
-        return $newColor;
-    }
-
 
     public function market(Request $request, $type = '') {
 
+        $default_country_id = session()->get('default_country_id');
         // $j = 1;
         // $color = "#00ff00";
         // for($i = 245; $i >= 1 ; $i = $i - 12)
@@ -282,9 +233,6 @@ class PagesController extends Controller {
         //     $j++;
         // }
         // exit;
-
-
-
         $main_categories = [
             "equities" => 1,
             "currencies" => 2,
@@ -342,7 +290,9 @@ class PagesController extends Controller {
         else 
         {
             $country_id = 14;
-
+            if(!empty($default_country_id)){
+                $country_id = $default_country_id;
+            }
             // Get Top 4 Box Data
             $data['market_boxes'] = callCustomSP('CALL select_economics_country(' . $country_id . ')');
 

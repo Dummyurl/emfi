@@ -623,3 +623,10 @@ function prd($arr){
     print_r($arr);
     exit();
 }
+
+function GetCountryDetailFromIp($client_ip)
+{
+    $url = "http://www.geoplugin.net/json.gp?ip=".$client_ip;
+    $json = json_decode(file_get_contents($url, true));
+    return $json;
+}
