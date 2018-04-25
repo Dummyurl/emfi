@@ -77,7 +77,7 @@ foreach($country_benchmarkes as $r)
                         </div>
                     </div> 
                 @endforeach
-            @endif                
+            @endif
         </div>
     </div>
 </section>
@@ -225,7 +225,7 @@ foreach($country_benchmarkes as $cnt)
 
                         <div class="col-md-3 pull-right">
                             <select id="benchmark-dropdown-{{ $counter }}">
-                                <option value="">Add Benchmark</option>
+                                <option value="">{{ __('market.add_benchmark') }}</option>
                                 @foreach($country_benchmarkes as $cnt)
                                     @if(trim(strtolower($key)) == trim(strtolower($cnt['ticker_name'])) && $cnt['country_id'] == $countryObj->id)
                                         
@@ -265,12 +265,12 @@ foreach($country_benchmarkes as $cnt)
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Security</th>
-                        <th>Bid</th>
-                        <th>Ask</th>
-                        <th>Yield</th>
-                        <th>Spread</th>
-                        <th>Change</th>
+                        <th>{{ __('market.security') }}</th>
+                        <th>{{ __('market.bid') }}</th>
+                        <th>{{ __('market.ask') }}</th>
+                        <th>{{ __('market.yield') }}</th>
+                        <th>{{ __('market.spread') }}</th>
+                        <th>{{ __('market.change') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -346,7 +346,7 @@ foreach($country_benchmarkes as $cnt)
                         </div>
                         <div class="col-md-4">
                             <select id="benchmark-dropdown-10">
-                                <option value="">Add Benchmark</option>
+                                <option value="">{{ __('market.add_benchmark') }}</option>
                             </select>
                         </div>
                     </form>
