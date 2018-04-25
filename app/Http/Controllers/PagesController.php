@@ -219,8 +219,6 @@ class PagesController extends Controller {
 
 
     public function market(Request $request, $type = '') {
-
-        $default_country_id = session()->get('default_country_id');
         // $j = 1;
         // $color = "#00ff00";
         // for($i = 245; $i >= 1 ; $i = $i - 12)
@@ -279,8 +277,12 @@ class PagesController extends Controller {
 
         $data['equities'] = $equities;
         $data['credits'] = $credits;        
+        
+        $default_country_id = session()->get('default_country_id');
+        $continentCode      = session()->get('continentCode');
+        $default_country_id = GetCountryIdFromRegion($continentCode, $default_country_id);
 
-        if (!empty($type)) 
+        if (!empty($type))
         {
             // Get Market Pricer
             $pricer_data = callCustomSP('CALL select_emerging_countries_security_data('.$market_type_id.')');

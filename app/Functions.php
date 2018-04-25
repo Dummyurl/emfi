@@ -630,3 +630,29 @@ function GetCountryDetailFromIp($client_ip)
     $json = json_decode(file_get_contents($url, true));
     return $json;
 }
+
+function GetCountryIdFromRegion($continentCode, $default_country_id=null)
+{
+
+    switch ($continentCode)
+    {
+        case "SA":
+            return 14;
+            break;
+        case "NA":
+            return 14;
+            break;
+        case "EU":
+            if($default_country_id == 7){
+                return 7;
+            }
+            return 12;
+            break;
+        case "AS":
+            return 13;
+            break;
+        default:
+            return 14;
+    }
+
+}
