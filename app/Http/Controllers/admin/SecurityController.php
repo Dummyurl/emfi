@@ -262,7 +262,7 @@ class SecurityController extends Controller
                     $msg = 'S&P rating is required !';
                     return ['status' => $status,'msg' => $msg, 'data' => $data];
                 }
-                if(empty($current_oecd_member_cor_class))
+                if($current_oecd_member_cor_class == null)
                 {
                     $status = 0;
                     $msg = 'OECD is required !';
@@ -294,7 +294,7 @@ class SecurityController extends Controller
                     $msg = 'S&P rating is required !';
                     return ['status' => $status,'msg' => $msg, 'data' => $data];
                 }
-                if(empty($current_oecd_member_cor_class))
+                if($current_oecd_member_cor_class == null)
                 {
                     $status = 0;
                     $msg = 'OECD is required !';
@@ -497,7 +497,7 @@ class SecurityController extends Controller
                     $msg = 'S&P rating is required !';
                     return ['status' => $status,'msg' => $msg, 'data' => $data];
                 }
-                if(empty($current_oecd_member_cor_class))
+                if($current_oecd_member_cor_class == null)
                 {
                     $status = 0;
                     $msg = 'OECD is required !';
@@ -529,7 +529,7 @@ class SecurityController extends Controller
                     $msg = 'S&P rating is required !';
                     return ['status' => $status,'msg' => $msg, 'data' => $data];
                 }
-                if(empty($current_oecd_member_cor_class))
+                if($current_oecd_member_cor_class == null)
                 {
                     $status = 0;
                     $msg = 'OECD is required !';
