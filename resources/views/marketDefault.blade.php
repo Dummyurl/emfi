@@ -109,10 +109,10 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Security</th>
-                        <th>Last Price</th>
-                        <th>Net Change</th>
-                        <th>Change Percentage</th>                        
+                        <th>{{ __('market.security') }}</th>
+                        <th>{{ __('market.last_price') }}</th>
+                        <th>{{ __('market.net_change') }}</th>
+                        <th>{{ __('market.change_percentage') }}</th>
                     </tr>
                 </thead>                
                 <tbody>
@@ -138,7 +138,7 @@
                     @else
                         <tr>
                             <td colspan="5">
-                                No Data Found !
+                                {{ __('market.no_data_found') }}
                             </td>
                         </tr>
                     @endif
@@ -180,7 +180,7 @@
                         </div>
                         <div class="col-md-4 pull-right">
                             <select id="benchmark-dropdown">
-                                <option value="">Add Benchmark</option>
+                                <option value="">{{ __('market.add_benchmark') }}</option>
                             </select>
                         </div>
                     </form>

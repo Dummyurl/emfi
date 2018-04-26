@@ -8,5 +8,18 @@
 	'market_history'=>"Market History",
 	'market_news'=>"Market News",
 	'no_tweets'=>"No Tweets Found",
+	'equities'=>"Equities",
+	'credit'=>"Credit",
+	'security'=>"Security",
+	'bid'=>"Bid",
+	'ask'=>"Ask",
+	'yield'=>"Yield",
+	'spread'=>"Spread",
+	'change'=>"Change",
+	'last_price'=>"Last Price",
+	'net_change'=>"Net Change",
+	'change_percentage'=>"Change Percentage",
+	'no_data_found'=>"No Data Found !",
+	'add_benchmark'=>"Add Benchmark",
 	]; 
 ?>

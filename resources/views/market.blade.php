@@ -136,9 +136,9 @@
             <h2>{{ __('analyzer.relative_value') }}</h2>
             <span class="rel-val-sub-title">                
                 @if($selected_market == 1)
-                    Equities
+                    {{ __('market.equities') }}
                 @else
-                    Credit
+                    {{ __('market.credit') }}
                 @endif
             </span>
         </div>
@@ -162,7 +162,7 @@
                                         {{ $label }}
                                     </option>                                
                                 @endif
-                                @endforeach                                
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -199,7 +199,7 @@
                                     <option value="5" selected="selected">Credit</option>
                                     <option value="1">Equities</option>
                                 </select>
-                            </div>                        
+                            </div>
                         @endif
                     </form>
                 </div>
@@ -223,20 +223,20 @@
                 <thead>
                     <tr>
                         @if($selected_market == 5)
-                            <th>Security</th>
-                            <th>Bid</th>
-                            <th>Ask</th>
-                            <th>Yield</th>
-                            <th>Spread</th>
-                            <th>Change</th>
+                            <th>{{ __('market.security') }}</th>
+                            <th>{{ __('market.bid') }}</th>
+                            <th>{{ __('market.ask') }}</th>
+                            <th>{{ __('market.yield') }}</th>
+                            <th>{{ __('market.spread') }}</th>
+                            <th>{{ __('market.change') }}</th>
                         @else
-                            <th>Security</th>
-                            <th>Last Price</th>
-                            <th>Net Change</th>
-                            <th>Change Percentage</th>
+                            <th>{{ __('market.security') }}</th>
+                            <th>{{ __('market.last_price') }}</th>
+                            <th>{{ __('market.net_change') }}</th>
+                            <th>{{ __('market.change_percentage') }}</th>
                         @endif
                     </tr>
-                </thead>                
+                </thead>
                 <tbody>
                     @if(count($pricer_data) > 0)
                         @foreach($pricer_data as $row)
@@ -278,7 +278,7 @@
                     @else
                         <tr>
                             <td colspan="5">
-                                No Data Found !
+                                {{ __('market.no_data_found') }}
                             </td>
                         </tr>
                     @endif
@@ -322,7 +322,7 @@
                         </div>
                         <div class="col-md-4 pull-right">
                             <select id="benchmark-dropdown">
-                                <option value="">Add Benchmark</option>
+                                <option value="">{{ __('market.add_benchmark') }}</option>
                             </select>
                         </div>
                     </form>
