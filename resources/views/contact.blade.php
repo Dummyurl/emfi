@@ -62,7 +62,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="office_details">
-                    <h3>{{ __('about.london') }}</h3>
+                    <h3>LONDON</h3>
                     <address>
                         <strong>EMFI</strong> SECURITIES<br>
                         32 Devonshire Pl<br>
