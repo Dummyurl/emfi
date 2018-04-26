@@ -391,6 +391,7 @@ class PagesController extends Controller {
 
         $SP_data = "CALL select_security_historical_data(" . $security_id . ", " . $month_id . ")";
         $history_data = callCustomSP($SP_data);
+        prd($history_data);
         $chart_data['history_data'] = $history_data;
         $chart_data['benchmark_history_data'] = [];
         if ($benchmark_id > 0) {

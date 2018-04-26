@@ -22,7 +22,8 @@ class PageMiddleware
         $client_ip =  "169.57.123.212"; //Maxico
         $client_ip =  "165.72.200.11"; //Europe
         $client_ip =  "89.191.212.57"; //UK
-        $client_ip =  GetUserIp();
+        $client_ip =  "196.43.34.190"; //Africa
+        // $client_ip =  GetUserIp();
         $Name = session()->get('country_name');
         if(!$Name)
         {
