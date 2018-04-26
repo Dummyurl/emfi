@@ -410,7 +410,7 @@ function drawChart(data_values, elementID)
             var d = new Date(data_values[i]['created']);
             var $created = d;
 
-            if($("select#price-dropdown").val() != 1 && $("select#markets").val() == 5)
+            if($("select#price-dropdown").val() != 1)
             {
                 if($("select#price-dropdown").val() == 2)
                 {   
