@@ -6,7 +6,7 @@
           <h3>{{ __('footer.quick_links') }}</h3>
           <ul>
             <li><a href="{{ url('/')}}">{{ __('footer.login') }}</a></li>
-            <li><a href="{{ route('about')}}">{{ __('header.about') }}</a></li>            
+            <li><a href="{{ route('about')}}">{{ __('footer.about') }}</a></li>            
             <li><a href="{{ route('contact')}}">{{ __('footer.contact') }}</a></li>            
           </ul>
         </div>

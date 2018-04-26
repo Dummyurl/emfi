@@ -3,6 +3,7 @@
 	'quick_links'=>'Quick Links',
 	'markets'=>'Markets',
 	'login'=>'Login',
+	'about'=>'About',
 	'contact'=>'Contact',
 	'legal_info'=>'Legal Info',
 	'terms_of_uses'=>'Terms of Use',

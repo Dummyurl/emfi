@@ -3,6 +3,7 @@
 	'quick_links'=>'ENLACES RÁPIDOS',
 	'markets'=>'Mercados',
 	'login'=>'Acceso',
+	'about'=>'Nosotros',
 	'contact'=>'Contacto',
 	'legal_info'=>'INFORMACIÓN LEGAL',
 	'terms_of_uses'=>'Términos de Uso',
