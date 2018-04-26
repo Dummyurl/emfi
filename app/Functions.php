@@ -633,26 +633,27 @@ function GetCountryDetailFromIp($client_ip)
 
 function GetCountryIdFromRegion($continentCode, $default_country_id=null)
 {
-
     switch ($continentCode)
     {
-        case "SA":
-            return 14;
+        case "SA": // South america
+            return 14; //UNITED STATES
             break;
-        case "NA":
-            return 14;
+        case "NA":  //North america
+            return 14; //UNITED STATES
             break;
-        case "EU":
+        case "EU": //Europe
             if($default_country_id == 7){
-                return 7;
+                return 7; //UNITED KINGDOM
             }
-            return 12;
+            return 12; //EUROZONE
             break;
-        case "AS":
-            return 13;
+        case "AS": //Asia
+            return 13; //JAPAN
+            break;
+        case "AF": //Africa
+            return 7; //UNITED KINGDOM
             break;
         default:
-            return 14;
+            return 14; //UNITED STATES
     }
-
 }
