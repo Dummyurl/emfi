@@ -190,6 +190,8 @@ function drawRegression(data_values)
     $minVal = getRoundedMinValue($minVal);
     $maxVal = getRoundedMaxValue($maxVal);
 
+    // console.log($minVal+" "+$maxVal);
+
     var data = google.visualization.arrayToDataTable(formatedData);
     var options = 
     {
