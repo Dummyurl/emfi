@@ -98,6 +98,8 @@ function drawChart(data_values, elementID, chartType)
     var formatedData = [];
     var counter = data_values.length;
 
+    var tmpValues = [];
+
     $("#main-chart-title-"+chartType).html($("#hid-main-chart-title-"+chartType).html());
     $columnTitle = $("#main-chart-title-"+chartType).html();
 
@@ -111,13 +113,16 @@ function drawChart(data_values, elementID, chartType)
             var j = 1;
             for (var i in data_values)
             {
+                
                 if($("#duration-dropdown-1").val() == 1)
-                {
+                {                    
+                    tmpValues.push(parseFloat(data_values[i]['date_difference']));
                     var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['tooltip'] + "<br /> <b>" + data_values[i]['category'] + ", " + data_values[i]['price'] + "</b>"+"</p>";
                     formatedData.push([{v:parseFloat(data_values[i]['date_difference']), f:data_values[i]['category']}, parseFloat(data_values[i]['price']), html]);
                 }
                 else
                 {
+                    tmpValues.push(data_values[i]['category']);
                     var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['tooltip'] + "<br /> <b>" + data_values[i]['category'] + ", " + data_values[i]['price'] + "</b>"+"</p>";
                     formatedData.push([data_values[i]['category'], parseFloat(data_values[i]['price']), html]);
                 }                
@@ -130,13 +135,16 @@ function drawChart(data_values, elementID, chartType)
             var j = 1;
             for (var i in data_values)
             {
+                
                 if($("#duration-dropdown-"+chartType).val() == 1)
                 {
+                    tmpValues.push(parseFloat(data_values[i]['date_difference']));
                     var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['tooltip'] + "<br /> <b>" + data_values[i]['category'] + ", " + data_values[i]['price'] + "</b>"+"</p>";
                     formatedData.push([{v:parseFloat(data_values[i]['date_difference']), f:data_values[i]['category']}, parseFloat(data_values[i]['price']), html]);
                 }
                 else
                 {
+                    tmpValues.push(data_values[i]['category']);
                     var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['tooltip'] + "<br /> <b>" + data_values[i]['category'] + ", " + data_values[i]['price'] + "</b>"+"</p>";
                     formatedData.push([data_values[i]['category'], parseFloat(data_values[i]['price']),html]);
                 }                
@@ -152,6 +160,20 @@ function drawChart(data_values, elementID, chartType)
 
     var data = google.visualization.arrayToDataTable(formatedData);
 
+    $minVal = 0;
+    $maxVal = 5;
+
+    if(tmpValues.length > 0)
+    {
+        $minVal = Math.min.apply(null, tmpValues);
+        $maxVal = Math.max.apply(null, tmpValues);
+    }
+
+    $minVal = getRoundedMinValue($minVal);
+    $maxVal = getRoundedMaxValue($maxVal);
+
+    // console.log($minVal+" => "+$maxVal);
+
     var options = {        
         curveType: 'function',
         tooltip: {isHtml: true},
@@ -162,14 +184,22 @@ function drawChart(data_values, elementID, chartType)
         legendTextStyle: {color: '#ccc'},
         colors: ['white'],
         pointSize : 10,
-        hAxis: {
+        hAxis: 
+        {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "transparent"},
+            viewWindowMode:'explicit',
+            viewWindow: 
+            {
+                min: $minVal,
+                max: $maxVal       
+            }            
         },
-        vAxis: {
+        vAxis: 
+        {
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"}
+            baselineColor: {color: "#39536b"},
         }
     };
     var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
@@ -178,6 +208,7 @@ function drawChart(data_values, elementID, chartType)
 
 function drawBenchmarkChart(data_values, chartType)
 {
+    var tmpValues = [];
     elementID = "curve_chart-"+chartType;
     $columnTitle = $("#country-combo option:selected").text();
 
@@ -193,13 +224,14 @@ function drawBenchmarkChart(data_values, chartType)
     {
        if($("#duration-dropdown-"+chartType).val() == 1)
        {
-            // alert(data_values[i]['title1']);
+            tmpValues.push(parseFloat(data_values.benchmark_history_data[i]['date_difference']));
             var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title1'] + ", " + data_values.benchmark_history_data[i]['price1'] + "</b>"+"</p>";
             var html2 = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip2'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title2'] + ", " + data_values.benchmark_history_data[i]['price2'] + "</b>"+"</p>";
             formatedData.push([{v:parseFloat(data_values.benchmark_history_data[i]['date_difference']), f:data_values.benchmark_history_data[i]['title1']}, data_values.benchmark_history_data[i]['price1'], html, data_values.benchmark_history_data[i]['price2'],html2]);
        }
        else
        {
+            tmpValues.push(parseFloat(data_values.benchmark_history_data[i]['title1']));
             var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title1'] + ", " + data_values.benchmark_history_data[i]['price1'] + "</b>"+"</p>";
             var html2 = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip2'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title2'] + ", " + data_values.benchmark_history_data[i]['price2'] + "</b>"+"</p>";
             formatedData.push([data_values.benchmark_history_data[i]['title1'],data_values.benchmark_history_data[i]['price1'], html,data_values.benchmark_history_data[i]['price2'],html2]);
@@ -207,10 +239,18 @@ function drawBenchmarkChart(data_values, chartType)
        
     }
 
-    // console.log(formatedData);    
-
     var data = google.visualization.arrayToDataTable(formatedData);
+    $minVal = 0;
+    $maxVal = 5;
 
+    if(tmpValues.length > 0)
+    {
+        $minVal = Math.min.apply(null, tmpValues);
+        $maxVal = Math.max.apply(null, tmpValues);
+    }
+
+    $minVal = getRoundedMinValue($minVal);
+    $maxVal = getRoundedMaxValue($maxVal);    
 
     var options = {
         title: '',
@@ -227,11 +267,19 @@ function drawBenchmarkChart(data_values, chartType)
         legendTextStyle: {color: '#ccc'},
         pointSize : 10,
         colors: ['white', 'blue'],
-        hAxis: {
+        hAxis: 
+        {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "transparent"},
+            viewWindowMode:'explicit',
+            viewWindow: 
+            {
+                min: $minVal,
+                max: $maxVal       
+            }            
         },
-        vAxis: {
+        vAxis: 
+        {
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
             baselineColor: {color: "#39536b"},

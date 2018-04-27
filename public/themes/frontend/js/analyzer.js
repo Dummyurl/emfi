@@ -141,7 +141,7 @@ function drawRegression(data_values)
 {
     var formatedData = [];
     var counter = data_values.length;
-
+    var tmpValues = [];
     if(counter > 0)
     {
         formatedData.push([{label:'', type:'number'}, {label:$("#price-dropdown-3 option:selected").text(), type:'number'},{label: 'tooltip', role: 'tooltip', 'p': {'html': true}},{'type': 'string', 'role': 'style'}]);
@@ -157,6 +157,8 @@ function drawRegression(data_values)
                 // $style = 'point {fill-color: #FF0000;zIndex: 99999;size: 18}';
                 $style = 'point {fill-color: #FF0000;}';
             }
+
+            tmpValues.push(parseFloat(data_values[i]['main_price']));
 
             formatedData.push(
                 [
@@ -175,9 +177,20 @@ function drawRegression(data_values)
         formatedData.push(["", 0]);
     }
     
+    $minVal = 0;
+    $maxVal = 5;
+
+
+    if(tmpValues.length > 0)
+    {
+        $minVal = Math.min.apply(null, tmpValues);
+        $maxVal = Math.max.apply(null, tmpValues);
+    }
+
+    $minVal = getRoundedMinValue($minVal);
+    $maxVal = getRoundedMaxValue($maxVal);
 
     var data = google.visualization.arrayToDataTable(formatedData);
-
     var options = 
     {
         title: '',        
@@ -188,7 +201,13 @@ function drawRegression(data_values)
         hAxis: 
         {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "transparent"},
+            viewWindowMode:'explicit',
+            viewWindow: 
+            {
+                min: $minVal,
+                max: $maxVal        
+            }            
         },
         vAxis: 
         {

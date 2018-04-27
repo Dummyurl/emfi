@@ -1,3 +1,23 @@
+function getRoundedMinValue($val)
+{
+    if($val >= 0 && $val <= 1)
+    {
+        $val = 0;
+    }
+    else
+    {
+        $val = $val - 1;
+    }
+
+    return $val;
+}
+
+function getRoundedMaxValue($val)
+{
+    $val = $val + 1;
+    return $val;
+}
+
 $(document).ready(function(){
     
         if( $(window).width() > 767) 
