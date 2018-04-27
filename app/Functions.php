@@ -7,6 +7,22 @@ use Carbon\Carbon;
  *
  */
 
+function getLangName()
+{
+    $locale = session('locale');
+    
+    if($locale == "en")
+    {
+        return 'english';        
+    }
+    else if($locale == "es")
+    {
+        return 'espanol';
+    }
+    
+    return 'english';
+}
+
 function getMonths()
 {
     return

@@ -446,7 +446,7 @@ $(document).ready(function() {
     });
 
     $(document).on("change", "select#country-combo", function () {
-        window.location = '/economics/'+$(this).val();
+        window.location = '/'+$('#main_lang').val()+'/'+$(this).val();
     });
 
     $(document).on("change", "select#period-month-1", function () {

@@ -12,7 +12,7 @@
                 <div class="col-md-6 select_r">
                     <select name="markets" id="markets">                        
                         @foreach($markets as $val => $label)
-                        <option data-url="{{ url(getMarketUrls($val)) }}" {{ $selected_market == $val ? 'selected="selected"':'' }} value="{{ $val }}">
+                        <option data-url="{{ url(getLangName().'/'.getMarketUrls($val)) }}" {{ $selected_market == $val ? 'selected="selected"':'' }} value="{{ $val }}">
                             {{ ucwords(strtolower($label)) }}
                         </option>
                         @endforeach                                                 

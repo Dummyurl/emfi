@@ -16,9 +16,9 @@ use App\Models\HomeSlider;
 
 class PagesController extends Controller {
 
-    public function __construct() {
-        // $this->("page_middleware");
-        $this->middleware('page_middleware');
+    public function __construct() 
+    {
+        $this->middleware('page_middleware');        
     }
 
     public function home(Request $request) {
@@ -26,8 +26,8 @@ class PagesController extends Controller {
         $data = array();
         $data['page_title'] = "EMFI: Home Page";
         $locale = session('locale');
-
-        if (empty($locale)) {
+        if (empty($locale)) 
+        {
             $locale = 'en';
         }
         app()->setLocale($locale);
@@ -369,10 +369,26 @@ class PagesController extends Controller {
 
     public function change_locale($locale) {
         $languages = \App\Custom::getLanguages();
-        if (isset($languages[$locale]) && !empty($languages[$locale])) {
-            session(['locale' => $locale]);
-            return redirect()->back();
-        } else {
+        if(isset($languages[$locale]) && !empty($languages[$locale])) 
+        {
+            session(['locale' => $locale]);                        
+            $url = \URL::previous();
+            $tmp = explode('/', $url);
+            
+            if(count($tmp) == 4 && empty($tmp[3]))
+            {
+                return redirect(getLangName());
+            }
+            
+            if(getLangName() == "espanol")
+            $url = str_replace('english',getLangName(), $url);
+            else
+            $url = str_replace('espanol',getLangName(), $url);            
+            
+            return redirect($url);
+        }
+        else 
+        {
             return redirect('/');
         }
     }

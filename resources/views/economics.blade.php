@@ -23,6 +23,7 @@ foreach($country_benchmarkes as $r)
 <section class="top_section top_bg economics_bg">
     <div class="container">
         <input type="hidden" id="main_country_id" value="{{ $countryObj->id }}" />
+        <input type="hidden" id="main_lang" value="{{ getLangName() }}" />
         
         <div class="title_belt">
             <div class="row">

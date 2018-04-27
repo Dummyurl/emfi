@@ -12,17 +12,33 @@ Route::model('user', 'App\Models\User');
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'PagesController@home')->name("home");
-Route::get('markets', 'PagesController@market');
-Route::get('markets/{type?}', 'PagesController@market');
-Route::get('economics/{country?}', 'PagesController@economics')->name("economics");
-Route::get('analyzer/{type?}', 'PagesController@analyzer')->name("analyzer");
-Route::get('about', 'PagesController@about')->name("about");
-Route::get('contact', 'PagesController@contact')->name("contact");
-Route::get('terms-of-uses', 'PagesController@terms_of_uses')->name("terms-of-uses");
-Route::get('privacy-statements', 'PagesController@privacy_statements')->name("privacy-statements");
-Route::get('cookies', 'PagesController@cookies')->name("cookies");
+Route::get('/', 'PagesController@home');
+Route::get('english', 'PagesController@home');
+Route::get('espanol', 'PagesController@home');
+
+Route::get('english/markets', 'PagesController@market');
+Route::get('espanol/markets', 'PagesController@market');
+
+Route::get('english/markets/{type?}', 'PagesController@market');
+Route::get('espanol/markets/{type?}', 'PagesController@market');
+
+Route::get('english/analyzer/{type?}', 'PagesController@analyzer');
+Route::get('espanol/analyzer/{type?}', 'PagesController@analyzer');
+
+Route::get('english/about', 'PagesController@about');
+Route::get('english/contact', 'PagesController@contact');
+Route::get('english/terms-of-uses', 'PagesController@terms_of_uses');
+Route::get('english/privacy-statements', 'PagesController@privacy_statements');
+Route::get('english/cookies', 'PagesController@cookies');
+
+Route::get('espanol/about', 'PagesController@about');
+Route::get('espanol/contact', 'PagesController@contact');
+Route::get('espanol/terms-of-uses', 'PagesController@terms_of_uses');
+Route::get('espanol/privacy-statements', 'PagesController@privacy_statements');
+Route::get('espanol/cookies', 'PagesController@cookies');
+
 Route::get('change-language/{locale}', 'PagesController@change_locale');
+
 Route::post('contact-form', 'PagesController@contact_form_data');
 
 Route::get('clear-cache', function () {
@@ -137,3 +153,9 @@ Route::group(['prefix' => $ADMIN_PREFIX], function(){
 	// Route::post('massvalidate', 'admin\SecuritiesController@massinsert')->name('massvalidate');
     });
 });
+
+Route::get('english/countries', 'PagesController@economics');
+Route::get('espanol/countries', 'PagesController@economics');
+
+Route::get('english/{country}', 'PagesController@economics');
+Route::get('espanol/{country}', 'PagesController@economics');
