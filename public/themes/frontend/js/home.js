@@ -309,7 +309,6 @@ function drawYieldCurveChart(elementID, data_values)
         $minVal = 0;
         $maxVal = 5;
 
-        console.log(tmpValues);
 
         if(tmpValues.length > 0)
         {

@@ -30,7 +30,7 @@
 			                        <h2>
 			                        	{{ $slider['title'] }}
 		                           </h2>
-			                        <span>{{ date('F d, Y',strtotime($last_update_date)) }}</span>
+			                        <span>{{ date('F d, Y',strtotime($slider['display_date'])) }}</span>
 			                    </div>
 			                    <div class="row">
 			                        <div class="col-md-6">

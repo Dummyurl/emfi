@@ -241,7 +241,8 @@ class HomeSlidersController extends Controller
             $statuss = $request->get('status');
             $order = $request->get('order');
 			$post_title = $request->get('post_title');
-			$post_description = $request->get('post_description');
+            $post_description = $request->get('post_description');
+			$display_date = $request->get('display_date');
             
             if(!empty($order) && $order>0)
             {
@@ -272,6 +273,7 @@ class HomeSlidersController extends Controller
             $obj->graph_type = $graph_type; 
             $obj->status = $statuss;
             $obj->order = $order;
+            $obj->display_date = $display_date;
 
             if($graph_type == 'line' && empty($security_id))
             {
@@ -586,12 +588,14 @@ class HomeSlidersController extends Controller
 			$statuss = $request->get('status');
 			$order = $request->get('order');
 		    $post_title = $request->get('post_title');
-		    $post_description = $request->get('post_description');
+            $post_description = $request->get('post_description');
+		    $display_date = $request->get('display_date');
 
             $model->country_id = $country_id;
             $model->graph_type = $graph_type;
             $model->status = $statuss;
             $model->order = $order;
+            $model->display_date = $display_date;
 
             if(!empty($order) && $order>0)
             {

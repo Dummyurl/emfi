@@ -411,5 +411,18 @@
             return false;
         });
     });
+
+$(document).ready(function () {
+        $(".display_date").datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true,
+            yearRange: '1900:2050',
+            showButtonPanel: false,
+            maxDate: 0,
+            onClose: function (selectedDate) {
+            }
+        }).datepicker("setDate", new Date());
+});
 </script>
 @endsection

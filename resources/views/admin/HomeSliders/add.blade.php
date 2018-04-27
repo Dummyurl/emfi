@@ -139,6 +139,15 @@
                                 }
                             }?>
                             <div class="clearfix">&nbsp;</div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Display Date<span class="required">*</span></label>
+                                        {!! Form::text('display_date',null, ['class' => 'form-control display_date', 'data-required' => false]) !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix">&nbsp;</div>
                             <div class="note note-info">
                                 <div class="row">
                                     <div class="col-md-10" style="padding-left: 30px; height: 14px;">

@@ -58,7 +58,11 @@ class PagesController extends Controller {
                 if (empty($description))
                     $description = $slider->translate('es', true)->description;
             }
-
+            $display_date = date('Y-m-d');
+            if(isset($slider->display_date) && !empty($slider->display_date)){
+                $display_date = $slider->display_date;
+            }
+            
             // Get Chart Data
             $chart_data = $this->getChartData($slider);
             $slider_rows[$i]['id'] = $slider->id;
@@ -66,6 +70,7 @@ class PagesController extends Controller {
             $slider_rows[$i]['description'] = $description;
             $slider_rows[$i]['chart_data'] = $chart_data;
             $slider_rows[$i]['graph_type'] = $slider->graph_type;
+            $slider_rows[$i]['display_date'] = $display_date;
             $slider_rows[$i]['option_banchmark'] = $slider->option_banchmark;
             $slider_rows[$i]['option_prices'] = $slider->option_prices;
             $slider_rows[$i]['country_id'] = $slider->country_id;

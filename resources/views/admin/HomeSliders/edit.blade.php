@@ -136,6 +136,16 @@
                             {!! Form::select('status',[1=>'Active',0=>'Inactive'],null,['class' => 'form-control', 'data-required' => false]) !!}
                                 </div>
                             </div>
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Display Date<span class="required">*</span></label>
+                                        {!! Form::text('display_date',null, ['class' => 'form-control display_date', 'data-required' => false]) !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix">&nbsp;</div>
                 		<div> 
                             
                             @foreach($languages as $lng => $val)
@@ -612,5 +622,19 @@
             return false;
         });
     });
+
+
+$(document).ready(function () {
+        $(".display_date").datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true,
+            yearRange: '1900:2050',
+            showButtonPanel: false,
+            maxDate: 0,
+            onClose: function (selectedDate) {
+            }
+        });
+});
 </script>
 @endsection
