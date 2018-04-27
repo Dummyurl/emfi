@@ -273,13 +273,13 @@ function drawYieldCurveChart(elementID, data_values)
     var counter = data_values.history_data.length;
     $columnTitle = "";
 
+    var tmpValues = [];
     if (option_banchmark > 0)
     {
         drawYieldCurveBenchmarkChart(elementID, data_values);
     }
     else
     {
-
         if (counter > 0)
         {
             formatedData.push([{label:'', type:'number'}, $columnTitle,{label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);
@@ -289,9 +289,11 @@ function drawYieldCurveChart(elementID, data_values)
                 
                 if(option_maturity == 1)
                 {
+                    tmpValues.push(parseFloat(data_values.history_data[i]['date_difference']));
                     var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.history_data[i]['tooltip'] + "<br /> <b>" + data_values.history_data[i]['category'] + ", " + data_values.history_data[i]['price'] + "</b>"+"</p>";
                     formatedData.push([{v:parseFloat(data_values.history_data[i]['date_difference']), f:data_values.history_data[i]['category']}, parseFloat(data_values.history_data[i]['price']), html]);
                 }else {
+                    tmpValues.push(parseFloat(data_values.history_data[i]['category']));
                     var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.history_data[i]['tooltip'] + "<br /> <b>" + data_values.history_data[i]['category'] + ", " + data_values.history_data[i]['price'] + "</b>"+"</p>";
                     formatedData.push([data_values.history_data[i]['category'], parseFloat(data_values.history_data[i]['price']), html]);
                 }
@@ -304,28 +306,47 @@ function drawYieldCurveChart(elementID, data_values)
             formatedData.push(["", ""]);
             formatedData.push(["", 0]);
         }
+        $minVal = 0;
+        $maxVal = 5;
 
-var data = google.visualization.arrayToDataTable(formatedData);
-    var options = {
-        curveType: 'function',
-        tooltip: {isHtml: true},
-        legend: {position: 'none'},
-        backgroundColor: {fill: 'transparent'},
-        axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#fff'},
-        legendTextStyle: {color: '#ccc'},
-        colors: ['white'],
-        pointSize : 10,
-        hAxis: {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
-        },
-        vAxis: {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"}
+        console.log(tmpValues);
+
+        if(tmpValues.length > 0)
+        {
+        $minVal = Math.min.apply(null, tmpValues);
+        $maxVal = Math.max.apply(null, tmpValues);
         }
-    };
+
+        $minVal = getRoundedMinValue($minVal);
+        $maxVal = getRoundedMaxValue($maxVal);
+
+        var data = google.visualization.arrayToDataTable(formatedData);
+        var options = {
+            curveType: 'function',
+            tooltip: {isHtml: true},
+            legend: {position: 'none'},
+            backgroundColor: {fill: 'transparent'},
+            axisTextStyle: {color: '#344b61'},
+            titleTextStyle: {color: '#fff'},
+            legendTextStyle: {color: '#ccc'},
+            colors: ['white'],
+            pointSize : 10,
+            hAxis: {
+                textStyle: {color: '#fff'},
+                gridlines: {color: "transparent"},
+                viewWindowMode:'explicit',
+                viewWindow: 
+                {
+                    min: $minVal,
+                    max: $maxVal
+                }
+            },
+            vAxis: {
+                textStyle: {color: '#fff'},
+                gridlines: {color: "#39536b"},
+                baselineColor: {color: "#39536b"}
+            }
+        };
     var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
     chart.draw(data, options);        
     }
@@ -336,6 +357,7 @@ var data = google.visualization.arrayToDataTable(formatedData);
 function drawYieldCurveBenchmarkChart(elementID, data_values)
 {
     // return false;
+    var tmpValues = [];
 
     $columnTitle = "";
     var formatedData = [];
@@ -350,17 +372,31 @@ function drawYieldCurveBenchmarkChart(elementID, data_values)
     {
        if(option_maturity == 1)
        {
-            // alert(data_values[i]['title1']);
+            tmpValues.push(parseFloat(data_values.benchmark_history_data[i]['date_difference']));
             var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title1'] + ", " + data_values.benchmark_history_data[i]['price1'] + "</b>"+"</p>";
             var html2 = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip2'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title2'] + ", " + data_values.benchmark_history_data[i]['price2'] + "</b>"+"</p>";
             formatedData.push([{v:parseFloat(data_values.benchmark_history_data[i]['date_difference']), f:data_values.benchmark_history_data[i]['title1']}, data_values.benchmark_history_data[i]['price1'], html, data_values.benchmark_history_data[i]['price2'],html2]);
        } else
        {
+            tmpValues.push(parseFloat(data_values.benchmark_history_data[i]['title1']));
+
             var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title1'] + ", " + data_values.benchmark_history_data[i]['price1'] + "</b>"+"</p>";
             var html2 = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip2'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title2'] + ", " + data_values.benchmark_history_data[i]['price2'] + "</b>"+"</p>";
             formatedData.push([data_values.benchmark_history_data[i]['title1'],data_values.benchmark_history_data[i]['price1'], html,data_values.benchmark_history_data[i]['price2'],html2]);
        }
     }
+    $minVal = 0;
+    $maxVal = 5;
+
+    if(tmpValues.length > 0)
+    {
+    $minVal = Math.min.apply(null, tmpValues);
+    $maxVal = Math.max.apply(null, tmpValues);
+    }
+
+    $minVal = getRoundedMinValue($minVal);
+    $maxVal = getRoundedMaxValue($maxVal);    
+
     var data = google.visualization.arrayToDataTable(formatedData);
     var options = {
         title: '',
@@ -379,7 +415,13 @@ function drawYieldCurveBenchmarkChart(elementID, data_values)
         colors: ['white', 'blue'],
         hAxis: {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "transparent"},
+            viewWindowMode:'explicit',
+            viewWindow: 
+            {
+                min: $minVal,
+                max: $maxVal
+            }
         },
         vAxis: {
             textStyle: {color: '#fff'},
@@ -441,6 +483,7 @@ function drawRegression(elementID, data_values)
     var formatedData = [];
     var counter = data_values.regression_chart.length;
     var price_text = GetPriceName(data_values.options.option_prices);
+    var tmpValues = [];
     if(counter > 0)
     {
         formatedData.push([
@@ -460,6 +503,8 @@ function drawRegression(elementID, data_values)
                 // $style = 'point {fill-color: #FF0000;zIndex: 99999;size: 18}';
                 $style = 'point {fill-color: #FF0000;}';
             }
+            
+            tmpValues.push(parseFloat(data_values.regression_chart[i]['main_price']));
 
             formatedData.push(
                 [
@@ -471,16 +516,29 @@ function drawRegression(elementID, data_values)
             );
             j++;
         }
-    }    
+    }
     else
     {
         formatedData.push(["", ""]);
         formatedData.push(["", 0]);
     }
+
+    $minVal = 0;
+    $maxVal = 5;
+
+    if(tmpValues.length > 0)
+    {
+    $minVal = Math.min.apply(null, tmpValues);
+    $maxVal = Math.max.apply(null, tmpValues);
+    }
+
+    $minVal = getRoundedMinValue($minVal);
+    $maxVal = getRoundedMaxValue($maxVal);
+
     var data = google.visualization.arrayToDataTable(formatedData);
     var options = 
     {
-        title: '',        
+        title: '',
         tooltip: {isHtml: true},
         legend: {textStyle: {color: '#fff'}},
         hAxis: {title: '', titleTextStyle: {color: '#333'}},
@@ -488,7 +546,13 @@ function drawRegression(elementID, data_values)
         hAxis: 
         {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "transparent"},
+            viewWindowMode:'explicit',
+            viewWindow: 
+            {
+                min: $minVal,
+                max: $maxVal
+            }
         },
         vAxis: 
         {
