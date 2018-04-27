@@ -189,7 +189,40 @@
                     error: function (error) {
                     }
                     });
-            }
+        }
+
+        function getSecurityMarketWise()
+        {
+            $('#AjaxLoaderDiv').fadeIn('slow');
+            var market_id = [];
+            market_id[0] = [1];
+            market_id[1] = [5];
+            $.ajax({
+                    type: "GET",
+                    url: "/admin/getsecurities/",
+                    data: {market_id:market_id},
+                    success: function (result)
+                    {
+                        var $country = $('#security_id_val');
+                        $country.empty();
+                        $country.append('<option>Select Security</option>');
+                        $.each(result, function(k, v) {
+                            $country.append('<option value="' + k + '">' + v + '</option>');
+                        });
+                        $country.change();
+                        var $country = $('#option_security_val');
+                        $country.empty();
+                        $country.append('<option>Select Security</option>');
+                        $.each(result, function(k, v) {
+                            $country.append('<option value="' + k + '">' + v + '</option>');
+                        });
+                        $country.change();
+                        $('#AjaxLoaderDiv').fadeOut('slow');
+                    },
+                    error: function (error) {
+                    }
+                });
+        }
     $(document).ready(function(){
 
         $('.country').on('change',function(){
@@ -287,6 +320,7 @@
                 $('#banchmark_div').hide();
                 $('#credit_div').hide();
                 $('#option_security_div').show();
+                getSecurityMarketWise();
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
             else if(graph_val == 'regression'){
