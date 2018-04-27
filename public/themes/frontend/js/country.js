@@ -85,7 +85,7 @@ function drawChart(country_data)
         if($.trim(category) != '')
         {
         	$('#AjaxLoaderDiv').fadeIn('slow');
-        	window.location = '/economics/'+$.trim(category);
+        	window.location = '/'+$('#main_lang').val()+'/'+$.trim(category);
         }
 
     });        

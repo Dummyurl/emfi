@@ -5,17 +5,17 @@
         <div class="footer_block">
           <h3>{{ __('footer.quick_links') }}</h3>
           <ul>
-            <li><a href="{{ url('/')}}">{{ __('footer.login') }}</a></li>
-            <li><a href="{{ route('about')}}">{{ __('header.about') }}</a></li>            
-            <li><a href="{{ route('contact')}}">{{ __('footer.contact') }}</a></li>            
+            <li><a href="{{ url(getLangName())}}">{{ __('footer.login') }}</a></li>
+            <li><a href="{{ url(getLangName().'/about')}}">{{ __('footer.about') }}</a></li>            
+            <li><a href="{{ url(getLangName().'/contact')}}">{{ __('footer.contact') }}</a></li>            
           </ul>
         </div>
         <div class="footer_block">
           <h3>{{ __('footer.legal_info') }}</h3>
           <ul>
-            <li><a href="{{ route('terms-of-uses') }}">{{ __('footer.terms_of_uses') }}</a></li>
-            <li><a href="{{ route('privacy-statements') }}">{{ __('footer.privacy_statements') }}</a></li>
-            <li><a href="{{ route('cookies') }}">{{ __('footer.cookies') }}</a></li>            
+            <li><a href="{{ url(getLangName().'/terms-of-uses') }}">{{ __('footer.terms_of_uses') }}</a></li>
+            <li><a href="{{ url(getLangName().'/privacy-statements') }}">{{ __('footer.privacy_statements') }}</a></li>
+            <li><a href="{{ url(getLangName().'/cookies') }}">{{ __('footer.cookies') }}</a></li>            
           </ul>
         </div>
         <div class="footer_block">

@@ -32,20 +32,20 @@
             </ul>
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">{{ __('header.toggle') }}</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
-                <a class="navbar-brand white" href="{{ url('/') }}">
+                <a class="navbar-brand white" href="{{ url(getLangName()) }}">
                     <img src="{{ asset('themes/frontend/images/emfi-logo.png') }}" alt="EMFI Securities">
                 </a> 
-                <a class="navbar-brand dark" href="{{ route('home') }}">
+                <a class="navbar-brand dark" href="{{ url(getLangName()) }}">
                     <img src="{{ asset('themes/frontend/images/emfi-logo-dark.png') }}" alt="EMFI Securities">
                 </a> 
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="{{ \Request::is('/','home') ? 'active':'' }}">
-                        <a href="{{ route('home') }}">{{ __('header.home') }}</a>
+                    <li class="{{ \Request::is('/','home','english','espanol') ? 'active':'' }}">
+                        <a href="{{ url(getLangName()) }}">{{ __('header.home') }}</a>
                     </li>
-                    <li class="{{ \Request::is('markets','markets/*') ? 'active':'' }}">
-                        <a href="{{ url('markets') }}">
+                    <li class="{{ \Request::is(getLangName().'/markets',getLangName().'/markets/*') ? 'active':'' }}">
+                        <a href="{{ url(getLangName().'/markets') }}">
                             {{ __('header.markets') }}
                         </a>
                         <?php /*
@@ -71,9 +71,11 @@
                         </ul>
                     </li>
                     */ ?>
-                    <li class="{{ \Request::is('economics','economics/*') ? 'active':'' }}"><a href="{{ url('economics')}}">{{ __('header.economics') }}</a></li>
-                    <li class="{{ \Request::is('analyzer','analyzer/*') ? 'active':'' }}">
-                        <a href="{{ url('analyzer') }}">
+                    <li class="{{ (isset($selectedMenu) && $selectedMenu == 'countries') ? 'active':'' }}">
+                        <a href="{{ url(getLangName().'/countries')}}">{{ __('header.economics') }}</a>
+                    </li>
+                    <li class="{{ \Request::is(getLangName().'/analyzer',getLangName().'/analyzer/*') ? 'active':'' }}">
+                        <a href="{{ url(getLangName().'/analyzer') }}">
                             {{ __('header.analyzer') }}
                         </a>
                         <?php /*
@@ -102,9 +104,11 @@
                         </ul>
                     </li>
                     */ ?>
-                    <li class="{{ \Request::is('about') ? 'active':'' }}"><a href="{{ route('about')}}">{{ __('header.about') }}</a></li>
-                    <li class="{{ \Request::is('contact') ? 'active':'' }}">
-                        <a href="{{ route('contact')}}">{{ __('header.contact') }}</a>
+                    <li class="{{ \Request::is(getLangName().'/about') ? 'active':'' }}">
+                        <a href="{{ url(getLangName().'/about')}}">{{ __('header.about') }}</a>
+                    </li>
+                    <li class="{{ \Request::is(getLangName().'/contact') ? 'active':'' }}">
+                        <a href="{{ url(getLangName().'/contact')}}">{{ __('header.contact') }}</a>
                     </li>
                     <li class="">
                         <a href="#">{{ __('header.login') }}</a>

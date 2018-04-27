@@ -23,6 +23,7 @@ foreach($country_benchmarkes as $r)
 <section class="top_section top_bg economics_bg">
     <div class="container">
         <input type="hidden" id="main_country_id" value="{{ $countryObj->id }}" />
+        <input type="hidden" id="main_lang" value="{{ getLangName() }}" />
         
         <div class="title_belt">
             <div class="row">
@@ -34,7 +35,7 @@ foreach($country_benchmarkes as $r)
                     <select id="country-combo">
                         @foreach($countries as $cnt)
                             <option {{ $cnt->id == $countryObj->id ? 'selected="selected"':'' }} value="{{ $cnt->slug }}">
-                                {{ ucwords(strtolower($cnt->country_name)) }}
+                                {{ $cnt->country_name }}
                             </option>
                         @endforeach
                     </select>
@@ -171,14 +172,14 @@ foreach($country_benchmarkes as $cnt)
                 @if(in_array($countryObj->id, $tickerIDs) && $tickerType == 2)
                     {{ strtoupper($key) }}
                 @else
-                    {{ ucwords(strtolower($countryObj->country_name)) }}    
+                    {{ $countryObj->country_name }}    
                 @endif
             </span> 
             <div style="display: none;" id="hid-main-chart-title-{{ $counter}}">
                 @if(in_array($countryObj->id, $tickerIDs) && $tickerType == 2)
                     {{ strtoupper($key) }}
                 @else
-                    {{ ucwords(strtolower($countryObj->country_name)) }}    
+                    {{ $countryObj->country_name }}
                 @endif                
             </div>
         </div>
@@ -234,7 +235,7 @@ foreach($country_benchmarkes as $cnt)
                                         @if(in_array($cnt['country_id'],$tickerIDs) && $cnt['ticker_type'] == 2)
                                         {{ strtoupper($cnt['ticker_name']) }} 
                                         @else
-                                        {{ ucwords(strtolower($cnt['country_title'])) }} 
+                                        {{ $cnt['country_title'] }}
                                         @endif
                                     </option>    
                                     @endif
@@ -356,7 +357,7 @@ foreach($country_benchmarkes as $cnt)
     </div>
 </section>
 
-@include('includes.twitter',['tweet_sub_title' => ucwords(strtolower($countryObj->country_name))])
+@include('includes.twitter',['tweet_sub_title' => $countryObj->country_name])
 
 @stop
 @section('scripts')

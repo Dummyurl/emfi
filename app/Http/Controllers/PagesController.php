@@ -16,18 +16,25 @@ use App\Models\HomeSlider;
 
 class PagesController extends Controller {
 
-    public function __construct() {
-        // $this->("page_middleware");
-        $this->middleware('page_middleware');
+    public function __construct() 
+    {
+        $this->middleware('page_middleware');        
     }
 
     public function home(Request $request) {
 
+        $currentLang = \Request::segment(1);
+        
+        if(empty($currentLang))
+        {
+            return \Redirect::to('/english', 301);
+        }
+        
         $data = array();
         $data['page_title'] = "EMFI: Home Page";
         $locale = session('locale');
-
-        if (empty($locale)) {
+        if (empty($locale)) 
+        {
             $locale = 'en';
         }
         app()->setLocale($locale);
@@ -95,9 +102,11 @@ class PagesController extends Controller {
         return $chart_data;
     }
 
-    public function economics(Request $request, $country = "") {
+    public function economics(Request $request, $country = "") {                
+        
         $data = array();
         $data['page_title'] = "EMFI: Countries";
+        $data['selectedMenu'] = "countries";
         $locale = session('locale');
         if (empty($locale)) {
             $locale = 'en';
@@ -109,6 +118,7 @@ class PagesController extends Controller {
             $defaultCountry = $country;
         } else {
             $data = [];
+            $data['selectedMenu'] = "countries";
             $data['last_update_date'] = getLastUpdateDate();
             $data['page_title'] = "EMFI: Countries";
             $data['markets'] = MarketType::getArrayList();
@@ -369,10 +379,26 @@ class PagesController extends Controller {
 
     public function change_locale($locale) {
         $languages = \App\Custom::getLanguages();
-        if (isset($languages[$locale]) && !empty($languages[$locale])) {
-            session(['locale' => $locale]);
-            return redirect()->back();
-        } else {
+        if(isset($languages[$locale]) && !empty($languages[$locale])) 
+        {
+            session(['locale' => $locale]);                        
+            $url = \URL::previous();
+            $tmp = explode('/', $url);
+            
+            if(count($tmp) == 4 && empty($tmp[3]))
+            {
+                return redirect(getLangName());
+            }
+            
+            if(getLangName() == "espanol")
+            $url = str_replace('english',getLangName(), $url);
+            else
+            $url = str_replace('espanol',getLangName(), $url);            
+            
+            return redirect($url);
+        }
+        else 
+        {
             return redirect('/');
         }
     }

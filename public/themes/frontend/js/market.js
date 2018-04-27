@@ -299,7 +299,7 @@ function drawChart(data_values, elementID, fromBenchMark)
                 global_line_graph_id = data_values[i]['security_id'];
             }
 
-            if ($("select#price-dropdown").val() != 1 && $("select#markets").val() == 5)
+            if ($("select#price-dropdown").val() != 1)
             {
                 if ($("select#price-dropdown").val() == 2)
                 {

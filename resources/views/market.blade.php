@@ -12,7 +12,7 @@
                 <div class="col-md-6 select_r">
                     <select name="markets" id="markets">                        
                         @foreach($markets as $val => $label)
-                        <option data-url="{{ url(getMarketUrls($val)) }}" {{ $selected_market == $val ? 'selected="selected"':'' }} value="{{ $val }}">
+                        <option data-url="{{ url(getLangName().getMarketUrls($val)) }}" {{ $selected_market == $val ? 'selected="selected"':'' }} value="{{ $val }}">
                             {{ ucwords(strtolower($label)) }}
                         </option>
                         @endforeach                                                 
@@ -25,10 +25,10 @@
             @foreach($market_boxes as $row)            
             <div class="col-lg-3 col-md-3 col-sm-6 four_block">
                 <div class="inner_blue_box">
-                    <a data-id="{{ $row['id'] }}" data-name="{{ ucwords(strtolower($row['market_name'])) }}" href="javascript:void(0);" class="view-btn custom-market-change">
+                    <a data-id="{{ $row['id'] }}" data-name="{{ $row['market_name'] }}" href="javascript:void(0);" class="view-btn custom-market-change">
                         <span>{{ __('market.view_chart') }}</span>
                     </a>                  
-                    <h3>{{ ucwords(strtolower($row['market_name'])) }}</h3>
+                    <h3>{{ $row['market_name'] }}</h3>
                     <span class="value">
                         {{ $row['last_price'] }}
                     </span>
