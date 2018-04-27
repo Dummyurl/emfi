@@ -160,25 +160,33 @@ function drawMarketHistoryChart(elementID, data_values)
     $columnTitle = "";
     if (counter > 0)
     {
-        formatedData.push([$columnTitle, $columnTitle]);
+        // formatedData.push([$columnTitle, $columnTitle]);
+        formatedData.push([$columnTitle, $columnTitle,{label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);
         for (var i in data_values.history_data)
         {
+            var d = new Date(data_values.history_data[i]['created']);
+            var $created = d;
             if (option_prices == 2){
-                formatedData.push([data_values.history_data[i]['created_format'], parseFloat(data_values.history_data[i]['YLD_YTM_MID'])]);
+                 var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.history_data[i]['title'] + "<br /> <b>" + data_values.history_data[i]['created_format'] + ", " + data_values.history_data[i]['YLD_YTM_MID'] + "</b>"+"</p>";
+                 formatedData.push([{f: data_values.history_data[i]['created_format'], v:$created}, parseFloat(data_values.history_data[i]['YLD_YTM_MID']), html]);
             }else if (option_prices == 3){
-                formatedData.push([data_values.history_data[i]['created_format'], parseFloat(data_values.history_data[i]['Z_SPRD_MID'])]);
+                var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.history_data[i]['title'] + "<br /> <b>" + data_values.history_data[i]['created_format'] + ", " + data_values.history_data[i]['Z_SPRD_MID'] + "</b>"+"</p>";
+                formatedData.push([{f: data_values.history_data[i]['created_format'], v:$created}, parseFloat(data_values.history_data[i]['Z_SPRD_MID']), html]);
             } else {
-                formatedData.push([data_values.history_data[i]['created_format'], parseFloat(data_values.history_data[i]['last_price'])]);
+                var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.history_data[i]['title'] + "<br /> <b>" + data_values.history_data[i]['created_format'] + ", " + data_values.history_data[i]['last_price'] + "</b>"+"</p>";
+                formatedData.push([{f: data_values.history_data[i]['created_format'], v:$created}, parseFloat(data_values.history_data[i]['last_price']), html]);
             }
         }
     } else {
         formatedData.push(["", ""]);
         formatedData.push(["", 0]);
     }
+
     var data = google.visualization.arrayToDataTable(formatedData);
     var options = {
         title: '',
         curveType: 'function',
+        tooltip: {isHtml: true},
         legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
@@ -187,7 +195,8 @@ function drawMarketHistoryChart(elementID, data_values)
         colors: ['white'],
         hAxis: {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            // gridlines: {color: "#39536b"}
+            gridlines: {color: "transparent",count: 12}
         },
         vAxis: {
             textStyle: {color: '#fff'},
@@ -198,7 +207,7 @@ function drawMarketHistoryChart(elementID, data_values)
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
     chart.draw(data, options);
     if(option_banchmark > 0){
-        drawBenchMarkMarketHistoryChart(elementID, data_values.benchmark_history_data, option_prices);
+        drawBenchMarkMarketHistoryChart(elementID, data_values, option_prices);
     }
 }
 
@@ -207,16 +216,27 @@ function drawBenchMarkMarketHistoryChart(elementID, data_values, option_prices)
     $columnTitle = "";
     $columnTitle2 = "";
     var formatedData = [];
-    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $columnTitle2, type:'number'}]);    
-    for(var i in data_values)
+    var title    = data_values.options['title'];
+    var title2    = data_values.options['title2'];
+    // formatedData.push(["", {label:$columnTitle, type:'number'}, {label: $columnTitle2, type:'number'}]);
+    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}, {label: $columnTitle2, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);
+
+    for(var i in data_values.benchmark_history_data)
     {
-       formatedData.push([data_values[i][0],data_values[i][1], data_values[i][2]]);
+        var d = new Date(data_values.benchmark_history_data[i][3]);
+        var $created = d;
+        var html1 = "<p style='white-space: nowrap;padding: 3px;'>"+title + "<br /> <b>" + data_values.benchmark_history_data[i][0] + ", " + data_values.benchmark_history_data[i][1] + "</b>"+"</p>";
+        var html2 = "<p style='white-space: nowrap;padding: 3px;'>"+title2 + "<br /> <b>" + data_values.benchmark_history_data[i][0] + ", " + data_values.benchmark_history_data[i][2] + "</b>"+"</p>";
+        formatedData.push([{f: data_values.benchmark_history_data[i][0], v: $created},data_values.benchmark_history_data[i][1], html1, data_values.benchmark_history_data[i][2],html2]);
+
     }
+    
     var data = google.visualization.arrayToDataTable(formatedData);
     var options = 
     {
         title: '',
         curveType: 'function',
+        tooltip: {isHtml: true},
         legend: {position: 'none'},
         series: {
           0: {targetAxisIndex: 0},
@@ -229,7 +249,7 @@ function drawBenchMarkMarketHistoryChart(elementID, data_values, option_prices)
         colors: ['white', 'blue'],
         hAxis: {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "transparent",count: 12}
         },
         vAxis: {
             textStyle: {color: '#fff'},
@@ -378,7 +398,11 @@ function drawAreaChart(elementID, data_values)
     {
         for(var i in data_values.area_chart)
         {
-            formatedData.push([data_values.area_chart[i]['created_format'], parseFloat(data_values.area_chart[i]['main_price'])]);
+            // formatedData.push([data_values.area_chart[i]['created_format'], parseFloat(data_values.area_chart[i]['main_price'])]);
+            var d = new Date(data_values.area_chart[i]['created']);
+            var $created = d;
+            formatedData.push([{f: data_values.area_chart[i]['created_format'], v:$created}, parseFloat(data_values.area_chart[i]['main_price'])]);        
+
         }
     }    
     else
@@ -396,7 +420,7 @@ function drawAreaChart(elementID, data_values)
         hAxis: 
         {
             textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            gridlines: {color: "transparent",count: 12}
         },
         vAxis: 
         {
@@ -510,7 +534,8 @@ function drawRelvalChart(elementID, data_values)
     {
         data.addColumn('number', '');
         data.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
-    }    
+        data.addColumn({type: 'string', role: 'annotation', 'p': {'html': true}});
+    }
 
     for(var i in data_values.relative_data)
     {
@@ -523,6 +548,8 @@ function drawRelvalChart(elementID, data_values)
             prices.push(parseFloat(data_values.relative_data[i][j]['price']));
             var html = '<p style="white-space: nowrap;padding: 3px;"><b>'+data_values.relative_data[i][j]['country_title']+'</b><br />'+i+', '+parseFloat(data_values.relative_data[i][j]['price'])+'</p>';
             prices.push(html);
+            var html = data_values.relative_data[i][j]['country_code'];
+            prices.push(html);
             cnt++;
         }
 
@@ -530,12 +557,14 @@ function drawRelvalChart(elementID, data_values)
         {
             prices.push(null);
             prices.push('');
+            prices.push('');
         }
         data.addRow(prices);
     }
 
     var options = {
         curveType: 'function',
+        annotations: {textStyle:{fontSize: 10}},
         tooltip: {isHtml: true},
         legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},

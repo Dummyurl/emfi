@@ -391,6 +391,7 @@ class PagesController extends Controller {
 
         $SP_data = "CALL select_security_historical_data(" . $security_id . ", " . $month_id . ")";
         $history_data = callCustomSP($SP_data);
+        // prd($history_data);
         $chart_data['history_data'] = $history_data;
         $chart_data['benchmark_history_data'] = [];
         if ($benchmark_id > 0) {
@@ -409,8 +410,9 @@ class PagesController extends Controller {
                     }
                     $dataKeys[$row['created']]['column2'] = NULL;
                     $dataKeys[$row['created']]['date'] = $row['created_format'];
+                    $dataKeys[$row['created']]['main_date'] = $row['created'];
+                    $chart_data['options']['title'] = $row['title'];
                 }
-
                 foreach ($benchmark_history_data as $row) {
                     if ($price_id == 2) {
                         $dataKeys[$row['created']]['column2'] = $row['YLD_YTM_MID'];
@@ -419,16 +421,20 @@ class PagesController extends Controller {
                     } else {
                         $dataKeys[$row['created']]['column2'] = $row['last_price'];
                     }
-                    if (!isset($dataKeys[$row['created']]['column1']))
+                    if (!isset($dataKeys[$row['created']]['column1'])){
                         $dataKeys[$row['created']]['column1'] = NULL;
+                    }
+
                     $dataKeys[$row['created']]['date'] = $row['created_format'];
+                    $dataKeys[$row['created']]['main_date'] = $row['created'];
+                    $chart_data['options']['title2'] = $row['title'];
                 }
 
                 ksort($dataKeys);
                 $i = 0;
                 foreach ($dataKeys as $key => $val) {
                     if (!empty($dataKeys[$key]['date'])) {
-                        $finalData[$i] = [$dataKeys[$key]['date'], $dataKeys[$key]['column1'], $dataKeys[$key]['column2']];
+                        $finalData[$i] = [$dataKeys[$key]['date'], $dataKeys[$key]['column1'], $dataKeys[$key]['column2'], $dataKeys[$key]['main_date']];
                         $i++;
                     }
                 }
@@ -654,17 +660,18 @@ class PagesController extends Controller {
         $data['options']['option_credit'] = $slider->option_credit;
 
         $relvalMonth = date("Y-m-d", strtotime("-" . $option_period . " months"));
-        $relvalMonth = "2018-04-16";
-        $query = 'CALL select_relval_chart_data(' . $option_credit . ',"' . $relvalMonth . '")';
+        // $relvalMonth = "2018-04-16";
+        $query = 'CALL select_relval_chart_data(' . $option_credit . ',"' . $relvalMonth . '",0 )';
 
         $relval_chart = callCustomSP($query);
-
+       
         if ($relvalMonth == date("Y-m-d")) {
             if (empty($relval_chart)) {
                 $relvalMonth = \App\Models\Securities::max("created");
-                $relval_chart = callCustomSP('CALL select_relval_chart_data(' . $option_credit . ',"' . $relvalMonth . '")');
+                $relval_chart = callCustomSP('CALL select_relval_chart_data(' . $option_credit . ',"' . $relvalMonth . '",0)');
             }
         }
+
         $data1 = [];
         $finalArray = [];
         if (!empty($relval_chart)) {
@@ -684,25 +691,25 @@ class PagesController extends Controller {
                     $data1[$i]['price'] = $r['Z_SPRD_MID'];
                 }
 
-                $data1[$i]['country_title'] = ucwords(strtolower($r['country_title']));
+                $data1[$i]['country_title'] = $r['country_title'];
                 $data1[$i]['security_name'] = $r['security_name'];
                 $data1[$i]['created_format'] = $r['created_format'];
+                $data1[$i]['country_code'] = $r['country_code'];
                 $i++;
             }
             $i = 0;
             foreach ($data1 as $r) {
-                $finalArray[$r['category']][] = ['price' => $r['price'], 'country_title' => $r['country_title']];
+                $finalArray[$r['category']][] = ['price' => $r['price'], 'country_title' => $r['country_title'],'country_code' => $r['country_code']];
             }
 
-            if ($option_rating == 1) {
+            /*if ($option_rating == 1) {
                 ksort($finalArray);
             } else {
                 krsort($finalArray);
-            }
+            }*/
         }
         $data['relative_data'] = $finalArray;
         $chart_data = $data;
-
         return $chart_data;
     }
 

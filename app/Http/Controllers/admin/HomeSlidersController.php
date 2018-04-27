@@ -907,9 +907,13 @@ class HomeSlidersController extends Controller
     public function getsecurities(Request $request)
     {
         $country_id = $request->get("country_id");
+        $market_id  = $request->get("market_id");
         $arr_security = array();
         if(!empty($country_id)){
             $arr_security = Securities::where('country_id', $country_id)->pluck('security_name','id')->all();
+        } else if(is_array($market_id) && !empty($market_id)){
+            $arr_security = Securities::whereIn('market_id', $market_id)->pluck('security_name','id')->all();
+            // $arr_security = Securities::whereIn('market_id', [1,2])->pluck('security_name','id')->all();
         }
         return $arr_security;
     }
