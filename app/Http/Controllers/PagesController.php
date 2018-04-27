@@ -138,10 +138,30 @@ class PagesController extends Controller {
         $data['countries'] = Country::where("country_type", 2)->orderBy("title")->get();
         $data['bond_data'] = [];
 
-        foreach ($bond_data as $r) {
-            $r['id'] = $r['security_id'];
-            $data['bond_data'][$r['ticker']][] = $r;
-        }
+
+        if($data['countryObj']->id == 1)
+        {
+            $firstTicker = "";
+            foreach ($bond_data as $r) 
+            {
+                $r['id'] = $r['security_id'];
+                
+                if(empty($firstTicker))
+                {
+                    $firstTicker = $r['ticker'];
+                }
+
+                $data['bond_data'][$firstTicker][] = $r;
+            }
+        }   
+        else
+        {
+            foreach ($bond_data as $r) 
+            {
+                $r['id'] = $r['security_id'];
+                $data['bond_data'][$r['ticker']][] = $r;
+            }
+        } 
 
         // dd($data['bond_data']);
 

@@ -228,6 +228,12 @@ foreach($country_benchmarkes as $cnt)
                             <select id="benchmark-dropdown-{{ $counter }}">
                                 <option value="">{{ __('market.add_benchmark') }}</option>
                                 @foreach($country_benchmarkes as $cnt)
+                                
+                                    @if($cnt['country_id'] == $countryObj->id && $countryObj->id == 1)
+                                        <?php continue; ?>
+                                    @endif
+                                
+                                
                                     @if(trim(strtolower($key)) == trim(strtolower($cnt['ticker_name'])) && $cnt['country_id'] == $countryObj->id)
                                         
                                     @else
