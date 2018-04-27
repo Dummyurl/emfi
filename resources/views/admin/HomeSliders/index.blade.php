@@ -191,8 +191,9 @@
                     });
         }
 
-        function getSecurityMarketWise()
+        function getSecurityMarketWise(country_id)
         {
+            var country_val = country_id;
             $('#AjaxLoaderDiv').fadeIn('slow');
             var market_id = [];
             market_id[0] = [1];
@@ -200,7 +201,7 @@
             $.ajax({
                     type: "GET",
                     url: "/admin/getsecurities/",
-                    data: {market_id:market_id},
+                    data: {country_id:country_val, market_id:market_id},
                     success: function (result)
                     {
                         var $country = $('#security_id_val');
@@ -231,12 +232,13 @@
             if(country_val != '')
             {
                 $('#graph_type_row').show();
-                getSecurity(country_id);
-                getBanchmarkViaCountry(country_id);    
+                getSecurity(country_val);
+                getBanchmarkViaCountry(country_val);
             }else{
                 $('#graph_type_row').hide();
                 $('.down_content').hide();
             }
+            $('#graph_type_id').trigger('change');
         });
 
         $('#security_id_val').on('change',function(){
@@ -320,7 +322,7 @@
                 $('#banchmark_div').hide();
                 $('#credit_div').hide();
                 $('#option_security_div').show();
-                getSecurityMarketWise();
+                getSecurityMarketWise($('.country').val());
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
             else if(graph_val == 'regression'){
