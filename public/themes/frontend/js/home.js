@@ -60,8 +60,8 @@ function drawLoserChart(elementID, data_values)
         for (var i in data_values)
         {
             $per = parseFloat(data_values[i]['percentage_change']).toFixed(2);
-            
-            formatedData.push([data_values[i]['title'], $per, data_values[i]['title'] + ": "+$per+" %"]);
+            $val = Math.abs(data_values[i]['percentage_change']);
+            formatedData.push([data_values[i]['title'], $val, data_values[i]['title'] + ": "+$per+" %"]);
         }
     }
     else
@@ -85,7 +85,8 @@ function drawLoserChart(elementID, data_values)
           colors: ['white'],
           hAxis: {
               textStyle:{color: '#fff'},
-              gridlines: {color:"#39536b"}
+              gridlines: {color:"#39536b"},
+              direction: -1,
           },
         vAxis: {
             textStyle:{color: '#fff'},

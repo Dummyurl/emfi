@@ -81,12 +81,12 @@ class PagesController extends Controller {
         $chart_data = [];
         if ($slider->graph_type == "market_movers_gainers") {
             $market_id = $slider->option_market;
-            $market_data = "CALL select_Top_Gainer(" . $market_id . ",0)";
+            $market_data = "CALL select_Top_Gainer(" . $market_id . ",2)";
             $gainer_data = callCustomSP($market_data);
             $chart_data = $gainer_data;
         } else if ($slider->graph_type == "market_movers_laggers") {
             $market_id = $slider->option_market;
-            $market_data = "CALL select_Top_Loser(" . $market_id . ",0)";
+            $market_data = "CALL select_Top_Loser(" . $market_id . ",2)";
             $chart_data = callCustomSP($market_data);
         } else if ($slider->graph_type == "market_history") {
             $chart_data = $this->GetMarketHistoryData($slider);
