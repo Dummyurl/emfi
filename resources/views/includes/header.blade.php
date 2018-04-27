@@ -71,7 +71,7 @@
                         </ul>
                     </li>
                     */ ?>
-                    <li class="{{ \Request::is(getLangName().'/countries',getLangName().'/countries/*') ? 'active':'' }}">
+                    <li class="{{ (isset($selectedMenu) && $selectedMenu == 'countries') ? 'active':'' }}">
                         <a href="{{ url(getLangName().'/countries')}}">{{ __('header.economics') }}</a>
                     </li>
                     <li class="{{ \Request::is(getLangName().'/analyzer',getLangName().'/analyzer/*') ? 'active':'' }}">
