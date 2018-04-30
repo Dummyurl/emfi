@@ -31,8 +31,8 @@
                                    <th width="13%">Market Type</th>
                                    <th width="15%">Country</th>
                                    <th width="5%">Benchmark</th>
-                                   <th width="5%">Analyzer <br> Default</th>
-                                   <th width="5%">Economic <br> Default</th>
+                                   <!-- <th width="5%">Analyzer <br> Default</th> -->
+                                   <th width="5%">Country <br> Default</th>
                                    <th width="10%" data-orderable="false">Action</th>
                                 </tr>
                             </thead>                                         
@@ -93,7 +93,7 @@
                 { data: 'market_name', name: '{{ TBL_MARKETS }}.market_name'},
                 { data: 'country', name: '{{ TBL_COUNTRY }}.title'},
                 { data: 'benchmark_family', name: 'benchmark_family' },
-                { data: 'bond_default', name: 'bond_default' },
+                /*{ data: 'bond_default', name: 'bond_default' },*/
                 { data: 'default', name: 'default' },
                 { data: 'action', orderable: false, searchable: false}
             ]

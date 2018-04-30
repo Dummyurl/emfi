@@ -96,7 +96,7 @@ class SecurityController extends Controller
                     $params['adminuserid']  = \Auth::guard('admins')->id();
                     $params['actionid']     = $adminAction->EDIT_SECURITY;
                     $params['actionvalue']  = $security_id;
-                    $params['remark']       = "Change Default Sataus::".$security_id;
+                    $params['remark']       = "Change Default Status::".$security_id;
 
                     $logs=\App\Models\AdminLog::writeadminlog($params);      
 
@@ -141,7 +141,7 @@ class SecurityController extends Controller
                 $params['adminuserid']  = \Auth::guard('admins')->id();
                 $params['actionid']     = $adminAction->EDIT_SECURITY;
                 $params['actionvalue']  = $security_id;
-                $params['remark']       = "Change Default Sataus::".$security_id;
+                $params['remark']       = "Change Default Status::".$security_id;
 
                 $logs=\App\Models\AdminLog::writeadminlog($params);      
 
@@ -626,9 +626,9 @@ class SecurityController extends Controller
                 return view("admin.partials.action",
                     [
                     'currentRoute' => $this->moduleRouteText,
-                    'row' => $row,                             
+                    'row' => $row,
                     'isEdit' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_SECURITY),
-                    'isDefault' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_SECURITY),                                                     
+                    'isDefault' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_SECURITY),
                     'isAnalyzerDefault' => \App\Models\Admin::isAccess(\App\Models\Admin::$EDIT_SECURITY),
                     ])->render();
             })

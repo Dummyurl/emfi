@@ -19,7 +19,7 @@
                      {!! Form::select('search_market', [''=>'Select Market Type'] + $MarketType, null,   ['class' => 'form-control market_type']) !!}
                 </div>
                 <div class="col-md-4">
-                    <label class="control-label">Economic Default</label>
+                    <label class="control-label">Country Default</label>
                     <select name="search_status" class="form-control">
                         <option value="all">All</option>                        
                         <option value="1" {!! \Request::get("search_status") == 1 ? 'selected="selected"':'' !!}>Yes</option>                        
@@ -29,14 +29,14 @@
             </div>
             <div class="clearfix">&nbsp;</div>
             <div class="row">
-                <div class="col-md-4">
+                <!-- <div class="col-md-4">
                     <label class="control-label">Analyzer Default</label>
                     <select name="search_analyzer_default" class="form-control">
                         <option value="all">All</option>                        
                         <option value="1" {!! \Request::get("search_analyzer_default") == 1 ? 'selected="selected"':'' !!}>Yes</option>                        
                         <option value="0" {!! \Request::get("search_analyzer_default") == "0" ? 'selected="selected"':'' !!}>No</option>                        
                     </select>
-                </div>
+                </div> -->
                 <div class="col-md-4">
                     <label class="control-label">Country</label>
                      {!! Form::select('search_country', [''=>'Select Country'] + $Countries, null, ['class' => 'form-control']) !!}
