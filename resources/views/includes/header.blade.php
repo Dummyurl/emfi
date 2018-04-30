@@ -44,19 +44,15 @@
                     <li class="{{ \Request::is('/','home','english','espanol') ? 'active':'' }}">
                         <a href="{{ url(getLangName()) }}">{{ __('header.home') }}</a>
                     </li>
-                    <li class="{{ \Request::is(getLangName().'/markets',getLangName().'/markets/*') ? 'active':'' }}">
-                        <a href="{{ url(getLangName().'/markets') }}">
-                            {{ __('header.markets') }}
-                        </a>
-                        <?php /*
+                    <li class="{{ \Request::is(getLangName().'/markets',getLangName().'/markets/*') ? 'active':'' }} dropdown">
+                        <a href="{{ url(getLangName().'/markets') }}"> {{ __('header.markets') }}</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ url('markets/equities') }}">{{ __('header.equities') }}</a></li>
-                            <li><a href="{{ url('markets/currencies') }}">{{ __('header.currencies') }}</a></li>
-                            <li><a href="{{ url('markets/commodities') }}">{{ __('header.commodities') }}</a></li>
-                            <li><a href="{{ url('markets/rates') }}">{{ __('header.rates') }}</a></li>
-                            <li><a href="{{ url('markets/credit') }}">{{ __('header.credit') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/markets/credit') }}">{{ __('header.credit') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/markets/rates') }}">{{ __('header.rates') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/markets/currencies') }}">{{ __('header.currencies') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/markets/commodities') }}">{{ __('header.commodities') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/markets/equities') }}">{{ __('header.equities') }}</a></li>
                         </ul>
-                        */ ?>
                     </li>
                     <?php 
                     /*
