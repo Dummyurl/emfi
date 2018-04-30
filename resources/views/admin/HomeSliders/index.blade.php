@@ -412,6 +412,9 @@
         });
     });
 
+</script>
+<script type="text/javascript">
+
 $(document).ready(function () {
         $(".display_date").datepicker({
             dateFormat: 'yy-mm-dd',
