@@ -23,6 +23,12 @@ class PagesController extends Controller {
 
     public function home(Request $request) {
 
+        $close_disclaimer = $request->get("close_disclaimer");
+        if($close_disclaimer == 1)
+        {
+            session(["is_close_disclaimer" => 1]);
+            return ['status' => 1];
+        }
         $currentLang = \Request::segment(1);
 
         if(empty($currentLang))
@@ -119,9 +125,9 @@ class PagesController extends Controller {
 
         app()->setLocale($locale);
 
-        if(!empty($country)) 
+        if(!empty($country))
         {
-            $main_categories = 
+            $main_categories =
             [
                 "equities",
                 "currencies",
@@ -129,8 +135,8 @@ class PagesController extends Controller {
                 "rates",
                 "credit",
                 "developed"
-            ];    
-            
+            ];
+
             if(in_array($country, $main_categories))
             {
                 $type = $country;
@@ -138,7 +144,7 @@ class PagesController extends Controller {
                 {
                     $type = "";
                 }
-                
+
                 $main_categories = [
                     "equities" => 1,
                     "currencies" => 2,
@@ -161,7 +167,7 @@ class PagesController extends Controller {
                 $data['tweets'] = getPeopleTweets($from);
 
                 $data['markets'] = MarketType::getArrayList();
-                // $data['market_boxes'] = callCustomSP('CALL select_market()');        
+                // $data['market_boxes'] = callCustomSP('CALL select_market()');
 
                 $market_type_id = isset($main_categories[$type]) ? $main_categories[$type] : 1;
                 $data['market_boxes'] = callCustomSP('CALL select_market_by_market_type('.$market_type_id.')');
@@ -184,7 +190,7 @@ class PagesController extends Controller {
                 }
 
                 $data['equities'] = $equities;
-                $data['credits'] = $credits;        
+                $data['credits'] = $credits;
 
                 $default_country_id = session()->get('default_country_id');
                 $continentCode      = session()->get('continentCode');
@@ -196,8 +202,8 @@ class PagesController extends Controller {
                     $pricer_data = callCustomSP('CALL select_emerging_countries_security_data('.$market_type_id.')');
                     $data['pricer_data'] = $pricer_data;
                     return view('market', $data);
-                } 
-                else 
+                }
+                else
                 {
                     $country_id = 14;
                     if(!empty($default_country_id)){
@@ -216,13 +222,13 @@ class PagesController extends Controller {
 
                     // Get Market Pricer
                     $pricer_data = callCustomSP('CALL select_developed_countries_security_data()');
-                    $data['pricer_data'] = $pricer_data;                        
+                    $data['pricer_data'] = $pricer_data;
 
                     return view('marketDefault', $data);
-                }                
-            }            
-        } 
-        else 
+                }
+            }
+        }
+        else
         {
             $data = [];
             $data['selectedMenu'] = "countries";
@@ -279,11 +285,11 @@ class PagesController extends Controller {
         $data['last_update_date'] = getLastUpdateDate();
         return view('economics', $data);
     }
-    
-    public function defaultCountry(Request $request) 
-    {                        
+
+    public function defaultCountry(Request $request)
+    {
         $currentRegion = $request->segment(3);
-        
+
         $data = [];
         $data['selectedMenu'] = "countries";
         $data['last_update_date'] = getLastUpdateDate();
@@ -292,7 +298,7 @@ class PagesController extends Controller {
         $data['countries'] = Country::where("country_type", 2)->orderBy("title")->get()->toArray();
         $data['countries'] = json_encode($data['countries']);
         $defaultCode = "005";
-        
+
         if($currentRegion == "caribbean")
         {
             $defaultCode = "029";
@@ -304,9 +310,9 @@ class PagesController extends Controller {
         else if($currentRegion == "north-america")
         {
             $defaultCode = "021";
-        }        
-        
-        $data['defaultCode'] = $defaultCode;        
+        }
+
+        $data['defaultCode'] = $defaultCode;
         return view('defaultCountryPage', $data);
     }
 

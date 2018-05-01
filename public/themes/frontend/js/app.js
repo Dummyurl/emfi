@@ -72,15 +72,15 @@ $(document).ready(function(){
 });
 
 $(document).ready(function() {
-    var closed = sessionStorage.closed;
-    if (closed == 1) {
-        $(".disclaimer_show").hide();
-    }
-    else {
-        $(".disclaimer_show").show();
-    }
     $(document).on('click', '.close_disclaimer', function () {
         $(".disclaimer_show").hide();
-        sessionStorage.closed = 1;;
+        $.ajax({
+            type: "GET",
+            url: '/',
+            data:{close_disclaimer: 1},
+            success: function (result)
+            {
+            }
+        });
     });
 });
