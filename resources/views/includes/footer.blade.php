@@ -47,10 +47,11 @@
         <img src="{{ asset('/images/ajax-loader.gif') }}" />
     </div>
 </div>
-<div class="container disclaimer_show" style="position:fixed;bottom:0;width:100%">
+@if(session("is_close_disclaimer") != 1)
+<div class="container disclaimer_show" style="position:fixed;bottom:0;width:100%;z-index: 1000;">
     <div class="row disclaimer ftr_txt" style="background:rgba(5, 27, 52, 0.85);color:#fff">
         <div class="col-md-12">
-            <span class="pull-right close_disclaimer" style="color:white;">X</span>
+            <span title="Close" class="pull-right close_disclaimer" style="color:white;cursor: pointer;">X</span>
         </div>
         <div class="container">
             <h4>Disclaimer</h4>
@@ -59,3 +60,4 @@
         </div>
     </div>
 </div>
+@endif
