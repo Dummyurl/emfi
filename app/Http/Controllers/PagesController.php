@@ -119,9 +119,111 @@ class PagesController extends Controller {
 
         app()->setLocale($locale);
 
-        if (!empty($country)) {
-            $defaultCountry = $country;
-        } else {
+        if(!empty($country)) 
+        {
+            $main_categories = 
+            [
+                "equities",
+                "currencies",
+                "commodities",
+                "rates",
+                "credit",
+                "developed"
+            ];    
+            
+            if(in_array($country, $main_categories))
+            {
+                $type = $country;
+                if($country == "developed")
+                {
+                    $type = "";
+                }
+                
+                $main_categories = [
+                    "equities" => 1,
+                    "currencies" => 2,
+                    "commodities" => 3,
+                    "rates" => 4,
+                    "credit" => 5,
+                ];
+
+                $locale = session('locale');
+                if (empty($locale)) {
+                    $locale = 'en';
+                }
+
+                app()->setLocale($locale);
+
+                $data = array();
+                $data['page_title'] = "EMFI: Markets";
+                // $data['tweets'] = getLatestTweets();
+                $from = "@emfisecurities";
+                $data['tweets'] = getPeopleTweets($from);
+
+                $data['markets'] = MarketType::getArrayList();
+                // $data['market_boxes'] = callCustomSP('CALL select_market()');        
+
+                $market_type_id = isset($main_categories[$type]) ? $main_categories[$type] : 1;
+                $data['market_boxes'] = callCustomSP('CALL select_market_by_market_type('.$market_type_id.')');
+
+                $data['selected_market'] = $market_type_id;
+                $data['last_update_date'] = getLastUpdateDate();
+
+                // Get Tree Map Data
+                $treeMapData = callCustomSP('CALL select_analyzer_tree_map_data(0)');
+                $equities = [];
+                $credits = [];
+                foreach ($treeMapData as $r) {
+                    if ($r['market_id'] == 5) {
+                        $credits['countries'][$r['country']]['title'] = $r['country_name'];
+                        $credits['countries'][$r['country']]['records'][] = ['id' => $r['id'], 'security_name' => $r['security_name'], 'data' => $r];
+                    } else {
+                        $equities['countries'][$r['country']]['title'] = $r['country_name'];
+                        $equities['countries'][$r['country']]['records'][] = ['id' => $r['id'], 'security_name' => $r['security_name'], 'data' => $r];
+                    }
+                }
+
+                $data['equities'] = $equities;
+                $data['credits'] = $credits;        
+
+                $default_country_id = session()->get('default_country_id');
+                $continentCode      = session()->get('continentCode');
+                $default_country_id = GetCountryIdFromRegion($continentCode, $default_country_id);
+
+                if (!empty($type))
+                {
+                    // Get Market Pricer
+                    $pricer_data = callCustomSP('CALL select_emerging_countries_security_data('.$market_type_id.')');
+                    $data['pricer_data'] = $pricer_data;
+                    return view('market', $data);
+                } 
+                else 
+                {
+                    $country_id = 14;
+                    if(!empty($default_country_id)){
+                        $country_id = $default_country_id;
+                    }
+                    // Get Top 4 Box Data
+                    $data['market_boxes'] = callCustomSP('CALL select_economics_country(' . $country_id . ')');
+
+                    // Get Top Gainer
+                    $gainer_data = callCustomSP('CALL select_Top_Gainer(0,1)');
+                    $data['gainer_data'] = json_encode($gainer_data);
+
+                    // Get Top Loser
+                    $loser_data = callCustomSP('CALL select_Top_Loser(0,1)');
+                    $data['loser_data'] = json_encode($loser_data);
+
+                    // Get Market Pricer
+                    $pricer_data = callCustomSP('CALL select_developed_countries_security_data()');
+                    $data['pricer_data'] = $pricer_data;                        
+
+                    return view('marketDefault', $data);
+                }                
+            }            
+        } 
+        else 
+        {
             $data = [];
             $data['selectedMenu'] = "countries";
             $data['last_update_date'] = getLastUpdateDate();

@@ -11,10 +11,10 @@
                 </div>
                 <div class="col-md-6 select_r">
                     <select name="markets" id="markets">    
-                        <option value="" selected="">Selector</option>
+                        <option value="" selected="">DEVELOPED</option>
                         @foreach($markets as $val => $label)                        
                         <option data-url="{{ url(getLangName().getMarketUrls($val)) }}" value="{{ $val }}">
-                            {{ ucwords(strtolower($label)) }}
+                            {{ strtoupper($label) }}
                         </option>
                         @endforeach                                                 
                     </select>

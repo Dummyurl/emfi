@@ -54,23 +54,23 @@ function getMarketUrls($marketID)
 {
     if($marketID == 1)
     {
-        return '/markets/equities';
+        return '/equities';
     }
     else if($marketID == 2)
     {
-        return '/markets/currencies';
+        return '/currencies';
     }
     else if($marketID == 3)
     {
-        return '/markets/commodities';
+        return '/commodities';
     }
     else if($marketID == 4)
     {
-        return '/markets/rates';
+        return '/rates';
     }
     else if($marketID == 5)
     {
-        return '/markets/credit';
+        return '/credit';
     }
     else
     {
