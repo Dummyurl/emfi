@@ -22,6 +22,7 @@
 
 <!-- <div class="clearfix" style="margin-top: 70px;"></div> -->
 <input type="hidden" id="main_lang" value="{{ getLangName() }}" />
+<input type="hidden" id="defaultCode" value="{{ $defaultCode }}" />
 <div id="geo-chart" style="width: 100%; height: 100vh;"></div>
 
 <div class="bottom-select">

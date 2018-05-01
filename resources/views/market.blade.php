@@ -15,7 +15,8 @@
                         <option data-url="{{ url(getLangName().getMarketUrls($val)) }}" {{ $selected_market == $val ? 'selected="selected"':'' }} value="{{ $val }}">
                             {{ ucwords(strtolower($label)) }}
                         </option>
-                        @endforeach                                                 
+                        @endforeach    
+                        <option data-url="{{ url(getLangName().'/developed') }}" value="DEVELOPED">DEVELOPED</option>
                     </select>
                 </div>
             </div>

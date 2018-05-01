@@ -55,7 +55,7 @@ function drawChart(country_data)
 	var options = 
     {
         legend: 'none',
-        region: '005',
+        region: $("#defaultCode").val(),
         // backgroundColor: '#f2f5f7',
         backgroundColor: '#808080',
         width: '100%',
