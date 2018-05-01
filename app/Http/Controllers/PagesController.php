@@ -980,23 +980,23 @@ class PagesController extends Controller {
     {
         $data = [];
 
-        if ($type == 'asset_management') {
+        if ($type == 'asset-management') {
             $data['page_title'] = 'Asset Management';
             $view = 'services.asset_management';
         }
-        elseif ($type == 'wealth_management') {
+        elseif ($type == 'wealth-management') {
             $data['page_title'] = "Wealth Management";
             $view = 'services.wealth_management';
         }
-        elseif ($type == 'investment_banking') {
+        elseif ($type == 'investment-banking') {
             $data['page_title'] = 'Investment Banking';
             $view = 'services.investment_banking';
         }
-        elseif ($type == 'prime_brokerage') {
+        elseif ($type == 'prime-brokerage') {
             $data['page_title'] = 'Investment Banking';
             $view = 'services.prime_brokerage';
         }
-        elseif ($type == 'data_analytics') {
+        elseif ($type == 'data-analytics') {
             $data['page_title'] = 'Data Analytics';
             $view = 'services.data_analytics';
         }

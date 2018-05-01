@@ -28,7 +28,7 @@
 		'complaint' => 'Complaint',
 		'careers' => 'Careers',
 		'locations' => 'Locations',
-		'service' => 'Service',
+		'service' => 'Services',
 		'asset_management' => 'Asset Management',
 		'wealth_management' => 'Wealth Management',
 		'investment_banking' => 'Investment Banking',
