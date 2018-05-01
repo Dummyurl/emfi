@@ -113,8 +113,9 @@ class PagesController extends Controller {
         return $chart_data;
     }
 
-    public function economics(Request $request, $country = "") {
-
+    public function economics(Request $request, $country = "")
+    {
+        $defaultCountry = $country;
         $data = array();
         $data['page_title'] = "EMFI: Countries";
         $data['selectedMenu'] = "countries";

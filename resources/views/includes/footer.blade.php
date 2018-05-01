@@ -54,7 +54,9 @@
             <span title="close" class="pull-right close_disclaimer" style="color:white;cursor: pointer;">X</span>
         </div>
         <div class="container">
-            <p class="text-justify">Please carefully review our Cookies Policy, Privacy Policy, Terms of Use and related disclaimers before proceeding. We use cookies to provide you with a safe, effective and user-friendly website. All pricing information is indicative only and while it has been obtained from sources that EMFI believes to be reliable, we do not represent or warrant that it is up-to-date, accurate or complete. Actual results may differ substantially from those reflected as past performance is not necessarily indicative of future results. If you disagree with any of our policies or terms, please do not proceed to the EMFI website.</p>
+            <h4>Disclaimer</h4>
+            <p class="text-justify"> 
+            Please carefully review our Cookies Policy, Privacy Policy, Terms of Use and related disclaimers before proceeding. We use cookies to provide you with a safe, effective and user-friendly website. All pricing information is indicative only and while it has been obtained from sources that EMFI believes to be reliable, we do not represent or warrant that it is up-to-date, accurate or complete. Actual results may differ substantially from those reflected as past performance is not necessarily indicative of future results. If you disagree with any of our policies or terms, please do not proceed to the EMFI website.</p>
         </div>
     </div>
 </div>
