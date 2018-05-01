@@ -119,11 +119,11 @@
                     <li class="{{ \Request::is(getLangName().'/contact') ? 'active':'' }} dropdown">
                         <a class="dropdown-toggle" href="javascript:void(0);">{{ __('header.contact') }}</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ url(getLangName().'/contact')}}">{{ __('header.enquiry') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/contact')}}">{{ __('header.feedback') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/contact')}}">{{ __('header.complaint') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/contact')}}">{{ __('header.careers') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/contact')}}">{{ __('header.locations') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/contact/enquiry')}}">{{ __('header.enquiry') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/contact/feedback')}}">{{ __('header.feedback') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/contact/complaint')}}">{{ __('header.complaint') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/contact/careers')}}">{{ __('header.careers') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/contact/locations')}}">{{ __('header.locations') }}</a></li>
                         </ul>
                     </li>
                     <li class="{{ \Request::is(getLangName().'/service') ? 'active':'' }} dropdown">

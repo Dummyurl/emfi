@@ -317,9 +317,10 @@ class PagesController extends Controller {
         return view('defaultCountryPage', $data);
     }
 
-    public function contact(Request $request) {
+    public function contact(Request $request, $type = '') {
         $data = array();
         $data['page_title'] = "EMFI: Contact";
+        $data['type'] = $type;
         $locale = session('locale');
         if (empty($locale)) {
             $locale = 'en';
@@ -934,6 +935,7 @@ class PagesController extends Controller {
             $country = $request->get('country');
             $organization = $request->get('organization');
             $email = $request->get('email');
+            $phone = $request->get('phone');
             $subject = $request->get('subject');
             $message = $request->get('message');
             $busineess_unit = $request->get('business_unit');
@@ -953,23 +955,28 @@ class PagesController extends Controller {
             }
 
             $html = '<p> Hi,</p>';
-            $html .= '<p>Country name : ' . $country . '</p>';
-            $html .= '<p>Organization name : ' . $organization . '</p><br/>';
-            $html .= '<p>Business Unit : ' . $busineess_unit . '</p><br/>';
-            $html .= '<p>Subject : ' . $subject . '</p><br/>';
-            $html .= '<p>' . $message . '</p><br/>';
+            $html .= '<p>Name : ' . $first_name .' '.$last_name.'</p>';
+            $html .= '<p>Organization name : ' . $organization . '</p>';
+            $html .= '<p>Country name : ' . $country . '</p>';            
+            $html .= '<p>Phone : ' . $phone . '</p>';
+            $html .= '<p>Email : ' . $email . '</p>';            
+            $html .= '<p>Business Unit : ' . $busineess_unit . '</p>';
+            $html .= '<p>Subject : ' . $subject . '</p>';
+            $html .= '<p>Message</p>';
+            $html .= '<p>' . $message . '</p>';
             $html .= '<p>' . ucfirst($first_name) . ' ' . ucfirst($last_name) . '</p>';
             if (!empty($fileurl)) {
-                $html .= '<p><a href="{{ '.$fileurl.' }}" class="btn btn-default" download>Download Attachment</a></p>';
+                $html .= '<p><a href="'.url($fileurl).'" class="btn btn-default" download>Download Attachment</a></p>';
             }
             $html .= '<p>Thank you !</p>';
 
             $params["to"] = 'reports.phpdots@gmail.com';
+            $params["to"] = 'rathodakshay228@gmail.com';
             $params["from"] = $email;
             $params["subject"] = "EMFI: Contact Details";
             $params["body"] = $html;
 
-            dd($params);
+            // dd($params);
 
             sendHtmlMail($params);
         }

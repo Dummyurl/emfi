@@ -14,5 +14,8 @@
 	'contact' => 'Contact',
 	'business_unit' => 'Business Unit',
 	'at_a_glance'=>"At A Glance",
+        'organization' => 'Organization',
+        'phone' => 'Phone',
+            
 	];
 ?>

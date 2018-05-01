@@ -14,5 +14,8 @@
 	'business_unit' => 'Unidad de negocio',
 	'subject' => 'Tema',
 	'at_a_glance'=>"De un vistazo",
-	];
+        'organization' => 'Organización',
+        'phone' => 'Teléfono',
+	
+    ];
 ?>
