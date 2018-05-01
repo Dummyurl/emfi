@@ -388,9 +388,13 @@
                         treeObject = new google.visualization.TreeMap(document.getElementById(elementID));
                         treeObject.draw(dataChart1, {
                                 legend: {position: 'none'},
-                                minColor: '#f00',
-                                midColor: '#0d0',
-                                maxColor: '#0d0',
+                                
+                                // minColor: '#f00',
+                                // midColor: '#0d0',
+                                // maxColor: '#0d0',
+                                minColor: '#051b34',
+                                midColor: '#051b34',
+                                maxColor: '#051b34',                                            
                                 fontColor: 'white',
                                 minColorValue: 0,
                                 maxColorValue: 100,
