@@ -3,7 +3,7 @@
         <div class="container">
             <ul class="rightlinks">
                 <?php /*
-                <li class="dropdown"> 
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         {{ __('header.login') }}
                     </a>
@@ -13,7 +13,7 @@
                     </ul>
                 </li>
                 */ ?>
-                <li class="dropdown"> 
+                <li class="dropdown">
                     <a title="Change Language" onclick="window.location='{{ session('locale') == "es" ? url('change-language/en'):url('change-language/es')}}';" href="{{ session('locale') == "es" ? url('change-language/en'):url('change-language/es')}}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         @if(session('locale') == "es")
                             ESPAÑOL
@@ -26,7 +26,7 @@
                             <li><a title="Change Language" href="{{ url('change-language/en') }}">ENGLISH</a></li>
                         @else
                             <li><a title="Change Language" href="{{ url('change-language/es') }}">ESPAÑOL</a></li>
-                        @endif                        
+                        @endif
                     </ul>
                 </li>
             </ul>
@@ -34,10 +34,10 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">{{ __('header.toggle') }}</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
                 <a class="navbar-brand white" href="{{ url(getLangName()) }}">
                     <img src="{{ asset('themes/frontend/images/emfi-logo.png') }}" alt="EMFI Securities">
-                </a> 
+                </a>
                 <a class="navbar-brand dark" href="{{ url(getLangName()) }}">
                     <img src="{{ asset('themes/frontend/images/emfi-logo-dark.png') }}" alt="EMFI Securities">
-                </a> 
+                </a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -58,7 +58,7 @@
                         </ul>
                         */ ?>
                     </li>
-                    <?php 
+                    <?php
                     /*
                     <li class="dropdown {{ \Request::is('economics','economics/*') ? 'active':'' }}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -80,14 +80,14 @@
                         </a>
                         <?php /*
                         <ul class="dropdown-menu">
-                            @if(\Request::is('analyzer','analyzer/*'))                            
+                            @if(\Request::is('analyzer','analyzer/*'))
                                 <li><a href="javascript:void(0);" onclick="navigateToDiv('relval')">{{ __('header.relval') }}</a></li>
                                 <li><a href="javascript:void(0);" onclick="navigateToDiv('regression')">{{ __('header.regression') }}</a></li>
                                 <li><a href="javascript:void(0);" onclick="navigateToDiv('slope')">{{ __('header.slope') }}</a></li>
                             @else
                                 <li><a href="{{ url('analyzer/relval') }}">{{ __('header.relval') }}</a></li>
                                 <li><a href="{{ url('analyzer/regression') }}">{{ __('header.regression') }}</a></li>
-                                <li><a href="{{ url('analyzer/slope') }}">{{ __('header.slope') }}</a></li>                            
+                                <li><a href="{{ url('analyzer/slope') }}">{{ __('header.slope') }}</a></li>
                             @endif
                         </ul>
                          */ ?>
@@ -104,15 +104,39 @@
                         </ul>
                     </li>
                     */ ?>
-                    <li class="{{ \Request::is(getLangName().'/about') ? 'active':'' }}">
-                        <a href="{{ url(getLangName().'/about')}}">{{ __('header.about') }}</a>
+                    <li class="{{ \Request::is(getLangName().'/about') ? 'active':'' }} dropdown">
+                        <a class="dropdown-toggle" href="{{ url(getLangName().'/about')}}" >{{ __('header.about') }}</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url(getLangName().'/about')}}#background">{{ __('header.background') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/about')}}#team">{{ __('header.team') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/about')}}#clients">{{ __('header.clients') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/about')}}#candidates">{{ __('header.candidates') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/about')}}#presence">{{ __('header.presence') }}</a></li>
+                        </ul>
                     </li>
-                    <li class="{{ \Request::is(getLangName().'/contact') ? 'active':'' }}">
-                        <a href="{{ url(getLangName().'/contact')}}">{{ __('header.contact') }}</a>
+                    <li class="{{ \Request::is(getLangName().'/contact') ? 'active':'' }} dropdown">
+                        <a class="dropdown-toggle" href="javascript:void(0);">{{ __('header.contact') }}</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url(getLangName().'/contact')}}">{{ __('header.enquiry') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/contact')}}">{{ __('header.feedback') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/contact')}}">{{ __('header.complaint') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/contact')}}">{{ __('header.careers') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/contact')}}">{{ __('header.locations') }}</a></li>
+                        </ul>
+                    </li>
+                    <li class="{{ \Request::is(getLangName().'/service') ? 'active':'' }} dropdown">
+                        <a class="dropdown-toggle" href="javascript:void(0);">{{ __('header.service') }}</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url(getLangName().'/services/asset_management')}}">{{ __('header.asset_management') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/services/wealth_management')}}">{{ __('header.wealth_management') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/services/investment_banking')}}">{{ __('header.investment_banking') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/services/prime_brokerage')}}">{{ __('header.prime_brokerage') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/services/data_analytics')}}">{{ __('header.data_analytics') }}</a></li>
+                        </ul>
                     </li>
                     <li class="">
                         <a href="#">{{ __('header.login') }}</a>
-                    </li>                    
+                    </li>
                 </ul>
             </div>
             <!--/.nav-collapse -->

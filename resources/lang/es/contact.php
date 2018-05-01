@@ -11,6 +11,8 @@
 	'subject'=>"Asunto",
 	'message'=>"Mensaje",
 	'send'=>"Enviar",
+	'business_unit' => 'Unidad de negocio',
+	'subject' => 'Tema',
 	'at_a_glance'=>"De un vistazo",
-	]; 
+	];
 ?>

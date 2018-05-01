@@ -16,24 +16,24 @@ use App\Models\HomeSlider;
 
 class PagesController extends Controller {
 
-    public function __construct() 
+    public function __construct()
     {
-        $this->middleware('page_middleware');        
+        $this->middleware('page_middleware');
     }
 
     public function home(Request $request) {
 
         $currentLang = \Request::segment(1);
-        
+
         if(empty($currentLang))
         {
             return \Redirect::to('/english', 301);
         }
-        
+
         $data = array();
         $data['page_title'] = "EMFI: Home Page";
         $locale = session('locale');
-        if (empty($locale)) 
+        if (empty($locale))
         {
             $locale = 'en';
         }
@@ -62,7 +62,7 @@ class PagesController extends Controller {
             if(isset($slider->display_date) && !empty($slider->display_date)){
                 $display_date = $slider->display_date;
             }
-            
+
             // Get Chart Data
             $chart_data = $this->getChartData($slider);
             $slider_rows[$i]['id'] = $slider->id;
@@ -107,8 +107,8 @@ class PagesController extends Controller {
         return $chart_data;
     }
 
-    public function economics(Request $request, $country = "") {                
-        
+    public function economics(Request $request, $country = "") {
+
         $data = array();
         $data['page_title'] = "EMFI: Countries";
         $data['selectedMenu'] = "countries";
@@ -147,10 +147,10 @@ class PagesController extends Controller {
         if($data['countryObj']->id == 1)
         {
             $firstTicker = "";
-            foreach ($bond_data as $r) 
+            foreach ($bond_data as $r)
             {
                 $r['id'] = $r['security_id'];
-                
+
                 if(empty($firstTicker))
                 {
                     $firstTicker = $r['ticker'];
@@ -158,15 +158,15 @@ class PagesController extends Controller {
 
                 $data['bond_data'][$firstTicker][] = $r;
             }
-        }   
+        }
         else
         {
-            foreach ($bond_data as $r) 
+            foreach ($bond_data as $r)
             {
                 $r['id'] = $r['security_id'];
                 $data['bond_data'][$r['ticker']][] = $r;
             }
-        } 
+        }
 
         // dd($data['bond_data']);
 
@@ -288,7 +288,7 @@ class PagesController extends Controller {
         $data['tweets'] = getPeopleTweets($from);
 
         $data['markets'] = MarketType::getArrayList();
-        // $data['market_boxes'] = callCustomSP('CALL select_market()');        
+        // $data['market_boxes'] = callCustomSP('CALL select_market()');
 
         $market_type_id = isset($main_categories[$type]) ? $main_categories[$type] : 1;
         $data['market_boxes'] = callCustomSP('CALL select_market_by_market_type('.$market_type_id.')');
@@ -311,8 +311,8 @@ class PagesController extends Controller {
         }
 
         $data['equities'] = $equities;
-        $data['credits'] = $credits;        
-        
+        $data['credits'] = $credits;
+
         $default_country_id = session()->get('default_country_id');
         $continentCode      = session()->get('continentCode');
         $default_country_id = GetCountryIdFromRegion($continentCode, $default_country_id);
@@ -323,8 +323,8 @@ class PagesController extends Controller {
             $pricer_data = callCustomSP('CALL select_emerging_countries_security_data('.$market_type_id.')');
             $data['pricer_data'] = $pricer_data;
             return view('market', $data);
-        } 
-        else 
+        }
+        else
         {
             $country_id = 14;
             if(!empty($default_country_id)){
@@ -340,10 +340,10 @@ class PagesController extends Controller {
             // Get Top Loser
             $loser_data = callCustomSP('CALL select_Top_Loser(0,1)');
             $data['loser_data'] = json_encode($loser_data);
-            
+
             // Get Market Pricer
             $pricer_data = callCustomSP('CALL select_developed_countries_security_data()');
-            $data['pricer_data'] = $pricer_data;                        
+            $data['pricer_data'] = $pricer_data;
 
             return view('marketDefault', $data);
         }
@@ -404,25 +404,25 @@ class PagesController extends Controller {
 
     public function change_locale($locale) {
         $languages = \App\Custom::getLanguages();
-        if(isset($languages[$locale]) && !empty($languages[$locale])) 
+        if(isset($languages[$locale]) && !empty($languages[$locale]))
         {
-            session(['locale' => $locale]);                        
+            session(['locale' => $locale]);
             $url = \URL::previous();
             $tmp = explode('/', $url);
-            
+
             if(count($tmp) == 4 && empty($tmp[3]))
             {
                 return redirect(getLangName());
             }
-            
+
             if(getLangName() == "espanol")
             $url = str_replace('english',getLangName(), $url);
             else
-            $url = str_replace('espanol',getLangName(), $url);            
-            
+            $url = str_replace('espanol',getLangName(), $url);
+
             return redirect($url);
         }
-        else 
+        else
         {
             return redirect('/');
         }
@@ -509,7 +509,7 @@ class PagesController extends Controller {
         $data['options']['option_maturity'] = $slider->option_maturity;
 
         $month_id = date("Y-m-d", strtotime("-" . $month_id . " months"));
-        // $month_id = '2017-04-07'; 
+        // $month_id = '2017-04-07';
         $history_data = "CALL select_counrty_yield_curve_bond_data(" . $country . ", '" . $month_id . "'," . $tickerType . ")";
         $history_data = callCustomSP($history_data);
         $rows = [];
@@ -715,7 +715,7 @@ class PagesController extends Controller {
         $query = 'CALL select_relval_chart_data(' . $option_credit . ',"' . $relvalMonth . '",0 )';
 
         $relval_chart = callCustomSP($query);
-       
+
         if ($relvalMonth == date("Y-m-d")) {
             if (empty($relval_chart)) {
                 $relvalMonth = \App\Models\Securities::max("created");
@@ -770,10 +770,12 @@ class PagesController extends Controller {
         $validator = Validator::make($request->all(), [
                     'first_name' => 'required|min:2',
                     'last_name' => 'required|min:2',
+                    'organization' => 'required',
                     'country' => 'required|min:2',
+                    'phone' => 'required|numeric',
                     'email' => 'required|email',
-                    'company' => 'required|min:2',
-                    'subject' => 'required|min:2',
+                    'business_unit' => 'required',
+                    'subject' => 'required',
                     'message' => 'required|min:5',
         ]);
 
@@ -791,17 +793,36 @@ class PagesController extends Controller {
             $first_name = $request->get('first_name');
             $last_name = $request->get('last_name');
             $country = $request->get('country');
+            $organization = $request->get('organization');
             $email = $request->get('email');
-            $company = $request->get('company');
             $subject = $request->get('subject');
             $message = $request->get('message');
+            $busineess_unit = $request->get('business_unit');
+
+            if ($request->hasFile("attachment")) {
+
+                $today = date('d-m-y');
+                // $imageName = $request->attachment->getClientOriginalName();
+                // $imageName = str_re.place('.' . $request->attachment->getClientOriginalExtension(), '', $imageName);
+                $imageName = UploadFileRename($today).$request->file('attachment')->getClientOriginalName();
+
+                // $uploadPath = 'uploads' . DIRECTORY_SEPARATOR . 'instruments' . DIRECTORY_SEPARATOR . $id;
+                $uploadPath = 'uploads'.DIRECTORY_SEPARATOR.'contact_us_files'.DIRECTORY_SEPARATOR.$today;
+
+                $request->attachment->move($uploadPath, $imageName);
+                $fileurl = "asset('".$uploadPath.DIRECTORY_SEPARATOR.$imageName."')";
+            }
 
             $html = '<p> Hi,</p>';
             $html .= '<p>Country name : ' . $country . '</p>';
-            $html .= '<p>Company name : ' . $company . '</p><br/>';
+            $html .= '<p>Organization name : ' . $organization . '</p><br/>';
+            $html .= '<p>Business Unit : ' . $busineess_unit . '</p><br/>';
             $html .= '<p>Subject : ' . $subject . '</p><br/>';
             $html .= '<p>' . $message . '</p><br/>';
             $html .= '<p>' . ucfirst($first_name) . ' ' . ucfirst($last_name) . '</p>';
+            if (!empty($fileurl)) {
+                $html .= '<p><a href="{{ '.$fileurl.' }}" class="btn btn-default" download>Download Attachment</a></p>';
+            }
             $html .= '<p>Thank you !</p>';
 
             $params["to"] = 'reports.phpdots@gmail.com';
@@ -809,9 +830,46 @@ class PagesController extends Controller {
             $params["subject"] = "EMFI: Contact Details";
             $params["body"] = $html;
 
+            dd($params);
+
             sendHtmlMail($params);
         }
         return ['status' => $status, 'msg' => $msg];
+    }
+
+    public function services($type)
+    {
+        $data = [];
+
+        if ($type == 'asset_management') {
+            $data['page_title'] = 'Asset Management';
+            $view = 'services.asset_management';
+        }
+        elseif ($type == 'wealth_management') {
+            $data['page_title'] = "Wealth Management";
+            $view = 'services.wealth_management';
+        }
+        elseif ($type == 'investment_banking') {
+            $data['page_title'] = 'Investment Banking';
+            $view = 'services.investment_banking';
+        }
+        elseif ($type == 'prime_brokerage') {
+            $data['page_title'] = 'Investment Banking';
+            $view = 'services.prime_brokerage';
+        }
+        elseif ($type == 'data_analytics') {
+            $data['page_title'] = 'Data Analytics';
+            $view = 'services.data_analytics';
+        }
+
+        $locale = session('locale');
+        if (empty($locale))
+        {
+            $locale = 'en';
+        }
+        app()->setLocale($locale);
+
+        return view($view , $data);
     }
 
 }

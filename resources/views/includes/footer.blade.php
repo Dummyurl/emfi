@@ -6,8 +6,8 @@
           <h3>{{ __('footer.quick_links') }}</h3>
           <ul>
             <li><a href="{{ url(getLangName())}}">{{ __('footer.login') }}</a></li>
-            <li><a href="{{ url(getLangName().'/about')}}">{{ __('footer.about') }}</a></li>            
-            <li><a href="{{ url(getLangName().'/contact')}}">{{ __('footer.contact') }}</a></li>            
+            <li><a href="{{ url(getLangName().'/about')}}">{{ __('footer.about') }}</a></li>
+            <li><a href="{{ url(getLangName().'/contact')}}">{{ __('footer.contact') }}</a></li>
           </ul>
         </div>
         <div class="footer_block">
@@ -15,7 +15,7 @@
           <ul>
             <li><a href="{{ url(getLangName().'/terms-of-uses') }}">{{ __('footer.terms_of_uses') }}</a></li>
             <li><a href="{{ url(getLangName().'/privacy-statements') }}">{{ __('footer.privacy_statements') }}</a></li>
-            <li><a href="{{ url(getLangName().'/cookies') }}">{{ __('footer.cookies') }}</a></li>            
+            <li><a href="{{ url(getLangName().'/cookies') }}">{{ __('footer.cookies') }}</a></li>
           </ul>
         </div>
         <div class="footer_block">
@@ -45,5 +45,15 @@
     </div>
     <div style="float:left;width:100%; left:0px; top:50%; text-align:center; position:fixed; padding:0px; z-index:999999999;">
         <img src="{{ asset('/images/ajax-loader.gif') }}" />
+    </div>
+</div>
+<div class="container disclaimer_show" style="position:fixed;bottom:0;width:100%">
+    <div class="row disclaimer ftr_txt" style="background:rgba(5, 27, 52, 0.85);color:#fff">
+        <div class="col-md-12">
+            <span class="pull-right close_disclaimer" style="color:white;">X</span>
+        </div>
+        <div class="container">
+            <p class="text-justify">Please carefully review our Cookies Policy, Privacy Policy, Terms of Use and related disclaimers before proceeding. We use cookies to provide you with a safe, effective and user-friendly website. All pricing information is indicative only and while it has been obtained from sources that EMFI believes to be reliable, we do not represent or warrant that it is up-to-date, accurate or complete. Actual results may differ substantially from those reflected as past performance is not necessarily indicative of future results. If you disagree with any of our policies or terms, please do not proceed to the EMFI website.</p>
+        </div>
     </div>
 </div>
