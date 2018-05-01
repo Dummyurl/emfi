@@ -84,6 +84,7 @@
     </div>
   </div>
 </section>
+<div id="presence"></div>
 <section class="our_offices">
   <div class="container">
     <div class="row">
@@ -141,6 +142,7 @@
     </div>
   </div>
 </section>
+<div id="clients"></div>
 <section class="clients">
   <div class="container">
     <div class="row">
@@ -187,6 +189,16 @@
           <h3>{{ __('about.value_tit_4') }}</h3>
           <p>{{ __('about.value_desc_4') }}.</p>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div id="candidates"></div>
+<section class="our_value">
+  <div class="container">
+    <div class="row">
+      <div class="innerwrapper clearfix">
+        <h2>Candidates</h2>
         <div class="our_value_item">
           <h3>{{ __('about.value_tit_5') }}</h3>
           <p>{{ __('about.value_desc_5') }}.</p>
@@ -198,11 +210,12 @@
         <div class="our_value_item">
           <h3>{{ __('about.value_tit_7') }}</h3>
           <p>{{ __('about.value_desc_7') }}.</p>
-        </div>
+        </div>        
       </div>
     </div>
   </div>
 </section>
+
 <section class="career">
   <div class="container">
     <div class="row">

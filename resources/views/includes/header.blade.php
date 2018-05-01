@@ -106,8 +106,15 @@
                         </ul>
                     </li>
                     */ ?>
-                    <li class="{{ \Request::is(getLangName().'/about') ? 'active':'' }}">
-                        <a href="{{ url(getLangName().'/about')}}">{{ __('header.about') }}</a>
+                    <li class="dropdown {{ \Request::is(getLangName().'/about') ? 'active':'' }}">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="{{ url(getLangName().'/about')}}">{{ __('header.about') }}</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url(getLangName().'/about#background')}}">BACKGROUND</a></li>
+                            <li><a href="{{ url(getLangName().'/about#team')}}">TEAM</a></li>
+                            <li><a href="{{ url(getLangName().'/about#clients')}}">CLIENTS</a></li>
+                            <li><a href="{{ url(getLangName().'/about#candidates')}}">CANDIDATES</a></li>
+                            <li><a href="{{ url(getLangName().'/about#presence')}}">PRESENCE</a></li>
+                        </ul>                        
                     </li>
                     <li class="{{ \Request::is(getLangName().'/contact') ? 'active':'' }}">
                         <a href="{{ url(getLangName().'/contact')}}">{{ __('header.contact') }}</a>
