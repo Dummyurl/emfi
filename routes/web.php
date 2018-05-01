@@ -157,5 +157,17 @@ Route::group(['prefix' => $ADMIN_PREFIX], function(){
 Route::get('english/countries', 'PagesController@economics');
 Route::get('espanol/countries', 'PagesController@economics');
 
+Route::get('english/countries/south-america', 'PagesController@defaultCountry');
+Route::get('espanol/countries/south-america', 'PagesController@defaultCountry');
+
+Route::get('english/countries/caribbean', 'PagesController@defaultCountry');
+Route::get('espanol/countries/caribbean', 'PagesController@defaultCountry');
+
+Route::get('english/countries/central-america', 'PagesController@defaultCountry');
+Route::get('espanol/countries/central-america', 'PagesController@defaultCountry');
+
+Route::get('english/countries/north-america', 'PagesController@defaultCountry');
+Route::get('espanol/countries/north-america', 'PagesController@defaultCountry');
+
 Route::get('english/{country}', 'PagesController@economics');
 Route::get('espanol/{country}', 'PagesController@economics');

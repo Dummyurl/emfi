@@ -177,6 +177,36 @@ class PagesController extends Controller {
         $data['last_update_date'] = getLastUpdateDate();
         return view('economics', $data);
     }
+    
+    public function defaultCountry(Request $request) 
+    {                        
+        $currentRegion = $request->segment(3);
+        
+        $data = [];
+        $data['selectedMenu'] = "countries";
+        $data['last_update_date'] = getLastUpdateDate();
+        $data['page_title'] = "EMFI: Countries";
+        $data['markets'] = MarketType::getArrayList();
+        $data['countries'] = Country::where("country_type", 2)->orderBy("title")->get()->toArray();
+        $data['countries'] = json_encode($data['countries']);
+        $defaultCode = "005";
+        
+        if($currentRegion == "caribbean")
+        {
+            $defaultCode = "029";
+        }
+        else if($currentRegion == "central-america")
+        {
+            $defaultCode = "013";
+        }
+        else if($currentRegion == "north-america")
+        {
+            $defaultCode = "021";
+        }        
+        
+        $data['defaultCode'] = $defaultCode;        
+        return view('defaultCountryPage', $data);
+    }
 
     public function contact(Request $request) {
         $data = array();
