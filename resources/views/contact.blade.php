@@ -10,41 +10,66 @@
         <div class="contact_form">
             <div class="row">
                 <p>{{ __('contact.any_qtn') }}.</p>
-                <form action="{{ url('contact-form')}}" method="post" id="contact_form_id">
-                    <div class="col-md-6">
+                {!! Form::open(['url' => 'contact-form', 'id' => 'contact_form_id', 'enctype' => 'multipart/form-data']) !!}
+                <!-- <form action="{{ url('contact-form')}}" method="post" id="contact_form_id"> -->
+                    <div class="col-md-12">
                         <div class="form-group">
-
-                            <input name="first_name" class="form-control" id="" placeholder="{{ __('contact.first_name') }}" type="text" required="required">
+                            {!! Form::text('first_name', null, ['class' => 'form-control' , 'placeholder' => __('contact.first_name'), 'required' => 'required']) !!}
+                            <!-- <input name="first_name" class="form-control" id="" placeholder="{{ __('contact.first_name') }}" type="text" required="required"> -->
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <input name="last_name" class="form-control" id="" placeholder="{{ __('contact.last_name') }}" type="text" required="required">
+                            {!! Form::text('last_name', null, ['class' => 'form-control', 'placeholder' => __('contact.last_name') , 'required' => 'required']) !!}
+                            <!-- <input name="last_name" class="form-control" id="" placeholder="{{ __('contact.last_name') }}" type="text" required="required"> -->
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <input name="country" class="form-control" id="" placeholder="{{ __('contact.country') }}" type="text" required="required">
+                            {!! Form::text('organization', null, ['class' => 'form-control', 'placeholder' => __('contact.last_name') , 'required' => 'required']) !!}
+                            <!-- <input name="last_name" class="form-control" id="" placeholder="{{ __('contact.last_name') }}" type="text" required="required"> -->
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <input name="email" class="form-control" id="" placeholder="{{ __('contact.email') }}" type="text" required="required">
+                            {!! Form::text('country' , null , ['class' => 'form-control' , 'placeholder' => __('contact.country') , 'required' => 'required']) !!}
+                            <!-- <input name="country" class="form-control" id="" placeholder="{{ __('contact.country') }}" type="text" required="required"> -->
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <input name="company" class="form-control" id="" placeholder="{{ __('contact.company') }}" type="text" required="required">
+                            {!! Form::text('phone' , null , ['class' => 'form-control' , 'placeholder' => __('contact.country') , 'required' => 'required']) !!}
+                            <!-- <input name="phone" class="form-control" id="" placeholder="{{ __('contact.country') }}" type="text" required="required"> -->
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <input name="subject" class="form-control" id="" placeholder="{{ __('contact.subject') }}" type="text" required="required">
+                            {!! Form::text('email' , null , ['class' => 'form-control' , 'placeholder' => __('contact.email') , 'required' => 'required']) !!}
+                            <!-- <input name="email" class="form-control" id="" placeholder="{{ __('contact.email') }}" type="text" required="required"> -->
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {!! Form::select('business_unit' , ['' => __('contact.business_unit')] + ['ASSET MANAGEMENT' => __('header.asset_management'), 'WEALTH MANAGEMENT' => __('header.wealth_management') , 'INVESTMENT BANKING' =>  __('header.investment_banking') , 'PRIME BROKERAGE' => __('header.prime_brokerage') , 'DATA ANALYTICS' => __('header.data_analytics')], null, ['class' => 'form-control' ,  'required' => 'required']) !!}
+                            <!-- <input name="company" class="form-control" id="" placeholder="{{ __('contact.company') }}" type="text" required="required"> -->
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {!! Form::select('subject' , ['' => __('contact.subject')] + ['ENQUIRY' => __('header.enquiry') , 'FEEDBACK' => __('header.feedback') , 'COMPLAINT' => __('header.complaint') , 'CAREERS' => __('header.careers') , 'LOCATIONS' => __('header.locations')], null, ['class' => 'form-control' ,  'required' => 'required']) !!}
+                            <!-- <input name="subject" class="form-control" id="" placeholder="{{ __('contact.subject') }}" type="text" required="required"> -->
                         </div>
                     </div>
                     <div class="col-md-12 txtarea">
                         <div class="form-group">
-                            <textarea name="message" cols="" rows="4" class="form-control" placeholder="{{ __('contact.message') }}" required="required"></textarea>
+                            {!! Form::textarea('message', null, ['class' => 'form-control' , 'cols' => '', 'rows' => '4' , 'placeholder' => __('contact.message'), 'required' => 'required']) !!}
+                            <!-- <textarea name="message" cols="" rows="4" class="form-control" placeholder="{{ __('contact.message') }}" required="required"></textarea> -->
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {!! Form::file('attachment', ['class' => 'form-control']) !!}
+                            <!-- <textarea name="message" cols="" rows="4" class="form-control" placeholder="{{ __('contact.message') }}" required="required"></textarea> -->
                         </div>
                     </div>
                     <div class="col-md-12 submit_btn">
@@ -52,7 +77,8 @@
                             <button class="btn">{{ __('contact.send') }}</button>
                         </div>
                     </div>
-                </form>
+                <!-- </form> -->
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -96,7 +122,7 @@
                     <div id="map2" class="map"></div>
                 </div>
             </div>
-        </div>  
+        </div>
     </div>
 </section>
 

@@ -11,6 +11,8 @@
 	'subject'=>"Subject",
 	'message'=>"Message",
 	'send'=>"Send",
+	'contact' => 'Contact',
+	'business_unit' => 'Business Unit',
 	'at_a_glance'=>"At A Glance",
-	]; 
+	];
 ?>

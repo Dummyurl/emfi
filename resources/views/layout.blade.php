@@ -22,6 +22,7 @@
 		<style media="screen">
 			#tweetText{
 				margin-top: 12px;
+                padding-right: 95px;
 			}
 		</style>
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -31,7 +32,7 @@
               <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body>
+    <body data-spy='scroll' data-target='.navbar' data-offset='50'>
         @include('includes.header')
         @yield('content')
         @include('includes.footer')
