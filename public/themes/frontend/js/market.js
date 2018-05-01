@@ -44,7 +44,8 @@ function drawBarChart(data_values, elementID, chartType) {
 
             if(elementID != "bar_chart")
             {
-                $val = Math.abs($per);
+                // $val = Math.abs($per);
+                $val = $per;
                 formatedData.push([data_values[i]['title'], $val, data_values[i]['title'] + ": "+$per+" %"]);
             }
             else
