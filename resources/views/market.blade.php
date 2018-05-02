@@ -176,9 +176,9 @@
                         @if($selected_market == 1)
                             <div class="col-md-3">
                                 <select id="price-dropdown-4">
-                                    <option value="1" data-title="Price" selected="selected">Price</option>
+                                    <!-- <option value="1" data-title="Price" selected="selected">Price</option> -->
                                     <option value="2" data-title="Yield">Yield</option>
-                                    <option value="3" data-title="Spread" style="display: none;">Spread</option>
+                                    <option value="3" data-title="Spread" selected="selected">P/E Ratio</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
@@ -190,7 +190,6 @@
                         @else
                             <div class="col-md-3">
                                 <select id="price-dropdown-4">
-                                    <option value="1" data-title="Price">Price</option>
                                     <option value="2" data-title="Yield">Yield</option>
                                     <option value="3" data-title="Spread" selected="selected">Spread</option>                              
                                 </select>

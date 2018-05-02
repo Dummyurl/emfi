@@ -95,7 +95,9 @@
                             <li><a href="{{ url(getLangName().'/countries/southamerica')}}">{{ __('header.south_america') }}</a></li>
                             <li><a href="{{ url(getLangName().'/countries/caribbean')}}">{{ __('header.caribbean') }}</a></li>
                             <li><a href="{{ url(getLangName().'/countries/centralamerica')}}">{{ __('header.central_america') }}</a></li>
+                            <?php /*
                             <li><a href="{{ url(getLangName().'/countries/northamerica')}}">{{ __('header.north_america') }}</a></li>
+                            */ ?>
                         </ul>
                     </li>
                     <li class="{{ \Request::is(getLangName().'/service') ? 'active':'' }} dropdown">

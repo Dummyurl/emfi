@@ -192,7 +192,7 @@
                         </div>
                         <div class="col-md-3">
                             <select id="price-dropdown-4">
-                                <option value="1" data-title="Price">Price</option>
+                                <!-- <option value="1" data-title="Price">Price</option> -->
                                 <option value="2" data-title="Yield">Yield</option>
                                 <option value="3" data-title="Spread" selected="selected">Spread</option>                              
                             </select>

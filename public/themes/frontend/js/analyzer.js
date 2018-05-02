@@ -715,16 +715,17 @@ $(document).ready(function () {
 
     $(document).on("change","#relvalCreditEquity",function(){
 
+        $("#price-dropdown-4").val(3);
+
         if($(this).val() == 1)
         {
             $("#price-dropdown-4 option[value=3]").text("P/E Ratio");
-            $("#price-dropdown-4 option[value=1]").hide();            
-            $("#price-dropdown-4").val(3);
+            // $("#price-dropdown-4 option[value=1]").hide();                        
         }
         else
         {
             $("#price-dropdown-4 option[value=3]").text("Spread");
-            $("#price-dropdown-4 option[value=1]").show();
+            // $("#price-dropdown-4 option[value=1]").show();
         }
 
         initRelvalChart();
