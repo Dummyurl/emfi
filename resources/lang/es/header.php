@@ -34,5 +34,10 @@
 		'investment_banking' => 'Banca de inversión',
 		'prime_brokerage' => 'Prime Brokerage',
 		'data_analytics' => 'Análisis de datos',
+		'south_america'=>'SUDAMERICA',
+		'caribbean'=>'caribbean',
+		'caribbean'=>'CARIBE',
+		'central_america'=>'CENTRO AMÉRICA',
+		'north_america'=>'NORTE AMERICA',
 	];
 ?>

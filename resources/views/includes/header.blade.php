@@ -70,11 +70,11 @@
                     <li class="{{ (isset($selectedMenu) && $selectedMenu == 'countries') ? 'active':'' }} dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="{{ url(getLangName().'/countries')}}">{{ __('header.economics') }}</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ url(getLangName().'/countries/south-america')}}">SOUTH AMERICA</a></li>
-                            <li><a href="{{ url(getLangName().'/countries/caribbean')}}">CARIBBEAN</a></li>
-                            <li><a href="{{ url(getLangName().'/countries/central-america')}}">CENTRAL AMERICA</a></li>                            
-                            <li><a href="{{ url(getLangName().'/countries/north-america')}}">NORTH AMERICA</a></li>                            
-                        </ul>                        
+                            <li><a href="{{ url(getLangName().'/countries/south-america')}}">{{ __('header.south_america') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/countries/caribbean')}}">{{ __('header.caribbean') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/countries/central-america')}}">{{ __('header.central_america') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/countries/north-america')}}">{{ __('header.north_america') }}</a></li>
+                        </ul>
                     </li>
                     <li class="dropdown {{ \Request::is(getLangName().'/analyzer',getLangName().'/analyzer/*') ? 'active':'' }}">
                         <a href="{{ url(getLangName().'/analyzer') }}">

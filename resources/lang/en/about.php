@@ -69,5 +69,6 @@
 	'careers_2'=>"Our seasoned team of sales and trading provides a diverse array of product offerings and customized investment solutions",
 	'careers_3'=>"If you excel in your field and thrive in a fast-paced, results-driven environment, we encourage you to apply today. You can use this form or email your resume to",
 	'london'=>'LONDON',
+	'candidates'=>'Candidates',
 	]; 
 ?>
