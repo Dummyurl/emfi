@@ -1,3 +1,21 @@
+function getRoundedMinValueForY($val)
+{
+    if($val >= 0 && $val <= 1)
+    {
+        $val = 0;
+    }
+    else
+    {
+        if($val > 10)
+        $val = ($val*0.90);
+        // $val = $val - 1;
+    }
+
+    return $val;
+}
+
+
+
 function getRoundedMinValue($val)
 {
     if($val >= 0 && $val <= 1)
@@ -9,6 +27,13 @@ function getRoundedMinValue($val)
         $val = $val - 1;
     }
 
+    return $val;
+}
+
+function getRoundedMaxValueForY($val)
+{
+    if($val > 10)
+    $val = ($val*1.10);
     return $val;
 }
 
@@ -74,6 +99,9 @@ $(document).ready(function(){
 $(document).ready(function() {
     $(document).on('click', '.close_disclaimer', function () {
         $(".disclaimer_show").hide();
+        // $(".parallax-mirror").css("top","0px");
+        $(".nav_wrapper.nav_discl").removeClass("nav_discl");
+       $("body").css("padding-top","0px");
         $.ajax({
             type: "GET",
             url: '/',
@@ -83,4 +111,9 @@ $(document).ready(function() {
             }
         });
     });
+    if($('.disclaimer_show').length > 0) {
+   $("body").css("padding-top","174px");
+ }
 });
+
+
