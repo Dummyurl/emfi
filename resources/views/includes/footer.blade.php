@@ -47,7 +47,7 @@
         <img src="{{ asset('/images/ajax-loader.gif') }}" />
     </div>
 </div>
-@if(session("is_close_disclaimer") != 1)
+<!-- @if(session("is_close_disclaimer") != 1)
 <div class="container disclaimer_show" style="position:fixed;bottom:0;width:100%;z-index: 1000;">
     <div class="row disclaimer ftr_txt" style="background:rgba(5, 27, 52, 0.85);color:#fff">
         <div class="col-md-12">
@@ -59,4 +59,4 @@
         </div>
     </div>
 </div>
-@endif
+@endif -->

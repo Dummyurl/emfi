@@ -1,4 +1,20 @@
 <div class="nav_wrapper{{ \Request::is('economics') ? ' custom-bg-header':'' }}">
+    @if(session("is_close_disclaimer") != 1)
+    <div class="container disclaimer_show">
+        <div class="row disclaimer ftr_txt" style="background:rgba(5, 27, 52, 0.85);color:#fff">
+            <!-- <div class="col-md-12">
+                <span title="Close" class="pull-right close_disclaimer" style="color:white;cursor: pointer;">X</span>
+            </div> -->
+            <div class="container">
+                <h4>{{ __('footer.disclaimer') }}</h4>
+                <p class="text-justify">{{ __('footer.disclaimer_desc') }}.</p>
+            </div>
+            <div class="col-md-12">
+                <a href="#" title="Close" class="pull-right close_disclaimer"> OK </a>
+            </div>
+        </div>
+    </div>
+    @endif
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <ul class="rightlinks">
