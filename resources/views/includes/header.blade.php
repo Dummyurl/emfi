@@ -1,6 +1,5 @@
-<div class="nav_wrapper{{ \Request::is('economics') ? ' custom-bg-header':'' }}">
     @if(session("is_close_disclaimer") != 1)
-    <div class="container disclaimer_show">
+    <div class="disclaimer_show">
         <div class="row disclaimer ftr_txt" style="background:rgba(5, 27, 52, 0.85);color:#fff">
             <!-- <div class="col-md-12">
                 <span title="Close" class="pull-right close_disclaimer" style="color:white;cursor: pointer;">X</span>
@@ -15,6 +14,11 @@
         </div>
     </div>
     @endif
+@if(session("is_close_disclaimer") != 1)
+<div class="nav_wrapper{{ \Request::is('economics') ? ' custom-bg-header':'' }}">
+@else
+<div class="asdf nav_wrapper{{ \Request::is('economics') ? ' custom-bg-header':'' }}">
+@endif
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <ul class="rightlinks">
