@@ -14,55 +14,55 @@
                 <!-- <form action="{{ url('contact-form')}}" method="post" id="contact_form_id"> -->
                 <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::text('first_name', null, ['class' => 'form-control' , 'placeholder' => __('contact.first_name'), 'required' => 'required']) !!}
+                        {!! Form::text('first_name', null, ['class' => 'form-control' , 'placeholder' => __('contact.first_name')]) !!}
                         <!-- <input name="first_name" class="form-control" id="" placeholder="{{ __('contact.first_name') }}" type="text" required="required"> -->
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::text('last_name', null, ['class' => 'form-control', 'placeholder' => __('contact.last_name') , 'required' => 'required']) !!}
+                        {!! Form::text('last_name', null, ['class' => 'form-control', 'placeholder' => __('contact.last_name') ]) !!}
                         <!-- <input name="last_name" class="form-control" id="" placeholder="{{ __('contact.last_name') }}" type="text" required="required"> -->
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::text('organization', null, ['class' => 'form-control', 'placeholder' => __('contact.organization') , 'required' => 'required']) !!}
+                        {!! Form::text('organization', null, ['class' => 'form-control', 'placeholder' => __('contact.organization')]) !!}
                         <!-- <input name="last_name" class="form-control" id="" placeholder="{{ __('contact.last_name') }}" type="text" required="required"> -->
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::text('country' , null , ['class' => 'form-control' , 'placeholder' => __('contact.country') , 'required' => 'required']) !!}
+                        {!! Form::text('country' , null , ['class' => 'form-control' , 'placeholder' => __('contact.country')]) !!}
                         <!-- <input name="country" class="form-control" id="" placeholder="{{ __('contact.country') }}" type="text" required="required"> -->
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::text('phone' , null , ['class' => 'form-control' , 'placeholder' => __('contact.phone') , 'required' => 'required']) !!}
+                        {!! Form::text('phone' , null , ['class' => 'form-control' , 'placeholder' => __('contact.phone')]) !!}
                         <!-- <input name="phone" class="form-control" id="" placeholder="{{ __('contact.country') }}" type="text" required="required"> -->
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::text('email' , null , ['class' => 'form-control' , 'placeholder' => __('contact.email') , 'required' => 'required']) !!}
+                        {!! Form::text('email' , null , ['class' => 'form-control' , 'placeholder' => __('contact.email') ]) !!}
                         <!-- <input name="email" class="form-control" id="" placeholder="{{ __('contact.email') }}" type="text" required="required"> -->
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::select('business_unit' , ['' => __('contact.business_unit')] + ['ASSET MANAGEMENT' => __('header.asset_management'), 'WEALTH MANAGEMENT' => __('header.wealth_management') , 'INVESTMENT BANKING' =>  __('header.investment_banking') , 'PRIME BROKERAGE' => __('header.prime_brokerage') , 'DATA ANALYTICS' => __('header.data_analytics')], null, ['class' => 'form-control' ,  'required' => 'required']) !!}
+                        {!! Form::select('business_unit' , ['' => __('contact.business_unit')] + ['ASSET MANAGEMENT' => __('header.asset_management'), 'WEALTH MANAGEMENT' => __('header.wealth_management') , 'INVESTMENT BANKING' =>  __('header.investment_banking') , 'PRIME BROKERAGE' => __('header.prime_brokerage') , 'DATA ANALYTICS' => __('header.data_analytics')], null, ['class' => 'form-control' ]) !!}
                         <!-- <input name="company" class="form-control" id="" placeholder="{{ __('contact.company') }}" type="text" required="required"> -->
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::select('subject' , ['' => __('contact.subject')] + ['ENQUIRY' => __('header.enquiry') , 'FEEDBACK' => __('header.feedback') , 'COMPLAINT' => __('header.complaint') , 'CAREERS' => __('header.careers') , 'LOCATIONS' => __('header.locations')], strtoupper($type), ['class' => 'form-control' ,  'required' => 'required']) !!}
+                        {!! Form::select('subject' , ['' => __('contact.subject')] + ['ENQUIRY' => __('header.enquiry') , 'FEEDBACK' => __('header.feedback') , 'COMPLAINT' => __('header.complaint') , 'CAREERS' => __('header.careers') , 'LOCATIONS' => __('header.locations')], strtoupper($type), ['class' => 'form-control' ]) !!}
                         <!-- <input name="subject" class="form-control" id="" placeholder="{{ __('contact.subject') }}" type="text" required="required"> -->
                     </div>
                 </div>
                 <div class="col-md-12 txtarea">
                     <div class="form-group">
-                        {!! Form::textarea('message', null, ['class' => 'form-control' , 'cols' => '', 'rows' => '4' , 'placeholder' => __('contact.message'), 'required' => 'required']) !!}
+                        {!! Form::textarea('message', null, ['class' => 'form-control' , 'cols' => '', 'rows' => '4' , 'placeholder' => __('contact.message')]) !!}
                         <!-- <textarea name="message" cols="" rows="4" class="form-control" placeholder="{{ __('contact.message') }}" required="required"></textarea> -->
                     </div>
                 </div>
