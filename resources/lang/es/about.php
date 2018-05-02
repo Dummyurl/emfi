@@ -69,5 +69,6 @@
 	'careers_2'=>"Nuestro equipo de ventas y comercio ofrece una amplia gama de productos de inversión que se ajusten a las necesidades de sus clientes",
 	'careers_3'=>"Lo invitamos a formar parte de nuestro equipo y ayudarlo a alcanzar sus metas profesionales. Si está interesado en participar en nuestros proceso y desea trabajar con nosotros envíenos su hoja de vida al correo electrónico empleo@emfisecurities.com",
 	'london'=>'LONDRES',
+	'candidates'=>'Los candidatos',
 	]; 
 ?>

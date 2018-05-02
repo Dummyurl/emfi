@@ -34,5 +34,10 @@
 		'investment_banking' => strtoupper('Investment Banking'),
 		'prime_brokerage' => strtoupper('Prime Brokerage'),
 		'data_analytics' => strtoupper('Data Analytics'),
+		'south_america'=>'SOUTH AMERICA',
+		'caribbean'=>'CARIBBEAN',
+		'central_america'=>'CENTRAL AMERICA',
+		'north_america'=>'NORTH AMERICA',
+		
 	];
 ?>

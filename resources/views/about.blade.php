@@ -198,7 +198,7 @@
   <div class="container">
     <div class="row">
       <div class="innerwrapper clearfix">
-        <h2>Candidates</h2>
+        <h2>{{ __('about.candidates') }}</h2>
         <div class="our_value_item">
           <h3>{{ __('about.value_tit_5') }}</h3>
           <p>{{ __('about.value_desc_5') }}.</p>
