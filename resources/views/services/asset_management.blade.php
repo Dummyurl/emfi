@@ -6,9 +6,17 @@
 		        	<?php
 			        	$image = asset('themes/frontend/images/home-bg-1.jpg');	
 		        	?>
+
 		            <div class="home_slider_item bgcover" style="background:url({{ $image }})">
 		                <div class="container">
 		                    <div class="row">
+		           				<div class="title_belt">
+			                        <h2>
+			                        	{{ $page_title }}
+		                           </h2>
+			                  
+			                    </div>
+         	
 			                    <div class="row">
 			                        <div class="col-md-6">
 			                            <div class="chart_left">

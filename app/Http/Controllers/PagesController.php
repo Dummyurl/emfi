@@ -1040,30 +1040,33 @@ class PagesController extends Controller {
         return ['status' => $status, 'msg' => $msg];        
     }
 
-    public function services($type)
+    public function services(Request $request)
     {
+        $type = \Request::segment(2);
         $data = [];
 
-        if ($type == 'asset-management') {
+        if ($type == 'capital') {
             $data['page_title'] = 'Asset Management';
             $view = 'services.asset_management';
         }
-        elseif ($type == 'wealth-management') {
+        elseif ($type == 'wealth') {
             $data['page_title'] = "Wealth Management";
             $view = 'services.wealth_management';
         }
-        elseif ($type == 'investment-banking') {
+        elseif ($type == 'securities') {
             $data['page_title'] = 'Investment Banking';
             $view = 'services.investment_banking';
         }
-        elseif ($type == 'prime-brokerage') {
+        elseif ($type == 'prime') {
             $data['page_title'] = 'Investment Banking';
             $view = 'services.prime_brokerage';
         }
-        elseif ($type == 'data-analytics') {
+        elseif ($type == 'analytics') {
             $data['page_title'] = 'Data Analytics';
             $view = 'services.data_analytics';
         }
+
+        $view = 'services.asset_management';
 
         $locale = session('locale');
         if (empty($locale))

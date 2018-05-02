@@ -260,11 +260,13 @@ function drawAreaChart(data_values) {
     var elementID = 'area_chart';
 
     var formatedData = [];
+    var tmpValues = [];
     formatedData.push(["", ""]);
     if(data_values.length > 0)
     {
         for(var i in data_values)
         {
+            tmpValues.push(parseFloat(data_values[i]['main_price']));
             var d = new Date(data_values[i]['created']);
             var $created = d;           
             formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['main_price'])]);        
@@ -274,6 +276,20 @@ function drawAreaChart(data_values) {
     {
         formatedData.push(["", 0]);
     }
+
+    $minVal = 0;
+    $maxVal = 5;
+
+    if(tmpValues.length > 0)
+    {
+        $minVal = Math.min.apply(null, tmpValues);
+        $maxVal = Math.max.apply(null, tmpValues);
+    }
+
+    // alert($minVal);
+    $minVal = getRoundedMinValueForY($minVal);
+    $maxVal = getRoundedMaxValue($maxVal);    
+
 
     // console.log(formatedData);    
 
@@ -295,6 +311,12 @@ function drawAreaChart(data_values) {
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
             baselineColor: {color: "#39536b"},
+            viewWindowMode:'explicit',
+            viewWindow: 
+            {
+                min: $minVal,
+                max: $maxVal       
+            }            
         },
         colors: ['#fff', '#8ab3e2'],
         auraColor: ['#11abc3', '#c7c3af'],
@@ -695,15 +717,14 @@ $(document).ready(function () {
 
         if($(this).val() == 1)
         {
-            $("#price-dropdown-4 option[value=3]").hide();
-            if($("#price-dropdown-4").val() == 3)
-            {
-                $("#price-dropdown-4").val(1);
-            }
+            $("#price-dropdown-4 option[value=3]").text("P/E Ratio");
+            $("#price-dropdown-4 option[value=1]").hide();            
+            $("#price-dropdown-4").val(3);
         }
         else
         {
-            $("#price-dropdown-4 option[value=3]").show();
+            $("#price-dropdown-4 option[value=3]").text("Spread");
+            $("#price-dropdown-4 option[value=1]").show();
         }
 
         initRelvalChart();

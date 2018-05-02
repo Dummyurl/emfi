@@ -144,6 +144,8 @@ function drawBarChart(data_values, elementID, chartType) {
 
 function drawBenchmarkChart(data_values, elementID, fromBenchMark)
 {
+    var tmpValues = [];
+    var tmpValues2 = [];
     $columnTitle = "";
     $columnTitle2 = $("select#benchmark-dropdown option:selected").text()+ " "+$("select#price-dropdown option:selected").data("title");
     if (typeof global_line_graph_text !== 'undefined')
@@ -166,6 +168,9 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
        var html1 = "<p style='white-space: nowrap;padding: 3px;'>"+global_line_graph_text + "<br /> <b>" + data_values.benchmark_history_data[i][0] + ", " + data_values.benchmark_history_data[i][1] + "</b>"+"</p>";
        var html2 = "<p style='white-space: nowrap;padding: 3px;'>"+$("select#benchmark-dropdown option:selected").text() + "<br /> <b>" + data_values.benchmark_history_data[i][0] + ", " + data_values.benchmark_history_data[i][2] + "</b>"+"</p>";
 
+       tmpValues.push(data_values.benchmark_history_data[i][1]);
+       tmpValues2.push(data_values.benchmark_history_data[i][2]);
+
        formatedData.push
        (
             [
@@ -177,6 +182,30 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
             ]
       );        
     }   
+
+    $minVal = 0;
+    $maxVal = 5;
+
+    $minVal2 = 0;
+    $maxVal2 = 5;
+
+    if(tmpValues.length > 0)
+    {
+        $minVal = Math.min.apply(null, tmpValues);
+        $maxVal = Math.max.apply(null, tmpValues);
+    }
+
+    $minVal = getRoundedMinValueForY($minVal);
+    $maxVal = getRoundedMaxValue($maxVal);    
+
+    if(tmpValues2.length > 0)
+    {
+        $minVal2 = Math.min.apply(null, tmpValues2);
+        $maxVal2 = Math.max.apply(null, tmpValues2);
+    }
+
+    $minVal2 = getRoundedMinValueForY($minVal2);
+    $maxVal2 = getRoundedMaxValue($maxVal2);    
 
     // console.log(formatedData);
     
@@ -240,7 +269,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         tooltip: {isHtml: true},
         legend: {position: 'none'},
         series: {
-          0: {targetAxisIndex: 0},
+          0: {targetAxisIndex: 0,minValue: $minVal, maxValue: $maxVal},
           1: {targetAxisIndex: 1}
         },        
         backgroundColor: {fill: 'transparent'},
@@ -252,10 +281,36 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
             textStyle: {color: '#fff'},
             gridlines: {color: "transparent",count: 12}
         },
-        vAxis: {
+        vAxis: 
+        {
+            0:
+            {
+                minValue: $minVal,
+                maxValue: $maxVal,       
+                viewWindowMode:'explicit',
+                viewWindow: 
+                {
+                    min: $minVal,
+                    max: $maxVal       
+                }                                      
+            },
+            1:
+            {
+                minValue: $minVal2,
+                maxValue: $maxVal2,       
+                // textStyle: {color: '#fff'},
+                // gridlines: {color: "#39536b"},
+                // baselineColor: {color: "#39536b"},
+                viewWindowMode:'explicit',
+                viewWindow: 
+                {
+                    min: $minVal2,
+                    max: $maxVal2       
+                }                                        
+            },
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"},            
+            baselineColor: {color: "#39536b"},              
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
@@ -268,7 +323,7 @@ function drawChart(data_values, elementID, fromBenchMark)
     // console.log(data_values);
 
     var formatedData = [];
-
+    var tmpValues = [];
     var counter = data_values.length;
 
     if (fromBenchMark != 1)
@@ -304,16 +359,20 @@ function drawChart(data_values, elementID, fromBenchMark)
             {
                 if ($("select#price-dropdown").val() == 2)
                 {
+                    tmpValues.push(parseFloat(data_values[i]['YLD_YTM_MID']));
                     var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['YLD_YTM_MID'] + "</b>"+"</p>";    
                     formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['YLD_YTM_MID']), html]);
                 }    
                 else if ($("select#price-dropdown").val() == 3)
-                {    
+                { 
+                    tmpValues.push(parseFloat(data_values[i]['Z_SPRD_MID']));   
                     var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['Z_SPRD_MID'] + "</b>"+"</p>"; 
                     formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['Z_SPRD_MID']), html]);
                 }    
             } else
             {
+                tmpValues.push(parseFloat(data_values[i]['last_price']));
+
                 var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['last_price'] + "</b>"+"</p>"; 
                 formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['last_price']),html]);
             }
@@ -326,6 +385,21 @@ function drawChart(data_values, elementID, fromBenchMark)
         formatedData.push(["", ""]);
         formatedData.push(["", 0]);
     }
+
+    $minVal = 0;
+    $maxVal = 5;
+
+    if(tmpValues.length > 0)
+    {
+        $minVal = Math.min.apply(null, tmpValues);
+        $maxVal = Math.max.apply(null, tmpValues);
+    }
+
+    // alert($minVal);
+    $minVal = getRoundedMinValueForY($minVal);
+    // alert($minVal);
+
+    $maxVal = getRoundedMaxValueForY($maxVal);    
 
     // console.log(formatedData);
 
@@ -349,7 +423,13 @@ function drawChart(data_values, elementID, fromBenchMark)
         vAxis: {
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"}
+            baselineColor: {color: "#39536b"},
+            viewWindowMode:'explicit',
+            viewWindow: 
+            {
+                min: $minVal,
+                max: $maxVal       
+            }                                    
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));

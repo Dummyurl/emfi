@@ -387,7 +387,7 @@ function initBarCharts()
 function drawChart(data_values, elementID)
 {
     // console.log(data_values);
-
+    var tmpValues = [];
     var formatedData = [];
 
     var counter = data_values.length;
@@ -414,17 +414,20 @@ function drawChart(data_values, elementID)
             {
                 if($("select#price-dropdown").val() == 2)
                 {   
+                    tmpValues.push(parseFloat(data_values[i]['YLD_YTM_MID']));
                     var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['YLD_YTM_MID'] + "</b>"+"</p>";     
                     formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['YLD_YTM_MID']),html]);
                 }    
                 else if ($("select#price-dropdown").val() == 3)
                 {    
+                    tmpValues.push(parseFloat(data_values[i]['Z_SPRD_MID']));
                     var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['YLD_YTM_MID'] + "</b>"+"</p>";    
                     formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['Z_SPRD_MID']),html]);
                 }    
             } 
             else
             {
+                tmpValues.push(parseFloat(data_values[i]['last_price']));
                 var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['last_price'] + "</b>"+"</p>"; 
                 formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['last_price']),html]);
             }
@@ -438,6 +441,17 @@ function drawChart(data_values, elementID)
     }
 
     // console.log(formatedData);
+    $minVal = 0;
+    $maxVal = 5;
+
+    if(tmpValues.length > 0)
+    {
+        $minVal = Math.min.apply(null, tmpValues);
+        $maxVal = Math.max.apply(null, tmpValues);
+    }
+
+    $minVal = getRoundedMinValueForY($minVal);
+    $maxVal = getRoundedMaxValue($maxVal);    
 
     var data = google.visualization.arrayToDataTable(formatedData);
 
@@ -458,7 +472,13 @@ function drawChart(data_values, elementID)
         vAxis: {
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"}
+            baselineColor: {color: "#39536b"},
+            viewWindowMode:'explicit',
+            viewWindow: 
+            {
+                min: $minVal,
+                max: $maxVal       
+            }                                                
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));

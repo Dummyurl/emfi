@@ -27,7 +27,21 @@ Route::get('espanol/analyzer/{type?}', 'PagesController@analyzer');
 
 Route::get('english/about', 'PagesController@about');
 Route::get('english/contact/{type?}', 'PagesController@contact');
-Route::get('english/services/{type}', 'PagesController@services');
+//Route::get('english/services/{type}', 'PagesController@services');
+
+Route::get('english/capital', 'PagesController@services');
+Route::get('english/wealth', 'PagesController@services');
+Route::get('english/securities', 'PagesController@services');
+Route::get('english/prime', 'PagesController@services');
+Route::get('english/analytics', 'PagesController@services');
+
+Route::get('espanol/capital', 'PagesController@services');
+Route::get('espanol/wealth', 'PagesController@services');
+Route::get('espanol/securities', 'PagesController@services');
+Route::get('espanol/prime', 'PagesController@services');
+Route::get('espanol/analytics', 'PagesController@services');
+
+
 Route::get('english/terms-of-uses', 'PagesController@terms_of_uses');
 Route::get('english/privacy-statements', 'PagesController@privacy_statements');
 Route::get('english/cookies', 'PagesController@cookies');

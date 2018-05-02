@@ -1,3 +1,21 @@
+function getRoundedMinValueForY($val)
+{
+    if($val >= 0 && $val <= 1)
+    {
+        $val = 0;
+    }
+    else
+    {
+        if($val > 10)
+        $val = ($val*0.90);
+        // $val = $val - 1;
+    }
+
+    return $val;
+}
+
+
+
 function getRoundedMinValue($val)
 {
     if($val >= 0 && $val <= 1)
@@ -9,6 +27,13 @@ function getRoundedMinValue($val)
         $val = $val - 1;
     }
 
+    return $val;
+}
+
+function getRoundedMaxValueForY($val)
+{
+    if($val > 10)
+    $val = ($val*1.10);
     return $val;
 }
 
