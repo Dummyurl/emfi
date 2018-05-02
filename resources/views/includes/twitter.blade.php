@@ -20,7 +20,10 @@
                         {{ $tweet['date'] }}
                     </div>
                     <div class="img_col">
-                        <img src="{{ asset('themes/frontend/images/twitter-post-img.png') }}" alt=""></div>
+                        <a href="https://twitter.com/EmfiSecurities" target="_blank">
+                            <img src="{{ asset('themes/frontend/images/twitter-post-img.png') }}" alt="">
+                        </a>
+                    </div>
                     <div class="dec_col">
                         <div class="username">
                             <!-- <a href="{{ $tweet['link'] }}" target="_blank">@emfisecurities</a> -->

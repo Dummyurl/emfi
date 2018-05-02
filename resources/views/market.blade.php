@@ -392,9 +392,11 @@
                                 // minColor: '#f00',
                                 // midColor: '#0d0',
                                 // maxColor: '#0d0',
-                                minColor: '#051b34',
-                                midColor: '#051b34',
-                                maxColor: '#051b34',                                            
+                                
+                                minColor: '#ccc',
+                                // midColor: '#051b34',
+                                maxColor: '#051b34',
+
                                 fontColor: 'white',
                                 minColorValue: 0,
                                 maxColorValue: 100,

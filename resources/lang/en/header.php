@@ -31,7 +31,7 @@
 		'service' => strtoupper('Services'),
 		'asset_management' => strtoupper('Asset Management'),
 		'wealth_management' => strtoupper('Wealth Management'),
-		'investment_banking' => strtoupper('Investment Banking'),
+		'investment_banking' => strtoupper('CAPITAL MARKETS'),
 		'prime_brokerage' => strtoupper('Prime Brokerage'),
 		'data_analytics' => strtoupper('Data Analytics'),
 		'south_america'=>'SOUTH AMERICA',

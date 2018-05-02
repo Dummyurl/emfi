@@ -45,7 +45,7 @@
                         <a href="{{ url(getLangName()) }}">{{ __('header.home') }}</a>
                     </li>
                     <li class="{{ \Request::is(getLangName().'/markets',getLangName().'/markets/*') ? 'active':'' }} dropdown">
-                        <a href="{{ url(getLangName().'/developed') }}"> {{ __('header.markets') }}</a>
+                        <a href="{{ url(getLangName().'/credit') }}"> {{ __('header.markets') }}</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ url(getLangName().'/credit') }}">{{ __('header.credit') }}</a></li>
                             <li><a href="{{ url(getLangName().'/rates') }}">{{ __('header.rates') }}</a></li>
@@ -70,10 +70,20 @@
                     <li class="{{ (isset($selectedMenu) && $selectedMenu == 'countries') ? 'active':'' }} dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="{{ url(getLangName().'/countries')}}">{{ __('header.economics') }}</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ url(getLangName().'/countries/south-america')}}">{{ __('header.south_america') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/countries/southamerica')}}">{{ __('header.south_america') }}</a></li>
                             <li><a href="{{ url(getLangName().'/countries/caribbean')}}">{{ __('header.caribbean') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/countries/central-america')}}">{{ __('header.central_america') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/countries/north-america')}}">{{ __('header.north_america') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/countries/centralamerica')}}">{{ __('header.central_america') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/countries/northamerica')}}">{{ __('header.north_america') }}</a></li>
+                        </ul>
+                    </li>
+                    <li class="{{ \Request::is(getLangName().'/service') ? 'active':'' }} dropdown">
+                        <a class="dropdown-toggle" href="javascript:void(0);">{{ __('header.service') }}</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url(getLangName().'/services/asset-management')}}">{{ __('header.asset_management') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/services/wealth-management')}}">{{ __('header.wealth_management') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/services/investment-banking')}}">{{ __('header.investment_banking') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/services/prime-brokerage')}}">{{ __('header.prime_brokerage') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/services/data-analytics')}}">{{ __('header.data_analytics') }}</a></li>
                         </ul>
                     </li>
                     <li class="dropdown {{ \Request::is(getLangName().'/analyzer',getLangName().'/analyzer/*') ? 'active':'' }}">
@@ -124,16 +134,6 @@
                             <li><a href="{{ url(getLangName().'/contact/complaint')}}">{{ __('header.complaint') }}</a></li>
                             <li><a href="{{ url(getLangName().'/contact/careers')}}">{{ __('header.careers') }}</a></li>
                             <li><a href="{{ url(getLangName().'/contact/locations')}}">{{ __('header.locations') }}</a></li>
-                        </ul>
-                    </li>
-                    <li class="{{ \Request::is(getLangName().'/service') ? 'active':'' }} dropdown">
-                        <a class="dropdown-toggle" href="javascript:void(0);">{{ __('header.service') }}</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ url(getLangName().'/services/asset-management')}}">{{ __('header.asset_management') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/services/wealth-management')}}">{{ __('header.wealth_management') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/services/investment-banking')}}">{{ __('header.investment_banking') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/services/prime-brokerage')}}">{{ __('header.prime_brokerage') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/services/data-analytics')}}">{{ __('header.data_analytics') }}</a></li>
                         </ul>
                     </li>
                     <li class="">
