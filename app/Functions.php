@@ -352,7 +352,7 @@ function sendHtmlMail($params) {
     $files = isset($params['files']) ? $params['files'] : array();
 
     \Mail::send('emails.index', $params, function($message) use ($params, $files) {
-        $message->from($params['from'], '');
+        $message->from('EmfiSecurities');
         $message->to($params['to'], '')->subject($params['subject']);
 
         if (count($files) > 0) {
