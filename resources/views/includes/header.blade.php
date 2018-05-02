@@ -17,7 +17,7 @@
 @if(session("is_close_disclaimer") != 1)
 <div class="nav_wrapper{{ \Request::is('economics') ? ' custom-bg-header':'' }}">
 @else
-<div class="asdf nav_wrapper{{ \Request::is('economics') ? ' custom-bg-header':'' }}">
+<div class="nav_discl nav_wrapper{{ \Request::is('economics') ? ' custom-bg-header':'' }}">
 @endif
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
