@@ -57,14 +57,16 @@ function drawChart(country_data)
         legend: 'none',
         region: $("#defaultCode").val(),
         // backgroundColor: '#f2f5f7',
-        backgroundColor: '#808080',
+        // backgroundColor: '#808080',
+        backgroundColor: '#fff',
+        keepAspectRatio: false,
         width: '100%',
-        // colorAxis: {colors: ['#f00', '#0d0']}
-        colorAxis: 
-        {
-             values: values_data,
-             colors: colors_data
-        }    
+        colorAxis: {colors: ['#5c5959', '#051b34']}
+        // colorAxis: 
+        // {
+        //      values: values_data,
+        //      colors: colors_data
+        // }    
     };
 
 	var chart = new google.visualization.GeoChart(document.getElementById('geo-chart'));

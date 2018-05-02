@@ -99,6 +99,7 @@ function drawChart(data_values, elementID, chartType)
     var counter = data_values.length;
 
     var tmpValues = [];
+    var tmpValues2 = [];
 
     $("#main-chart-title-"+chartType).html($("#hid-main-chart-title-"+chartType).html());
     $columnTitle = $("#main-chart-title-"+chartType).html();
@@ -113,6 +114,7 @@ function drawChart(data_values, elementID, chartType)
             var j = 1;
             for (var i in data_values)
             {
+                tmpValues2.push(parseFloat(data_values[i]['price']));
                 
                 if($("#duration-dropdown-1").val() == 1)
                 {                    
@@ -135,7 +137,7 @@ function drawChart(data_values, elementID, chartType)
             var j = 1;
             for (var i in data_values)
             {
-                
+                tmpValues2.push(parseFloat(data_values[i]['price']));
                 if($("#duration-dropdown-"+chartType).val() == 1)
                 {
                     tmpValues.push(parseFloat(data_values[i]['date_difference']));
@@ -172,6 +174,18 @@ function drawChart(data_values, elementID, chartType)
     $minVal = getRoundedMinValue($minVal);
     $maxVal = getRoundedMaxValue($maxVal);
 
+    $minVal2 = 0;
+    $maxVal2 = 5;
+
+    if(tmpValues2.length > 0)
+    {
+        $minVal2 = Math.min.apply(null, tmpValues2);
+        $maxVal2 = Math.max.apply(null, tmpValues2);
+    }
+
+    $minVal2 = getRoundedMinValueForY($minVal2);
+    $maxVal2 = getRoundedMaxValue($maxVal2);
+
     // console.log($minVal+" => "+$maxVal);
 
     var options = {        
@@ -200,6 +214,12 @@ function drawChart(data_values, elementID, chartType)
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
             baselineColor: {color: "#39536b"},
+            viewWindowMode:'explicit',
+            viewWindow: 
+            {
+                min: $minVal2,
+                max: $maxVal2       
+            }                                                
         }
     };
     var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
@@ -209,6 +229,7 @@ function drawChart(data_values, elementID, chartType)
 function drawBenchmarkChart(data_values, chartType)
 {
     var tmpValues = [];
+    var tmpValues2 = [];
     elementID = "curve_chart-"+chartType;
     $columnTitle = $("#country-combo option:selected").text();
 
@@ -224,7 +245,7 @@ function drawBenchmarkChart(data_values, chartType)
     {
        if($("#duration-dropdown-"+chartType).val() == 1)
        {
-            tmpValues.push(parseFloat(data_values.benchmark_history_data[i]['date_difference']));
+            tmpValues.push(parseFloat(data_values.benchmark_history_data[i]['date_difference']));            
             var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title1'] + ", " + data_values.benchmark_history_data[i]['price1'] + "</b>"+"</p>";
             var html2 = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip2'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title2'] + ", " + data_values.benchmark_history_data[i]['price2'] + "</b>"+"</p>";
             formatedData.push([{v:parseFloat(data_values.benchmark_history_data[i]['date_difference']), f:data_values.benchmark_history_data[i]['title1']}, data_values.benchmark_history_data[i]['price1'], html, data_values.benchmark_history_data[i]['price2'],html2]);
@@ -363,6 +384,7 @@ function drawChart2(data_values, elementID)
     var counter = data_values.length;
 
     $columnTitle = global_secure_id_2_text;
+    var tmpValues = [];
 
     if (counter > 0)
     {
@@ -380,11 +402,13 @@ function drawChart2(data_values, elementID)
             {                
                 if ($("select#price-dropdown-10").val() == 2)
                 {
+                    tmpValues.push(parseFloat(data_values[i]['YLD_YTM_MID']));
                     var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['YLD_YTM_MID'] + "</b>"+"</p>";    
                     formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['YLD_YTM_MID']),html]);
                 }    
                 else if ($("select#price-dropdown-10").val() == 3)
                 {
+                    tmpValues.push(parseFloat(data_values[i]['Z_SPRD_MID']));
                     var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['Z_SPRD_MID'] + "</b>"+"</p>";
                     formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['Z_SPRD_MID']),html]);
                 }    
@@ -392,6 +416,7 @@ function drawChart2(data_values, elementID)
             } 
             else
             {
+                tmpValues.push(parseFloat(data_values[i]['last_price']));
                 var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['last_price'] + "</b>"+"</p>";
                 formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['last_price']),html]);
             }
@@ -405,6 +430,19 @@ function drawChart2(data_values, elementID)
     }
 
     var data = google.visualization.arrayToDataTable(formatedData);
+    $minVal = 0;
+    $maxVal = 5;
+
+    if(tmpValues.length > 0)
+    {
+        $minVal = Math.min.apply(null, tmpValues);
+        $maxVal = Math.max.apply(null, tmpValues);
+    }
+
+    // alert($minVal);
+    $minVal = getRoundedMinValue($minVal);
+    $maxVal = getRoundedMaxValue($maxVal);    
+
 
     var options = {
         title: '',
@@ -424,10 +462,17 @@ function drawChart2(data_values, elementID)
             textStyle: {color: '#fff'},
             gridlines: {color: "transparent",count: 12}
         },
-        vAxis: {
+        vAxis: 
+        {
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"}
+            baselineColor: {color: "#39536b"},
+            viewWindowMode:'explicit',
+            viewWindow: 
+            {
+                min: $minVal,
+                max: $maxVal       
+            }            
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById("curve_chart2"));

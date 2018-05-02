@@ -101,11 +101,11 @@
                     <li class="{{ \Request::is(getLangName().'/service') ? 'active':'' }} dropdown">
                         <a class="dropdown-toggle" href="javascript:void(0);">{{ __('header.service') }}</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ url(getLangName().'/services/asset-management')}}">{{ __('header.asset_management') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/services/wealth-management')}}">{{ __('header.wealth_management') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/services/investment-banking')}}">{{ __('header.investment_banking') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/services/prime-brokerage')}}">{{ __('header.prime_brokerage') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/services/data-analytics')}}">{{ __('header.data_analytics') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/capital')}}">{{ __('header.asset_management') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/wealth')}}">{{ __('header.wealth_management') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/securities')}}">{{ __('header.investment_banking') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/prime')}}">{{ __('header.prime_brokerage') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/analytics')}}">{{ __('header.data_analytics') }}</a></li>
                         </ul>
                     </li>
                     <li class="dropdown {{ \Request::is(getLangName().'/analyzer',getLangName().'/analyzer/*') ? 'active':'' }}">
