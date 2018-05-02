@@ -227,36 +227,42 @@
       <p>{{ __('about.careers_3') }} <a href="mailto:careers@emfisecurities.com">careers@emfisecurities.com</a></p>
         </div>
         <div class="col-md-6 form_col">
-  <form>
-    <div class="col-md-6">
+      <!-- <form> -->
+      {!! Form::open(['url' => '/about-form', 'id' => 'careers_form', 'method' => 'POST']) !!}       
+        <div class="col-md-6">
           <div class="form-group">
-            
-            <input class="form-control" id="" placeholder="{{ __('about.first_name') }}" type="text">
+            {!! Form::text('first_name', null, ['class' => 'form-control' , 'placeholder' => __('about.first_name')]) !!}
+            <!-- <input class="form-control" id="" placeholder="{{ __('about.first_name') }}" type="text"> -->
           </div>
         </div>
-    <div class="col-md-6">
+        <div class="col-md-6">
           <div class="form-group">
-           <input class="form-control" id="" placeholder="{{ __('about.last_name') }}" type="text">
+            {!! Form::text('last_name', null, ['class' => 'form-control' , 'placeholder' => __('about.last_name')]) !!}            
+           <!-- <input class="form-control" id="" placeholder="{{ __('about.last_name') }}" type="text"> -->
           </div>
         </div>
-    <div class="col-md-12">
+        <div class="col-md-12">
           <div class="form-group">
-           <input class="form-control" id="" placeholder="{{ __('about.country') }}" type="text">
+            {!! Form::text('country', null, ['class' => 'form-control' , 'placeholder' => __('about.country')]) !!}                        
+           <!-- <input class="form-control" id="" placeholder="{{ __('about.country') }}" type="text"> -->
           </div>
         </div>
-    <div class="col-md-12">
+        <div class="col-md-12">
           <div class="form-group">
-           <input class="form-control" id="" placeholder="{{ __('about.email') }}" type="text">
+            {!! Form::text('email', null, ['class' => 'form-control' , 'placeholder' => __('about.email')]) !!}            
+           <!-- <input class="form-control" id="" placeholder="{{ __('about.email') }}" type="text"> -->
           </div>
         </div>
-    <div class="col-md-12">
+        <div class="col-md-12">
           <div class="form-group">
-           <input class="form-control" id="" placeholder="{{ __('about.subject') }}" type="text">
+            {!! Form::text('subject', null, ['class' => 'form-control' , 'placeholder' => __('about.subject')]) !!}            
+            <!-- <input class="form-control" id="" placeholder="{{ __('about.subject') }}" type="text"> -->
           </div>
         </div>
         <div class="col-md-12 txtarea">
           <div class="form-group">
-           <textarea name="" cols="" rows="4" class="form-control" placeholder="{{ __('about.message') }}"></textarea>
+            {!! Form::textarea('message', null, ['class' => 'form-control' , 'rows' => 4 , 'placeholder' => __('about.message')]) !!}                        
+            <!-- <textarea name="" cols="" rows="4" class="form-control" placeholder="{{ __('about.message') }}"></textarea> -->
           </div>
         </div>
         <div class="col-md-12 submit_btn">
@@ -264,7 +270,8 @@
            <button class="btn">{{ __('about.send') }}</button>
           </div>
         </div>
-    </form>
+      {!! Form::close() !!}      
+      <!-- </form> -->
           
         </div>
       </div>

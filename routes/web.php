@@ -42,6 +42,7 @@ Route::get('espanol/cookies', 'PagesController@cookies');
 Route::get('change-language/{locale}', 'PagesController@change_locale');
 
 Route::post('contact-form', 'PagesController@contact_form_data');
+Route::post('about-form', 'PagesController@about_form_data');
 
 Route::get('clear-cache', function () {
 	$exitCode = Artisan::call('cache:clear');

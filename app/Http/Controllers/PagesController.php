@@ -954,18 +954,18 @@ class PagesController extends Controller {
                 $uploadPath = 'uploads'.DIRECTORY_SEPARATOR.'contact_us_files'.DIRECTORY_SEPARATOR.$today;
 
                 $request->attachment->move($uploadPath, $imageName);
-                $fileurl = "asset('".$uploadPath.DIRECTORY_SEPARATOR.$imageName."')";
+                $fileurl = $uploadPath.DIRECTORY_SEPARATOR.$imageName;
             }
 
             $html = '<p> Hi,</p>';
-            $html .= '<p>Name : ' . $first_name .' '.$last_name.'</p>';
-            $html .= '<p>Organization name : ' . $organization . '</p>';
-            $html .= '<p>Country name : ' . $country . '</p>';            
-            $html .= '<p>Phone : ' . $phone . '</p>';
-            $html .= '<p>Email : ' . $email . '</p>';            
-            $html .= '<p>Business Unit : ' . $busineess_unit . '</p>';
-            $html .= '<p>Subject : ' . $subject . '</p>';
-            $html .= '<p>Message</p>';
+            $html .= '<p><b>Name : </b>' . $first_name .' '.$last_name.'</p>';
+            $html .= '<p><b>Organization name : </b>' . $organization . '</p>';
+            $html .= '<p><b>Country name : </b>' . $country . '</p>';            
+            $html .= '<p><b>Phone : </b>' . $phone . '</p>';
+            $html .= '<p><b>Email : </b>' . $email . '</p>';            
+            $html .= '<p><b>Business Unit : </b>' . $busineess_unit . '</p>';
+            $html .= '<p><b>Subject : </b>' . $subject . '</p>';
+            $html .= '<p><b>Message</b></p>';
             $html .= '<p>' . $message . '</p>';
             $html .= '<p>' . ucfirst($first_name) . ' ' . ucfirst($last_name) . '</p>';
             if (!empty($fileurl)) {
@@ -984,6 +984,60 @@ class PagesController extends Controller {
             sendHtmlMail($params);
         }
         return ['status' => $status, 'msg' => $msg];
+    }
+
+    public function about_form_data(Request $request) 
+    {
+        // dd($request);
+        $status = 1;
+        $msg = 'Email has been sent successfully !';
+        $validator = Validator::make($request->all(), [
+                    'first_name' => 'required|min:2',
+                    'last_name' => 'required|min:2',
+                    'country' => 'required|min:2',
+                    'email' => 'required|email',
+                    'subject' => 'required|min:2',
+                    'message' => 'required|min:5',
+        ]);
+
+        if ($validator->fails()) {
+            $messages = $validator->messages();
+
+            $status = 0;
+            $msg = "";
+
+            foreach ($messages->all() as $message) {
+                $msg .= $message . "<br />";
+            }
+        } else {
+            $first_name = $request->get('first_name');
+            $last_name = $request->get('last_name');
+            $country = $request->get('country');
+            $email = $request->get('email');
+            $subject = $request->get('subject');
+            $message = $request->get('message');
+
+            $html = '<p> Hi,</p>';
+            $html .= '<p><b>Name : </b>' . $first_name .' '.$last_name.'</p>';
+            $html .= '<p><b>Country name : </b>' . $country . '</p>';
+            $html .= '<p><b>Email : </b>' . $email . '</p>';
+            $html .= '<p><b>Subject : </b>' . $subject . '</p>';
+            $html .= '<p><b>Message</b></p>';
+            $html .= '<p>' . $message . '</p>';
+            $html .= '<br><p>' . ucfirst($first_name) . ' ' . ucfirst($last_name) . '</p>';
+            $html .= '<p>Thank you !</p>';
+
+            $params["to"] = 'reports.phpdots@gmail.com';
+            $params["to"] = 'rathodakshay228@gmail.com';
+            $params["from"] = $email;
+            $params["subject"] = "EMFI: Contact Details";
+            $params["body"] = $html;
+
+            // dd($params);
+
+            sendHtmlMail($params);
+        }
+        return ['status' => $status, 'msg' => $msg];        
     }
 
     public function services($type)
