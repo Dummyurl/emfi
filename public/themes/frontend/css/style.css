@@ -179,7 +179,7 @@ right:5px;
 	display: inline-block;
 }
 .nav_wrapper.custom-sticky,
-.nav_wrapper.sticky {background-color:#fff;}
+.nav_wrapper.sticky {background-color:#fff; padding-bottom: 8px;}
 .navbar-default.custom-sticky,
 .navbar-default.sticky {
 	background-color:rgba(255, 255, 255, 1);
