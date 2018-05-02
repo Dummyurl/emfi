@@ -307,11 +307,11 @@ class PagesController extends Controller {
         {
             $defaultCode = "029";
         }
-        else if($currentRegion == "central-america")
+        else if($currentRegion == "centralamerica")
         {
             $defaultCode = "013";
         }
-        else if($currentRegion == "north-america")
+        else if($currentRegion == "northamerica")
         {
             $defaultCode = "021";
         }

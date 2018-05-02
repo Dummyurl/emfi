@@ -68,7 +68,7 @@
                     </li>
                     */ ?>
                     <li class="{{ (isset($selectedMenu) && $selectedMenu == 'countries') ? 'active':'' }} dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="{{ url(getLangName().'/countries')}}">{{ __('header.economics') }}</a>
+                        <a href="{{ url(getLangName().'/countries/southamerica')}}">{{ __('header.economics') }}</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ url(getLangName().'/countries/southamerica')}}">{{ __('header.south_america') }}</a></li>
                             <li><a href="{{ url(getLangName().'/countries/caribbean')}}">{{ __('header.caribbean') }}</a></li>
