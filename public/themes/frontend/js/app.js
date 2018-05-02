@@ -112,8 +112,8 @@ $(document).ready(function() {
         });
     });
     if($('.disclaimer_show').length > 0) {
-   $("body").css("padding-top","174px");
- }
+       $("body").css("padding-top","174px");
+    }
 });
 
 
