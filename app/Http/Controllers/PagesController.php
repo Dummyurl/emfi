@@ -276,7 +276,10 @@ class PagesController extends Controller {
                 $data['bond_data'][$r['ticker']][] = $r;
             }
         }
-
+        
+        if($data['countryObj']->id == 3)
+        asort($data['bond_data']);
+        
         // dd($data['bond_data']);
 
         $data['country_benchmarkes'] = \App\Models\Tickers::getCountriesList();
