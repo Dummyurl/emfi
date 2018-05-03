@@ -481,6 +481,8 @@ function drawChart2(data_values, elementID)
 
 function drawBenchmarkChart2(data_values)
 {
+    var tmpValues = [];
+    var tmpValues2 = [];    
     elementID = "curve_chart2";
     $columnTitle = global_secure_id_2_text+ " "+$("select#price-dropdown-10 option:selected").data("title");
     $columnTitle2 = $("select#benchmark-dropdown-10 option:selected").text()+ " "+$("select#price-dropdown-10 option:selected").data("title");
@@ -492,6 +494,9 @@ function drawBenchmarkChart2(data_values)
 
     for(var i in data_values.benchmark_history_data)
     {
+       tmpValues.push(data_values.benchmark_history_data[i][1]);
+       tmpValues2.push(data_values.benchmark_history_data[i][2]);
+
        var d = new Date(data_values.benchmark_history_data[i][3]);
        var $created = d;        
 
@@ -501,13 +506,64 @@ function drawBenchmarkChart2(data_values)
        formatedData.push([{f: data_values.benchmark_history_data[i][0], v: $created},data_values.benchmark_history_data[i][1], html1, data_values.benchmark_history_data[i][2], html2]);
     }
 
+    $minVal = 0;
+    $maxVal = 5;
+
+    $minVal2 = 0;
+    $maxVal2 = 5;
+
+    if(tmpValues.length > 0)
+    {
+        $minVal = Math.min.apply(null, tmpValues);
+        $maxVal = Math.max.apply(null, tmpValues);
+    }
+
+    $minVal = getRoundedMinValueForYBenchmark($minVal);
+    $maxVal = getRoundedMaxValueForYBenchmark($maxVal);    
+
+    if(tmpValues2.length > 0)
+    {
+        $minVal2 = Math.min.apply(null, tmpValues2);
+        $maxVal2 = Math.max.apply(null, tmpValues2);
+    }
+
+    $minVal2 = getRoundedMinValueForYBenchmark($minVal2);
+    $maxVal2 = getRoundedMaxValueForYBenchmark($maxVal2);    
+
     var data = google.visualization.arrayToDataTable(formatedData);
 
     var options = {
         title: '',
         curveType: 'function',
         tooltip: {isHtml: true},
-        series: {
+        vAxes: 
+        {
+            0:
+            {
+                viewWindowMode:'explicit',
+                viewWindow: 
+                {
+                    min: $minVal,
+                    max: $maxVal,       
+                    minValue: $minVal,
+                    maxValue: $maxVal,       
+                }                                                        
+            },
+            1:
+            {
+                gridlines: {color: "transparent"},
+                viewWindowMode:'explicit',
+                viewWindow: 
+                {
+                    min: $minVal2,
+                    max: $maxVal2,
+                    minValue: $minVal2,
+                    maxValue: $maxVal2,                           
+                }                                                        
+            }
+        },                
+        series: 
+        {
           0: {targetAxisIndex: 0},
           1: {targetAxisIndex: 1}
         },
@@ -521,7 +577,8 @@ function drawBenchmarkChart2(data_values)
             textStyle: {color: '#fff'},
             gridlines: {color: "transparent",count: 12}
         },
-        vAxis: {
+        vAxis: 
+        {
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
             baselineColor: {color: "#39536b"},

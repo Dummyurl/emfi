@@ -497,6 +497,8 @@ function drawRelvalChart(data_values)
 
 function drawHistoryChart(data_values)
 {
+    var tmpValues = [];
+    var tmpValues2 = [];    
     result = data_values;
     data_values = result.data;
 
@@ -521,6 +523,9 @@ function drawHistoryChart(data_values)
         formatedData.push(["", {label:$columnTitle, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}},{label: $columnTitle2, type:'number'},{label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);    
         for(var i in data_values.benchmark_history_data)
         {
+           tmpValues.push(data_values.benchmark_history_data[i][1]);
+           tmpValues2.push(data_values.benchmark_history_data[i][2]);
+
            var d = new Date(data_values.benchmark_history_data[i][3]);
            var $created = d;        
 
@@ -555,6 +560,29 @@ function drawHistoryChart(data_values)
         formatedData.push(["", 0]);
     }
 
+    $minVal = 0;
+    $maxVal = 5;
+
+    $minVal2 = 0;
+    $maxVal2 = 5;
+
+    if(tmpValues.length > 0)
+    {
+        $minVal = Math.min.apply(null, tmpValues);
+        $maxVal = Math.max.apply(null, tmpValues);
+    }
+
+    $minVal = getRoundedMinValueForYBenchmark($minVal);
+    $maxVal = getRoundedMaxValueForYBenchmark($maxVal);    
+
+    if(tmpValues2.length > 0)
+    {
+        $minVal2 = Math.min.apply(null, tmpValues2);
+        $maxVal2 = Math.max.apply(null, tmpValues2);
+    }
+
+    $minVal2 = getRoundedMinValueForYBenchmark($minVal2);
+    $maxVal2 = getRoundedMaxValueForYBenchmark($maxVal2);
     var data = google.visualization.arrayToDataTable(formatedData);    
     var options = {
         title: '',
@@ -565,7 +593,34 @@ function drawHistoryChart(data_values)
         axisTextStyle: {color: '#344b61'},
         titleTextStyle: {color: '#fff'},
         legendTextStyle: {color: '#ccc'},
-        series: {
+        vAxes: 
+        {
+            0:
+            {
+                viewWindowMode:'explicit',
+                viewWindow: 
+                {
+                    min: $minVal,
+                    max: $maxVal,       
+                    minValue: $minVal,
+                    maxValue: $maxVal,       
+                }                                                        
+            },
+            1:
+            {
+                gridlines: {color: "transparent"},
+                viewWindowMode:'explicit',
+                viewWindow: 
+                {
+                    min: $minVal2,
+                    max: $maxVal2,
+                    minValue: $minVal2,
+                    maxValue: $maxVal2,                           
+                }                                                        
+            }
+        },        
+        series: 
+        {
           0: {targetAxisIndex: 0},
           1: {targetAxisIndex: 1}
         },        
