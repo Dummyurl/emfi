@@ -285,13 +285,13 @@ function drawTreetChart(data_values, elementID) {
         @foreach($equities['countries'] as $k=>$v)            
             @foreach($equities['countries'][$k]['records'] as $r)
             [{v: '{{ $r['id'] }} - Equities', f:'{{ $equities['countries'][$k]['title'] }}'},'Equities', 0, 0],
-            [{v: '{{ $r['id'] }}', f:'{{ $r['security_name'] }}'},'{{ $r['id'] }} - Equities', {{ $r['data']['market_size'] }}, {{ $r['data']['percentage_change'] }}],
+            [{v: '{{ $r['id'] }}', f:'{{ $r['data']['title'] }}'},'{{ $r['id'] }} - Equities', {{ $r['data']['market_size'] }}, {{ $r['data']['percentage_change'] }}],
             @endforeach
         @endforeach
         @foreach($credits['countries'] as $k=>$v)
             [{v:'{{ $credits['countries'][$k]['title'] }} - Credit',f:'{{ $credits['countries'][$k]['title'] }}'},'Credit', 0, 0],
             @foreach($credits['countries'][$k]['records'] as $r)
-            [{v: '{{ $r['id'] }}', f:'{{ $r['security_name'] }}'},'{{ $credits['countries'][$k]['title'] }} - Credit', {{ $r['data']['market_size'] }}, {{ $r['data']['percentage_change'] }}],
+            [{v: '{{ $r['id'] }}', f:'{{ $r['data']['title'] }}'},'{{ $credits['countries'][$k]['title'] }} - Credit', {{ $r['data']['market_size'] }}, {{ $r['data']['percentage_change'] }}],
             @endforeach 
         @endforeach
     ];
@@ -332,9 +332,9 @@ function drawTreetChart(data_values, elementID) {
             
 //            minColor: '#f2f5f7',
 //            midColor: '#fff',
-            minColor: '#051b34',
-            midColor: '#051b34',
-            maxColor: '#051b34',
+            minColor: '#5c5959',
+            midColor: '#5c5959',
+            maxColor: '#051b34',            
             
             fontColor: 'white',
             // minColorValue: 0,
@@ -407,8 +407,8 @@ function drawTreetChart(data_values, elementID) {
 //            maxColor: '#0d0',            
 //            minColor: '#f2f5f7',
 //            midColor: '#fff',
-            minColor: '#051b34',
-            midColor: '#051b34',
+            minColor: '#5c5959',
+            midColor: '#5c5959',
             maxColor: '#051b34',            
             fontColor: 'white',
 //            minColorValue: 0,

@@ -551,6 +551,7 @@ function drawBenchmarkChart2(data_values)
             },
             1:
             {
+                gridlines: {color: "transparent"},
                 viewWindowMode:'explicit',
                 viewWindow: 
                 {

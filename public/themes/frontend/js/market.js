@@ -272,7 +272,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         vAxes: 
         {
             0:
-            {
+            {                
                 viewWindowMode:'explicit',
                 viewWindow: 
                 {
@@ -284,6 +284,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
             },
             1:
             {
+                gridlines: {color: "transparent"},
                 viewWindowMode:'explicit',
                 viewWindow: 
                 {
