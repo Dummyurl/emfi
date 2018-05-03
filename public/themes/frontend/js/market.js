@@ -195,8 +195,8 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         $maxVal = Math.max.apply(null, tmpValues);
     }
 
-    $minVal = getRoundedMinValueForY($minVal);
-    $maxVal = getRoundedMinValueForY($maxVal);    
+    $minVal = getRoundedMinValueForYBenchmark($minVal);
+    $maxVal = getRoundedMaxValueForYBenchmark($maxVal);    
 
     if(tmpValues2.length > 0)
     {
@@ -204,8 +204,8 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         $maxVal2 = Math.max.apply(null, tmpValues2);
     }
 
-    $minVal2 = getRoundedMinValueForY($minVal2);
-    $maxVal2 = getRoundedMaxValue($maxVal2);    
+    $minVal2 = getRoundedMinValueForYBenchmark($minVal2);
+    $maxVal2 = getRoundedMaxValueForYBenchmark($maxVal2);    
 
     // console.log(formatedData);
     
@@ -261,6 +261,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
 //        },
 //      };
 
+    // alert()
 
     var options = 
     {
@@ -268,21 +269,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         curveType: 'function',
         tooltip: {isHtml: true},
         legend: {position: 'none'},
-        series: {
-          0: {targetAxisIndex: 0},
-          1: {targetAxisIndex: 1}
-        },        
-        backgroundColor: {fill: 'transparent'},
-        axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#fff'},
-        legendTextStyle: {color: '#ccc'},
-        colors: ['white', 'blue'],
-        hAxis: 
-        {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "transparent",count: 12}
-        },
-        vAxis: 
+        vAxes: 
         {
             0:
             {
@@ -306,6 +293,26 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
                     maxValue: $maxVal2,                           
                 }                                                        
             }
+        },        
+        series: {
+          0: {targetAxisIndex: 0},
+          1: {targetAxisIndex: 1}
+        },        
+        backgroundColor: {fill: 'transparent'},
+        axisTextStyle: {color: '#344b61'},
+        titleTextStyle: {color: '#fff'},
+        legendTextStyle: {color: '#ccc'},
+        colors: ['white', 'blue'],
+        hAxis: 
+        {
+            textStyle: {color: '#fff'},
+            gridlines: {color: "transparent",count: 12}
+        },
+        vAxis: 
+        {
+            textStyle: {color: '#fff'},
+            gridlines: {color: "#39536b"},
+            baselineColor: {color: "#39536b"},
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));

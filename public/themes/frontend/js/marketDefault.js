@@ -76,6 +76,8 @@ function initRelvalChart()
 
 function drawBenchmarkChart(data_values, elementID)
 {
+    var tmpValues = [];
+    var tmpValues2 = [];    
     result = data_values;
     data_values = data_values.data
     $columnTitle = "";
@@ -91,6 +93,9 @@ function drawBenchmarkChart(data_values, elementID)
        var html1 = "<p style='white-space: nowrap;padding: 3px;'>"+result.title + "<br /> <b>" + data_values.benchmark_history_data[i][0] + ", " + data_values.benchmark_history_data[i][1] + "</b>"+"</p>";
        var html2 = "<p style='white-space: nowrap;padding: 3px;'>"+$("select#benchmark-dropdown option:selected").text() + "<br /> <b>" + data_values.benchmark_history_data[i][0] + ", " + data_values.benchmark_history_data[i][2] + "</b>"+"</p>";
 
+       tmpValues.push(data_values.benchmark_history_data[i][1]);
+       tmpValues2.push(data_values.benchmark_history_data[i][2]);
+
        formatedData.push
        (
             [
@@ -103,6 +108,29 @@ function drawBenchmarkChart(data_values, elementID)
        );        
     }   
 
+    $minVal = 0;
+    $maxVal = 5;
+
+    $minVal2 = 0;
+    $maxVal2 = 5;
+
+    if(tmpValues.length > 0)
+    {
+        $minVal = Math.min.apply(null, tmpValues);
+        $maxVal = Math.max.apply(null, tmpValues);
+    }
+
+    $minVal = getRoundedMinValueForYBenchmark($minVal);
+    $maxVal = getRoundedMaxValueForYBenchmark($maxVal);    
+
+    if(tmpValues2.length > 0)
+    {
+        $minVal2 = Math.min.apply(null, tmpValues2);
+        $maxVal2 = Math.max.apply(null, tmpValues2);
+    }
+
+    $minVal2 = getRoundedMinValueForYBenchmark($minVal2);
+    $maxVal2 = getRoundedMaxValueForYBenchmark($maxVal2);
     var data = google.visualization.arrayToDataTable(formatedData);
 
 
@@ -112,6 +140,31 @@ function drawBenchmarkChart(data_values, elementID)
         curveType: 'function',
         legend: {position: 'none'},
         tooltip: {isHtml: true},
+        vAxes: 
+        {
+            0:
+            {
+                viewWindowMode:'explicit',
+                viewWindow: 
+                {
+                    min: $minVal,
+                    max: $maxVal,       
+                    minValue: $minVal,
+                    maxValue: $maxVal,       
+                }                                                        
+            },
+            1:
+            {
+                viewWindowMode:'explicit',
+                viewWindow: 
+                {
+                    min: $minVal2,
+                    max: $maxVal2,
+                    minValue: $minVal2,
+                    maxValue: $maxVal2,                           
+                }                                                        
+            }
+        },        
         series: {
           0: {targetAxisIndex: 0},
           1: {targetAxisIndex: 1}
@@ -451,7 +504,7 @@ function drawChart(data_values, elementID)
     }
 
     $minVal = getRoundedMinValueForY($minVal);
-    $maxVal = getRoundedMaxValue($maxVal);    
+    $maxVal = getRoundedMaxValueForY($maxVal);    
 
     var data = google.visualization.arrayToDataTable(formatedData);
 
