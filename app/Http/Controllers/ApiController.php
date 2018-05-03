@@ -468,6 +468,11 @@ class ApiController extends Controller
         $benchmark_id       =  $request->get("benchmark_id", 0);
         $price_id = $request->get("price_id");
         $market_id = $request->get("market_id");
+        $with_sub_data = $request->get("with_sub_data");
+        
+        $regression_data = [];
+        $areachart_data = [];
+
 
         $from = $request->get("from");
         $isEquity = 0;
@@ -495,8 +500,10 @@ class ApiController extends Controller
         $history_data   = "CALL select_security_historical_data(".$security_id.", ".$month_id.")";
         $data           = callCustomSP($history_data);
         $returnData['history_data'] = $data;
-
         $returnData['benchmark_history_data'] = [];
+        
+        $returnData['regression_data'] = $regression_data;
+        $returnData['areachart_data'] = $areachart_data;
 
         if($benchmark_id > 0)
         {
@@ -595,13 +602,87 @@ class ApiController extends Controller
 
                 $returnData['benchmark_history_data'] = $finalData;
             }
+
+            if($with_sub_data == 1)
+            {
+                $areaMonth = $request->get("areaMonth");
+                $areaPrice = $request->get("areaPrice");
+                $area_chart = callCustomSP('CALL select_analyzer_bond_data('.$security_id.','.$benchmark_id.','.$areaMonth.')');
+                // $area_chart = callCustomSP('CALL select_analyzer_bond_data('.$id1.','.$id2.','.$areaMonth.')');
+                if(!empty($area_chart))
+                {
+                    foreach($area_chart as $key => $val)
+                    {
+                        $area_chart[$key]['created_format'] = date("d M Y",strtotime($area_chart[$key]['created']));   
+
+                        if($areaPrice == 1)                
+                        $area_chart[$key]['main_price'] = $area_chart[$key]['price_difference'];
+
+                        if($areaPrice == 2)                
+                        $area_chart[$key]['main_price'] = $area_chart[$key]['YLD_difference'];
+
+                        if($areaPrice == 3)                
+                        $area_chart[$key]['main_price'] = $area_chart[$key]['Z_difference'];
+                    }    
+                }
+
+                $returnData['areachart_data'] = $area_chart;  
+                $regressionMonth = $request->get("regressionMonth");
+                $regressionPrice = $request->get("regressionPrice");
+
+                $regression_chart = callCustomSP('CALL select_analyzer_bond_data('.$security_id.','.$benchmark_id.','.$regressionMonth.')');
+
+                if(!empty($regression_chart))
+                {
+                    $i = 1;
+                    $counterMain = count($regression_chart);
+                    foreach($regression_chart as $key => $val)
+                    {
+                        $regression_chart[$key]['created_format'] = date("d M Y",strtotime($regression_chart[$key]['created']));   
+
+                        if($regressionPrice == 1)
+                        {
+                            $regression_chart[$key]['main_price'] = $regression_chart[$key]['last_price'];
+                            $regression_chart[$key]['main_price2'] = $regression_chart[$key]['last_price2'];    
+                        }                                
+                        else if($regressionPrice == 2)
+                        {
+                            $regression_chart[$key]['main_price'] = $regression_chart[$key]['YLD_YTM_MID'];
+                            $regression_chart[$key]['main_price2'] = $regression_chart[$key]['YLD_YTM_MID2'];
+                        }                
+                        else if($regressionPrice == 3)
+                        {
+                            $regression_chart[$key]['main_price'] = $regression_chart[$key]['Z_SPRD_MID'];
+                            $regression_chart[$key]['main_price2'] = $regression_chart[$key]['Z_SPRD_MID2'];    
+                        }    
+
+                        if($i == $counterMain)
+                        $regression_chart[$key]['is_recent'] = 1;                            
+                        else 
+                        $regression_chart[$key]['is_recent'] = 0;                            
+
+                        $i++;                
+                    }
+
+                    $returnData['regression_data'] = $regression_chart;    
+                }                
+            }
         }    
 
         $banchmark_data     = "CALL select_security_banchmark(".$security_id.")";
         $banchmark_data_arr = callCustomSP($banchmark_data);
         $returnData['arr_banchmark'] = $banchmark_data_arr;
 
-        return ['status' => 1,'msg' => "OK", "data" => $returnData,'title' => $s_title, 'title2' => $s_title2, 'isEquity' => $isEquity];
+        return [
+                    'status' => 1,
+                    'msg' => "OK", 
+                    "data" => $returnData,
+                    'title' => $s_title, 
+                    'title2' => $s_title2, 
+                    'isEquity' => $isEquity,
+                    // 'areachart_data' => $areachart_data,
+                    // "regression_data" => $regression_data
+                ];
     }
     
     public function getEconomicsHistoryChart(Request $request, $country)

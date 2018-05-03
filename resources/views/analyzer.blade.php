@@ -280,12 +280,12 @@ function drawTreetChart(data_values, elementID) {
     [
         ['Country', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
         ['Global', null, 0, 0],
-        ['Equities', 'Global', 0, 0],
+        //['Equities', 'Global', 0, 0],
         ['Credit','Global', 0, 0],        
         @foreach($equities['countries'] as $k=>$v)            
             @foreach($equities['countries'][$k]['records'] as $r)
-            [{v: '{{ $r['id'] }} - Equities', f:'{{ $equities['countries'][$k]['title'] }}'},'Equities', 0, 0],
-            [{v: '{{ $r['id'] }}', f:'{{ $r['data']['title'] }}'},'{{ $r['id'] }} - Equities', {{ $r['data']['market_size'] }}, {{ $r['data']['percentage_change'] }}],
+            //[{v: '{{ $r['id'] }} - Equities', f:'{{ $equities['countries'][$k]['title'] }}'},'Equities', 0, 0],
+            //[{v: '{{ $r['id'] }}', f:'{{ $r['data']['title'] }}'},'{{ $r['id'] }} - Equities', {{ $r['data']['market_size'] }}, {{ $r['data']['percentage_change'] }}],
             @endforeach
         @endforeach
         @foreach($credits['countries'] as $k=>$v)
@@ -333,7 +333,7 @@ function drawTreetChart(data_values, elementID) {
 //            minColor: '#f2f5f7',
 //            midColor: '#fff',
             minColor: '#5c5959',
-            midColor: '#5c5959',
+            midColor: '#fff',
             maxColor: '#051b34',            
             
             fontColor: 'white',
@@ -408,7 +408,7 @@ function drawTreetChart(data_values, elementID) {
 //            minColor: '#f2f5f7',
 //            midColor: '#fff',
             minColor: '#5c5959',
-            midColor: '#5c5959',
+            midColor: '#fff',
             maxColor: '#051b34',            
             fontColor: 'white',
 //            minColorValue: 0,
@@ -466,7 +466,7 @@ function drawTreetChart(data_values, elementID) {
         }            
         else
         {
-            treeObject2.setSelection([{row:2,column:0}]);
+            treeObject2.setSelection([{row:1,column:0}]);
         }        
     }
 }

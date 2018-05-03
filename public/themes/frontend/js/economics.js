@@ -40,6 +40,126 @@ function initChart()
     // $(".market-action:first").trigger("click");
 }
 
+
+function drawRegression(data_values)
+{
+    var formatedData = [];
+    var counter = data_values.length;
+    var tmpValues = [];
+    if(counter > 0)
+    {
+        formatedData.push([{label:'', type:'number'}, {label:$("#price-dropdown-3 option:selected").text(), type:'number'},{label: 'tooltip', role: 'tooltip', 'p': {'html': true}},{'type': 'string', 'role': 'style'}]);
+        var j = 1;
+        for (var i in data_values)
+        {
+            var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['created_format'] + "<br /> <b>" + data_values[i]['main_price'] + ", " + data_values[i]['main_price2'] + "</b>"+"</p>";
+
+            $style = null;
+
+            if(data_values[i]['is_recent'] == 1)
+            {
+                // $style = 'point {fill-color: #FF0000;zIndex: 99999;size: 18}';
+                $style = 'point {fill-color: #FF0000;}';
+            }
+
+            tmpValues.push(parseFloat(data_values[i]['main_price']));
+
+            formatedData.push(
+                [
+                    {v:parseFloat(data_values[i]['main_price']), f:data_values[i]['created_format']}, 
+                    {v:parseFloat(data_values[i]['main_price2']), f:data_values[i]['created_format']},
+                    html,
+                    $style
+                ]
+            );
+            j++;
+        }
+    }    
+    else
+    {
+        formatedData.push(["", ""]);
+        formatedData.push(["", null]);
+    }
+    
+    $minVal = 0;
+    $maxVal = 5;
+
+
+    if(tmpValues.length > 0)
+    {
+        $minVal = Math.min.apply(null, tmpValues);
+        $maxVal = Math.max.apply(null, tmpValues);
+    }
+
+    $minVal = getRoundedMinValue($minVal);
+    $maxVal = getRoundedMaxValue($maxVal);
+
+    // console.log($minVal+" "+$maxVal);
+
+    var data = google.visualization.arrayToDataTable(formatedData);
+    var options = 
+    {
+        title: '',        
+        tooltip: {isHtml: true},
+        legend: {textStyle: {color: '#fff'}},
+        hAxis: {title: '', titleTextStyle: {color: '#333'}},
+        backgroundColor: {fill: 'transparent'},
+        hAxis: 
+        {
+            textStyle: {color: '#fff'},
+            gridlines: {color: "transparent"},
+            viewWindowMode:'explicit',
+            viewWindow: 
+            {
+                min: $minVal,
+                max: $maxVal        
+            }            
+        },
+        vAxis: 
+        {
+            textStyle: {color: '#fff'},
+            gridlines: {color: "#39536b"},
+            baselineColor: {color: "#39536b"},
+        },
+        colors: ['#fff', '#8ab3e2'],
+        auraColor: ['#11abc3', '#c7c3af'],        
+        series: 
+        {
+            0: 
+            {
+                visibleInLegend: false
+            },
+            1: 
+            {
+                visibleInLegend: false
+            }
+        },        
+        trendlines: 
+        {
+            0: 
+            {
+              type: 'linear',
+              showR2: true,
+              visibleInLegend: true
+            }
+        },            
+      };
+
+    var chart = new google.visualization.ScatterChart(document.getElementById('scatter_chart'));
+    chart.draw(data, options);
+
+    setTimeout(function(){
+        var i = 1;
+        $("#scatter_chart g [column-id='_trendline'] rect").each(function(){
+            if(i != 1)
+            {
+                $(this).hide();
+            }
+            i++;
+        });
+    },400)
+}
+
 function fillBanchMark(data, elementID)
 {
     var html = '<option value="">Add Benchmark</option>';
@@ -310,6 +430,77 @@ function drawBenchmarkChart(data_values, chartType)
     chart.draw(data, options);
 }
 
+function drawAreaChart(data_values) {
+    var elementID = 'area_chart';
+
+    var formatedData = [];
+    var tmpValues = [];
+    formatedData.push(["", ""]);
+    if(data_values.length > 0)
+    {
+        for(var i in data_values)
+        {
+            tmpValues.push(parseFloat(data_values[i]['main_price']));
+            var d = new Date(data_values[i]['created']);
+            var $created = d;           
+            formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['main_price'])]);        
+        }           
+    }    
+    else
+    {
+        formatedData.push(["", 0]);
+    }
+
+    $minVal = 0;
+    $maxVal = 5;
+
+    if(tmpValues.length > 0)
+    {
+        $minVal = Math.min.apply(null, tmpValues);
+        $maxVal = Math.max.apply(null, tmpValues);
+    }
+
+    // alert($minVal);
+    $minVal = getRoundedMinValueForY($minVal);
+    $maxVal = getRoundedMaxValueForY($maxVal);    
+
+
+    // console.log(formatedData);    
+
+    var data = google.visualization.arrayToDataTable(formatedData);
+    var options = 
+    {
+        title: '',
+        legend: 'none',
+        hAxis: {title: '', titleTextStyle: {color: '#333'}},
+        // vAxis: {minValue: 0},
+        backgroundColor: {fill: 'transparent'},
+        hAxis: 
+        {
+            textStyle: {color: '#fff'},
+            gridlines: {color: "transparent",count: 12}
+        },
+        vAxis: 
+        {
+            textStyle: {color: '#fff'},
+            gridlines: {color: "#39536b"},
+            baselineColor: {color: "#39536b"},
+            viewWindowMode:'explicit',
+            viewWindow: 
+            {
+                min: $minVal,
+                max: $maxVal       
+            }            
+        },
+        colors: ['#fff', '#8ab3e2'],
+        auraColor: ['#11abc3', '#c7c3af'],
+    };
+
+    var chart = new google.visualization.AreaChart(document.getElementById(elementID));
+    chart.draw(data, options);
+}
+
+
 function generateLineGraph2()
 {
     $val = $('select#period-month-10').val();
@@ -342,7 +533,14 @@ function generateLineGraph2()
         $.ajax({
             type: "POST",
             url: $url,
-            data: {security_id: global_secure_id_2, month_id: $val, benchmark_id: $benchmark, price_id: $priceID, market_id: $market_id},
+            data: {
+                    security_id: global_secure_id_2, month_id: $val, benchmark_id: $benchmark, 
+                    price_id: $priceID, market_id: $market_id, with_sub_data: 1,
+                    areaMonth: $("#period-month-11").val(),
+                    areaPrice: $("#price-dropdown-11").val(),
+                    regressionMonth: $("#period-month-12").val(),
+                    regressionPrice: $("#price-dropdown-12").val(),
+                  },
             success: function (result)
             {
                 $('#AjaxLoaderDiv').fadeOut('slow');
@@ -351,10 +549,15 @@ function generateLineGraph2()
                 {
                     if ($benchmark > 0)
                     {
+                        $("#bond-area").show();
                         drawBenchmarkChart2(result.data);
+                        $html = $(".main-bond-securities").html($(".market-chart-title-2").html());
+                        drawRegression(result.data.regression_data);
+                        drawAreaChart(result.data.areachart_data);                        
                     }
                     else
                     {
+                        $("#bond-area").hide();
                         drawChart2(result.data.history_data, 'curve_chart2');
                         fillBanchMark(result.data.arr_banchmark,"benchmark-dropdown-10");
                     }
@@ -710,6 +913,22 @@ $(document).ready(function() {
         generateLineGraph2();
     });
 
+    $(document).on("change", "select#price-dropdown-11", function () {
+        generateLineGraph2();
+    });
+
+    $(document).on("change", "select#period-month-11", function () {
+        generateLineGraph2();
+    });
+
+    $(document).on("change", "select#period-month-12", function () {
+        generateLineGraph2();
+    });
+
+    $(document).on("change", "select#price-dropdown-12", function () {
+        generateLineGraph2();
+    });
+
     $(document).on("change", "select#price-dropdown-10", function () {
         generateLineGraph2();
     });
@@ -726,6 +945,7 @@ $(document).ready(function() {
         }
         
         generateLineGraph2();
+        
     });
 
 
