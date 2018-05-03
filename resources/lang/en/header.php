@@ -17,11 +17,11 @@
 		'regression'=>'Regression',
 		'slope'=>'Slope',
 		'about'=>'About',
-		'background' => strtoupper('Background'),
+		'why_emfi' => strtoupper('Why EMFI?'),
 		'team' => strtoupper('Team'),
 		'clients' => strtoupper('Clients'),
 		'candidates' => strtoupper('Candidates'),
-		'presence' => strtoupper('Presence'), 
+		'presence' => strtoupper('Presence'),
 		'contact'=> strtoupper('Contact'),
 		'enquiry' => strtoupper('Enquiry'),
 		'feedback' => strtoupper('Feedback'),
@@ -38,6 +38,6 @@
 		'caribbean'=>'CARIBBEAN',
 		'central_america'=>'CENTRAL AMERICA',
 		'north_america'=>'NORTH AMERICA',
-		
+
 	];
 ?>

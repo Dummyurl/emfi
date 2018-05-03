@@ -146,10 +146,10 @@
                                 </div>
                             </div>
                             <div class="clearfix">&nbsp;</div>
-                		<div> 
-                            
+                		<div>
+
                             @foreach($languages as $lng => $val)
-                            <?php 
+                            <?php
                                 $title = null;
                                 $description = null;
                                 if(isset($formObj->id) && !empty($formObj->id)){
@@ -165,7 +165,7 @@
                                 <div class="row">
                                     <div class="col-md-10" style="padding-left: 30px; height: 14px;">
                                         <h4>For {{ $val }}</h4>
-                                    </div>   
+                                    </div>
                                 </div>
                             </div>
                             <div class="clearfix">&nbsp;</div>
@@ -179,7 +179,8 @@
                                 <div class="col-md-12">
                             <label for="" class="control-label">Post Description [{{ $lng }}]
                             </label>
-                                    {!! Form::textarea('post_description['.$lng.'][]',$description,['class' => 'form-control ckeditor']) !!}
+                                    {!! Form::textarea('post_description['.$lng.'][]',$description,['class' => 'form-control ckeditor', 'id' => 'ckeditor'.$lng]) !!}
+
                                 </div>
                             </div>
                             @endforeach
@@ -312,6 +313,16 @@
         }
 </script>
 <script type="text/javascript">
+$(".ckeditor").each(function (){
+	CKEDITOR.replace($(this).attr('id'),{
+		toolbarGroups: [
+					{"name":"basicstyles","groups":["basicstyles"]},
+					{"name":"paragraph","groups":["list","blocks"]},
+					{"name":"styles","groups":["styles"]},
+					{"name":"about","groups":["about"]}
+				],
+	});
+});
     $(document).ready(function(){
         var formdata = '{{ $formObj }}';
         var option_prices = '{{ $formObj->option_prices }}';
@@ -476,7 +487,7 @@
                 $('#banchmark_div').show();
                 $('#credit_div').hide();
                 $('#option_security_div').hide();
-                
+
                 getBanchmarkViaCountry($('.country').val());
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }else if(graph_val == 'market_movers_gainers' || graph_val == 'market_movers_laggers'){
@@ -506,7 +517,7 @@
                 $('#banchmark_div').show();
                 $('#credit_div').hide();
                 $('#option_security_div').hide();
-                
+
                 getSecurity($('.country').val());
                 $('#option_banchmark').empty();
                 $('#option_banchmark').append('<option>Select Banchmark</option>');
@@ -583,7 +594,7 @@
                 getBanchmarkViaSecurity(security_id,null)
             }
         });
-        
+
         $('#main-frm').submit(function () {
             for (instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].updateElement();

@@ -50,13 +50,13 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::select('business_unit' , ['' => __('contact.business_unit')] + ['ASSET MANAGEMENT' => __('header.asset_management'), 'WEALTH MANAGEMENT' => __('header.wealth_management') , 'INVESTMENT BANKING' =>  __('header.investment_banking') , 'PRIME BROKERAGE' => __('header.prime_brokerage') , 'DATA ANALYTICS' => __('header.data_analytics')], null, ['class' => 'form-control' ]) !!}
+                        {!! Form::select('business_unit' , ['' => __('contact.business_unit')] + ['ASSET MANAGEMENT' => __('contact.asset_management'), 'WEALTH MANAGEMENT' => __('contact.wealth_management') , 'INVESTMENT BANKING' =>  __('contact.investment_banking') , 'PRIME BROKERAGE' => __('contact.prime_brokerage') , 'DATA ANALYTICS' => __('contact.data_analytics')], null, ['class' => 'form-control' ]) !!}
                         <!-- <input name="company" class="form-control" id="" placeholder="{{ __('contact.company') }}" type="text" required="required"> -->
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::select('subject' , ['' => __('contact.subject')] + ['ENQUIRY' => __('header.enquiry') , 'FEEDBACK' => __('header.feedback') , 'COMPLAINT' => __('header.complaint') , 'CAREERS' => __('header.careers') , 'LOCATIONS' => __('header.locations')], strtoupper($type), ['class' => 'form-control' ]) !!}
+                        {!! Form::select('subject' , ['' => __('contact.subject')] + ['ENQUIRY' => __('contact.enquiry') , 'FEEDBACK' => __('contact.feedback') , 'COMPLAINT' => __('contact.complaint') , 'CAREERS' => __('contact.careers') , 'LOCATIONS' => __('contact.locations')], strtoupper($type), ['class' => 'form-control' ]) !!}
                         <!-- <input name="subject" class="form-control" id="" placeholder="{{ __('contact.subject') }}" type="text" required="required"> -->
                     </div>
                 </div>

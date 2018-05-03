@@ -21,7 +21,7 @@
         </div>
     </div>
     @endif
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-default navbar-static-top" id="myNavigation">
         <div class="container">
             <ul class="rightlinks">
                 <?php /*
@@ -143,7 +143,7 @@
                     <li class="{{ \Request::is(getLangName().'/about') ? 'active':'' }} dropdown">
                         <a class="dropdown-toggle" href="{{ url(getLangName().'/about')}}" >{{ __('header.about') }}</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ url(getLangName().'/about')}}#background">{{ __('header.background') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/about')}}#why_emfi">{{ __('header.why_emfi') }}</a></li>
                             <li><a href="{{ url(getLangName().'/about')}}#team">{{ __('header.team') }}</a></li>
                             <li><a href="{{ url(getLangName().'/about')}}#clients">{{ __('header.clients') }}</a></li>
                             <li><a href="{{ url(getLangName().'/about')}}#candidates">{{ __('header.candidates') }}</a></li>

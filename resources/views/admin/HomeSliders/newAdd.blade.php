@@ -76,9 +76,9 @@
 									{!! Form::select('status',[1=>'Active',0=>'Inactive'],null,['class' => 'form-control', 'data-required' => true]) !!}
 								</div>
 							</div>
-                            
+
                             @foreach($languages as $lng => $val)
-                            <?php 
+                            <?php
                                 $title = null;
                                 $description = null;
                                 if(isset($formObj->id) && !empty($formObj->id)){
@@ -94,7 +94,7 @@
                                 <div class="row">
                                     <div class="col-md-10" style="padding-left: 30px; height: 14px;">
                                         <h4>For {{ $val }}</h4>
-                                    </div>   
+                                    </div>
                                 </div>
                             </div>
 							<div class="clearfix">&nbsp;</div>
@@ -108,7 +108,7 @@
 								<div class="col-md-12">
 									<label for="" class="control-label">Post Description [{{ $lng }}]
                                     </label>
-									{!! Form::textarea('post_description['.$lng.'][]',$description,['class' => 'form-control ckeditor']) !!}
+									{!! Form::textarea('post_description['.$lng.'][]',$description,['class' => 'form-control ckeditor', 'id' => 'ckeditor']) !!}
 								</div>
 							</div>
                             @endforeach
@@ -133,6 +133,16 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+
+		CKEDITOR.replace( 'ckeditor',
+		{
+			toolbarGroups: [
+						{"name":"basicstyles","groups":["basicstyles"]},
+						{"name":"paragraph","groups":["list","blocks"]},
+						{"name":"styles","groups":["styles"]},
+						{"name":"about","groups":["about"]}
+					],
+		});
 
         $('.country').on('change',function(){
             var country_val = $('.country').val();
@@ -175,7 +185,7 @@
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
         });
-        
+
         $('#main-frm').submit(function () {
 			for (instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].updateElement();
