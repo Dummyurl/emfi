@@ -123,7 +123,7 @@
                                 }
                             });
                     $('#AjaxLoaderDiv').fadeOut('slow');
-                            $country.change();  
+                            $country.change();
                         },
                         error: function (error) {
                         }
@@ -225,6 +225,17 @@
                 });
         }
     $(document).ready(function(){
+
+		$(".ckeditor").each(function (){
+			CKEDITOR.replace($(this).attr('id'),{
+				toolbarGroups: [
+							{"name":"basicstyles","groups":["basicstyles"]},
+							{"name":"paragraph","groups":["list","blocks"]},
+							{"name":"styles","groups":["styles"]},
+							{"name":"about","groups":["about"]}
+						],
+			});
+		});
 
         $('.country').on('change',function(){
             $(".setValue").val($(".country option:selected").text());
@@ -372,7 +383,7 @@
                 $('#AjaxLoaderDiv').fadeOut('slow');
             }
         });
-        
+
         $('#main-frm').submit(function () {
             for (instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].updateElement();

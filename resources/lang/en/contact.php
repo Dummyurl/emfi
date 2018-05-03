@@ -14,8 +14,18 @@
 	'contact' => 'Contact',
 	'business_unit' => 'Business Unit',
 	'at_a_glance'=>"At A Glance",
-        'organization' => 'Organization',
-        'phone' => 'Phone',
-            
+	'organization' => 'Organization',
+	'phone' => 'Phone',
+	'enquiry' => 'Enquiry',
+	'feedback' => 'Feedback',
+	'complaint' => 'Complaint',
+	'careers' => 'Careers',
+	'locations' => 'Locations',
+	'service' => 'Services',
+	'asset_management' => 'Asset Management',
+	'wealth_management' => 'Wealth Management',
+	'investment_banking' => 'Capital Markets',
+	'prime_brokerage' => 'Prime Brokerage',
+	'data_analytics' => 'Data Analytics',            
 	];
 ?>

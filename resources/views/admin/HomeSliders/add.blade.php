@@ -3,7 +3,7 @@
         <div class="caption">
             <i class="fa fa-file"></i>Add News
         </div>
-        
+
     </div>
     <div class="portlet-body">
         <div class="portlet-body">
@@ -124,10 +124,10 @@
                             {!! Form::select('status',[1=>'Active',0=>'Inactive'],null,['class' => 'form-control', 'data-required' => false]) !!}
                                 </div>
                             </div>
-                			<div> 
-                            
+                			<div>
+
                             @foreach($languages as $lng => $val)
-                            <?php 
+                            <?php
                                 $title = null;
                                 $description = null;
                                 if(isset($formObj->id) && !empty($formObj->id)){
@@ -152,7 +152,7 @@
                                 <div class="row">
                                     <div class="col-md-10" style="padding-left: 30px; height: 14px;">
                                         <h4>For {{ $val }}</h4>
-                                    </div>   
+                                    </div>
                                 </div>
                             </div>
                             <div class="clearfix">&nbsp;</div>
@@ -166,7 +166,7 @@
                                 <div class="col-md-12">
                                     <label for="" class="control-label">Post Description [{{ $lng }}]
                                     </label>
-                                    {!! Form::textarea('post_description['.$lng.'][]',$description,['class' => 'form-control ckeditor']) !!}
+                                    {!! Form::textarea('post_description['.$lng.'][]',$description,['class' => 'form-control ckeditor', 'id' => 'ckeditor'.$lng]) !!}
                                 </div>
                             </div>
                             @endforeach

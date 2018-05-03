@@ -754,7 +754,7 @@ background-color:#CCCCCC;	overflow:hidden;
 	bottom:5px;
 	left:0;
 	right:0;
-	
+
 }
 .home_slider .owl-theme .owl-dots .owl-dot span {
 	width: 10px;
@@ -961,6 +961,9 @@ min-height:320px;
 .about-img3{background: rgba(5, 27, 52, 1) url(../images/about-info-img3.jpg) no-repeat;}
 .about-img4{background: rgba(5, 27, 52, 1) url(../images/about-info-img4.jpg) no-repeat;}
 .about-img5{background: rgba(5, 27, 52, 1) url(../images/about-info-img5.jpg) no-repeat;}
+.team-member-1{background: rgba(5, 27, 52, 1) url(../images/team-member-1.jpg) no-repeat;}
+.team-member-2{background: rgba(5, 27, 52, 1) url(../images/team-member-2.jpg) no-repeat;}
+.team-member-3{background: rgba(5, 27, 52, 1) url(../images/team-member-3.jpg) no-repeat;}
 
 .our_offices{}
 .our_offices .inner_block{
