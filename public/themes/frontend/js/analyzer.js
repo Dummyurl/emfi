@@ -288,7 +288,7 @@ function drawAreaChart(data_values) {
 
     // alert($minVal);
     $minVal = getRoundedMinValueForY($minVal);
-    $maxVal = getRoundedMaxValue($maxVal);    
+    $maxVal = getRoundedMaxValueForY($maxVal);    
 
 
     // console.log(formatedData);    

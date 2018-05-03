@@ -184,7 +184,7 @@ function drawChart(data_values, elementID, chartType)
     }
 
     $minVal2 = getRoundedMinValueForY($minVal2);
-    $maxVal2 = getRoundedMaxValue($maxVal2);
+    $maxVal2 = getRoundedMaxValueForY($maxVal2);
 
     // console.log($minVal+" => "+$maxVal);
 
@@ -440,8 +440,8 @@ function drawChart2(data_values, elementID)
     }
 
     // alert($minVal);
-    $minVal = getRoundedMinValue($minVal);
-    $maxVal = getRoundedMaxValue($maxVal);    
+    $minVal = getRoundedMinValueForY($minVal);
+    $maxVal = getRoundedMaxValueForY($maxVal);    
 
 
     var options = {

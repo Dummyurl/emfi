@@ -196,7 +196,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
     }
 
     $minVal = getRoundedMinValueForY($minVal);
-    $maxVal = getRoundedMaxValue($maxVal);    
+    $maxVal = getRoundedMinValueForY($maxVal);    
 
     if(tmpValues2.length > 0)
     {
@@ -269,7 +269,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         tooltip: {isHtml: true},
         legend: {position: 'none'},
         series: {
-          0: {targetAxisIndex: 0,minValue: $minVal, maxValue: $maxVal},
+          0: {targetAxisIndex: 0},
           1: {targetAxisIndex: 1}
         },        
         backgroundColor: {fill: 'transparent'},
@@ -277,7 +277,8 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         titleTextStyle: {color: '#fff'},
         legendTextStyle: {color: '#ccc'},
         colors: ['white', 'blue'],
-        hAxis: {
+        hAxis: 
+        {
             textStyle: {color: '#fff'},
             gridlines: {color: "transparent",count: 12}
         },
@@ -285,37 +286,30 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         {
             0:
             {
-                minValue: $minVal,
-                maxValue: $maxVal,       
                 viewWindowMode:'explicit',
                 viewWindow: 
                 {
                     min: $minVal,
-                    max: $maxVal       
-                }                                      
+                    max: $maxVal,       
+                    minValue: $minVal,
+                    maxValue: $maxVal,       
+                }                                                        
             },
             1:
             {
-                minValue: $minVal2,
-                maxValue: $maxVal2,       
-                // textStyle: {color: '#fff'},
-                // gridlines: {color: "#39536b"},
-                // baselineColor: {color: "#39536b"},
                 viewWindowMode:'explicit',
                 viewWindow: 
                 {
                     min: $minVal2,
-                    max: $maxVal2       
-                }                                        
-            },
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"},              
+                    max: $maxVal2,
+                    minValue: $minVal2,
+                    maxValue: $maxVal2,                           
+                }                                                        
+            }
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
     chart.draw(data, options);
-
 }
 
 function drawChart(data_values, elementID, fromBenchMark)
