@@ -22,6 +22,10 @@ foreach($country_benchmarkes as $r)
 
 <section class="top_section top_bg economics_bg">
     <div class="container">
+            
+        <input type="hidden" id="default_benchmark_security_id" value="{{ $default_benchmark_security_id }}" />
+        <input type="hidden" id="default_benchmark_security_title" value="{{ $default_benchmark_security_title }}" />
+
         <input type="hidden" id="main_country_id" value="{{ $countryObj->id }}" />
         <input type="hidden" id="main_lang" value="{{ getLangName() }}" />
         
@@ -405,8 +409,6 @@ foreach($country_benchmarkes as $cnt)
     </div>
 </section>
 
-<div id="regression"></div>
-<div class="clearfix"></div>
 <section class="equities">
     <div class="container">
         <div class="title">

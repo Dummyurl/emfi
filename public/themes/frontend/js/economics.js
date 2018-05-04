@@ -7,9 +7,11 @@ var global_secure_id_2;
 var global_secure_id_2_text;
 var is_first;
 var is_bond_first;
+var is_first_benchmark;
 
 is_first = 1;
 is_bond_first = 1;
+is_first_benchmark = 1;
 
 function resetFields(chartType)
 {
@@ -78,7 +80,7 @@ function drawRegression(data_values)
     else
     {
         formatedData.push(["", ""]);
-        formatedData.push(["", null]);
+        formatedData.push(["", 0]);
     }
     
     $minVal = 0;
@@ -164,12 +166,46 @@ function fillBanchMark(data, elementID)
 {
     var html = '<option value="">Add Benchmark</option>';
     
-    for (var i in data)
+    for(var i in data)
     {
         html += '<option value="' + data[i]['id'] + '">' + data[i]['title'] + '</option>';
     }
 
     $("#"+elementID).html(html);
+
+    if(elementID == "benchmark-dropdown-10")
+    {
+        if(is_first_benchmark == 1)
+        {
+            var isB30 = 0;
+            var trigger_benchmark = 0;
+
+            for(var i in data)
+            {
+                if(data[i]['b30_flag'] == 1 && isB30 == 0)
+                {
+                    isB30 = 1;
+                    trigger_benchmark = data[i]['id'];
+                }
+            }
+
+            if(trigger_benchmark > 0)
+            {
+                $("#benchmark-dropdown-10").val(trigger_benchmark);
+                $("#benchmark-dropdown-10").trigger("change");
+            }
+            else if($("#default_benchmark_security_id").val() > 0)
+            {
+                $("#benchmark-dropdown-10").append('<option value="'+$("#default_benchmark_security_id").val()+'">'+$("#default_benchmark_security_title").val()+'</option>');                
+                setTimeout(function(){
+                    $("#benchmark-dropdown-10").val($("#default_benchmark_security_id").val());
+                    $("#benchmark-dropdown-10").trigger("change");                                        
+                },200);
+            }
+        }
+        
+        is_first_benchmark = is_first_benchmark + 1;   
+    }    
 }
 
 function generateLineGraph(chartType)
@@ -435,9 +471,10 @@ function drawAreaChart(data_values) {
 
     var formatedData = [];
     var tmpValues = [];
-    formatedData.push(["", ""]);
+    
     if(data_values.length > 0)
     {
+        formatedData.push(["", ""]);
         for(var i in data_values)
         {
             tmpValues.push(parseFloat(data_values[i]['main_price']));
@@ -448,6 +485,7 @@ function drawAreaChart(data_values) {
     }    
     else
     {
+        formatedData.push(["", ""]);
         formatedData.push(["", 0]);
     }
 
