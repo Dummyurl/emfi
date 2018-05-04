@@ -269,32 +269,32 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         curveType: 'function',
         tooltip: {isHtml: true},
         legend: {position: 'none'},
-        vAxes: 
-        {
-            0:
-            {                
-                viewWindowMode:'explicit',
-                viewWindow: 
-                {
-                    min: $minVal,
-                    max: $maxVal,       
-                    minValue: $minVal,
-                    maxValue: $maxVal,       
-                }                                                        
-            },
-            1:
-            {
-                gridlines: {color: "transparent"},
-                viewWindowMode:'explicit',
-                viewWindow: 
-                {
-                    min: $minVal2,
-                    max: $maxVal2,
-                    minValue: $minVal2,
-                    maxValue: $maxVal2,                           
-                }                                                        
-            }
-        },        
+        // vAxes: 
+        // {
+        //     0:
+        //     {                
+        //         viewWindowMode:'explicit',
+        //         viewWindow: 
+        //         {
+        //             min: $minVal,
+        //             max: $maxVal,       
+        //             minValue: $minVal,
+        //             maxValue: $maxVal,       
+        //         }                                                        
+        //     },
+        //     1:
+        //     {
+        //         gridlines: {color: "transparent"},
+        //         viewWindowMode:'explicit',
+        //         viewWindow: 
+        //         {
+        //             min: $minVal2,
+        //             max: $maxVal2,
+        //             minValue: $minVal2,
+        //             maxValue: $maxVal2,                           
+        //         }                                                        
+        //     }
+        // },        
         series: {
           0: {targetAxisIndex: 0},
           1: {targetAxisIndex: 1}
@@ -426,12 +426,12 @@ function drawChart(data_values, elementID, fromBenchMark)
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
             baselineColor: {color: "#39536b"},
-            viewWindowMode:'explicit',
-            viewWindow: 
-            {
-                min: $minVal,
-                max: $maxVal       
-            }                                    
+            // viewWindowMode:'explicit',
+            // viewWindow: 
+            // {
+            //     min: $minVal,
+            //     max: $maxVal       
+            // }                                    
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));

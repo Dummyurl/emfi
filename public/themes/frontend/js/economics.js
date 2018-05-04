@@ -370,12 +370,12 @@ function drawChart(data_values, elementID, chartType)
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
             baselineColor: {color: "#39536b"},
-            viewWindowMode:'explicit',
-            viewWindow: 
-            {
-                min: $minVal2,
-                max: $maxVal2       
-            }                                                
+            // viewWindowMode:'explicit',
+            // viewWindow: 
+            // {
+            //     min: $minVal2,
+            //     max: $maxVal2       
+            // }                                                
         }
     };
     var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
@@ -523,12 +523,12 @@ function drawAreaChart(data_values) {
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
             baselineColor: {color: "#39536b"},
-            viewWindowMode:'explicit',
-            viewWindow: 
-            {
-                min: $minVal,
-                max: $maxVal       
-            }            
+            // viewWindowMode:'explicit',
+            // viewWindow: 
+            // {
+            //     min: $minVal,
+            //     max: $maxVal       
+            // }            
         },
         colors: ['#fff', '#8ab3e2'],
         auraColor: ['#11abc3', '#c7c3af'],
@@ -708,12 +708,12 @@ function drawChart2(data_values, elementID)
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
             baselineColor: {color: "#39536b"},
-            viewWindowMode:'explicit',
-            viewWindow: 
-            {
-                min: $minVal,
-                max: $maxVal       
-            }            
+            // viewWindowMode:'explicit',
+            // viewWindow: 
+            // {
+            //     min: $minVal,
+            //     max: $maxVal       
+            // }            
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById("curve_chart2"));
@@ -777,32 +777,32 @@ function drawBenchmarkChart2(data_values)
         title: '',
         curveType: 'function',
         tooltip: {isHtml: true},
-        vAxes: 
-        {
-            0:
-            {
-                viewWindowMode:'explicit',
-                viewWindow: 
-                {
-                    min: $minVal,
-                    max: $maxVal,       
-                    minValue: $minVal,
-                    maxValue: $maxVal,       
-                }                                                        
-            },
-            1:
-            {
-                gridlines: {color: "transparent"},
-                viewWindowMode:'explicit',
-                viewWindow: 
-                {
-                    min: $minVal2,
-                    max: $maxVal2,
-                    minValue: $minVal2,
-                    maxValue: $maxVal2,                           
-                }                                                        
-            }
-        },                
+        // vAxes: 
+        // {
+        //     0:
+        //     {
+        //         viewWindowMode:'explicit',
+        //         viewWindow: 
+        //         {
+        //             min: $minVal,
+        //             max: $maxVal,       
+        //             minValue: $minVal,
+        //             maxValue: $maxVal,       
+        //         }                                                        
+        //     },
+        //     1:
+        //     {
+        //         gridlines: {color: "transparent"},
+        //         viewWindowMode:'explicit',
+        //         viewWindow: 
+        //         {
+        //             min: $minVal2,
+        //             max: $maxVal2,
+        //             minValue: $minVal2,
+        //             maxValue: $maxVal2,                           
+        //         }                                                        
+        //     }
+        // },                
         series: 
         {
           0: {targetAxisIndex: 0},

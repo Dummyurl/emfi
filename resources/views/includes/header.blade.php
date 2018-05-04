@@ -101,7 +101,7 @@
                         </ul>
                     </li>
                     <li class="{{ \Request::is(getLangName().'/service') ? 'active':'' }} dropdown">
-                        <a class="dropdown-toggle" href="javascript:void(0);">{{ __('header.service') }}</a>
+                        <a href="{{ url(getLangName().'/capital')}}">{{ __('header.service') }}</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ url(getLangName().'/capital')}}">{{ __('header.asset_management') }}</a></li>
                             <li><a href="{{ url(getLangName().'/wealth')}}">{{ __('header.wealth_management') }}</a></li>
@@ -110,10 +110,12 @@
                             <li><a href="{{ url(getLangName().'/analytics')}}">{{ __('header.data_analytics') }}</a></li>
                         </ul>
                     </li>
+                    <?php /*
                     <li class="dropdown {{ \Request::is(getLangName().'/analyzer',getLangName().'/analyzer/*') ? 'active':'' }}">
                         <a href="{{ url(getLangName().'/analyzer') }}">
                             {{ __('header.analyzer') }}
                         </a>
+                    */ ?>    
                         <?php /*
                         <ul class="dropdown-menu">
                             @if(\Request::is('analyzer','analyzer/*'))
@@ -127,7 +129,9 @@
                             @endif
                         </ul>
                          */ ?>
+                    <?php /*     
                     </li>
+                    */ ?>
                     <?php /*
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -141,7 +145,7 @@
                     </li>
                     */ ?>
                     <li class="{{ \Request::is(getLangName().'/about') ? 'active':'' }} dropdown">
-                        <a class="dropdown-toggle" href="{{ url(getLangName().'/about')}}" >{{ __('header.about') }}</a>
+                        <a href="{{ url(getLangName().'/about')}}#why_emfi">{{ __('header.about') }}</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ url(getLangName().'/about')}}#why_emfi">{{ __('header.why_emfi') }}</a></li>
                             <li><a href="{{ url(getLangName().'/about')}}#team">{{ __('header.team') }}</a></li>
@@ -151,7 +155,7 @@
                         </ul>
                     </li>
                     <li class="{{ \Request::is(getLangName().'/contact') ? 'active':'' }} dropdown">
-                        <a class="dropdown-toggle" href="javascript:void(0);">{{ __('header.contact') }}</a>
+                        <a href="{{ url(getLangName().'/contact/enquiry')}}">{{ __('header.contact') }}</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ url(getLangName().'/contact/enquiry')}}">{{ __('header.enquiry') }}</a></li>
                             <li><a href="{{ url(getLangName().'/contact/feedback')}}">{{ __('header.feedback') }}</a></li>
