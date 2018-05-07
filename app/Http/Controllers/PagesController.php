@@ -85,7 +85,8 @@ class PagesController extends Controller {
 
         $data['sliders'] = $slider_rows;
         $data['last_update_date'] = getLastUpdateDate();
-        return view('welcome', $data);
+        // return view('welcome', $data);
+        return view('home', $data);
     }
 
     public function getChartData($slider) {
