@@ -145,30 +145,30 @@
     </div>
   </div>
 </section> -->
-<section class="clients our_value info_featured_block">
+<section class="clients info_featured_block">
 <div id="clients">
   <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-push-6 bgcover imgcol  about-img1"></div>
         <div class="col-md-6 col-md-pull-6 txtcol">
             <div class="innerwrapper">
-              <div class="left_col">
-                <h2>{{ __('about.clients') }}</h2>
-                <p>{{ __('about.client_desc') }}.</p>
-              </div>
-              <div class="right_btns">
-                <ul>
-                  <li><a href="#">{{ __('about.client_link_1') }}</a></li>
-                  <li><a href="#">{{ __('about.client_link_2') }}</a></li>
-                  <li><a href="#">{{ __('about.client_link_3') }}</a></li>
-                  <li><a href="#">{{ __('about.client_link_4') }}</a></li>
-                  <li><a href="#">{{ __('about.client_link_5') }}</a></li>
-                  <li><a href="#">{{ __('about.client_link_6') }}</a></li>
-                  <li><a href="#">{{ __('about.client_link_7') }}</a></li>
-                  <li><a href="#">{{ __('about.client_link_8') }}</a></li>
-                  <li><a href="#">{{ __('about.client_link_9') }}</a></li>
-                </ul>
-              </div>
+              	<div class="text-justify">
+                	<h2>{{ __('about.clients') }}</h2>
+                	<p>{{ __('about.client_desc') }}.</p>
+              	</div>
+              	<div class="right_btns">
+	                <ul class="clearfix">
+						<li class="col-md-4"><a href="#">{{ __('about.client_link_1') }}</a></li>
+						<li class="col-md-4"><a href="#">{{ __('about.client_link_2') }}</a></li>
+						<li class="col-md-4"><a href="#">{{ __('about.client_link_3') }}</a></li>
+						<li class="col-md-4"><a href="#">{{ __('about.client_link_4') }}</a></li>
+						<li class="col-md-4"><a href="#">{{ __('about.client_link_5') }}</a></li>
+						<li class="col-md-4"><a href="#">{{ __('about.client_link_6') }}</a></li>
+						<li class="col-md-4"><a href="#">{{ __('about.client_link_7') }}</a></li>
+						<li class="col-md-4"><a href="#">{{ __('about.client_link_8') }}</a></li>
+						<li class="col-md-4"><a href="#">{{ __('about.client_link_9') }}</a></li>
+	                </ul>
+              	</div>
             </div>
         </div>
     </div>
@@ -179,19 +179,19 @@
         <div class="col-md-6 txtcol">
             <div class="innerwrapper clearfix">
               <h2>{{ __('about.our_value') }}</h2>
-              <div class="our_value_item">
+              <div class="text-justify">
                 <h3>{{ __('about.value_tit_1') }}</h3>
                 <p>{{ __('about.value_desc_1') }}. </p>
               </div>
-              <div class="our_value_item">
+              <div class="text-justify">
                 <h3>{{ __('about.value_tit_2') }}</h3>
                 <p>{{ __('about.value_desc_2') }}.</p>
               </div>
-              <div class="our_value_item">
+              <div class="text-justify">
                 <h3>{{ __('about.value_tit_3') }}</h3>
                 <p>{{ __('about.value_desc_3') }}.</p>
               </div>
-              <div class="our_value_item">
+              <div class="text-justify">
                 <h3>{{ __('about.value_tit_4') }}</h3>
                 <p>{{ __('about.value_desc_4') }}.</p>
               </div>
@@ -210,19 +210,19 @@
 		</div>
 		<div class="col-md-6 col-md-pull-6 txtcol">
 			<div class="innerwrapper clearfix">
-	          <h2>{{ __('about.candidates') }}</h2>
-	          <div class="our_value_item">
-	            <h3>{{ __('about.value_tit_5') }}</h3>
-	            <p>{{ __('about.value_desc_5') }}.</p>
-	          </div>
-	          <div class="our_value_item">
-	            <h3>{{ __('about.value_tit_6') }}</h3>
-	            <p>{{ __('about.value_desc_6') }}.</p>
-	          </div>
-	          <div class="our_value_item">
-	            <h3>{{ __('about.value_tit_7') }}</h3>
-	            <p>{{ __('about.value_desc_7') }}.</p>
-	          </div>
+				<h2>{{ __('about.candidates') }}</h2>
+				<div class="text-justify">
+					<h3>{{ __('about.value_tit_5') }}</h3>
+					<p>{{ __('about.value_desc_5') }}.</p>
+				</div>
+				<div class="text-justify">
+					<h3>{{ __('about.value_tit_6') }}</h3>
+					<p>{{ __('about.value_desc_6') }}.</p>
+				</div>
+				<div class="text-justify">
+					<h3>{{ __('about.value_tit_7') }}</h3>
+					<p>{{ __('about.value_desc_7') }}.</p>
+				</div>
 	        </div>
 		</div>
     </div>
