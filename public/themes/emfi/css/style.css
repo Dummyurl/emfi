@@ -1149,7 +1149,7 @@ min-height:321px;
 .about-img4{background: rgba(5, 27, 52, 1) url(../images/about-info-img4.jpg) no-repeat;}
 .about-img5{background: rgba(5, 27, 52, 1) url(../images/about-info-img5.jpg) no-repeat;}
 
-.our_offices{}
+.our_offices{ margin-bottom:50px;}
 .our_offices .inner_block{
 border-top:solid 3px #001a34;
 min-height:380px;
@@ -1446,7 +1446,7 @@ display:table-cell;
 border: #ccc solid 1px;
 text-align:center;
 vertical-align:middle;
-padding:5px;
+padding:8px 5px;
 }
 .our_value .btns ul li a:hover,
 .info_block_new .btns ul li a:hover {text-decoration:none;}

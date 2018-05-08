@@ -55,8 +55,7 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function () {
-
+$(window).load(function () {
 if ( $(window).width() > 991) {
 var maxHeight = 0;
 $('.inner_1').each(function(){
@@ -81,13 +80,10 @@ $('.inner_4').each(function(){
    if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
 });
 $('.inner_4').height(maxHeight);
-
+}
 var maxHeight = 0;
 $('.btns ul li a').each(function(){
    if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
 });
 $('.btns ul li a').height(maxHeight);
-
-}
-
 });
