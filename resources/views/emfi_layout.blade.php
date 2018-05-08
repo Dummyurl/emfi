@@ -30,6 +30,7 @@
         <script src="{{ asset('themes/emfi/js/jquery.min.js')}}"></script>
         <script src="{{ asset('themes/emfi/js/bootstrap.min.js')}}"></script>
         <script src="{{ asset('themes/emfi/js/owl.carousel.min.js')}}"></script>
+        <script type="text/javascript" src="{{ asset('/js/jquery.bootstrap-growl.min.js') }}"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript" src="{{ asset('themes/emfi/js/app.js') }}"></script>
         @yield('scripts')

@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('emfi_layout')
 
 
 @section('content')
@@ -131,5 +131,5 @@
 @section('scripts')
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4se7HxOqOpUPcelVjD7Odc_BBP4qdqHE&callback=init"
 type="text/javascript"></script>
-<script src="{{ asset('themes/frontend/js/contact.js') }}"></script>
+<script src="{{ asset('themes/emfi/js/contact.js') }}"></script>
 @stop

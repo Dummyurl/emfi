@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('emfi_layout')
 
 @section('content')
 
@@ -381,5 +381,5 @@
 @stop
 
 @section('scripts')
-<script src="{{ asset('themes/frontend/js/about.js') }}"></script>
+<script src="{{ asset('themes/emfi/js/about.js') }}"></script>
 @stop

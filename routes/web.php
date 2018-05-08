@@ -27,6 +27,7 @@ Route::get('espanol/analyzer/{type?}', 'PagesController@analyzer');
 
 Route::get('english/about', 'PagesController@about');
 Route::get('english/contact/{type?}', 'PagesController@contact');
+Route::get('espanol/contact/{type?}', 'PagesController@contact');
 //Route::get('english/services/{type}', 'PagesController@services');
 
 Route::get('english/capital', 'PagesController@services');
