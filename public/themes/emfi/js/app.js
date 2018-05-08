@@ -107,8 +107,8 @@ $(document).ready(function () {
             loop: false,
             nav: true,
             margin: 0,
-            autoplay: false,
-            autoplayTimeout: 3000,
+            autoplay: true,
+            autoplayTimeout: 5000,
             autoplayHoverPause: false,
             responsive: {
                 0: {
