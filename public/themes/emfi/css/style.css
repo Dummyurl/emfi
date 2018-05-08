@@ -934,7 +934,7 @@ text-align:right;
   transform: translateY(-50%);
 }
 .home_slider .item{
-min-height:400px;
+/*min-height:400px;*/
 overflow:hidden;
 }
 .home_slider .owl-theme .owl-nav {
@@ -970,10 +970,11 @@ padding-bottom:25px;
 .home_slider .chart_left .chart_home{height:440px;}
 .home_slider .text_right{
 padding:40px;
+overflow-y: auto;
 }
 .home_slider .chart_left,
 .home_slider .text_right{
-min-height:455px;
+/*min-height:455px;*/
 color:#666666;
 }
 .home_slider .text_right p{

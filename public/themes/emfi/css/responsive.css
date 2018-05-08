@@ -51,7 +51,7 @@ padding-bottom: 35px;
 }
 .home_slider .chart_left .chart_home{height: 320px;}
 .home_slider .chart_left, .home_slider .text_right {
-	min-height: 370px;
+	height: 320px;
 }
 .home_slider .text_right p + p {margin-top: 20px;}
 }
