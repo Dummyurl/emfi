@@ -1,3 +1,70 @@
+function getRoundedMinValueForYBenchmark($val)
+{
+    if($val >= 0 && $val <= 1)
+    {
+        $val = 0;
+    }
+    else
+    {
+        if($val > 10)
+        $val = ($val*0.90);
+        // $val = $val - 1;
+    }
+
+    return $val;
+}
+
+function getRoundedMaxValueForYBenchmark($val)
+{
+    if($val > 10)
+    $val = ($val*1.10);
+    return $val;
+}
+
+
+function getRoundedMinValueForY($val)
+{
+    if($val >= 0 && $val <= 1)
+    {
+        $val = 0;
+    }
+    else
+    {
+        if($val > 10)
+        $val = ($val*0.90);
+    }
+
+    return $val;
+}
+
+
+
+function getRoundedMinValue($val)
+{
+    if($val >= 0 && $val <= 1)
+    {
+        $val = 0;
+    }
+    else
+    {
+        $val = $val - 1;
+    }
+
+    return $val;
+}
+
+function getRoundedMaxValueForY($val)
+{
+    if($val > 10)
+    $val = ($val*1.10);
+    return $val;
+}
+
+function getRoundedMaxValue($val)
+{
+    $val = $val + 1;
+    return $val;
+}
 function getHeight() 
 {
     if ($(window).width() >= 1280) 
