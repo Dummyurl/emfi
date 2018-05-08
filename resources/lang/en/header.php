@@ -17,7 +17,7 @@
 		'regression'=>'Regression',
 		'slope'=>'Slope',
 		'about'=>'About',
-		'why_emfi' => strtoupper('Why EMFI?'),
+		'why_emfi' => strtoupper('Why EMFI'),
 		'team' => strtoupper('Team'),
 		'clients' => strtoupper('Clients'),
 		'candidates' => strtoupper('Candidates'),

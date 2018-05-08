@@ -22,6 +22,10 @@ foreach($country_benchmarkes as $r)
 
 <section class="top_section top_bg economics_bg">
     <div class="container">
+            
+        <input type="hidden" id="default_benchmark_security_id" value="{{ $default_benchmark_security_id }}" />
+        <input type="hidden" id="default_benchmark_security_title" value="{{ $default_benchmark_security_title }}" />
+
         <input type="hidden" id="main_country_id" value="{{ $countryObj->id }}" />
         <input type="hidden" id="main_lang" value="{{ getLangName() }}" />
         
@@ -362,6 +366,91 @@ foreach($country_benchmarkes as $cnt)
         </div>
     </div>
 </section>
+
+<div id="bond-area" style="display: none;">
+
+<section class="equities">
+    <div class="container">
+        <div class="title">
+            <h2>{{ __('analyzer.differential') }}</h2>
+            <span class="main-bond-securities"></span> 
+        </div>
+    </div>
+    <div class="container chart_section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="area_chart" class="area_chart" style="width: 100%; height: 500px;"></div>
+                <div class="chart_dropdown clearfix">
+                    <form>
+                        <div class="col-md-3">
+                            <select id="period-month-11">                                
+                                @foreach(getMonths() as $month => $label)
+                                <option {!! 12 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
+                                    {{ $label }}
+                                </option>
+                                @endforeach
+                            </select>                            
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-3">
+                            <select id="price-dropdown-11">
+                                <option value="1" data-title="Price">Price</option>
+                                <option value="2" data-title="Yield">Yield</option>
+                                <option value="3" data-title="Spread" selected="selected">Spread</option>                              
+                            </select>
+                        </div>
+                    </form>
+                </div>                
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="equities">
+    <div class="container">
+        <div class="title">
+            <h2>{{ __('analyzer.regression') }}</h2>
+            <span class="main-bond-securities"></span> 
+        </div>
+    </div>
+    <div class="container chart_section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="scatter_chart" class="scatter_chart" style="width: 100%; height: 480px"> </div>
+                <div class="chart_dropdown clearfix">
+                    <form>
+                        <div class="col-md-3">
+                            <select id="period-month-12">                                
+                                @foreach(getMonths() as $month => $label)
+                                <option {!! 12 == $month ? 'selected="selected"':'' !!} value="{{ $month }}">
+                                    {{ $label }}
+                                </option>
+                                @endforeach
+                            </select>                            
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-3">
+                            <select id="price-dropdown-12">
+                                <option value="1" data-title="Price">Price</option>
+                                <option value="2" data-title="Yield">Yield</option>
+                                <option value="3" data-title="Spread" selected="selected">Spread</option>                              
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div>
+
 
 @include('includes.twitter',['tweet_sub_title' => $countryObj->country_name])
 

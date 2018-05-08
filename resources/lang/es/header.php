@@ -1,5 +1,5 @@
-strtoupper(<?php
-)	return [
+<?php
+	return [
 		'login'=>'ACCESO',
 		'portfolio'=>'PORTAFOLIO',
 		'research'=>'INVESTIGACIÓN',

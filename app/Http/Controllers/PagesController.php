@@ -85,7 +85,8 @@ class PagesController extends Controller {
 
         $data['sliders'] = $slider_rows;
         $data['last_update_date'] = getLastUpdateDate();
-        return view('welcome', $data);
+        // return view('welcome', $data);
+        return view('home', $data);
     }
 
     public function getChartData($slider) {
@@ -278,15 +279,27 @@ class PagesController extends Controller {
         }
         
         if($data['countryObj']->id == 3)
-        asort($data['bond_data']);
-        
-        // dd($data['bond_data']);
+        asort($data['bond_data']);        
+
 
         $data['country_benchmarkes'] = \App\Models\Tickers::getCountriesList();
-        // dd($data['country_benchmarkes']);
         $data['number_of_charts'] = count(array_keys($data['bond_data']));
         $data['tweets'] = getSearchTweets($data['countryObj']->title);
         $data['last_update_date'] = getLastUpdateDate();
+
+        $sql = 
+        "
+            SELECT * FROM securities WHERE 
+            securities.`benchmark_family` = 'B10' AND 
+            securities.`country_id` = 3 AND 
+            securities.`market_id` = 5 LIMIT 1       
+        ";
+
+        $tmp = \DB::select($sql);
+        $tmp = json_decode(json_encode($tmp),1);
+
+        $data['default_benchmark_security_id'] = isset($tmp[0]['id']) ? $tmp[0]['id']:0;
+        $data['default_benchmark_security_title'] = isset($tmp[0]['security_name']) ? $tmp[0]['security_name']:0;
         return view('economics', $data);
     }
 
