@@ -91,56 +91,56 @@
     <div class="row">
     <div class="col-md-3 col-sm-6">
       <div class="team_block">
-        <figure><img src="{{ asset('/themes/emfi/images/team-member-1.jpg') }}" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/team-member-1.jpg" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
         <a href="#">linkedin</a></div>
     </div>
     <div class="col-md-3 col-sm-6">
       <div class="team_block">
-        <figure><img src="{{ asset('/themes/emfi/images/team-member-2.jpg') }}" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/team-member-2.jpg" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
         <a href="#">linkedin</a></div>
     </div>
     <div class="col-md-3 col-sm-6">
       <div class="team_block">
-        <figure><img src="{{ asset('/themes/emfi/images/team-member-3.jpg') }}" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/team-member-3.jpg" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
         <a href="#">linkedin</a></div>
     </div>
     <div class="col-md-3 col-sm-6">
       <div class="team_block">
-        <figure><img src="{{ asset('/themes/emfi/images/team-member-1.jpg') }}" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/team-member-1.jpg" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
         <a href="#">linkedin</a></div>
     </div>
     <div class="col-md-3 col-sm-6">
       <div class="team_block">
-        <figure><img src="{{ asset('/themes/emfi/images/team-member-1.jpg') }}" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/team-member-1.jpg" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
         <a href="#">linkedin</a></div>
     </div>
     <div class="col-md-3 col-sm-6">
       <div class="team_block">
-        <figure><img src="{{ asset('/themes/emfi/images/team-member-2.jpg') }}" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/team-member-2.jpg" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
         <a href="#">linkedin</a></div>
     </div>
     <div class="col-md-3 col-sm-6">
       <div class="team_block">
-        <figure><img src="{{ asset('/themes/emfi/images/team-member-3.jpg') }}" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/team-member-3.jpg" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
         <a href="#">linkedin</a></div>
     </div>
     <div class="col-md-3 col-sm-6">
       <div class="team_block">
-        <figure><img src="{{ asset('/themes/emfi/images/team-member-1.jpg') }}" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/team-member-1.jpg" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
         <a href="#">linkedin</a></div>

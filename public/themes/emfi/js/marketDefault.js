@@ -171,18 +171,18 @@ function drawBenchmarkChart(data_values, elementID)
           1: {targetAxisIndex: 1}
         },        
         backgroundColor: {fill: 'transparent'},
-        axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#fff'},
+        axisTextStyle: {color: '#001a34'},
+        titleTextStyle: {color: '#001a34'},
         legendTextStyle: {color: '#ccc'},
-        colors: ['white', 'blue'],
+        colors: ['#001a34', '#666666'],
         hAxis: {
-            textStyle: {color: '#fff'},
+            textStyle: {color: '#001a34'},
             gridlines: {color: "transparent",count: 12}
         },
         vAxis: {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"},            
+            textStyle: {color: '#001a34'},
+            gridlines: {color: "#ccc"},
+            baselineColor: {color: "#ccc"},            
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
@@ -515,18 +515,18 @@ function drawChart(data_values, elementID)
         legend: {position: 'none'},
         tooltip: {isHtml: true},
         backgroundColor: {fill: 'transparent'},
-        axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#fff'},
+        axisTextStyle: {color: '#001a34'},
+        titleTextStyle: {color: '#001a34'},
         legendTextStyle: {color: '#ccc'},
-        colors: ['white'],
+        colors: ['#001a34'],
         hAxis: {
-            textStyle: {color: '#fff'},
+            textStyle: {color: '#666666'},
             gridlines: {color: "transparent",count: 12}
         },
         vAxis: {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"},
+            textStyle: {color: '#666666'},
+            gridlines: {color: "#ccc"},
+            baselineColor: {color: "#ccc"},
             // viewWindowMode:'explicit',
             // viewWindow: 
             // {
@@ -623,20 +623,20 @@ function drawBarChart(data_values, elementID, chartType) {
             subtitle: '',
         },
         bars: 'horizontal', // Required for Material Bar Charts.
-        colors: ['#051b34'],
+        colors: ['#001a34'],
         backgroundColor: {fill: 'transparent'},
         legend: {position: 'none'},
         hAxis:
                 {
-                    textStyle: {color: '#051b34'},
-                    gridlines: {color: "#8ab3e2"},
-                    baselineColor: '#8ab3e2',                    
+                    textStyle: {color: '#666666'},
+                    gridlines: {color: "#ccc"},
+                    baselineColor: '#ccc',                    
                     direction: -1,
                 },
         vAxis: 
         {
-            textStyle: {color: '#051b34'},
-            gridlines: {color: "#8ab3e2"},
+            textStyle: {color: '#666666'},
+            gridlines: {color: "#ccc"},
         }
     };
 
@@ -681,9 +681,9 @@ function drawBarChart(data_values, elementID, chartType) {
 
 $(document).ready(function () {
 
-    $('.bg-2').parallax({
+    /*$('.bg-2').parallax({
         imageSrc: '/themes/frontend/images/bg-2.jpg'
-    });
+    });*/
 
     $('select#markets').select2({
         allowClear: true,

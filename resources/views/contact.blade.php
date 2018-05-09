@@ -9,78 +9,81 @@
             <span>{{ __('contact.help_you') }}</span> </div>
         <div class="contact_form">
             <div class="row">
-                <p>{{ __('contact.any_qtn') }}.</p>
+            <p>{{ __('contact.any_qtn') }}.</p>
+            <div class="col-md-6"><figure class="contact-img bgcover"></figure></div>
+            <div class="col-md-6">
+                
                 {!! Form::open(['url' => 'contact-form', 'id' => 'contact_form_id', 'enctype' => 'multipart/form-data']) !!}
                 <!-- <form action="{{ url('contact-form')}}" method="post" id="contact_form_id"> -->
-                <div class="col-md-12">
+               
                     <div class="form-group">
                         {!! Form::text('first_name', null, ['class' => 'form-control' , 'placeholder' => __('contact.first_name')]) !!}
                         <!-- <input name="first_name" class="form-control" id="" placeholder="{{ __('contact.first_name') }}" type="text" required="required"> -->
                     </div>
-                </div>
-                <div class="col-md-12">
+               
+               
                     <div class="form-group">
                         {!! Form::text('last_name', null, ['class' => 'form-control', 'placeholder' => __('contact.last_name') ]) !!}
                         <!-- <input name="last_name" class="form-control" id="" placeholder="{{ __('contact.last_name') }}" type="text" required="required"> -->
                     </div>
-                </div>
-                <div class="col-md-12">
+               
+               
                     <div class="form-group">
                         {!! Form::text('organization', null, ['class' => 'form-control', 'placeholder' => __('contact.organization')]) !!}
                         <!-- <input name="last_name" class="form-control" id="" placeholder="{{ __('contact.last_name') }}" type="text" required="required"> -->
                     </div>
-                </div>
-                <div class="col-md-12">
+               
+               
                     <div class="form-group">
                         {!! Form::text('country' , null , ['class' => 'form-control' , 'placeholder' => __('contact.country')]) !!}
                         <!-- <input name="country" class="form-control" id="" placeholder="{{ __('contact.country') }}" type="text" required="required"> -->
                     </div>
-                </div>
-                <div class="col-md-12">
+               
+               
                     <div class="form-group">
                         {!! Form::text('phone' , null , ['class' => 'form-control' , 'placeholder' => __('contact.phone')]) !!}
                         <!-- <input name="phone" class="form-control" id="" placeholder="{{ __('contact.country') }}" type="text" required="required"> -->
                     </div>
-                </div>
-                <div class="col-md-12">
+               
+               
                     <div class="form-group">
                         {!! Form::text('email' , null , ['class' => 'form-control' , 'placeholder' => __('contact.email') ]) !!}
                         <!-- <input name="email" class="form-control" id="" placeholder="{{ __('contact.email') }}" type="text" required="required"> -->
                     </div>
-                </div>
-                <div class="col-md-12">
+               
+                
                     <div class="form-group">
                         {!! Form::select('business_unit' , ['' => __('contact.business_unit')] + ['ASSET MANAGEMENT' => __('contact.asset_management'), 'WEALTH MANAGEMENT' => __('contact.wealth_management') , 'INVESTMENT BANKING' =>  __('contact.investment_banking') , 'PRIME BROKERAGE' => __('contact.prime_brokerage') , 'DATA ANALYTICS' => __('contact.data_analytics')], null, ['class' => 'form-control' ]) !!}
                         <!-- <input name="company" class="form-control" id="" placeholder="{{ __('contact.company') }}" type="text" required="required"> -->
                     </div>
-                </div>
-                <div class="col-md-12">
+               
+                
                     <div class="form-group">
                         {!! Form::select('subject' , ['' => __('contact.subject')] + ['ENQUIRY' => __('contact.enquiry') , 'FEEDBACK' => __('contact.feedback') , 'COMPLAINT' => __('contact.complaint') , 'CAREERS' => __('contact.careers') , 'LOCATIONS' => __('contact.locations')], strtoupper($type), ['class' => 'form-control' ]) !!}
                         <!-- <input name="subject" class="form-control" id="" placeholder="{{ __('contact.subject') }}" type="text" required="required"> -->
                     </div>
-                </div>
-                <div class="col-md-12 txtarea">
+              
+              
                     <div class="form-group">
                         {!! Form::textarea('message', null, ['class' => 'form-control' , 'cols' => '', 'rows' => '4' , 'placeholder' => __('contact.message')]) !!}
                         <!-- <textarea name="message" cols="" rows="4" class="form-control" placeholder="{{ __('contact.message') }}" required="required"></textarea> -->
                     </div>
-                </div>
-                <div class="col-md-12">
+              
+              
                     <div class="form-group">
                         {!! Form::file('attachment', ['class' => 'form-control']) !!}
                         <!-- <textarea name="message" cols="" rows="4" class="form-control" placeholder="{{ __('contact.message') }}" required="required"></textarea> -->
                     </div>
-                </div>
-                <div class="col-md-12 submit_btn">
+                
                     <div class="form-group">
                         <button class="btn">{{ __('contact.send') }}</button>
                     </div>
-                </div>
+               
                 <!-- </form> -->
                 {!! Form::close() !!}
-            </div>
-        </div>
+                </div>
+            </div> <!-- /row end -->
+        </div><!-- /contact_form end -->
     </div>
 </section>
 <section class="office_details_map">
@@ -129,7 +132,7 @@
 @stop
 
 @section('scripts')
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4se7HxOqOpUPcelVjD7Odc_BBP4qdqHE&callback=init"
-type="text/javascript"></script>
 <script src="{{ asset('themes/emfi/js/contact.js') }}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4se7HxOqOpUPcelVjD7Odc_BBP4qdqHE&libraries=places&callback=init2"></script>
+
 @stop

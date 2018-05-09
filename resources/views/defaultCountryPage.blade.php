@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('emfi_layout')
 
 @section('content')
 
@@ -45,5 +45,5 @@
   country_data = JSON.parse('{!! $countries !!}');
   </script>
  */ ?>
-<script src="{{ asset('themes/frontend/js/country.js') }}"></script>
+<script src="{{ asset('themes/emfi/js/country.js') }}"></script>
 @stop

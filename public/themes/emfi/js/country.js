@@ -96,9 +96,9 @@ function drawChart(country_data)
 
 $(document).ready(function() {
 	
-    $('.top_bg').parallax({
+/*    $('.top_bg').parallax({
       imageSrc: '/themes/frontend/images/economics-bg.jpg'
-    });
+    });*/
 
     $('select#markets').select2({
         allowClear: true,

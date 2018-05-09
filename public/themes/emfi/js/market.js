@@ -78,20 +78,20 @@ function drawBarChart(data_values, elementID, chartType) {
             subtitle: '',
         },
         bars: 'horizontal', // Required for Material Bar Charts.
-        colors: ['#051b34'],
+        colors: ['#001a34'],
         backgroundColor: {fill: 'transparent'},
         legend: {position: 'none'},
         hAxis:
                 {
-                    textStyle: {color: '#051b34'},
-                    gridlines: {color: "#8ab3e2"},
-                    baselineColor: '#8ab3e2',                    
+                    textStyle: {color: '#001a34'},
+                    gridlines: {color: "#ccc"},
+                    baselineColor: '#ccc',
                     direction: -1,
                 },
         vAxis: 
         {
-            textStyle: {color: '#051b34'},
-            gridlines: {color: "#8ab3e2"},
+            textStyle: {color: '#001a34'},
+            gridlines: {color: "#ccc"},
         }
     };
 
@@ -209,25 +209,25 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
 
     // console.log(formatedData);
     
-//    var data = new google.visualization.DataTable();
-//    data.addColumn('date', 'Month');
-//    data.addColumn('number', "Average Temperature");
-//    data.addColumn('number', "Average Hours of Daylight");
-//
-//    data.addRows([
-//      [new Date(2014, 0),  -.5,  5.7],
-//      [new Date(2014, 1),   .4,  8.7],
-//      [new Date(2014, 2),   .5,   12],
-//      [new Date(2014, 3),  2.9, 15.3],
-//      [new Date(2014, 4),  6.3, 18.6],
-//      [new Date(2014, 5),    9, 20.9],
-//      [new Date(2014, 6), 10.6, 19.8],
-//      [new Date(2014, 7), 10.3, 16.6],
-//      [new Date(2014, 8),  7.4, 13.3],
-//      [new Date(2014, 9),  4.4,  9.9],
-//      [new Date(2014, 10), 1.1,  6.6],
-//      [new Date(2014, 11), -.2,  4.5]
-//    ]);    
+    //    var data = new google.visualization.DataTable();
+    //    data.addColumn('date', 'Month');
+    //    data.addColumn('number', "Average Temperature");
+    //    data.addColumn('number', "Average Hours of Daylight");
+    //
+    //    data.addRows([
+    //      [new Date(2014, 0),  -.5,  5.7],
+    //      [new Date(2014, 1),   .4,  8.7],
+    //      [new Date(2014, 2),   .5,   12],
+    //      [new Date(2014, 3),  2.9, 15.3],
+    //      [new Date(2014, 4),  6.3, 18.6],
+    //      [new Date(2014, 5),    9, 20.9],
+    //      [new Date(2014, 6), 10.6, 19.8],
+    //      [new Date(2014, 7), 10.3, 16.6],
+    //      [new Date(2014, 8),  7.4, 13.3],
+    //      [new Date(2014, 9),  4.4,  9.9],
+    //      [new Date(2014, 10), 1.1,  6.6],
+    //      [new Date(2014, 11), -.2,  4.5]
+    //    ]);    
 
     var data = google.visualization.arrayToDataTable(formatedData);
 
@@ -252,16 +252,16 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
     //     data.addRow([data_values.benchmark_history_data[i][0], $val1, $val2]); 
     // }             
 
-//   var classicOptions = {
-//        title: '',
-//        // Gives each series an axis that matches the vAxes number below.
-//        series: {
-//          0: {targetAxisIndex: 0},
-//          1: {targetAxisIndex: 1}
-//        },
-//      };
+    //   var classicOptions = {
+    //        title: '',
+    //        // Gives each series an axis that matches the vAxes number below.
+    //        series: {
+    //          0: {targetAxisIndex: 0},
+    //          1: {targetAxisIndex: 1}
+    //        },
+    //      };
 
-    // alert()
+        // alert()
 
     var options = 
     {
@@ -300,20 +300,20 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
           1: {targetAxisIndex: 1}
         },        
         backgroundColor: {fill: 'transparent'},
-        axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#fff'},
+        axisTextStyle: {color: '#666666'},
+        titleTextStyle: {color: '#666666'},
         legendTextStyle: {color: '#ccc'},
-        colors: ['white', 'blue'],
+        colors: ['#001a34', '#666666'],
         hAxis: 
         {
-            textStyle: {color: '#fff'},
+            textStyle: {color: '#666666'},
             gridlines: {color: "transparent",count: 12}
         },
         vAxis: 
         {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"},
+            textStyle: {color: '#666666'},
+            gridlines: {color: "#ccc"},
+            baselineColor: {color: "#ccc"},
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
@@ -413,19 +413,19 @@ function drawChart(data_values, elementID, fromBenchMark)
         legend: {position: 'none'},
         tooltip: {isHtml: true},
         backgroundColor: {fill: 'transparent'},
-        axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#fff'},
+        axisTextStyle: {color: '#666666'},
+        titleTextStyle: {color: '#666666'},
         legendTextStyle: {color: '#ccc'},
-        colors: ['white'],
+        colors: ['#001a34'],
         hAxis: 
         {
-            textStyle: {color: '#fff'},
+            textStyle: {color: '#666666'},
             gridlines: {color: "transparent",count: 12}
         },
         vAxis: {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"},
+            textStyle: {color: '#666666'},
+            gridlines: {color: "#ccc"},
+            baselineColor: {color: "#ccc"},
             // viewWindowMode:'explicit',
             // viewWindow: 
             // {
@@ -586,20 +586,20 @@ function drawRelvalChart(data_values)
         legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#fff'},
+        titleTextStyle: {color: '#001a34'},
         legendTextStyle: {color: '#ccc'},
-        colors: ['white'],
+        colors: ['#001a34'],
         pointSize : 10,
         hAxis: 
         {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            textStyle: {color: '#001a34'},
+            gridlines: {color: "#ccc"}
         },
         vAxis: 
         {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"}
+            textStyle: {color: '#001a34'},
+            gridlines: {color: "#ccc"},
+            baselineColor: {color: "#ccc"}
         }
     };    
 
@@ -691,9 +691,9 @@ function generateLineGraph()
 }
 
 $(document).ready(function () {
-    $('.bg-2').parallax({
-        imageSrc: '/themes/frontend/images/bg-2.jpg'
-    });
+    // $('.bg-2').parallax({
+    //     imageSrc: '/themes/frontend/images/bg-2.jpg'
+    // });
 
     $(document).on("change", "select#price-dropdown", function () {
         generateLineGraph();

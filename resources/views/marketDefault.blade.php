@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('emfi_layout')
 
 @section('content')
 <section class="top_section top_bg bg-2 market-page" id="main">
@@ -159,7 +159,7 @@
     <div class="container chart_section">
         <div class="row">
             <div class="col-lg-12">
-                <div id="curve_chart" style="width: 100%; height: 480px"> </div>
+                <div id="curve_chart" class="curve_chart" style="width: 100%; height: 480px"> </div>
                 <div class="chart_dropdown clearfix">
                     <form>
                         <div class="col-md-4">
@@ -197,7 +197,7 @@
 
 
 @section('scripts')
-<script src="{{ asset('themes/frontend/js/marketDefault.js') }}"></script>
+<script src="{{ asset('themes/emfi/js/marketDefault.js') }}"></script>
 <script type="text/javascript">
     var treeObject, treeObject2, dataChart1, dataChart2, global_bond_id1, global_bond_id2;
     var dataTemp;

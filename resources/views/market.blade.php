@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('emfi_layout')
 
 @section('content')
 <section class="top_section top_bg bg-2 market-page" id="main">
@@ -147,7 +147,7 @@
     <div class="container chart_section">
         <div class="row">
             <div class="col-lg-12">
-                <div id="curve_chart23" style="width: 100%; height: 480px"> </div>
+                <div id="curve_chart23" class="scatter_chart" style="width: 100%; height: 480px"> </div>
                 <div class="chart_dropdown clearfix">
                     <form>
                         <div class="col-md-3">
@@ -301,7 +301,7 @@
     <div class="container chart_section">
         <div class="row">
             <div class="col-lg-12">
-                <div id="curve_chart" style="width: 100%; height: 480px"> </div>
+                <div id="curve_chart" class="curve_chart" style="width: 100%; height: 480px"> </div>
                 <div class="chart_dropdown clearfix">
                     <form>
                         <div class="col-md-4">
@@ -447,5 +447,5 @@
                 }
     }    
 </script>
-<script src="{{ asset('themes/frontend/js/market.js') }}"></script>
+<script src="{{ asset('themes/emfi/js/market.js') }}"></script>
 @stop
