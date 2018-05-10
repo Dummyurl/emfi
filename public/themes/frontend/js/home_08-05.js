@@ -60,8 +60,7 @@ function drawLoserChart(elementID, data_values)
         for (var i in data_values)
         {
             $per = parseFloat(data_values[i]['percentage_change']).toFixed(2);
-            // $val = Math.abs(data_values[i]['percentage_change']);
-            $val = data_values[i]['percentage_change'];
+            $val = Math.abs(data_values[i]['percentage_change']);
             formatedData.push([data_values[i]['title'], $val, data_values[i]['title'] + ": "+$per+" %"]);
         }
     }
@@ -77,36 +76,28 @@ function drawLoserChart(elementID, data_values)
             title: '',
             subtitle: '',
         },
-        bars: 'horizontal',
-        legend: {position: 'none'},
-        bar : { groupWidth : "50%"},
-        chartArea:{
-                height : "75%",
-                width : "60%",
-                left : 150
-        },
-        backgroundColor: { fill:'transparent'},
-        axisTextStyle: { color: '#344b61' },
-        titleTextStyle: { color: '#666666' },
-        legendTextStyle: { color: '#666666' },
-        colors: ['001a34'],
-        hAxis: {
-            textStyle:{color: '#666666'},
-            gridlines: {color:"#ccc"},
-            direction : -1
-        },
+          bars: 'horizontal',
+          legend: {position: 'none'},
+          backgroundColor: { fill:'transparent'},
+          axisTextStyle: { color: '#344b61' },
+          titleTextStyle: { color: '#fff' },
+          legendTextStyle: { color: '#ccc' },
+          colors: ['white'],
+          hAxis: {
+              textStyle:{color: '#fff'},
+              gridlines: {color:"#39536b"},
+              direction: -1,
+          },
         vAxis: {
-            textStyle:{color: '#666666'},
-            gridlines: {color:"#ccc"},
+            textStyle:{color: '#fff'},
+            gridlines: {color:"#39536b"},
             baselineColor: {color:"#39536b"}
         }
 
     };
 
-    var chart = new google.visualization.BarChart(document.getElementById(elementID));
-    chart.draw(data, options);
-    // var chart = new google.charts.Bar(document.getElementById(elementID));
-    // chart.draw(data, google.charts.Bar.convertOptions(options));
+    var chart = new google.charts.Bar(document.getElementById(elementID));
+    chart.draw(data, google.charts.Bar.convertOptions(options));
 }
 
 function drawGainerChart(elementID, data_values)
@@ -139,33 +130,26 @@ function drawGainerChart(elementID, data_values)
             subtitle: '',
         },
         bars: 'horizontal',
-        
-        legend: {position: 'none'},
-        bar : { groupWidth : "50%"},
-        chartArea:{
-                height : "75%",
-                width : "60%",
-                left : 100
-        },
-        backgroundColor: { fill:'transparent'},
-        axisTextStyle: { color: '#344b61' },
-        titleTextStyle: { color: '#666666' },
-        legendTextStyle: { color: '#666666' },
-        colors: ['001a34'],
-        hAxis: {
-            textStyle:{color: '#666666'},
-            gridlines: {color:"#ccc"}
-        },
+          legend: {position: 'none'},
+          backgroundColor: { fill:'transparent'},
+          axisTextStyle: { color: '#344b61' },
+          titleTextStyle: { color: '#fff' },
+          legendTextStyle: { color: '#ccc' },
+          colors: ['white'],
+          hAxis: {
+              textStyle:{color: '#fff'},
+              gridlines: {color:"#39536b"}
+          },
         vAxis: {
-            textStyle:{color: '#666666'},
-            gridlines: {color:"#ccc"},
+            textStyle:{color: '#fff'},
+            gridlines: {color:"#39536b"},
             baselineColor: {color:"#39536b"}
         }
+
     };
-    var chart = new google.visualization.BarChart(document.getElementById(elementID));
-    chart.draw(data, options);
-    // var chart = new google.charts.Bar(document.getElementById(elementID));
-    // chart.draw(data, google.charts.Bar.convertOptions(options));
+
+    var chart = new google.charts.Bar(document.getElementById(elementID));
+    chart.draw(data, google.charts.Bar.convertOptions(options));
 }
 
 function drawMarketHistoryChart(elementID, data_values)
@@ -207,17 +191,17 @@ function drawMarketHistoryChart(elementID, data_values)
         legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#001a34'},
+        titleTextStyle: {color: '#fff'},
         legendTextStyle: {color: '#ccc'},
-        colors: ['001a34'],
+        colors: ['white'],
         hAxis: {
-            textStyle: {color: '#666666'},
+            textStyle: {color: '#fff'},
             // gridlines: {color: "#39536b"}
             gridlines: {color: "transparent",count: 12}
         },
         vAxis: {
-            textStyle: {color: '#666666'},
-            gridlines: {color: "#ccc"},
+            textStyle: {color: '#fff'},
+            gridlines: {color: "#39536b"},
             baselineColor: {color: "#39536b"}
         }
     };
@@ -260,18 +244,18 @@ function drawBenchMarkMarketHistoryChart(elementID, data_values, option_prices)
           1: {targetAxisIndex: 1}
         },        
         backgroundColor: {fill: 'transparent'},
-        axisTextStyle: {color: '#666666'},
-        titleTextStyle: {color: '#001a34'},
+        axisTextStyle: {color: '#344b61'},
+        titleTextStyle: {color: '#fff'},
         legendTextStyle: {color: '#ccc'},
-        colors: ['#051b34', '#666666'],
+        colors: ['white', 'blue'],
         hAxis: {
-            textStyle: {color: '#666666'},
+            textStyle: {color: '#fff'},
             gridlines: {color: "transparent",count: 12}
         },
         vAxis: {
-            textStyle: {color: '#666666'},
-            gridlines: {color: "#ccc"},
-            baselineColor: {color: "#ccc"},
+            textStyle: {color: '#fff'},
+            gridlines: {color: "#39536b"},
+            baselineColor: {color: "#39536b"},
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
@@ -290,7 +274,6 @@ function drawYieldCurveChart(elementID, data_values)
     $columnTitle = "";
 
     var tmpValues = [];
-    option_banchmark = 0;
     if (option_banchmark > 0)
     {
         drawYieldCurveBenchmarkChart(elementID, data_values);
@@ -323,14 +306,14 @@ function drawYieldCurveChart(elementID, data_values)
             formatedData.push(["", ""]);
             formatedData.push(["", 0]);
         }
-
         $minVal = 0;
         $maxVal = 5;
 
+
         if(tmpValues.length > 0)
         {
-            $minVal = Math.min.apply(null, tmpValues);
-            $maxVal = Math.max.apply(null, tmpValues);
+        $minVal = Math.min.apply(null, tmpValues);
+        $maxVal = Math.max.apply(null, tmpValues);
         }
 
         $minVal = getRoundedMinValue($minVal);
@@ -343,12 +326,12 @@ function drawYieldCurveChart(elementID, data_values)
             legend: {position: 'none'},
             backgroundColor: {fill: 'transparent'},
             axisTextStyle: {color: '#344b61'},
-            titleTextStyle: {color: '#666666'},
+            titleTextStyle: {color: '#fff'},
             legendTextStyle: {color: '#ccc'},
-            colors: ['001a34'],
+            colors: ['white'],
             pointSize : 10,
             hAxis: {
-                textStyle: {color: '#666666'},
+                textStyle: {color: '#fff'},
                 gridlines: {color: "transparent"},
                 viewWindowMode:'explicit',
                 viewWindow: 
@@ -358,9 +341,9 @@ function drawYieldCurveChart(elementID, data_values)
                 }
             },
             vAxis: {
-                textStyle: {color: '#666666'},
-                gridlines: {color: "#ccc"},
-                baselineColor: {color: "#ccc"}
+                textStyle: {color: '#fff'},
+                gridlines: {color: "#39536b"},
+                baselineColor: {color: "#39536b"}
             }
         };
     var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
@@ -473,22 +456,22 @@ function drawAreaChart(elementID, data_values)
     {
         title: '',
         legend: 'none',
-        hAxis: {title: '', titleTextStyle: {color: '#001a34'}},
+        hAxis: {title: '', titleTextStyle: {color: '#333'}},
         // vAxis: {minValue: 0},
         backgroundColor: {fill: 'transparent'},
         hAxis: 
         {
-            textStyle: {color: '#001a34'},
+            textStyle: {color: '#fff'},
             gridlines: {color: "transparent",count: 12}
         },
         vAxis: 
         {
-            textStyle: {color: '#001a34'},
-            gridlines: {color: "#ccc"},
-            baselineColor: {color: "#ccc"},
+            textStyle: {color: '#fff'},
+            gridlines: {color: "#39536b"},
+            baselineColor: {color: "#39536b"},
         },
-        colors: ['#001a34', '#666666'],
-        auraColor: ['#666666', '#666666'],
+        colors: ['#fff', '#8ab3e2'],
+        auraColor: ['#11abc3', '#c7c3af'],
     };
     var chart = new google.visualization.AreaChart(document.getElementById(elementID));
     chart.draw(data, options);
@@ -511,9 +494,9 @@ function drawRegression(elementID, data_values)
         var j = 1;
         for (var i in data_values.regression_chart)
         {
-            var html ='';
             var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.regression_chart[i]['created_format'] + "<br /> <b>" + data_values.regression_chart[i]['main_price'] + ", " + data_values.regression_chart[i]['main_price2'] + "</b>"+"</p>";
             $style = null;
+            var html ='';
             if(data_values.regression_chart[i]['is_recent'] == 1)
             {
                 // $style = 'point {fill-color: #FF0000;zIndex: 99999;size: 18}';
@@ -531,7 +514,6 @@ function drawRegression(elementID, data_values)
                 ]
             );
             j++;
-
         }
     }
     else
@@ -562,7 +544,7 @@ function drawRegression(elementID, data_values)
         backgroundColor: {fill: 'transparent'},
         hAxis: 
         {
-            textStyle: {color: '#001a34'},
+            textStyle: {color: '#fff'},
             gridlines: {color: "transparent"},
             viewWindowMode:'explicit',
             viewWindow: 
@@ -573,12 +555,12 @@ function drawRegression(elementID, data_values)
         },
         vAxis: 
         {
-            textStyle: {color: '#001a34'},
-            gridlines: {color: "#ccc"},
-            baselineColor: {color: "#ccc"},
+            textStyle: {color: '#fff'},
+            gridlines: {color: "#39536b"},
+            baselineColor: {color: "#39536b"},
         },
-        colors: ['#001a34', '#666666'],
-        auraColor: ['#001a34', '#666666'],
+        colors: ['#fff', '#8ab3e2'],
+        auraColor: ['#11abc3', '#c7c3af'],
         series: 
         {
             0: 
@@ -651,18 +633,18 @@ function drawRelvalChart(elementID, data_values)
         legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#001a34'},
+        titleTextStyle: {color: '#fff'},
         legendTextStyle: {color: '#ccc'},
-        colors: ['001a34'],
+        colors: ['white'],
         pointSize : 10,
         hAxis: {
-            textStyle: {color: '#001a34'},
-            gridlines: {color: "#ccc"}
+            textStyle: {color: '#fff'},
+            gridlines: {color: "#39536b"}
         },
         vAxis: {
-            textStyle: {color: '#001a34'},
-            gridlines: {color: "#ccc"},
-            baselineColor: {color: "#ccc"}
+            textStyle: {color: '#fff'},
+            gridlines: {color: "#39536b"},
+            baselineColor: {color: "#39536b"}
         }
     };    
 
@@ -685,7 +667,7 @@ function GetPriceName(prices_id){
 }
 
 $(document).ready(function() {
-    /*$('.top_bg').parallax({
+    $('.top_bg').parallax({
       imageSrc: '/themes/frontend/images/economics-bg.jpg'
-    });*/
+    });
 });

@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('emfi_layout')
 
 @section('content')
 <section class="top_section top_bg bg-2 market-page" id="main">
@@ -447,5 +447,5 @@
                 }
     }    
 </script>
-<script src="{{ asset('themes/frontend/js/market.js') }}"></script>
+<script src="{{ asset('themes/emfi/js/market.js') }}"></script>
 @stop

@@ -12,6 +12,8 @@
         <link href="{{ asset('themes/emfi/css/owl.theme.default.min.css') }}" rel="stylesheet">
         <link href="{{ asset('themes/emfi/css/fonts.css') }}" rel="stylesheet">
         <link href="{{ asset('themes/emfi/css/font-awesome.min.css') }}" rel="stylesheet">
+        <link href="{{ asset("/themes/admin/assets")}}/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+        <link href="{{ asset("/themes/admin/assets")}}/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="{{ asset('themes/emfi/css/style.css') }}" rel="stylesheet">
         <link href="{{ asset('themes/emfi/css/responsive.css') }}" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700" rel="stylesheet">
@@ -31,6 +33,8 @@
         <script src="{{ asset('themes/emfi/js/bootstrap.min.js')}}"></script>
         <script src="{{ asset('themes/emfi/js/owl.carousel.min.js')}}"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+        <script src="{{ asset("/themes/admin/assets")}}/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="{{ asset('themes/emfi/js/app.js') }}"></script>
         @yield('scripts')
     </body>
