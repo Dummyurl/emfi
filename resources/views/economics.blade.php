@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('emfi_layout')
 
 @section('content')
 
@@ -336,7 +336,7 @@ foreach($country_benchmarkes as $cnt)
     <div class="container chart_section">
         <div class="row">
             <div class="col-lg-12">
-                <div id="curve_chart2" style="width: 100%; height: 480px"> </div>
+                <div id="curve_chart2" class="curve_chart" style="width: 100%; height: 480px"> </div>
                 <div class="chart_dropdown clearfix">
                     <form>
                         <div class="col-md-4">
@@ -456,5 +456,5 @@ foreach($country_benchmarkes as $cnt)
 
 @stop
 @section('scripts')
-<script src="{{ asset('themes/frontend/js/economics.js') }}"></script>
+<script src="{{ asset('themes/emfi/js/economics.js') }}"></script>
 @stop

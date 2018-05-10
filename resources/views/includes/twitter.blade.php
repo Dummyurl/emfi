@@ -25,12 +25,19 @@
                         </a>
                     </div>
                     <div class="dec_col">
-                        <div class="username">
-                            <!-- <a href="{{ $tweet['link'] }}" target="_blank">@emfisecurities</a> -->
+                        <div class="inner">
+                            <div class="content_cell">
+                                <div class="username">
+                                    <!-- <a href="{{ $tweet['link'] }}" target="_blank">@emfisecurities</a> -->
+                                </div>
+                                <!-- <div class="subtxt">#Venezuela</div> -->
+                                <p id="tweetText">{!! $tweet['comment'] !!}</p>
+                            </div>
                         </div>
-                        <!-- <div class="subtxt">#Venezuela</div> -->
-                        <p id="tweetText">{!! $tweet['comment'] !!}</p>                        
                     </div>
+
+
+
                     <div class="clearfix"></div>
                 </div>
                 <?php $i++; ?>

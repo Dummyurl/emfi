@@ -103,12 +103,12 @@ function drawRegression(data_values)
     {
         title: '',        
         tooltip: {isHtml: true},
-        legend: {textStyle: {color: '#fff'}},
-        hAxis: {title: '', titleTextStyle: {color: '#333'}},
+        legend: {textStyle: {color: '#666666'}},
+        hAxis: {title: '', titleTextStyle: {color: '#666666'}},
         backgroundColor: {fill: 'transparent'},
         hAxis: 
         {
-            textStyle: {color: '#fff'},
+            textStyle: {color: '#666666'},
             gridlines: {color: "transparent"},
             viewWindowMode:'explicit',
             viewWindow: 
@@ -119,11 +119,11 @@ function drawRegression(data_values)
         },
         vAxis: 
         {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"},
+            textStyle: {color: '#666666'},
+            gridlines: {color: "#ccc"},
+            baselineColor: {color: "#ccc"},
         },
-        colors: ['#fff', '#8ab3e2'],
+        colors: ['#001a34', '#666666'],
         auraColor: ['#11abc3', '#c7c3af'],        
         series: 
         {
@@ -211,6 +211,17 @@ function fillBanchMark(data, elementID)
 function generateLineGraph(chartType)
 {
     $benchmark = $("select#benchmark-dropdown-"+chartType).val();
+
+    if
+    (
+        $.trim($("select#benchmark-dropdown-"+chartType).val()) == 'Add Benchmark' ||
+        $.trim($("select#benchmark-dropdown-"+chartType).val()) == 'Remove Benchmark'
+    )
+    {
+
+        $benchmark = "";
+    }
+
     $priceID = $("select#price-dropdown-"+chartType).val();
     $month_id = $('select#period-month-'+chartType).val();
     $duration = $('select#duration-dropdown-'+chartType).val();
@@ -349,14 +360,14 @@ function drawChart(data_values, elementID, chartType)
         tooltip: {isHtml: true},
         legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
-        axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#fff'},
+        axisTextStyle: {color: '#001a34'},
+        titleTextStyle: {color: '#666666'},
         legendTextStyle: {color: '#ccc'},
-        colors: ['white'],
+        colors: ['#001a34'],
         pointSize : 10,
         hAxis: 
         {
-            textStyle: {color: '#fff'},
+            textStyle: {color: '#666666'},
             gridlines: {color: "transparent"},
             viewWindowMode:'explicit',
             viewWindow: 
@@ -367,9 +378,9 @@ function drawChart(data_values, elementID, chartType)
         },
         vAxis: 
         {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"},
+            textStyle: {color: '#666666'},
+            gridlines: {color: "#ccc"},
+            baselineColor: {color: "#ccc"},
             // viewWindowMode:'explicit',
             // viewWindow: 
             // {
@@ -439,14 +450,14 @@ function drawBenchmarkChart(data_values, chartType)
         //   1: {targetAxisIndex: 1}
         // },
         backgroundColor: {fill: 'transparent'},
-        axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#fff'},
+        axisTextStyle: {color: '#666666'},
+        titleTextStyle: {color: '#666666'},
         legendTextStyle: {color: '#ccc'},
         pointSize : 10,
-        colors: ['white', 'blue'],
+        colors: ['#001a34', '#666666'],
         hAxis: 
         {
-            textStyle: {color: '#fff'},
+            textStyle: {color: '#666666'},
             gridlines: {color: "transparent"},
             viewWindowMode:'explicit',
             viewWindow: 
@@ -457,9 +468,9 @@ function drawBenchmarkChart(data_values, chartType)
         },
         vAxis: 
         {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"},
+            textStyle: {color: '#666666'},
+            gridlines: {color: "#ccc"},
+            baselineColor: {color: "#ccc"},
         }
     };
     var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
@@ -510,19 +521,19 @@ function drawAreaChart(data_values) {
     {
         title: '',
         legend: 'none',
-        hAxis: {title: '', titleTextStyle: {color: '#333'}},
+        hAxis: {title: '', titleTextStyle: {color: '#666666'}},
         // vAxis: {minValue: 0},
         backgroundColor: {fill: 'transparent'},
         hAxis: 
         {
-            textStyle: {color: '#fff'},
+            textStyle: {color: '#666666'},
             gridlines: {color: "transparent",count: 12}
         },
         vAxis: 
         {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"},
+            textStyle: {color: '#666666'},
+            gridlines: {color: "#ccc"},
+            baselineColor: {color: "#ccc"},
             // viewWindowMode:'explicit',
             // viewWindow: 
             // {
@@ -530,8 +541,8 @@ function drawAreaChart(data_values) {
             //     max: $maxVal       
             // }            
         },
-        colors: ['#fff', '#8ab3e2'],
-        auraColor: ['#11abc3', '#c7c3af'],
+        colors: ['#001a34', '#666666'],
+        auraColor: ['#001a34', '#666666'],
     };
 
     var chart = new google.visualization.AreaChart(document.getElementById(elementID));
@@ -695,19 +706,19 @@ function drawChart2(data_values, elementID)
         },
         legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
-        axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#fff'},
+        axisTextStyle: {color: '#001a34'},
+        titleTextStyle: {color: '#666666'},
         legendTextStyle: {color: '#ccc'},
-        colors: ['white'],
+        colors: ['#001a34'],
         hAxis: {
-            textStyle: {color: '#fff'},
+            textStyle: {color: '#666666'},
             gridlines: {color: "transparent",count: 12}
         },
         vAxis: 
         {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"},
+            textStyle: {color: '#666666'},
+            gridlines: {color: "#ccc"},
+            baselineColor: {color: "#ccc"},
             // viewWindowMode:'explicit',
             // viewWindow: 
             // {
@@ -810,19 +821,19 @@ function drawBenchmarkChart2(data_values)
         },
         legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
-        axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#fff'},
+        axisTextStyle: {color: '#001a34'},
+        titleTextStyle: {color: '#666666'},
         legendTextStyle: {color: '#ccc'},
-        colors: ['white', 'blue'],
+        colors: ['#001a34', '#666666'],
         hAxis: {
-            textStyle: {color: '#fff'},
+            textStyle: {color: '#666666'},
             gridlines: {color: "transparent",count: 12}
         },
         vAxis: 
         {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"},
+            textStyle: {color: '#666666'},
+            gridlines: {color: "#ccc"},
+            baselineColor: {color: "#ccc"},
         }
     };    
 
@@ -832,9 +843,9 @@ function drawBenchmarkChart2(data_values)
 
 $(document).ready(function() {
 
-    $('.top_bg').parallax({
+/*    $('.top_bg').parallax({
       imageSrc: '/themes/frontend/images/economics-bg.jpg'
-    });
+    });*/
 
     $(document).on("change", "select#country-combo", function () {
         window.location = '/'+$('#main_lang').val()+'/'+$(this).val();

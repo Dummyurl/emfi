@@ -82,7 +82,7 @@
                             <li><a href="{{ url(getLangName().'/about')}}#presence">{{ __('header.presence') }}</a></li>
                         </ul>
                     </li>
-                    <li class="{{ \Request::is(getLangName().'/contact') ? 'active':'' }} dropdown">
+                    <li class="{{ \Request::is(getLangName().'/contact',getLangName().'/contact/*') ? 'active':'' }} dropdown">
                         <a href="{{ url(getLangName().'/contact/enquiry')}}">{{ __('header.contact') }}</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ url(getLangName().'/contact/enquiry')}}">{{ __('header.enquiry') }}</a></li>
