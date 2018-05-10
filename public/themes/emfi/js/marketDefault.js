@@ -20,12 +20,12 @@ function initChart()
 
     var top_loser_data = JSON.parse($("#chart-data-loser").html());
     top_loser_data = JSON.parse(top_loser_data);
-    
-    drawBarChart(top_gainer_data, "bar_chart", "Gainer");
-    drawBarChart(top_loser_data, "bar_chart2", "Loser");        
 
-    global_secure_id = 30; 
-    loadMarketHistory();    
+    drawBarChart(top_gainer_data, "bar_chart", "Gainer");
+    drawBarChart(top_loser_data, "bar_chart2", "Loser");
+
+    global_secure_id = 30;
+    loadMarketHistory();
 
     // drawTreetChart([], 'treechart_div2');
     // initBarCharts();
@@ -46,7 +46,7 @@ function initRelvalChart()
     $.ajax({
         type: "POST",
         url: $url,
-        data: 
+        data:
         {
                relvalMonth: $relvalMonth,
                relvalPrice: $relvalPrice,
@@ -59,36 +59,36 @@ function initRelvalChart()
             if (result.status == 1)
             {
                 drawRelvalChart(result.data);
-            } 
+            }
             else
             {
                 $.bootstrapGrowl(result.msg, {type: 'danger', delay: 4000});
             }
         },
-        error: function (error) 
+        error: function (error)
         {
             $('#AjaxLoaderDiv').fadeOut('slow');
             $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
         }
-    });    
+    });
 
 }
 
 function drawBenchmarkChart(data_values, elementID)
 {
     var tmpValues = [];
-    var tmpValues2 = [];    
+    var tmpValues2 = [];
     result = data_values;
     data_values = data_values.data
     $columnTitle = "";
     $columnTitle2 = "";
 
     var formatedData = [];
-    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}, {label: $columnTitle2, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);    
+    formatedData.push(["", {label:$columnTitle, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}, {label: $columnTitle2, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);
     for(var i in data_values.benchmark_history_data)
     {
        var d = new Date(data_values.benchmark_history_data[i][3]);
-       var $created = d; 
+       var $created = d;
 
        var html1 = "<p style='white-space: nowrap;padding: 3px;'>"+result.title + "<br /> <b>" + data_values.benchmark_history_data[i][0] + ", " + data_values.benchmark_history_data[i][1] + "</b>"+"</p>";
        var html2 = "<p style='white-space: nowrap;padding: 3px;'>"+$("select#benchmark-dropdown option:selected").text() + "<br /> <b>" + data_values.benchmark_history_data[i][0] + ", " + data_values.benchmark_history_data[i][2] + "</b>"+"</p>";
@@ -100,13 +100,13 @@ function drawBenchmarkChart(data_values, elementID)
        (
             [
                 {f: data_values.benchmark_history_data[i][0], v: $created},
-                data_values.benchmark_history_data[i][1], 
+                data_values.benchmark_history_data[i][1],
                 html1,
                 data_values.benchmark_history_data[i][2],
                 html2
             ]
-       );        
-    }   
+       );
+    }
 
     $minVal = 0;
     $maxVal = 5;
@@ -121,7 +121,7 @@ function drawBenchmarkChart(data_values, elementID)
     }
 
     $minVal = getRoundedMinValueForYBenchmark($minVal);
-    $maxVal = getRoundedMaxValueForYBenchmark($maxVal);    
+    $maxVal = getRoundedMaxValueForYBenchmark($maxVal);
 
     if(tmpValues2.length > 0)
     {
@@ -134,42 +134,42 @@ function drawBenchmarkChart(data_values, elementID)
     var data = google.visualization.arrayToDataTable(formatedData);
 
 
-    var options = 
+    var options =
     {
         title: '',
         curveType: 'function',
         legend: {position: 'none'},
         tooltip: {isHtml: true},
-        // vAxes: 
+        // vAxes:
         // {
         //     0:
         //     {
         //         viewWindowMode:'explicit',
-        //         viewWindow: 
+        //         viewWindow:
         //         {
         //             min: $minVal,
-        //             max: $maxVal,       
+        //             max: $maxVal,
         //             minValue: $minVal,
-        //             maxValue: $maxVal,       
-        //         }                                                        
+        //             maxValue: $maxVal,
+        //         }
         //     },
         //     1:
         //     {
         //         gridlines: {color: "transparent"},
         //         viewWindowMode:'explicit',
-        //         viewWindow: 
+        //         viewWindow:
         //         {
         //             min: $minVal2,
         //             max: $maxVal2,
         //             minValue: $minVal2,
-        //             maxValue: $maxVal2,                           
-        //         }                                                        
+        //             maxValue: $maxVal2,
+        //         }
         //     }
-        // },        
+        // },
         series: {
           0: {targetAxisIndex: 0},
           1: {targetAxisIndex: 1}
-        },        
+        },
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#001a34'},
         titleTextStyle: {color: '#001a34'},
@@ -182,7 +182,7 @@ function drawBenchmarkChart(data_values, elementID)
         vAxis: {
             textStyle: {color: '#001a34'},
             gridlines: {color: "#ccc"},
-            baselineColor: {color: "#ccc"},            
+            baselineColor: {color: "#ccc"},
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
@@ -207,7 +207,7 @@ function loadMarketHistory()
     {
         $('html, body').animate({
                 scrollTop: $("#linegraph-data").offset().top - 30
-        }, 600);                        
+        }, 600);
     }
     first_time_click_security++;
 
@@ -238,13 +238,13 @@ function loadMarketHistory()
                         $("#price-dropdown option[value=3]").hide();
                         if($("#price-dropdown").val() == 3)
                         {
-                            $("#price-dropdown").val(1);                        
+                            $("#price-dropdown").val(1);
                         }
-                    }   
+                    }
                     else
                     {
                         $("#price-dropdown option[value=3]").show();
-                    } 
+                    }
                 }
             }
             else
@@ -260,7 +260,7 @@ function loadMarketHistory()
     });
 }
 
-function drawRelvalChart(data_values) 
+function drawRelvalChart(data_values)
 {
     // console.log("values");
     // console.log(data_values);
@@ -275,7 +275,7 @@ function drawRelvalChart(data_values)
     // if(counter > 0)
     // {
     //     formatedData.push(["", ""]);
-        
+
     //     for(var i in data_values)
     //     {
     //         var prices = [];
@@ -283,16 +283,16 @@ function drawRelvalChart(data_values)
     //         for(j in data_values[i])
     //         {
     //             prices.push(data_values[i][j]);
-    //         }  
+    //         }
 
-    //         formatedData.push(i, prices);            
-    //     }        
-    // }   
+    //         formatedData.push(i, prices);
+    //     }
+    // }
     // else
     // {
     //     formatedData.push(["", ""]);
     //     formatedData.push(["", 0]);
-    // } 
+    // }
 
     // console.log(formatedData);
 
@@ -304,7 +304,7 @@ function drawRelvalChart(data_values)
         data.addColumn('number', '');
         data.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
         // data.addColumn({type: 'string', role: 'annotation', 'p': {'html': true}});
-    }    
+    }
 
     for(var i in data_values)
     {
@@ -315,18 +315,18 @@ function drawRelvalChart(data_values)
 
 
         for(j in data_values[i])
-        {   
-            prices.push(parseFloat(data_values[i][j]['price']));                     
-            var html = '<p style="white-space: nowrap;padding: 3px;"><b>'+data_values[i][j]['country_title']+'</b><br />'+i+', '+parseFloat(data_values[i][j]['price'])+'</p>';    
+        {
+            prices.push(parseFloat(data_values[i][j]['price']));
+            var html = '<p style="white-space: nowrap;padding: 3px;"><b>'+data_values[i][j]['country_title']+'</b><br />'+i+', '+parseFloat(data_values[i][j]['price'])+'</p>';
             prices.push(html);
             var html = data_values[i][j]['country_code'];
             // prices.push(html);
             cnt++;
-        }  
+        }
 
         for(k = cnt+1;k<=1000;k++)
         {
-            prices.push(null);            
+            prices.push(null);
             prices.push('');
             // prices.push('');
         }
@@ -334,8 +334,8 @@ function drawRelvalChart(data_values)
         data.addRow(prices);
 
         // data.addRow([i, prices]);
-        // formatedData.push(i, prices);            
-    }        
+        // formatedData.push(i, prices);
+    }
 
 
     // data.addRows([
@@ -360,7 +360,7 @@ function drawRelvalChart(data_values)
 
     // var data = google.visualization.arrayToDataTable(formatedData);
 
-    var options = {        
+    var options = {
         curveType: 'function',
         tooltip: {isHtml: true},
         legend: {position: 'none'},
@@ -370,22 +370,22 @@ function drawRelvalChart(data_values)
         legendTextStyle: {color: '#ccc'},
         colors: ['white'],
         pointSize : 10,
-        hAxis: 
+        hAxis:
         {
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
-            annotations: 
+            annotations:
             {
                 color: '#337ab7'
-            }    
+            }
         },
-        vAxis: 
+        vAxis:
         {
             textStyle: {color: '#fff'},
             gridlines: {color: "#39536b"},
             baselineColor: {color: "#39536b"}
         }
-    };    
+    };
 
     var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
     chart.draw(data, options);
@@ -449,13 +449,13 @@ function drawChart(data_values, elementID)
 
     $columnTitle = "";
 
-    
-    // 
+
+    //
 
     if (counter > 0)
     {
         $columnTitle = $columnTitle + " "+$("select#price-dropdown option:selected").data("title");
-        // alert("Title: " + $columnTitle); 
+        // alert("Title: " + $columnTitle);
         formatedData.push([$columnTitle, $columnTitle,{label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);
         var j = 1;
         for (var i in data_values)
@@ -467,22 +467,22 @@ function drawChart(data_values, elementID)
             if($("select#price-dropdown").val() != 1)
             {
                 if($("select#price-dropdown").val() == 2)
-                {   
+                {
                     tmpValues.push(parseFloat(data_values[i]['YLD_YTM_MID']));
-                    var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['YLD_YTM_MID'] + "</b>"+"</p>";     
+                    var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['YLD_YTM_MID'] + "</b>"+"</p>";
                     formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['YLD_YTM_MID']),html]);
-                }    
+                }
                 else if ($("select#price-dropdown").val() == 3)
-                {    
+                {
                     tmpValues.push(parseFloat(data_values[i]['Z_SPRD_MID']));
-                    var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['YLD_YTM_MID'] + "</b>"+"</p>";    
+                    var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['YLD_YTM_MID'] + "</b>"+"</p>";
                     formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['Z_SPRD_MID']),html]);
-                }    
-            } 
+                }
+            }
             else
             {
                 tmpValues.push(parseFloat(data_values[i]['last_price']));
-                var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['last_price'] + "</b>"+"</p>"; 
+                var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values[i]['title'] + "<br /> <b>" + data_values[i]['created_format'] + ", " + data_values[i]['last_price'] + "</b>"+"</p>";
                 formatedData.push([{f: data_values[i]['created_format'], v:$created}, parseFloat(data_values[i]['last_price']),html]);
             }
 
@@ -505,7 +505,7 @@ function drawChart(data_values, elementID)
     }
 
     $minVal = getRoundedMinValueForY($minVal);
-    $maxVal = getRoundedMaxValueForY($maxVal);    
+    $maxVal = getRoundedMaxValueForY($maxVal);
 
     var data = google.visualization.arrayToDataTable(formatedData);
 
@@ -528,11 +528,11 @@ function drawChart(data_values, elementID)
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
             // viewWindowMode:'explicit',
-            // viewWindow: 
+            // viewWindow:
             // {
             //     min: $minVal,
-            //     max: $maxVal       
-            // }                                                
+            //     max: $maxVal
+            // }
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
@@ -575,19 +575,19 @@ function drawBarChart(data_values, elementID, chartType) {
         {
             global_gainer_data = [];
             formatedData.push([$columnTitle, {label:'', type:'number'},{type: 'string', role: 'tooltip'}]);
-        }    
+        }
         else
         {
             global_loser_data = [];
-            formatedData.push([$columnTitle, {label:'', type:'number'},{type: 'string', role: 'tooltip'}]);    
-        }        
-        
+            formatedData.push([$columnTitle, {label:'', type:'number'},{type: 'string', role: 'tooltip'}]);
+        }
+
         for (var i in data_values)
         {
             $per = parseFloat(data_values[i]['percentage_change']).toFixed(2);
 
             $title = data_values[i]['title'];
-            $title = $title.replace("&amp;", "&");            
+            $title = $title.replace("&amp;", "&");
 
             if(elementID != "bar_chart")
             {
@@ -598,15 +598,15 @@ function drawBarChart(data_values, elementID, chartType) {
             else
             {
                 formatedData.push([$title, $per, $title + ": "+$per+" %"]);
-            }            
+            }
 
             if(elementID == "bar_chart")
             global_gainer_data[$title] = data_values[i]['id'];
             else
-            global_loser_data[$title] = data_values[i]['id'];    
+            global_loser_data[$title] = data_values[i]['id'];
 
-        }            
-    } 
+        }
+    }
     else
     {
         formatedData.push(["", "",{type: 'string', role: 'tooltip'}]);
@@ -623,6 +623,12 @@ function drawBarChart(data_values, elementID, chartType) {
             subtitle: '',
         },
         bars: 'horizontal', // Required for Material Bar Charts.
+		bar : { groupWidth : "50%"},
+        chartArea:{
+                height : "75%",
+                width : "60%",
+                left : 150
+        },
         colors: ['#001a34'],
         backgroundColor: {fill: 'transparent'},
         legend: {position: 'none'},
@@ -630,42 +636,42 @@ function drawBarChart(data_values, elementID, chartType) {
                 {
                     textStyle: {color: '#666666'},
                     gridlines: {color: "#ccc"},
-                    baselineColor: '#ccc',                    
+                    baselineColor: '#ccc',
                     direction: -1,
                 },
-        vAxis: 
+        vAxis:
         {
             textStyle: {color: '#666666'},
             gridlines: {color: "#ccc"},
         }
     };
 
-    // alert("ok")    
+    // alert("ok")
 
     var chart = new google.charts.Bar(document.getElementById(elementID));
     chart.draw(data, google.charts.Bar.convertOptions(options));
     google.visualization.events.addListener(chart, 'select', function() {
-        
+
         var selection = chart.getSelection();
         var category;
-        
+
         category = '';
-        
-        for (var i = 0; i < selection.length; i++) 
+
+        for (var i = 0; i < selection.length; i++)
         {
             var item = selection[i];
             category = data.getValue(chart.getSelection()[0].row, 0);
-        }       
+        }
 
         if(elementID == "bar_chart")
         {
             if (typeof global_gainer_data[category] !== 'undefined')
             {
                 resetFields();
-                global_secure_id = global_gainer_data[category]; 
+                global_secure_id = global_gainer_data[category];
                 loadMarketHistory();
-            }                
-        }    
+            }
+        }
         else
         {
             if (typeof global_loser_data[category] !== 'undefined')
@@ -673,9 +679,9 @@ function drawBarChart(data_values, elementID, chartType) {
                 resetFields();
                 global_secure_id = global_loser_data[category];
                 loadMarketHistory();
-            }                 
-        }        
-    });        
+            }
+        }
+    });
 
 }
 
@@ -687,7 +693,7 @@ $(document).ready(function () {
 
     $('select#markets').select2({
         allowClear: true,
-        multiple: false,    
+        multiple: false,
     });
 
     $(document).on("change", "select#markets", function () {
@@ -698,7 +704,7 @@ $(document).ready(function () {
     $(document).on("click", ".view-security-chart", function () {
         global_secure_id = $(this).data("id");
         resetFields();
-        loadMarketHistory();        
+        loadMarketHistory();
     });
 
     $(document).on("change", "select#period-month", function () {
@@ -723,4 +729,4 @@ $(document).ready(function () {
         loadMarketHistory();
     });
 
-});	
+});
