@@ -3,11 +3,11 @@
         <div class="container">
             <ul class="rightlinks">
                 <li class="dropdown">
-                    <a title="Change Language" 
-                        onclick="window.location='{{ session('locale') == "es" ? url('change-language/en'):url('change-language/es')}}';" 
-                        href="{{ session('locale') == "es" ? url('change-language/en'):url('change-language/es')}}" 
+                    <a title="Change Language"
+                        onclick="window.location='{{ session('locale') == "es" ? url('change-language/en'):url('change-language/es')}}';"
+                        href="{{ session('locale') == "es" ? url('change-language/en'):url('change-language/es')}}"
                         class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        
+
                         @if(session('locale') == "es")
                             ESPAÑOL
                         @else
@@ -15,7 +15,7 @@
                         @endif
                     </a>
                     <ul class="dropdown-menu">
-                        
+
                         @if(session('locale') == "es")
                             <li><a title="Change Language" href="{{ url('change-language/en') }}">ENGLISH</a></li>
                         @else
@@ -23,10 +23,10 @@
                         @endif
                     </ul>
                 </li>
-                
-                <li> 
-                        <a href="#" class="login_btn">
-                            {{ __('header.login') }}                        
+
+                <li>
+                        <a href="https://login.emfiprime.com/login" class="login_btn">
+                            {{ __('header.login') }}
                         </a>
                 </li>
             </ul>
@@ -34,10 +34,10 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
                 <a class="navbar-brand white" href="{{ url(getLangName()) }}">
                     <img src="{{ asset('themes/emfi/images/emfi-logo.png') }}" />
-                </a> 
+                </a>
                 <a class="navbar-brand dark" href="{{ url(getLangName()) }}">
                     <img src="{{ asset('themes/emfi/images/emfi-logo-dark.png') }}" alt="EMFI Securities" />
-                </a> 
+                </a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -91,7 +91,7 @@
                             <li><a href="{{ url(getLangName().'/contact/careers')}}">{{ __('header.careers') }}</a></li>
                             <li><a href="{{ url(getLangName().'/contact/locations')}}">{{ __('header.locations') }}</a></li>
                         </ul>
-                    </li>                    
+                    </li>
                 </ul>
             </div>
         </div>
