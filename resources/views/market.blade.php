@@ -368,21 +368,17 @@
         [
                 ['Country', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
                 ['Global', null, 0, 0],
-                ['Equities', 'Global', 0, 0],
-                ['Credit', 'Global', 0, 0],
-                @foreach($equities['countries'] as $k => $v)
-                @foreach($equities['countries'][$k]['records'] as $r)
-                    [{v: '{{ $r['id'] }} - Equities', f:'{{ $equities['countries'][$k]['title'] }}'}, 'Equities', 0, 0],
-                    [{v: '{{ $r['id'] }}', f:'{{ $r['data']['title'] }}'}, '{{ $r['id'] }} - Equities', {{ $r['data']['market_size'] }}, {{ $r['data']['percentage_change'] }}],
-                @endforeach
-                @endforeach
-                @foreach($credits['countries'] as $k => $v)
-                    [{v:'{{ $credits['countries'][$k]['title'] }} - Credit', f:'{{ $credits['countries'][$k]['title'] }}'}, 'Credit', 0, 0],
-                @foreach($credits['countries'][$k]['records'] as $r)
-                    [{v: '{{ $r['id'] }}', f:'{{ $r['data']['title'] }}'}, '{{ $credits['countries'][$k]['title'] }} - Credit', {{ $r['data']['market_size'] }}, {{ $r['data']['percentage_change'] }}],
-                @endforeach
-                @endforeach
-                ];
+                @if($selected_market == 1)
+                    @foreach($treeMapData as $r)
+                        [{v: '{{ $r['id'] }}', f:'{{ $r['country_name'] }}'}, 'Global', {{ $r['market_size'] }}, {{ $r['percentage_change'] }}],
+                    @endforeach
+                @else
+                    @foreach($treeMapData as $r)
+                        [{v: '{{ $r['id'] }}', f:'{{ $r['country_name'] }}'}, 'Global', {{ $r['market_size'] }}, {{ $r['percentage_change'] }}],
+                    @endforeach
+                    
+                @endif
+        ];
                 if(elementID == "treechart_div")
                 {
                         dataChart1 = google.visualization.arrayToDataTable(dataTemp);
@@ -397,9 +393,9 @@
                                 // minColor: '#ccc',
                                 // midColor: '#051b34',
                                 // maxColor: '#051b34',
-                                minColor: '#5c5959',
-                                midColor: '#5c5959',
-                                maxColor: '#051b34',
+                                minColor: '#ccc',
+                                //midColor: '#5c5959',
+                                maxColor: '#001a34',            
                                 fontColor: 'white',
                                 // minColorValue: 0,
                                 // maxColorValue: 100,
@@ -440,12 +436,6 @@
                                 }, 600);
                             }
                         });
-
-                        @if($selected_market == 1)
-                            treeObject.setSelection([{row:1,column: 0}]);
-                        @else
-                            treeObject.setSelection([{row:2,column: 0}]);
-                        @endif
                 }
     }
 </script>

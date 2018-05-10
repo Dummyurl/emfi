@@ -1,3 +1,6 @@
+$("body").scrollspy({
+    offset: 71
+});
 $(document).ready(function () {
     $('.top_bg').parallax({
         imageSrc: '/themes/frontend/images/economics-bg.jpg'
@@ -8,9 +11,11 @@ $(document).ready(function () {
             event.preventDefault();
             var hash = this.hash;
             $('html, body').animate({
-                scrollTop: $(hash).offset().top - 70
-                }, 800);
-        }
+                scrollTop: $(hash).offset().top
+                }, 800, function(){
+                window.location.hash = hash;
+            });
+         }
      });
 
     $('#careers_form').submit(function()

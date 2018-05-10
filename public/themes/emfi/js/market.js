@@ -305,20 +305,20 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
           1: {targetAxisIndex: 1}
         },        
         backgroundColor: {fill: 'transparent'},
-        axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#fff'},
+        axisTextStyle: {color: '#666666'},
+        titleTextStyle: {color: '#666666'},
         legendTextStyle: {color: '#ccc'},
-        colors: ['white', 'blue'],
+        colors: ['#001a34', '#666666'],
         hAxis: 
         {
-            textStyle: {color: '#fff'},
+            textStyle: {color: '#666666'},
             gridlines: {color: "transparent",count: 12}
         },
         vAxis: 
         {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"},
+            textStyle: {color: '#666666'},
+            gridlines: {color: "#ccc"},
+            baselineColor: {color: "#ccc"},
         }
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
@@ -418,19 +418,19 @@ function drawChart(data_values, elementID, fromBenchMark)
         legend: {position: 'none'},
         tooltip: {isHtml: true},
         backgroundColor: {fill: 'transparent'},
-        axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#fff'},
+        axisTextStyle: {color: '#666666'},
+        titleTextStyle: {color: '#666666'},
         legendTextStyle: {color: '#ccc'},
-        colors: ['white'],
+        colors: ['#001a34'],
         hAxis: 
         {
-            textStyle: {color: '#fff'},
+            textStyle: {color: '#666666'},
             gridlines: {color: "transparent",count: 12}
         },
         vAxis: {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"},
+            textStyle: {color: '#666666'},
+            gridlines: {color: "#ccc"},
+            baselineColor: {color: "#ccc"},
             // viewWindowMode:'explicit',
             // viewWindow: 
             // {
@@ -591,20 +591,20 @@ function drawRelvalChart(data_values)
         legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
         axisTextStyle: {color: '#344b61'},
-        titleTextStyle: {color: '#fff'},
+        titleTextStyle: {color: '#001a34'},
         legendTextStyle: {color: '#ccc'},
-        colors: ['white'],
+        colors: ['#001a34'],
         pointSize : 10,
         hAxis: 
         {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"}
+            textStyle: {color: '#001a34'},
+            gridlines: {color: "#ccc"}
         },
         vAxis: 
         {
-            textStyle: {color: '#fff'},
-            gridlines: {color: "#39536b"},
-            baselineColor: {color: "#39536b"}
+            textStyle: {color: '#001a34'},
+            gridlines: {color: "#ccc"},
+            baselineColor: {color: "#ccc"}
         }
     };    
 

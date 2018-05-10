@@ -32,7 +32,7 @@
               <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body data-spy='scroll' data-target='.navbar' >
+    <body data-spy='scroll' data-target='.navbar' data-offset='50'>
         @include('includes.header')
         @yield('content')
         @include('includes.footer')

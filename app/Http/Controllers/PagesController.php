@@ -177,20 +177,25 @@ class PagesController extends Controller {
                 $data['selected_market'] = $market_type_id;
                 $data['last_update_date'] = getLastUpdateDate();
 
+                if($market_type_id == 1){
+                    $treeMapData = callCustomSP('CALL select_market_tree_map_data(1)');
+                } else {
+                    $treeMapData = callCustomSP('CALL select_market_tree_map_data(5)');
+                }
+                $data['treeMapData'] = $treeMapData;
                 // Get Tree Map Data
-                $treeMapData = callCustomSP('CALL select_analyzer_tree_map_data(0)');
+                // $treeMapData = callCustomSP('CALL select_analyzer_tree_map_data(0)');
                 $equities = [];
                 $credits = [];
                 foreach ($treeMapData as $r) {
-                    if ($r['market_id'] == 5) {
-                        $credits['countries'][$r['country']]['title'] = $r['country_name'];
-                        $credits['countries'][$r['country']]['records'][] = ['id' => $r['id'], 'security_name' => $r['security_name'], 'data' => $r];
-                    } else {
+                    if ($r['market_id'] == 1) {
                         $equities['countries'][$r['country']]['title'] = $r['country_name'];
                         $equities['countries'][$r['country']]['records'][] = ['id' => $r['id'], 'security_name' => $r['security_name'], 'data' => $r];
+                    } else {
+                        $credits['countries'][$r['country']]['title'] = $r['country_name'];
+                        $credits['countries'][$r['country']]['records'][] = ['id' => $r['id'], 'security_name' => $r['security_name'], 'data' => $r];
                     }
                 }
-
                 $data['equities'] = $equities;
                 $data['credits'] = $credits;
 
@@ -452,8 +457,10 @@ class PagesController extends Controller {
         $data['selected_market'] = $market_type_id;
         $data['last_update_date'] = getLastUpdateDate();
 
+        
         // Get Tree Map Data
         $treeMapData = callCustomSP('CALL select_analyzer_tree_map_data(0)');
+
         $equities = [];
         $credits = [];
         foreach ($treeMapData as $r) {

@@ -89,124 +89,74 @@
   <div class="container">
   <h2>Team</h2>
     <div class="row">
-    <div class="col-md-3 col-sm-6">
+    <div class="col-md-4 col-sm-6">
       <div class="team_block">
-        <figure><img src="/themes/emfi/images/team-member-1.jpg" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/no-image.png" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
-        <a href="#">linkedin</a></div>
+        <a href="#">LinkedIn Profile</a></div>
     </div>
-    <div class="col-md-3 col-sm-6">
+    <div class="col-md-4 col-sm-6">
       <div class="team_block">
-        <figure><img src="/themes/emfi/images/team-member-2.jpg" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/no-image.png" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
-        <a href="#">linkedin</a></div>
+        <a href="#">LinkedIn Profile</a></div>
     </div>
-    <div class="col-md-3 col-sm-6">
+    <div class="col-md-4 col-sm-6">
       <div class="team_block">
-        <figure><img src="/themes/emfi/images/team-member-3.jpg" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/no-image.png" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
-        <a href="#">linkedin</a></div>
+        <a href="#">LinkedIn Profile</a></div>
     </div>
-    <div class="col-md-3 col-sm-6">
+    
+    <div class="col-md-4 col-sm-6">
       <div class="team_block">
-        <figure><img src="/themes/emfi/images/team-member-1.jpg" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/no-image.png" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
-        <a href="#">linkedin</a></div>
+        <a href="#">LinkedIn Profile</a></div>
     </div>
-    <div class="col-md-3 col-sm-6">
+    <div class="col-md-4 col-sm-6">
       <div class="team_block">
-        <figure><img src="/themes/emfi/images/team-member-1.jpg" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/no-image.png" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
-        <a href="#">linkedin</a></div>
+        <a href="#">LinkedIn Profile</a></div>
     </div>
-    <div class="col-md-3 col-sm-6">
+    <div class="col-md-4 col-sm-6">
       <div class="team_block">
-        <figure><img src="/themes/emfi/images/team-member-2.jpg" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/no-image.png" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
-        <a href="#">linkedin</a></div>
+        <a href="#">LinkedIn Profile</a></div>
     </div>
-    <div class="col-md-3 col-sm-6">
+    
+    <div class="col-md-4 col-sm-6">
       <div class="team_block">
-        <figure><img src="/themes/emfi/images/team-member-3.jpg" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/no-image.png" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
-        <a href="#">linkedin</a></div>
+        <a href="#">LinkedIn Profile</a></div>
     </div>
-    <div class="col-md-3 col-sm-6">
+    <div class="col-md-4 col-sm-6">
       <div class="team_block">
-        <figure><img src="/themes/emfi/images/team-member-1.jpg" alt="Frank Sinatra - Project Manager"></figure>
+        <figure><img src="/themes/emfi/images/no-image.png" alt="Frank Sinatra - Project Manager"></figure>
         <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
-        <a href="#">linkedin</a></div>
+        <a href="#">LinkedIn Profile</a></div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+      <div class="team_block">
+        <figure><img src="/themes/emfi/images/no-image.png" alt="Frank Sinatra - Project Manager"></figure>
+        <h3>Frank Sinatra</h3>
+        <h4>Project Manager</h4>
+        <a href="#">LinkedIn Profile</a></div>
     </div>
   </div>
   </div>
 </section>
-<!--
-<section class="team_member info_featured_block">
-  <div class="" id="team">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 col-md-push-6 bgcover imgcol  team-member-1"></div>
-        <div class="col-md-6 col-md-pull-6 txtcol">
-          <div class="">
-            <h5 class="">Frank Sinatra</h5>
-            <h6 class="">Project Manager</h6>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 bgcover imgcol  team-member-2"></div>
-        <div class="col-md-6 txtcol">
-          <div class="">
-            <h5 class="">Jason Adams</h5>
-            <h6 class="">Project Manager</h6>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-md-push-6 bgcover imgcol  team-member-3"></div>
-        <div class="col-md-6 col-md-pull-6 txtcol">
-          <div class="">
-            <h5 class="">Jason Adams</h5>
-            <h6 class="">Project Manager</h6>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section> -->
-<!-- <section class="info_featured_block services">
-  <div class="container">
-    <div class="row">
-      <div class="title">
-        <h2>{{ __('about.services') }}</h2>
-        <span>{{ __('about.what_we_serve') }}</span> </div>
-      <div class="col-md-6 col-md-push-6 bgcover imgcol  about-img4"></div>
-      <div class="col-md-6 col-md-pull-6 txtcol">
-        <h2>{{ __('about.electronic_execution') }}</h2>
-        <p>{{ __('about.electronic_execution_1') }}.</p>
-        <p>{{ __('about.electronic_execution_2') }}.</p>
-        <p>{{ __('about.electronic_execution_3') }}.</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6 bgcover imgcol about-img5"> </div>
-      <div class="col-md-6 txtcol">
-        <h2>{{ __('about.voice_trading') }}</h2>
-        <p>{{ __('about.voice_trading_1') }}.</p>
-        <p>{{ __('about.voice_trading_2') }}.</p>
-        <p>{{ __('about.voice_trading_3') }}.</p>
-      </div>
-    </div>
-  </div>
-</section> -->
 <section class="info_block_new">
   <div id="clients">
     <div class="container">

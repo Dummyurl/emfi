@@ -72,6 +72,7 @@ function getHeight()
         var vpHeight = $(window).height();
         var ht1 = vpHeight - 70;
         $('.home_slider').css('height', ht1 + 'px').css('padding-top', (ht1 / 2) + 'px');
+		$('.geo_chart').css('height', vpHeight + 'px');
     }
 }
 
@@ -80,6 +81,7 @@ $(window).on('resize', function () {
     if ($(window).width() < 1280) 
     {
         $('.home_slider').css('height', 'auto').css('padding-top', 'inherit');
+		$('.geo_chart').css('height', 'auto');
     }
 });
 

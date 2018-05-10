@@ -186,6 +186,13 @@ background-color:rgba(247,247,247,0.9);
 	min-height:250px;
 }
 .chart_dropdown > form > div.pull-right{ float:none !important;}
+.home_slider .text_right {
+	padding: 10px 0 0 0;
+	height:auto;
+	overflow-y:visible;
+	padding-bottom:15px;
+}
+.home_slider.services{margin-top:70px;}
 } /* --- 991px end --- */
 
 @media (max-width: 767px) {

@@ -61,7 +61,8 @@ function drawChart(country_data)
         backgroundColor: '#fff',
         keepAspectRatio: false,
         width: '100%',
-        colorAxis: {colors: ['#5c5959', '#051b34']}
+        colorAxis: {colors: ['#ccc', '#001a34']},
+        datalessRegionColor: '#fafafa',
         // colorAxis: 
         // {
         //      values: values_data,

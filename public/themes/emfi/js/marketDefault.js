@@ -623,12 +623,6 @@ function drawBarChart(data_values, elementID, chartType) {
             subtitle: '',
         },
         bars: 'horizontal', // Required for Material Bar Charts.
-		bar : { groupWidth : "50%"},
-        chartArea:{
-                height : "75%",
-                width : "60%",
-                left : 150
-        },
         colors: ['#001a34'],
         backgroundColor: {fill: 'transparent'},
         legend: {position: 'none'},
