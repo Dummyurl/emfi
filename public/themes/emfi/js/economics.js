@@ -1,4 +1,4 @@
-google.charts.load('current', {'packages': ['corechart']});
+google.charts.load('current', {'packages': ['corechart','treemap']});
 google.charts.setOnLoadCallback(initChart);
 
 var global_market_id;
@@ -40,6 +40,8 @@ function initChart()
     
     $(".generate-bond-chart.b10:first").trigger("click");
     // $(".market-action:first").trigger("click");
+
+    drawTreetChart('treechart_div');
 }
 
 

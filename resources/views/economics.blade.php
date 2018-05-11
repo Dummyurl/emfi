@@ -87,6 +87,13 @@ foreach($country_benchmarkes as $r)
     </div>
 </section>
 
+<div class="treechart"></div>
+<section class="full_chart_wrapper">
+    <div class="container">
+        <div id="treechart_div" style="width: 100%;height: 450px;"></div>
+    </div>
+</section>
+
 
 <div id="linegraph-data"></div>
 
@@ -457,4 +464,88 @@ foreach($country_benchmarkes as $cnt)
 @stop
 @section('scripts')
 <script src="{{ asset('themes/emfi/js/economics.js') }}"></script>
+<script type="text/javascript">
+    // alert("OK");
+    var treeObject, treeObject2, dataChart1, dataChart2;
+    var dataTemp;
+    function drawTreetChart(elementID)
+    {
+        if($("#"+elementID).size() > 0)
+        {
+            dataTemp =
+            [
+                    ['Country', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
+                    ['Global', null, 0, 0],
+                    @foreach($treeMapData as $key => $r)
+                        <?php $r = $treeMapData[$key]; ?>
+                        [{v: '{{ $key }}', f:'{{ $r['security_name'] }}'}, 'Global', {{ $r['market_size'] }}, {{ $r['percentage_change'] }}],
+                    @endforeach
+            ];
+
+            // console.log(dataTemp);
+
+            dataChart1 = google.visualization.arrayToDataTable(dataTemp);
+            treeObject = new google.visualization.TreeMap(document.getElementById(elementID));
+            treeObject.draw(dataChart1, {
+                    legend: {position: 'none'},
+
+                    // minColor: '#f00',
+                    // midColor: '#0d0',
+                    // maxColor: '#0d0',
+
+                    // minColor: '#ccc',
+                    // midColor: '#051b34',
+                    // maxColor: '#051b34',
+                    minColor: '#ccc',
+                    //midColor: '#5c5959',
+                    maxColor: '#001a34',            
+                    fontColor: 'white',
+                    // minColorValue: 0,
+                    // maxColorValue: 100,
+                    showScale: false,
+                    title: '',
+                    // generateTooltip: showStaticTooltip
+            });
+
+            google.visualization.events.addListener(treeObject, 'select', function () {
+
+                var selection = treeObject.getSelection();
+                treeObject.setSelection([]);
+                var node_val = dataChart1.getValue(selection[0].row, 0);
+                var format_text = dataChart1.getFormattedValue(selection[0].row, 0);
+                var str = node_val;
+                if(str.toLowerCase().indexOf("credit") >= 0)
+                {
+                    node_val = 0;
+                }
+                else if(str.toLowerCase().indexOf("equities") >= 0)
+                {
+                    str = str.replace(" - Equities", "");
+                    node_val = parseInt(str);
+                }
+                else if(str.toLowerCase().indexOf("global") >= 0)
+                {
+                    node_val = 0;
+                }
+
+                if(node_val > 0)
+                {
+                   global_secure_id_2 = node_val;
+                   global_secure_id_2_text = format_text;
+                   resetFields(3);
+                   $("#price-dropdown-10").val(3);
+
+                   $(".market-chart-title-2").html(global_secure_id_2_text);
+                   generateLineGraph2();
+                   
+                   $('html, body').animate({
+                            scrollTop: $("#secondChartPart").offset().top
+                   }, 600);
+                }
+           });     
+
+        }        
+    }
+</script>
+
 @stop

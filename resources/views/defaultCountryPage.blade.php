@@ -25,6 +25,15 @@
 <input type="hidden" id="defaultCode" value="{{ $defaultCode }}" />
 <div id="geo-chart" class="geo_chart"></div>
 
+<div class="bottom-select pull-left">
+    <select name="country" id="country">
+        @foreach($country_list as $cnt)
+            <option value="{{ $cnt['slug'] }}">
+                {{ $cnt['country_name'] }}
+            </option>
+        @endforeach
+    </select>
+</div>
 <div class="bottom-select">
     <select name="markets" id="markets">                        
         @foreach($markets as $val => $label)
@@ -33,7 +42,7 @@
             {{ ucwords(strtolower($label)) }}
         </option>
         @endif
-        @endforeach                                                 
+        @endforeach
     </select>
 </div>
 @stop

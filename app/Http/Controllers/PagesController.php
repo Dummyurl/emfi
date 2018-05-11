@@ -183,6 +183,7 @@ class PagesController extends Controller {
                     $treeMapData = callCustomSP('CALL select_market_tree_map_data(5)');
                 }
                 $data['treeMapData'] = $treeMapData;
+                // dd($data['treeMapData']);
                 // Get Tree Map Data
                 // $treeMapData = callCustomSP('CALL select_analyzer_tree_map_data(0)');
                 $equities = [];
@@ -257,7 +258,19 @@ class PagesController extends Controller {
         $bond_data = callCustomSP('CALL select_economic_bond(' . $data['countryObj']->id . ')');
         $data['countries'] = Country::where("country_type", 2)->orderBy("title")->get();
         $data['bond_data'] = [];
+        $treeMapData = [];
 
+        foreach ($bond_data as $r)
+        {
+            $treeMapData[$r['security_id']] = $r;
+        }
+
+        // echo "<pre>";print_r($treeMapData);
+        // exit;
+
+        // dd($treeMapData);
+
+        $treeMapData[] = $r;
 
         if($data['countryObj']->id == 1)
         {
@@ -271,7 +284,7 @@ class PagesController extends Controller {
                     $firstTicker = $r['ticker'];
                 }
 
-                $data['bond_data'][$firstTicker][] = $r;
+                $data['bond_data'][$firstTicker][] = $r;                
             }
         }
         else
@@ -282,6 +295,11 @@ class PagesController extends Controller {
                 $data['bond_data'][$r['ticker']][] = $r;
             }
         }
+
+        // dd($data['bond_data']);
+
+        $data['treeMapData'] = $treeMapData;
+        // dd($data['treeMapData']);
         
         if($data['countryObj']->id == 3)
         asort($data['bond_data']);        
@@ -320,19 +338,25 @@ class PagesController extends Controller {
         $data['countries'] = Country::where("country_type", 2)->orderBy("title")->get()->toArray();
         $data['countries'] = json_encode($data['countries']);
         $defaultCode = "005";
+        $region_id = 19;
 
         if($currentRegion == "caribbean")
         {
             $defaultCode = "029";
+            $region_id = 5;
         }
         else if($currentRegion == "centralamerica")
         {
             $defaultCode = "013";
+            $region_id = 7;
         }
         else if($currentRegion == "northamerica")
         {
             $defaultCode = "021";
         }
+        $country_list =   Country::getCountryListOfRegion($region_id);
+        
+        $data['country_list'] = $country_list;
 
         $data['defaultCode'] = $defaultCode;
         return view('defaultCountryPage', $data);

@@ -102,13 +102,14 @@
     </div>
 </section>
 
+@if($selected_market == 1 || $selected_market ==5)
 <div class="treechart"></div>
 <section class="full_chart_wrapper">
 	<div class="container">
 		<div id="treechart_div" style="width: 100%;height: 450px;"></div>
 	</div>
 </section>
-
+@endif
 <section class="chart_wrapper">
     <div class="container">
         <div class="title">
@@ -123,7 +124,7 @@
                 <div id="bar_chart" class="bar_chart" style="width: 100%; height: 400px"> </div>
             </div>
             <div class="col-lg-6">
-                <div class="sub_title"><h3>{{ __('market.laggers') }}</h3></div>
+                <div class="sub_title title_r"><h3>{{ __('market.laggers') }}</h3></div>
                 <div id="bar_chart2" class="bar_chart" style="width: 100%; height: 400px"> </div>
             </div>
         </div>
@@ -364,10 +365,21 @@
 
     function drawTreetChart(data_values, elementID)
     {
+        if($("#"+elementID).size() > 0)
+        {
+
+        }
+        else
+        {
+            return false;
+        }
+
         dataTemp =
         [
                 ['Country', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
+
                 ['Global', null, 0, 0],
+
                 @if($selected_market == 1)
                     @foreach($treeMapData as $r)
                         [{v: '{{ $r['id'] }}', f:'{{ $r['country_name'] }}'}, 'Global', {{ $r['market_size'] }}, {{ $r['percentage_change'] }}],
@@ -401,16 +413,15 @@
                                 // maxColorValue: 100,
                                 showScale: false,
                                 title: '',
-                                generateTooltip: showStaticTooltip
+                                // generateTooltip: showStaticTooltip
                         });
 
                         google.visualization.events.addListener(treeObject, 'select', function () {
 
                             var selection = treeObject.getSelection();
+                            treeObject.setSelection([]);
                             var node_val = dataChart1.getValue(selection[0].row, 0);
                             var str = node_val;
-
-
                             if(str.toLowerCase().indexOf("credit") >= 0)
                             {
                                 node_val = 0;
@@ -425,7 +436,39 @@
                                 node_val = 0;
                             }
 
-                            if(node_val > 0)
+                            if(node_val > 0)                            
+                            {
+                                $url = "/api/get-secuirty-from-country";
+                                $('#AjaxLoaderDiv').fadeIn('slow');
+                                $.ajax({
+                                    type: "GET",
+                                    url: $url,
+                                    data: {country_id: node_val,market_id: {{ $selected_market}}},
+                                    success: function (result)
+                                    {
+                                        $('#AjaxLoaderDiv').fadeOut('slow');
+                                        if (result.status == 1)
+                                        {
+                                            global_line_graph_id = result.id;
+                                            global_line_graph_text = result.title;
+                                            $("#benchmark-dropdown").html("");
+                                            generateLineGraph();
+                                            $('html, body').animate({
+                                                    scrollTop: $("#linegraph-data").offset().top - 50
+                                            }, 600);                                            
+                                        } 
+                                        else
+                                        {
+                                            $.bootstrapGrowl(result.msg, {type: 'danger', delay: 4000});
+                                        }
+                                    },
+                                    error: function (error) {
+                                        $('#AjaxLoaderDiv').fadeOut('slow');
+                                        $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
+                                    }
+                                });                                
+                            }    
+                            /*if(node_val > 0)
                             {
                                 global_line_graph_text = dataChart1.getFormattedValue(selection[0].row, 0);
                                 global_line_graph_id = node_val;
@@ -434,7 +477,7 @@
                                 $('html, body').animate({
                                         scrollTop: $("#linegraph-data").offset().top - 50
                                 }, 600);
-                            }
+                            }*/
                         });
                 }
     }

@@ -80,18 +80,14 @@ function drawBarChart(data_values, elementID, chartType) {
         bars: 'horizontal', // Required for Material Bar Charts.
         colors: ['#001a34'],
         backgroundColor: {fill: 'transparent'},
-        bar : { groupWidth : "50%"},
-        chartArea:{
-                height : "75%",
-                width : "60%",
-                left : 150
-        },
+
         legend: {position: 'none'},
         hAxis:
                 {
                     textStyle: {color: '#001a34'},
                     gridlines: {color: "#ccc"},
-                    baselineColor: '#ccc'
+                    baselineColor: '#ccc',
+                    direction: -1,
                 },
         vAxis: 
         {
@@ -102,8 +98,8 @@ function drawBarChart(data_values, elementID, chartType) {
 
     // alert("ok")    
 
-    var chart = new google.visualization.BarChart(document.getElementById(elementID));
-    chart.draw(data, options);
+    var chart = new google.charts.Bar(document.getElementById(elementID));
+    chart.draw(data, google.charts.Bar.convertOptions(options));
     google.visualization.events.addListener(chart, 'select', function() {
         
         var selection = chart.getSelection();
@@ -319,7 +315,8 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
             textStyle: {color: '#666666'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
-        }
+        }, 
+        chartArea:{left:80,top:40,right:80,width:"100%",height:"80%"}
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
     chart.draw(data, options);
@@ -437,7 +434,8 @@ function drawChart(data_values, elementID, fromBenchMark)
             //     min: $minVal,
             //     max: $maxVal       
             // }                                    
-        }
+        }, 
+        chartArea:{left:80,top:40,right:50,width:"100%",height:"80%"}
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
     chart.draw(data, options);
@@ -605,7 +603,8 @@ function drawRelvalChart(data_values)
             textStyle: {color: '#001a34'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"}
-        }
+        },
+        chartArea:{left:80,top:40,right:50,width:"100%",height:"80%"}
     };    
 
     var chart = new google.visualization.ScatterChart(document.getElementById(elementID));

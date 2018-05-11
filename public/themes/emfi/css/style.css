@@ -846,6 +846,8 @@ footer address {
 	background-color:#666;
 	margin-top:10px;
 }
+.chart_wrapper .sub_title.title_r { text-align:right;}
+.chart_wrapper .sub_title.title_r h3:after{ margin-left:auto;}
 .nav_wrapper .container { position:relative; }
 .goog-tooltip:hover div { color:#fff; }
 .market-page svg g > rect:hover + text { fill: #8ab3e2; }
@@ -1404,5 +1406,29 @@ font-weight:500;
     transform: rotate(360deg);
   }
 }
-
 /* ------ loader css end ------ */
+.terms_block{
+	padding: 25px 20px;
+	margin-bottom: 0;
+	border: 1px solid #ccc;
+	background-color: #fafafa;
+	text-align:left;
+}
+.terms_block h2 {
+	color: #001a34;
+	font-size: 32px;
+	font-weight: 400;
+	letter-spacing: 0.03em;
+	margin-bottom: 18px;
+}
+.terms_block h2{display:none;}
+.terms_block p strong {
+	color: #001a34;
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 0.03em;
+	display:block;
+	padding-top:5px;
+	position: relative;
+	top: 5px;
+}

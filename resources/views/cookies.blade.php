@@ -1,8 +1,8 @@
-@extends('layout')
+@extends('emfi_layout')
 
 @section('content')
 
-<section class="top_section top_bg economics_bg">
+<section class="top_section">
   <div class="container">
     <div class="title_belt">
       <h2>{{ $content->title}}</h2>
@@ -11,7 +11,7 @@
     <div class="about_top_section">
       <div class="row">
         <div class="col-md-12">
-          <div class="infoblock">
+          <div class="terms_block">
             {!! $content->description !!}
           </div>
         </div>

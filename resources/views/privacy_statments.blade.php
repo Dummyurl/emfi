@@ -1,18 +1,17 @@
-@extends('layout')
+@extends('emfi_layout')
 
 @section('content')
 
-<section class="top_section top_bg economics_bg">
+<section class="top_section">
   <div class="container">
     <div class="title_belt">
       <h2>{{ $content->title }}</h2>
       <span>{{ __('contact.at_a_glance') }}</span> </div>
-    <div class="about_top_section">
-      <div class="row">
-        {!! $content->description !!}
+      
+    <div class="clearfix">
+      <div class="terms_block clearfix"> {!! $content->description !!} </div>
       </div>
     </div>
-  </div>
 </section>
 
 @stop

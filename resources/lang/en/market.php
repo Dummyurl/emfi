@@ -16,9 +16,9 @@
 	'yield'=>"Yield",
 	'spread'=>"Spread",
 	'change'=>"Change",
-	'last_price'=>"Last Price",
-	'net_change'=>"Net Change",
-	'change_percentage'=>"Change Percentage",
+	'last_price'=>"Price",
+	'net_change'=>"Change",
+	'change_percentage'=>"Percentage Change",
 	'no_data_found'=>"No Data Found !",
 	'add_benchmark'=>"Add Benchmark",
 	]; 

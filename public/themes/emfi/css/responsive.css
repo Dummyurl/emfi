@@ -1,5 +1,19 @@
 @media only screen and (max-width: 1400px) and (min-width: 1260px)  {
 }
+@media (min-width: 1400px)  {
+.full_chart_wrapper {padding: 65px 0 0;}
+.chart_wrapper {margin: 80px 0 0;}
+.equities {	margin: 80px 0 0;}
+.chart_table {padding: 80px 0 0;}
+.equities {	margin: 80px 0 0;}
+.twitter_updates {margin: 80px 0 0;}
+footer {margin-top: 80px;}
+.info_featured_block {margin: 80px 0 0;}
+.team_member {margin: 80px 0 0;}
+.our_value {margin: 80px 0 0;}
+.our_offices {margin-top: 80px;}
+.office_details_map {margin-top: 80px;}
+}
 @media (min-width: 1201px)  {
 
 }

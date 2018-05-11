@@ -61,11 +61,14 @@
     </div>
 </section> 
 
-<div class="treechart"></div>
+<!-- <div class="treechart">
+</div>
 <section class="full_chart_wrapper">
-    <div id="treechart_div" style="width: 100%;height: 450px;"></div>          
+    <div class="container">
+        <div id="treechart_div" style="width: 100%;height: 450px;"></div>          
+    </div>
 </section>
-
+ -->
 <?php /*
 <div class="row analyzer-page">
     <div class="col-lg-12 col-md-12 treechart_block">
@@ -225,26 +228,29 @@
 
     function drawTreetChart(data_values, elementID) 
     {
+        if($("#"+elementID).size() > 0)
+        {
 
-        dataTemp =
+        }
+        else
+        {
+            return false;
+        }
+       dataTemp =
         [
                 ['Country', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
                 ['Global', null, 0, 0],
-                ['Equities', 'Global', 0, 0],
-                ['Credit', 'Global', 0, 0],
-                @foreach($equities['countries'] as $k => $v)
-                @foreach($equities['countries'][$k]['records'] as $r)
-                    [{v: '{{ $r['id'] }} - Equities', f:'{{ $equities['countries'][$k]['title'] }}'}, 'Equities', 0, 0],
-                    [{v: '{{ $r['id'] }}', f:'{{ $r['data']['title'] }}'}, '{{ $r['id'] }} - Equities', {{ $r['data']['market_size'] }}, {{ $r['data']['percentage_change'] }}],
-                @endforeach
-                @endforeach
-                @foreach($credits['countries'] as $k => $v)
-                    [{v:'{{ $credits['countries'][$k]['title'] }} - Credit', f:'{{ $credits['countries'][$k]['title'] }}'}, 'Credit', 0, 0],
-                @foreach($credits['countries'][$k]['records'] as $r)
-                    [{v: '{{ $r['id'] }}', f:'{{ $r['data']['title'] }}'}, '{{ $credits['countries'][$k]['title'] }} - Credit', {{ $r['data']['market_size'] }}, {{ $r['data']['percentage_change'] }}],
-                @endforeach
-                @endforeach
-                ];
+                @if($selected_market == 1)
+                    @foreach($treeMapData as $r)
+                        [{v: '{{ $r['id'] }}', f:'{{ $r['country_name'] }}'}, 'Global', {{ $r['market_size'] }}, {{ $r['percentage_change'] }}],
+                    @endforeach
+                @else
+                    @foreach($treeMapData as $r)
+                        [{v: '{{ $r['id'] }}', f:'{{ $r['country_name'] }}'}, 'Global', {{ $r['market_size'] }}, {{ $r['percentage_change'] }}],
+                    @endforeach
+                    
+                @endif
+        ];
                 if(elementID == "treechart_div")
                 {
                         dataChart1 = google.visualization.arrayToDataTable(dataTemp);
@@ -257,13 +263,21 @@
                                 // maxColor: '#0d0',
                                 // minColor: '#051b34',
                                 // midColor: '#051b34',
-                                // maxColor: '#051b34',                                            
-                                minColor: '#5c5959',
-                                midColor: '#5c5959',
-                                maxColor: '#051b34',                                
+                                // maxColor: '#051b34',
+                                // minColor: '#5c5959',
+                                // midColor: '#5c5959',
+                                // maxColor: '#051b34',
+                                // fontColor: 'white',
+                                // minColorValue: 0,
+                                // maxColorValue: 100,
+                                // showScale: false,
+                                // title: '',
+                                // generateTooltip: showStaticTooltip
+
+
+                                minColor: '#ccc',
+                                maxColor: '#001a34',
                                 fontColor: 'white',
-                                minColorValue: 0,
-                                maxColorValue: 100,
                                 showScale: false,
                                 title: '',
                                 generateTooltip: showStaticTooltip
@@ -274,8 +288,6 @@
                             var selection = treeObject.getSelection();
                             var node_val = dataChart1.getValue(selection[0].row, 0);       
                             var str = node_val;
-
-
 
                             if(str.toLowerCase().indexOf("credit") >= 0)
                             {
@@ -289,21 +301,19 @@
                             else if(str.toLowerCase().indexOf("global") >= 0)
                             {
                                 node_val = 0;
-                            }                                
+                            }
 
                             if(node_val > 0)
                             {
                                 resetFields();
                                 global_secure_id = node_val; 
-                                loadMarketHistory();                                
+                                loadMarketHistory();
                             }
                             else
                             {
                                 global_bond_id1 =  0;
-                            }            
-                        });    
-                        
-                        treeObject.setSelection([{row:2,column: 0}]);
+                            }
+                        });
                 }
     }
 </script>  

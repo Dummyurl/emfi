@@ -24,3 +24,4 @@ Route::post('economics/get-country-data/{market_id}', 'ApiController@getEconomic
 Route::get('get-last-date', 'ApiController@getLastUploadDate');
 Route::post('analyzer/get-area-chart', 'ApiController@getAreaChart');
 Route::post('analyzer/get-relval-chart', 'ApiController@getRelValData');
+Route::get('get-secuirty-from-country', 'ApiController@getSecurityFromCountry');

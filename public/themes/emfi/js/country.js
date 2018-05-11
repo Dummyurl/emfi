@@ -106,6 +106,15 @@ $(document).ready(function() {
         multiple: false,    
     });
 
+    $('select#country').select2({
+        allowClear: true,
+        multiple: false,    
+    });
+    
+    $(document).on("change", "select#country", function () {
+        window.location = '/'+$('#main_lang').val()+'/'+$(this).val();
+    });
+
     $(document).on("change", "select#markets", function(){
         initChart();
     });

@@ -20,6 +20,38 @@ class ApiController extends Controller
         
     }
 
+    public function getSecurityFromCountry(Request $request)
+    {
+        $country_id = $request->get("country_id",0);
+        $market_id = $request->get("market_id",0);
+        $status = 0;
+        $msg = "No security found !";
+        $id = 0;
+        $title = "";
+        if($market_id == 5)
+        {
+            $query = "SELECT id,security_name FROM securities WHERE `benchmark_family` = 'B10' AND market_id = 5 AND  country_id = ".$country_id." ORDER BY id DESC LIMIT 1";
+
+        }
+        else
+        {
+            $query = "SELECT id,security_name FROM securities WHERE market_id = 1 AND country_id = ".$country_id." ORDER BY id DESC LIMIT 1";
+        }
+
+        $data = \DB::select($query);
+        $data = json_decode(json_encode($data),1);
+
+        if(isset($data[0]['id']) && $data[0]['id'] > 0)
+        {
+            $id = $data[0]['id'];
+            $status = 1;
+            $msg = "";
+            $title = $data[0]['security_name'];
+        }
+
+
+        return ['status' => $status, 'msg' => $msg, 'id' => $id, 'title' => $title];
+    }
     public function getRelValData(Request $request)
     {
         $returnData['relval_chart'] = [];

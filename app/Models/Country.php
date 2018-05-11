@@ -40,4 +40,14 @@ class Country extends Model
     	}
     	return $data;
     }
+
+    public static function getCountryListOfRegion($region_id =0 )
+    {
+        $arr_security = array();
+
+        if($region_id>0){
+            $arr_security = \App\Models\Country::where('region_id',$region_id)->orderBy("title")->get()->toArray();
+        }
+        return $arr_security;
+    }
 }
