@@ -504,6 +504,7 @@ foreach($country_benchmarkes as $cnt)
                     // maxColorValue: 100,
                     showScale: false,
                     title: '',
+                    headerHeight: 0,
                     // generateTooltip: showStaticTooltip
             });
 

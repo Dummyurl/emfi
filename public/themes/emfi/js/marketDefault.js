@@ -183,7 +183,8 @@ function drawBenchmarkChart(data_values, elementID)
             textStyle: {color: '#001a34'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
-        }
+        }, 
+        chartArea:{left:60,top:40,right:60,width:"100%",height:"80%"}
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
     chart.draw(data, options);
@@ -533,7 +534,8 @@ function drawChart(data_values, elementID)
             //     min: $minVal,
             //     max: $maxVal
             // }
-        }
+        }, 
+        chartArea:{left:60,top:40,right:50,width:"100%",height:"80%"}
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
     chart.draw(data, options);

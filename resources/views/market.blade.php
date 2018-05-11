@@ -114,7 +114,7 @@
     <div class="container">
         <div class="title">
             <h2>{{ __('market.market_movers') }}</h2>
-            <span class="market-chart-title"></span>
+            <span>{{ ucwords(strtolower($selected_market_text)) }}</span>
         </div>
     </div>
     <div class="container chart_section">
@@ -218,6 +218,7 @@
     <div class="container">
         <div class="title">
             <h2>{{ __('country.market_price') }}</h2>
+            <span>{{ ucwords(strtolower($selected_market_text)) }}</span>
         </div>
     </div>
     <div class="container">
@@ -413,6 +414,7 @@
                                 // maxColorValue: 100,
                                 showScale: false,
                                 title: '',
+                                headerHeight: 0,
                                 // generateTooltip: showStaticTooltip
                         });
 

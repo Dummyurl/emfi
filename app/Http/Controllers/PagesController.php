@@ -175,6 +175,7 @@ class PagesController extends Controller {
                 $data['market_boxes'] = callCustomSP('CALL select_market_by_market_type('.$market_type_id.')');
 
                 $data['selected_market'] = $market_type_id;
+                $data['selected_market_text'] = $type;
                 $data['last_update_date'] = getLastUpdateDate();
 
                 if($market_type_id == 1){

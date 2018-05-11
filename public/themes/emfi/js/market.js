@@ -578,11 +578,11 @@ function drawRelvalChart(data_values)
     var options = {        
         curveType: 'function',
         annotations: 
-        {            
+        {
             textStyle: 
             {
                     fontSize: 10,
-                    // color: 'red',                                        
+                    color: 'red',
             }
         },        
         tooltip: {isHtml: true},

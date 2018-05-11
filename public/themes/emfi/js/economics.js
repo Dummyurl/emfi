@@ -125,6 +125,7 @@ function drawRegression(data_values)
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
         },
+        chartArea:{left:60,top:40,right:50,width:"100%",height:"80%"},
         colors: ['#001a34', '#666666'],
         auraColor: ['#11abc3', '#c7c3af'],        
         series: 
@@ -389,7 +390,8 @@ function drawChart(data_values, elementID, chartType)
             //     min: $minVal2,
             //     max: $maxVal2       
             // }                                                
-        }
+        }, 
+        chartArea:{left:60,top:40,right:50,width:"100%",height:"80%"}
     };
     var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
     chart.draw(data, options);
@@ -473,7 +475,8 @@ function drawBenchmarkChart(data_values, chartType)
             textStyle: {color: '#666666'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
-        }
+        }, 
+        chartArea:{left:60,top:40,right:60,width:"100%",height:"80%"}
     };
     var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
     chart.draw(data, options);
@@ -543,6 +546,7 @@ function drawAreaChart(data_values) {
             //     max: $maxVal       
             // }            
         },
+        chartArea:{left:70,top:40,right:50,width:"100%",height:"80%"},
         colors: ['#001a34', '#666666'],
         auraColor: ['#001a34', '#666666'],
     };
@@ -727,7 +731,8 @@ function drawChart2(data_values, elementID)
             //     min: $minVal,
             //     max: $maxVal       
             // }            
-        }
+        }, 
+        chartArea:{left:60,top:40,right:50,width:"100%",height:"80%"}
     };
     var chart = new google.visualization.LineChart(document.getElementById("curve_chart2"));
     chart.draw(data, options);
@@ -836,7 +841,8 @@ function drawBenchmarkChart2(data_values)
             textStyle: {color: '#666666'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
-        }
+        }, 
+        chartArea:{left:60,top:40,right:60,width:"100%",height:"80%"}
     };    
 
     var chart = new google.visualization.LineChart(document.getElementById(elementID));

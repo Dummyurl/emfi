@@ -1,4 +1,20 @@
 <div class="nav_wrapper">
+@if(session("is_close_disclaimer") != 1)
+    <div class="disclaimer_show" style="background:rgba(5, 27, 52, 0.85);color:#fff">
+        <div class="row disclaimer ftr_txt">
+            <!-- <div class="col-md-12">
+                <span title="Close" class="pull-right close_disclaimer" style="color:white;cursor: pointer;">X</span>
+            </div> -->
+            <div class="container">
+                <h4>{{ __('footer.disclaimer') }}</h4>
+                <p class="text-justify">{{ __('footer.disclaimer_desc') }}.</p>
+                <div class="row">
+                    <a href="#" title="Close" class="pull-right close_disclaimer"> OK </a>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <ul class="rightlinks">

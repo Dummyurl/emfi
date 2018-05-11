@@ -131,3 +131,24 @@ $(document).ready(function () {
         $(".home_carousel .owl-next").html('<i class="fa fa-angle-right"></i>');        
     }    
 });
+
+
+$(document).ready(function() {
+    $(document).on('click', '.close_disclaimer', function () {
+        $(".disclaimer_show").hide();
+        // $(".parallax-mirror").css("top","0px");
+        $(".nav_wrapper.nav_discl").removeClass("nav_discl");
+       $("body").css("padding-top","0px");
+        $.ajax({
+            type: "GET",
+            url: '/',
+            data:{close_disclaimer: 1},
+            success: function (result)
+            {
+            }
+        });
+    });
+    if($('.disclaimer_show').length > 0) {
+       $("body").css("padding-top","174px");
+    }
+});
