@@ -1,23 +1,15 @@
-$("body").scrollspy({
-    offset: 71
-});
 $(document).ready(function () {
-    
-    // $('.top_bg').parallax({
-    //     imageSrc: '/themes/frontend/images/economics-bg.jpg'
-    // });
 
-    $("#myNavigation a").on('click', function(event) {
-        if (this.hash !== "") {
-            event.preventDefault();
-            var hash = this.hash;
-            $('html, body').animate({
-                scrollTop: $(hash).offset().top
-                }, 800, function(){
-                window.location.hash = hash;
-            });
-         }
-     });
+// $("#myNavigation .active a").on('click', function(event) {
+//     if (this.hash !== "") {
+//         event.preventDefault();
+//         var hash = this.hash;
+//         $('html, body').animate({
+//             scrollTop: $(hash).offset().top -80
+//             }, 800, function(){
+//         });
+//      }
+//  });
 
     $('#careers_form').submit(function()
     {

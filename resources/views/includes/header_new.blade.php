@@ -15,7 +15,7 @@
         </div>
     </div>
 @endif
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-default navbar-static-top" id="myNavigation">
         <div class="container">
             <ul class="rightlinks">
                 <li class="dropdown">
@@ -105,7 +105,7 @@
                             <li><a href="{{ url(getLangName().'/contact/feedback')}}">{{ __('header.feedback') }}</a></li>
                             <li><a href="{{ url(getLangName().'/contact/complaint')}}">{{ __('header.complaint') }}</a></li>
                             <li><a href="{{ url(getLangName().'/contact/careers')}}">{{ __('header.careers') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/contact/locations')}}">{{ __('header.locations') }}</a></li>
+                            <li><a href="{{ url(getLangName().'/contact/locations')}}#locations">{{ __('header.locations') }}</a></li>
                         </ul>
                     </li>                    
                 </ul>

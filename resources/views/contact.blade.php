@@ -59,7 +59,7 @@
                
                 
                     <div class="form-group">
-                        {!! Form::select('subject' , ['' => __('contact.subject')] + ['ENQUIRY' => __('contact.enquiry') , 'FEEDBACK' => __('contact.feedback') , 'COMPLAINT' => __('contact.complaint') , 'CAREERS' => __('contact.careers') , 'LOCATIONS' => __('contact.locations')], strtoupper($type), ['class' => 'form-control' ]) !!}
+                        {!! Form::select('subject' , ['' => __('contact.subject')] + ['ENQUIRY' => __('contact.enquiry') , 'FEEDBACK' => __('contact.feedback') , 'COMPLAINT' => __('contact.complaint') , 'CAREERS' => __('contact.careers') ], strtoupper($type), ['class' => 'form-control' ]) !!}
                         <!-- <input name="subject" class="form-control" id="" placeholder="{{ __('contact.subject') }}" type="text" required="required"> -->
                     </div>
               
@@ -87,7 +87,7 @@
     </div>
 </section>
 <section class="office_details_map">
-    <div class="container">
+    <div class="container" id="locations">
         <div class="row">
             <div class="col-md-4">
                 <div class="office_details">

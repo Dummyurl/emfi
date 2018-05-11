@@ -415,6 +415,7 @@
                                 showScale: false,
                                 title: '',
                                 headerHeight: 0,
+
                                 // generateTooltip: showStaticTooltip
                         });
 

@@ -85,6 +85,7 @@
     </div>
   </div>
 </section>
+<div id="team"></div>
 <section class="team_member">
   <div class="container">
   <h2>Team</h2>
