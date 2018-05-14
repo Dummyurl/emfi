@@ -1,14 +1,32 @@
-// $("#myNavigation .active a").on('click', function(event) {
-//     alert("SDF");
-//     if (this.hash !== "") {
-//         event.preventDefault();
-//         var hash = this.hash;
-//         $('html, body').animate({
-//             scrollTop: $(hash).offset().top -80
-//             }, 800, function(){
-//         });
-//      }
-//  });
+$("#myNavigation .active a").on('click', function(event) {
+    if (this.hash !== "") {
+        event.preventDefault();
+        var hash = this.hash;
+        $('html, body').animate({
+            scrollTop: $(hash).offset().top -80
+            }, 800, function(){
+        });
+     }
+ });
+
+window. onload = function () {
+ var hash = false;
+ if(window.location.hash) {
+     hash = true;
+ }
+
+ if (hash)
+ {
+     hash = document.URL.substr(document.URL.indexOf('#')+1);
+     var anchor = $('#'+hash).offset();
+     // console.log("left" + anchor.top);
+     anchor.top = anchor.top - 100;
+     // console.log("top" + anchor.top);
+     $('html, body').animate({
+             scrollTop: anchor.top
+     }, 500);
+ }
+};
 
 function init2(){
     var london = new google.maps.LatLng(51.522117, -0.150337);

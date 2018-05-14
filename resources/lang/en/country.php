@@ -5,5 +5,6 @@
 	'yield_curve'=>"Yield Curve",
 	'market_price'=>"Market Prices",
 	'market_history'=>"Market History",
+	'market_map'=>"Market Map",
 	]; 
 ?>

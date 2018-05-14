@@ -8,7 +8,7 @@
                         <li><a href="{{ url(getLangName())}}">{{ __('footer.home') }}</a></li>
                         <li><a href="{{ url(getLangName().'/about')}}">{{ __('footer.about') }}</a></li>
                         <li><a href="{{ url(getLangName().'/contact')}}">{{ __('footer.contact') }}</a></li>
-                        <li><a href="https://login.emfiprime.com/login"  target="_blank" >{{ __('footer.login') }}</a></li>
+                        <li><a href="https://login.emfiprime.com/login" >{{ __('footer.login') }}</a></li>
                     </ul>
                 </div>
                 <div class="footer_block">

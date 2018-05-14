@@ -39,6 +39,7 @@
   </div>
   <!-- owl-carousel end -->
 </section>
+<div class="clearfix"></div>
 <section class="office_details_map">
     <div class="container" id="locations">
         <div class="row">

@@ -21,5 +21,6 @@
 	'change_percentage'=>"Percentage Change",
 	'no_data_found'=>"No Data Found !",
 	'add_benchmark'=>"Add Benchmark",
+	'market_map'=>"Market Map",
 	]; 
 ?>

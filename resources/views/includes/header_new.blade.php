@@ -41,8 +41,8 @@
                 </li>
                 
                 <li> 
-                        <a href="https://login.emfiprime.com/login" target="_blank" class="login_btn">
-                            {{ __('header.login') }}                        
+                        <a href="https://login.emfiprime.com/login" class="login_btn">
+                            {{ __('header.login') }}
                         </a>
                 </li>
             </ul>

@@ -27,9 +27,10 @@
 
 <div class="bottom-select pull-left">
     <select name="country" id="country">
+      <option value="">Select Country</option>
         @foreach($country_list as $cnt)
             <option value="{{ $cnt['slug'] }}">
-                {{ $cnt['country_name'] }}
+                {{ ucwords(strtolower($cnt['country_name'])) }}
             </option>
         @endforeach
     </select>

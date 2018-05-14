@@ -105,6 +105,12 @@
 @if($selected_market == 1 || $selected_market ==5)
 <div class="treechart"></div>
 <section class="full_chart_wrapper">
+    <div class="container">
+        <div class="title">
+            <h2>{{ __('market.market_map') }}</h2>
+            <span>{{ ucwords(strtolower($selected_market_text)) }}</span>
+        </div>
+    </div>
 	<div class="container">
 		<div id="treechart_div" style="width: 100%;height: 450px;"></div>
 	</div>

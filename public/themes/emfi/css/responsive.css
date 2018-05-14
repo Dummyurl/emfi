@@ -75,6 +75,15 @@ padding-bottom: 35px;
 .home_slider .home_slider_item {
 	padding-top: 5%;
 }
+.services {
+	margin-top: 100px;
+}
+.services > div {
+-webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+  margin-bottom:50px;
+}
 }
 @media (max-width: 1199px) {
 .top_section {

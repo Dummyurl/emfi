@@ -21,5 +21,6 @@
 	'change_percentage'=>"Porcentaje de cambio",
 	'no_data_found'=>"Datos no encontrados !",
 	'add_benchmark'=>"Agregar Benchmark",
+	'market_map'=>"Mapa del mercado",
 	]; 
 ?>

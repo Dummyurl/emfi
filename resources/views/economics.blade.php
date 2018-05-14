@@ -90,6 +90,11 @@ foreach($country_benchmarkes as $r)
 <div class="treechart"></div>
 <section class="full_chart_wrapper">
     <div class="container">
+        <div class="title">
+            <h2>{{ __('country.market_map') }}</h2>
+            <span class="market-chart-title" id="main-chart-title-1">
+            </span> 
+        </div>
         <div id="treechart_div" style="width: 100%;height: 450px;"></div>
     </div>
 </section>

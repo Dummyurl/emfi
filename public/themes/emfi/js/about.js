@@ -1,15 +1,15 @@
 $(document).ready(function () {
 
-// $("#myNavigation .active a").on('click', function(event) {
-//     if (this.hash !== "") {
-//         event.preventDefault();
-//         var hash = this.hash;
-//         $('html, body').animate({
-//             scrollTop: $(hash).offset().top -80
-//             }, 800, function(){
-//         });
-//      }
-//  });
+    $("#myNavigation .active a").on('click', function(event) {
+        if (this.hash !== "") {
+            event.preventDefault();
+            var hash = this.hash;
+            $('html, body').animate({
+                scrollTop: $(hash).offset().top -80
+                }, 800, function(){
+            });
+         }
+     });
 
     $('#careers_form').submit(function()
     {
@@ -47,6 +47,26 @@ $(document).ready(function () {
     });
 });
 
+
+window. onload = function () {
+ var hash = false;
+ if(window.location.hash) {
+     hash = true;
+ }
+
+ if (hash)
+ {
+     hash = document.URL.substr(document.URL.indexOf('#')+1);
+     var anchor = $('#'+hash).offset();
+     // console.log("left" + anchor.top);
+     anchor.top = anchor.top - 80;
+     // console.log("top" + anchor.top);
+     $('html, body').animate({
+             scrollTop: anchor.top
+     }, 500);
+ }
+};
+
 $(window).load(function () {
 if ( $(window).width() > 991) {
 var maxHeight = 0;
@@ -79,3 +99,4 @@ $('.btns ul li a').each(function(){
 });
 $('.btns ul li a').height(maxHeight);
 });
+
