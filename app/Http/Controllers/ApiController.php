@@ -71,7 +71,7 @@ class ApiController extends Controller
             if(empty($relval_chart))
             {
                 $relvalMonth = \App\Models\Securities::max("created");
-                $relval_chart = callCustomSP('CALL select_relval_chart_data('.$relvalCreditEquity.',"'.$relvalMonth.'",1)');                
+                $relval_chart = callCustomSP('CALL select_relval_chart_data('.$relvalCreditEquity.',"'.$relvalMonth.'",1)');
             }            
         }        
 
@@ -971,6 +971,6 @@ class ApiController extends Controller
             }
         }
 
-        return ["status" => $status, "msg" => $msg, "data" => $data];
+        return ["status" => $status, "msg" => $msg, "data" => $data, 'benchmark' => $benchmark_id];
     }
 }

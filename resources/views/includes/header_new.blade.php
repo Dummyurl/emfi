@@ -60,7 +60,7 @@
                     <li class="{{ \Request::is('/','home','english','espanol') ? 'active':'' }}">
                         <a href="{{ url(getLangName()) }}">{{ __('header.home') }}</a>
                     </li>
-                    <li class="{{ \Request::is(getLangName().'/markets',getLangName().'/markets/*') ? 'active':'' }} dropdown">
+                    <li class="{{ (isset($selectedMenu) && $selectedMenu == 'markets') ? 'active':'' }} dropdown">
                         <a href="{{ url(getLangName().'/credit') }}"> {{ __('header.markets') }}</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ url(getLangName().'/credit') }}">{{ __('header.credit') }}</a></li>
@@ -78,7 +78,7 @@
                             <li><a href="{{ url(getLangName().'/countries/centralamerica')}}">{{ __('header.central_america') }}</a></li>
                         </ul>
                     </li>
-                    <li class="{{ \Request::is(getLangName().'/service') ? 'active':'' }} dropdown">
+                    <li class="{{ (isset($selectedMenu) && $selectedMenu == 'services') ? 'active':'' }}  dropdown">
                         <a href="{{ url(getLangName().'/capital')}}">{{ __('header.service') }}</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ url(getLangName().'/capital')}}">{{ __('header.asset_management') }}</a></li>

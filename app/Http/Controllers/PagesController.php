@@ -210,6 +210,7 @@ class PagesController extends Controller {
                     // Get Market Pricer
                     $pricer_data = callCustomSP('CALL select_emerging_countries_security_data('.$market_type_id.')');
                     $data['pricer_data'] = $pricer_data;
+                    $data['selectedMenu'] = "markets";
                     return view('market', $data);
                 }
                 else
@@ -232,6 +233,7 @@ class PagesController extends Controller {
                     // Get Market Pricer
                     $pricer_data = callCustomSP('CALL select_developed_countries_security_data()');
                     $data['pricer_data'] = $pricer_data;
+                    $data['selectedMenu'] = "markets";
 
                     return view('marketDefault', $data);
                 }
@@ -514,6 +516,7 @@ class PagesController extends Controller {
         }
         else
         {
+            $data['selectedMenu'] = "markets";
             $country_id = 14;
             if(!empty($default_country_id)){
                 $country_id = $default_country_id;
@@ -1002,14 +1005,39 @@ class PagesController extends Controller {
                 $fileurl = $uploadPath.DIRECTORY_SEPARATOR.$imageName;
             }
 
+            $toEmail = "";
+            if($busineess_unit == 1) 
+            {
+                $busineess_unit_name = "Asset Management";
+                $toEmail = "contact@emficapital.com";
+            }
+            elseif ($busineess_unit == 2) {
+                $toEmail = "contact@emfiwealth.com";
+                $busineess_unit_name = "Wealth Management";
+            }
+            elseif ($busineess_unit == 3) {
+                $toEmail = "contact@emfisecurities.com";
+                $busineess_unit_name = "Capital Markets";
+
+            }
+            elseif ($busineess_unit == 4) {
+                $toEmail = "contact@emfiprime.com";
+                $busineess_unit_name = "Prime Brokerage";
+            }
+            elseif ($busineess_unit == 5) {
+                $toEmail = "contact@emfianalytics.com";
+                $busineess_unit_name = "Data Analytics";
+            }
+
             $html = '<p> Hi,</p>';
             $html .= '<p><b>Name : </b>' . $first_name .' '.$last_name.'</p>';
             $html .= '<p><b>Organization name : </b>' . $organization . '</p>';
             $html .= '<p><b>Country name : </b>' . $country . '</p>';            
             $html .= '<p><b>Phone : </b>' . $phone . '</p>';
             $html .= '<p><b>Email : </b>' . $email . '</p>';            
-            $html .= '<p><b>Business Unit : </b>' . $busineess_unit . '</p>';
+            $html .= '<p><b>Business Unit : </b>' . $busineess_unit_name . '</p>';
             $html .= '<p><b>Subject : </b>' . $subject . '</p>';
+            // $html .= '<p><b>toEmail : </b>' . $toEmail . '</p>';
             $html .= '<p><b>Message</b></p>';
             $html .= '<p>' . $message . '</p>';
             $html .= '<p>' . ucfirst($first_name) . ' ' . ucfirst($last_name) . '</p>';
@@ -1018,13 +1046,13 @@ class PagesController extends Controller {
             }
             $html .= '<p>Thank you !</p>';
 
-            $params["to"] = 'reports.phpdots@gmail.com';
-            $params["to"] = 'rathodakshay228@gmail.com';
+
+            $params["to"] = $toEmail;
+            // $params["to"] = 'ashoksadhu16@gmail.com';
             $params["from"] = $email;
             $params["subject"] = "EMFI: Contact Details";
             $params["body"] = $html;
 
-            // dd($params);
 
             sendHtmlMail($params);
         }
@@ -1119,6 +1147,7 @@ class PagesController extends Controller {
             $locale = 'en';
         }
         app()->setLocale($locale);
+        $data['selectedMenu'] = "services";
 
         return view($view , $data);
     }

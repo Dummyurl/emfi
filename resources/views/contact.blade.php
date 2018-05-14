@@ -53,7 +53,7 @@
                
                 
                     <div class="form-group">
-                        {!! Form::select('business_unit' , ['' => __('contact.business_unit')] + ['ASSET MANAGEMENT' => __('contact.asset_management'), 'WEALTH MANAGEMENT' => __('contact.wealth_management') , 'INVESTMENT BANKING' =>  __('contact.investment_banking') , 'PRIME BROKERAGE' => __('contact.prime_brokerage') , 'DATA ANALYTICS' => __('contact.data_analytics')], null, ['class' => 'form-control' ]) !!}
+                        {!! Form::select('business_unit' , ['' => __('contact.business_unit')] + ['1' => __('contact.asset_management'), '2' => __('contact.wealth_management') , '3' =>  __('contact.investment_banking') , '4' => __('contact.prime_brokerage') , '5' => __('contact.data_analytics')], null, ['class' => 'form-control' ]) !!}
                         <!-- <input name="company" class="form-control" id="" placeholder="{{ __('contact.company') }}" type="text" required="required"> -->
                     </div>
                

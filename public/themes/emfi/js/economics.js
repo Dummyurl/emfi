@@ -50,6 +50,8 @@ function drawRegression(data_values)
     var formatedData = [];
     var counter = data_values.length;
     var tmpValues = [];
+    vAxisFormat ='0';
+    vAxisFormat = GetDecimalFormat($("#price-dropdown-12").val());
     if(counter > 0)
     {
         formatedData.push([{label:'', type:'number'}, {label:$("#price-dropdown-3 option:selected").text(), type:'number'},{label: 'tooltip', role: 'tooltip', 'p': {'html': true}},{'type': 'string', 'role': 'style'}]);
@@ -121,6 +123,7 @@ function drawRegression(data_values)
         },
         vAxis: 
         {
+            format:vAxisFormat,
             textStyle: {color: '#666666'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
@@ -215,15 +218,6 @@ function generateLineGraph(chartType)
 {
     $benchmark = $("select#benchmark-dropdown-"+chartType).val();
 
-    if
-    (
-        $.trim($("select#benchmark-dropdown-"+chartType).val()) == 'Add Benchmark' ||
-        $.trim($("select#benchmark-dropdown-"+chartType).val()) == 'Remove Benchmark'
-    )
-    {
-
-        $benchmark = "";
-    }
 
     $priceID = $("select#price-dropdown-"+chartType).val();
     $month_id = $('select#period-month-'+chartType).val();
@@ -242,7 +236,7 @@ function generateLineGraph(chartType)
             $('#AjaxLoaderDiv').fadeOut('slow');
             if (result.status == 1)
             {
-                    if ($benchmark > 0)
+                    if (result.benchmark > 0)
                     {
                         drawBenchmarkChart(result.data, chartType);
                     } 
@@ -275,7 +269,9 @@ function drawChart(data_values, elementID, chartType)
     $columnTitle = $("#main-chart-title-"+chartType).html();
 
     // alert($columnTitle);
-
+    vAxisFormat ='0';
+    vAxisFormat = GetDecimalFormat($("#price-dropdown-1").val());
+    hAxisFormat = "0.0";
     if (counter > 0)
     {
         if(chartType == 1)
@@ -303,6 +299,7 @@ function drawChart(data_values, elementID, chartType)
         }   
         else if(chartType == 2)
         {
+            vAxisFormat = GetDecimalFormat($("#price-dropdown-"+chartType).val());
             formatedData.push([{label:'', type:'number'}, $columnTitle, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);
             var j = 1;
             for (var i in data_values)
@@ -370,6 +367,8 @@ function drawChart(data_values, elementID, chartType)
         pointSize : 10,
         hAxis: 
         {
+            format:hAxisFormat,
+            baselineColor : 'transparent',
             textStyle: {color: '#666666'},
             gridlines: {color: "transparent"},
             viewWindowMode:'explicit',
@@ -381,6 +380,7 @@ function drawChart(data_values, elementID, chartType)
         },
         vAxis: 
         {
+            format:vAxisFormat,
             textStyle: {color: '#666666'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
@@ -404,7 +404,14 @@ function drawBenchmarkChart(data_values, chartType)
     elementID = "curve_chart-"+chartType;
     $columnTitle = $("#country-combo option:selected").text();
 
-    $("#main-chart-title-"+chartType).html($("#hid-main-chart-title-"+chartType).html() +"<br /><span>"+ $("select#benchmark-dropdown-"+chartType+" option:selected").text()+"</span>");    
+    $labelHTML = $("#hid-main-chart-title-"+chartType).html() +"<br /><span>"+ $("select#benchmark-dropdown-"+chartType+" option:selected").text()+"</span>";
+    $("#main-chart-title-"+chartType).html($.trim($labelHTML));    
+
+    // alert("Size: "+$("#main-chart-title-"+chartType).size());
+    // alert($("#main-chart-title-"+chartType).html());        
+    vAxisFormat ='0';
+    vAxisFormat = GetDecimalFormat($("#price-dropdown-1").val());
+    hAxisFormat = "0.0";
 
     var formatedData = [];
 
@@ -423,6 +430,8 @@ function drawBenchmarkChart(data_values, chartType)
        }
        else
        {
+            vAxisFormat = GetDecimalFormat($("#price-dropdown-"+chartType).val());
+
             tmpValues.push(parseFloat(data_values.benchmark_history_data[i]['title1']));
             var html = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title1'] + ", " + data_values.benchmark_history_data[i]['price1'] + "</b>"+"</p>";
             var html2 = "<p style='white-space: nowrap;padding: 3px;'>"+data_values.benchmark_history_data[i]['tooltip2'] + "<br /> <b>" + data_values.benchmark_history_data[i]['title2'] + ", " + data_values.benchmark_history_data[i]['price2'] + "</b>"+"</p>";
@@ -461,6 +470,8 @@ function drawBenchmarkChart(data_values, chartType)
         colors: ['#001a34', '#666666'],
         hAxis: 
         {
+            format:hAxisFormat,
+            baselineColor : 'transparent',
             textStyle: {color: '#666666'},
             gridlines: {color: "transparent"},
             viewWindowMode:'explicit',
@@ -472,6 +483,7 @@ function drawBenchmarkChart(data_values, chartType)
         },
         vAxis: 
         {
+            format:vAxisFormat,
             textStyle: {color: '#666666'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
@@ -487,7 +499,8 @@ function drawAreaChart(data_values) {
 
     var formatedData = [];
     var tmpValues = [];
-    
+    vAxisFormat ='0';
+    vAxisFormat = GetDecimalFormat($("#price-dropdown-11").val());
     if(data_values.length > 0)
     {
         formatedData.push(["", ""]);
@@ -536,6 +549,7 @@ function drawAreaChart(data_values) {
         },
         vAxis: 
         {
+            format:vAxisFormat,
             textStyle: {color: '#666666'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
@@ -612,6 +626,7 @@ function generateLineGraph2()
                     }
                     else
                     {
+                        $html = $(".market-chart-title-2").html(global_secure_id_2_text);
                         $("#bond-area").hide();
                         drawChart2(result.data.history_data, 'curve_chart2');
                         fillBanchMark(result.data.arr_banchmark,"benchmark-dropdown-10");
@@ -643,7 +658,9 @@ function drawChart2(data_values, elementID)
 
     $columnTitle = global_secure_id_2_text;
     var tmpValues = [];
-
+    vAxisFormat ='0';
+    vAxisFormat = GetDecimalFormat($("#price-dropdown-10").val());
+    hAxisFormat = "0.0";
     if (counter > 0)
     {
         $columnTitle = $columnTitle + " "+$("select#price-dropdown-10 option:selected").data("title");
@@ -654,7 +671,7 @@ function drawChart2(data_values, elementID)
         {
 
            var d = new Date(data_values[i]['created']);
-           var $created = d;           
+           var $created = d;
 
             if ($("select#price-dropdown-10").val() != 1)
             {                
@@ -722,6 +739,7 @@ function drawChart2(data_values, elementID)
         },
         vAxis: 
         {
+            format:vAxisFormat,
             textStyle: {color: '#666666'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
@@ -745,6 +763,8 @@ function drawBenchmarkChart2(data_values)
     elementID = "curve_chart2";
     $columnTitle = global_secure_id_2_text+ " "+$("select#price-dropdown-10 option:selected").data("title");
     $columnTitle2 = $("select#benchmark-dropdown-10 option:selected").text()+ " "+$("select#price-dropdown-10 option:selected").data("title");
+    vAxisFormat ='0';
+    vAxisFormat = GetDecimalFormat($("#price-dropdown-10").val());
 
     $(".market-chart-title-2").html(global_secure_id_2_text+ "<br /><span>"+$("select#benchmark-dropdown-10 option:selected").text()+"</span>");
      
@@ -838,6 +858,7 @@ function drawBenchmarkChart2(data_values)
         },
         vAxis: 
         {
+            format:vAxisFormat,
             textStyle: {color: '#666666'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
@@ -933,7 +954,7 @@ $(document).ready(function() {
         else
         {
            $('html, body').animate({
-                    scrollTop: $("#secondChartPart").offset().top
+                    scrollTop: $("#secondChartPart").offset().top - 67
            }, 600);
         }
 
@@ -956,7 +977,7 @@ $(document).ready(function() {
         else
         {
             $('html, body').animate({
-                    scrollTop: $("#secondChartPart").offset().top - 30
+                    scrollTop: $("#secondChartPart").offset().top - 67
             }, 600);
         }
 

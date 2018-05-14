@@ -92,7 +92,8 @@ foreach($country_benchmarkes as $r)
     <div class="container">
         <div class="title">
             <h2>{{ __('country.market_map') }}</h2>
-            <span class="market-chart-title" id="main-chart-title-1">
+            <span>
+                {{ ucfirst(strtolower($countryObj->country_name)) }}
             </span> 
         </div>
         <div id="treechart_div" style="width: 100%;height: 450px;"></div>
@@ -310,19 +311,19 @@ foreach($country_benchmarkes as $cnt)
                             </a>
                         </td>
                         <td>
-                            {{ number_format($row['bid_price'],2) }}
+                            {{ $row['bid_price'] }}
                         </td>
                         <td>
-                            {{ number_format($row['ask_price'],2) }}
+                            {{ $row['ask_price'] }}
                         </td>
                         <td>
-                            {{ number_format($row['yld_ytm_mid'],2) }}
+                            {{ $row['yld_ytm_mid'] }}
                         </td>
                         <td>
-                            {{ number_format($row['z_sprd_mid'],2) }}
+                            {{ $row['z_sprd_mid'] }}
                         </td>
                         <td>
-                            {{ number_format($row['net_change'],2) }}
+                            {{ $row['net_change'] }}
                         </td>
                     </tr>
                     @endforeach

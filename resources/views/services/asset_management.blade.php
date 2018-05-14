@@ -1,19 +1,14 @@
 @extends('emfi_layout')
 @section('content')
 <section class="services">
-  <div class="">
     <div class="item">
       <?php 
 		$image = asset('themes/frontend/images/home-bg-1.jpg');	
 	  ?>
-      <div class="">
         <div class="container">
-          <div class="clearfix">
             <div class="title_belt">
               <h2> {{ $page_title }} </h2>
             </div>
-          </div>
-          <div class="clearfix">
             <div class="service_inner clearfix">
               <div class="col-md-6">
                 <div class="service_img"><img src="http://demo.phpdots.com/themes/emfi/images/service-img.jpg" alt="EMFI Securities- services"></div>
@@ -29,15 +24,10 @@
                 </div>
               </div>
             </div>
-          </div>
-          <!-- row end -->
+          <!-- service_inner end -->
         </div>
         <!-- container end -->
-      </div>
-      <!-- home_slider_item end -->
     </div>
-  </div>
-  <!-- owl-carousel end -->
 </section>
 <div class="clearfix"></div>
 <section class="office_details_map">
@@ -53,17 +43,16 @@
                         United Kingdom
                     </address>
                     <a href="mailto:lndon@emfisecurities.com">lndon@emfisecurities.com</a>
+              </div>
                 </div>
-            </div>
             <div class="col-md-8">
                 <div class="office_map map_mrgn_l">
                     <div id="map" class="map"></div>
-                </div>
+              </div>
             </div>
-        </div>
-    </div>
+          </div>
+      </div>
 </section>
-
 @stop
 @section('scripts')
 <script src="{{ asset('themes/frontend/js/home.js') }}"></script>

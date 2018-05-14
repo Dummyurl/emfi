@@ -386,7 +386,7 @@ content:'';
 }
 */
 .view-btn {
-	z-index:1000;
+	z-index:999;
 	position:absolute;
 	top:0;
 	left:0;
@@ -1396,7 +1396,7 @@ font-weight:500;
 }
 .home_slider+footer{margin-top:0;}
 .geo_chart{ width:100%; padding-top:70px;}
-.geo_chart+.bottom-select+footer{margin-top:0;}
+.bottom-select+footer{margin-top:0;}
 #treechart_div{margin-left: -5px; margin-right: -20px;}
 #treechart_div svg{width:100% !important;}
 

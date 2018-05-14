@@ -155,7 +155,8 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         $columnTitle = $columnTitle + " "+$("select#price-dropdown option:selected").data("title");
         $(".market-chart-title-security").html(global_line_graph_text +"<br /><span>"+$("select#benchmark-dropdown option:selected").text()+"</span>");
     }  
-
+    vAxisFormat ='0';
+    vAxisFormat = GetDecimalFormat($("select#price-dropdown").val());
     var formatedData = [];
     formatedData.push(["", {label:$columnTitle, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}, {label: $columnTitle2, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);    
     for(var i in data_values.benchmark_history_data)
@@ -312,6 +313,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         },
         vAxis: 
         {
+            format:vAxisFormat,
             textStyle: {color: '#666666'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
@@ -341,10 +343,11 @@ function drawChart(data_values, elementID, fromBenchMark)
         $(".market-chart-title-security").html(global_line_graph_text);
     }               
     
-    // 
-
+    //
+    vAxisFormat = '0';
     if (counter > 0)
     {
+        vAxisFormat = GetDecimalFormat($("select#price-dropdown").val());
         $columnTitle = $columnTitle + " "+$("select#price-dropdown option:selected").data("title");
         // alert("Title: " + $columnTitle); 
         formatedData.push([$columnTitle, $columnTitle,{label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);
@@ -425,6 +428,7 @@ function drawChart(data_values, elementID, fromBenchMark)
             gridlines: {color: "transparent",count: 12}
         },
         vAxis: {
+            format:vAxisFormat,
             textStyle: {color: '#666666'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
@@ -540,7 +544,10 @@ function drawRelvalChart(data_values)
     var counter = 1;
     var data = new google.visualization.DataTable();
     data.addColumn('string', '');
-
+    
+    relvalPrice =     $("#price-dropdown-4").val();
+    var vAxisFormat = '0';
+    vAxisFormat = GetDecimalFormat(relvalPrice);
     for(j = 1;j<=1000;j++)
     {
         data.addColumn('number', '');
@@ -566,13 +573,12 @@ function drawRelvalChart(data_values)
 
         for(k = cnt+1;k<=1000;k++)
         {
-            prices.push(null);            
+            prices.push(null);
             prices.push('');
             prices.push('');
         }
-
         data.addRow(prices);
-    }        
+    }
 
 
     var options = {        
@@ -600,6 +606,7 @@ function drawRelvalChart(data_values)
         },
         vAxis: 
         {
+            format:vAxisFormat,
             textStyle: {color: '#001a34'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"}

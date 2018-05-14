@@ -78,6 +78,18 @@ function getHeight()
     }
 }
 
+function GetDecimalFormat($val){
+    vAxisFormat = '0';
+    if($val ==1){
+        vAxisFormat = '0.00';// For Price
+    } else if($val ==2){
+        vAxisFormat = '0.00';// For Yield
+    }else if($val ==3){
+        vAxisFormat = '0'; // For Sprede
+    }
+    return vAxisFormat;
+}
+
 $(window).on('resize', function () {
     getHeight();
     if ($(window).width() < 1280) 
@@ -143,9 +155,9 @@ $(document).ready(function() {
         // $(".parallax-mirror").css("top","0px");
         $(".nav_wrapper.nav_discl").removeClass("nav_discl");
 		getHeight();
-        $("body").css("margin-top","");
+        $("body").css("padding-top","");
 		$('footer').css("margin-top","");
-		$('.top_section').css("padding-top","");
+		//$('.top_section').css("padding-top","");
         $.ajax({
             type: "GET",
             url: '/',
@@ -156,10 +168,10 @@ $(document).ready(function() {
         });
     });
     if($('.disclaimer_show').length > 0) {
-       $("body").css("margin-top","284px");
+       $("body").css("padding-top","165px");
 	   $('.home_slider').css('height', 'auto').css('padding-top', 'inherit').addClass('disclmr_on');
 	   $('.geo_chart').css('height', 'auto');
 	   $('footer').css("margin-top","40px");
-	   $('.top_section').css("padding-top","0");
+	   //$('.top_section').css("padding-top","0");
     }
 });

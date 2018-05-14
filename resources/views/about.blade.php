@@ -98,8 +98,8 @@
     </div>
     <div class="col-md-4 col-sm-6">
       <div class="team_block">
-        <figure><img src="/themes/emfi/images/no-image-female.png" alt="Frank Sinatra - Project Manager"></figure>
-        <h3>Vanessa Allen</h3>
+        <figure><img src="/themes/emfi/images/no-image-male.png" alt="Frank Sinatra - Project Manager"></figure>
+        <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
         <a href="#">LinkedIn Profile</a></div>
     </div>
@@ -113,8 +113,8 @@
     
     <div class="col-md-4 col-sm-6">
       <div class="team_block">
-        <figure><img src="/themes/emfi/images/no-image-female.png" alt="Frank Sinatra - Project Manager"></figure>
-        <h3>Vanessa Allen</h3>
+        <figure><img src="/themes/emfi/images/no-image-male.png" alt="Frank Sinatra - Project Manager"></figure>
+        <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
         <a href="#">LinkedIn Profile</a></div>
     </div>
@@ -127,8 +127,8 @@
     </div>
     <div class="col-md-4 col-sm-6">
       <div class="team_block">
-        <figure><img src="/themes/emfi/images/no-image-female.png" alt="Frank Sinatra - Project Manager"></figure>
-        <h3>Vanessa Allen</h3>
+        <figure><img src="/themes/emfi/images/no-image-male.png" alt="Frank Sinatra - Project Manager"></figure>
+        <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
         <a href="#">LinkedIn Profile</a></div>
     </div>
@@ -142,8 +142,8 @@
     </div>
     <div class="col-md-4 col-sm-6">
       <div class="team_block">
-        <figure><img src="/themes/emfi/images/no-image-female.png" alt="Frank Sinatra - Project Manager"></figure>
-        <h3>Vanessa Allen</h3>
+        <figure><img src="/themes/emfi/images/no-image-male.png" alt="Frank Sinatra - Project Manager"></figure>
+        <h3>Frank Sinatra</h3>
         <h4>Project Manager</h4>
         <a href="#">LinkedIn Profile</a></div>
     </div>
