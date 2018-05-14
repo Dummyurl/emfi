@@ -9,6 +9,7 @@ function init1(location, element){
             center: location,
             scrollwheel : false,
             mapTypeControl: false,
+            streetViewControl: false,
     styles : [{
             featureType: "all",
             elementType: "all",
