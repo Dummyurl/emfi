@@ -117,6 +117,9 @@ function getMarketUrls($marketID)
     else if($marketID == 5)
     {
         return '/credit';
+    }else if($marketID == 'DEVELOPED')
+    {
+        return '/developed';
     }
     else
     {

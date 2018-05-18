@@ -9,7 +9,7 @@
             <span>{{ __('contact.help_you') }}</span> </div>
         <div class="contact_form">
             <div class="row">
-            <p>{{ __('contact.any_qtn') }}.</p>
+            <!-- <p>{{ __('contact.any_qtn') }}.</p> -->
             <div class="col-md-6"><figure class="contact-img bgcover"></figure></div>
             <div class="col-md-6">
                 

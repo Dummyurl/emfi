@@ -46,7 +46,7 @@
         <div class="content">
             @yield('content')            
         </div>
-        <div class="copyright"> {{ date('Y')}} &copy;  {{ env('APP_SITE_TITLE')}} ALL Rights Reserved. </div>
+        <div class="copyright"> &copy; {{ date('Y')}} {{ env('APP_SITE_TITLE')}}. ALL Rights Reserved. </div>
 
         <div id="AjaxLoaderDiv" style="display: none;z-index:99999 !important;">
             <div style="width:100%; height:100%; left:0px; top:0px; position:fixed; opacity:0; filter:alpha(opacity=40); background:#000000;z-index:999999999;">

@@ -142,8 +142,10 @@ class PagesController extends Controller {
             if(in_array($country, $main_categories))
             {
                 $type = $country;
+                $market_type_developed = '';
                 if($country == "developed")
                 {
+                    $market_type_developed = 'DEVELOPED';
                     $type = "";
                 }
 
@@ -169,12 +171,18 @@ class PagesController extends Controller {
                 $data['tweets'] = getPeopleTweets($from);
 
                 $data['markets'] = MarketType::getArrayList();
+                $arr_markets = array(  1 => 'EQUITIES',  2 => 'CURRENCIES',
+                        3 => 'COMMODITIES', 4 => 'RATES', 
+                        5 => 'CREDIT', 'DEVELOPED' => 'Developed');
+                asort($arr_markets);
+                $data['markets'] = $arr_markets;
                 // $data['market_boxes'] = callCustomSP('CALL select_market()');
-
                 $market_type_id = isset($main_categories[$type]) ? $main_categories[$type] : 1;
                 $data['market_boxes'] = callCustomSP('CALL select_market_by_market_type('.$market_type_id.')');
-
                 $data['selected_market'] = $market_type_id;
+                if($market_type_developed == 'DEVELOPED'){
+                    $data['selected_market'] = $market_type_developed;
+                }
                 $data['selected_market_text'] = $type;
                 $data['last_update_date'] = getLastUpdateDate();
 
@@ -957,7 +965,7 @@ class PagesController extends Controller {
 
     public function contact_form_data(Request $request) {
         $status = 1;
-        $msg = 'Email has been sent successfully !';
+        $msg = 'Your message has been sent!';
         $validator = Validator::make($request->all(), [
                     'first_name' => 'required|min:2',
                     'last_name' => 'required|min:2',
@@ -1119,23 +1127,23 @@ class PagesController extends Controller {
         $data = [];
 
         if ($type == 'capital') {
-            $data['page_title'] = 'Asset Management';
+            $data['page_title'] = 'EMFI: Asset Management';
             $view = 'services.asset_management';
         }
         elseif ($type == 'wealth') {
-            $data['page_title'] = "Wealth Management";
+            $data['page_title'] = "EMFI: Wealth Management";
             $view = 'services.wealth_management';
         }
         elseif ($type == 'securities') {
-            $data['page_title'] = 'Investment Banking';
+            $data['page_title'] = 'EMFI: Investment Banking';
             $view = 'services.investment_banking';
         }
         elseif ($type == 'prime') {
-            $data['page_title'] = 'Investment Banking';
+            $data['page_title'] = 'EMFI: Investment Banking';
             $view = 'services.prime_brokerage';
         }
         elseif ($type == 'analytics') {
-            $data['page_title'] = 'Data Analytics';
+            $data['page_title'] = 'EMFI: Data Analytics';
             $view = 'services.data_analytics';
         }
 

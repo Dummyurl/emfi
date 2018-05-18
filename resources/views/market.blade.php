@@ -13,10 +13,10 @@
                     <select name="markets" id="markets">
                         @foreach($markets as $val => $label)
                         <option data-url="{{ url(getLangName().getMarketUrls($val)) }}" {{ $selected_market == $val ? 'selected="selected"':'' }} value="{{ $val }}">
-                            {{ strtoupper($label) }}
+                            {{ ucwords(strtolower($label)) }}
                         </option>
                         @endforeach
-                        <option data-url="{{ url(getLangName().'/developed') }}" value="DEVELOPED">DEVELOPED</option>
+                        <!-- <option data-url="{{ url(getLangName().'/developed') }}" value="DEVELOPED">Developed</option> -->
                     </select>
                 </div>
             </div>
@@ -186,8 +186,8 @@
                             <div class="col-md-3">
                                 <select id="price-dropdown-4">
                                     <!-- <option value="1" data-title="Price" selected="selected">Price</option> -->
-                                    <option value="2" data-title="Yield">Yield</option>
-                                    <option value="3" data-title="Spread" selected="selected">P/E Ratio</option>
+                                    <option value="2" data-title="Yield" selected="selected">Yield</option>
+                                    <option value="3" data-title="Spread" >P/E Ratio</option>
                                 </select>
                             </div>
                             <div class="col-md-3">

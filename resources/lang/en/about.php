@@ -1,6 +1,6 @@
 <?php
 	return [
-	'about'=>"About",
+	'about'=>"About Us",
 	'first_name'=>"First Name",
 	'last_name'=>"Last Name",
 	'country'=>"Country",

@@ -630,6 +630,7 @@ function drawBarChart(data_values, elementID, chartType) {
         legend: {position: 'none'},
         hAxis:
                 {
+                    format:"0.00",
                     textStyle: {color: '#666666'},
                     gridlines: {color: "#ccc"},
                     baselineColor: '#ccc',

@@ -1,7 +1,7 @@
 <!-- BEGIN INNER FOOTER -->
 <div class="page-footer">
     <div class="container"> 
-        {{ date('Y')}} &copy;  {{ env('APP_SITE_TITLE')}} ALL Rights Reserved.
+         &copy; {{ date('Y')}} {{ env('APP_SITE_TITLE')}}. ALL Rights Reserved.
     </div>
 </div>
 <div class="scroll-to-top">

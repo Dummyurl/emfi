@@ -7,7 +7,7 @@
 	'laggers'=>"Laggers",
 	'market_history'=>"Market History",
 	'market_news'=>"Market News",
-	'no_tweets'=>"No Tweets Found",
+	'no_tweets'=>"No Recent Updates",
 	'equities'=>"Equities",
 	'credit'=>"Credit",
 	'security'=>"Security",

@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = 
     [
-        'App\Console\Commands\UploadData'
+        'App\Console\Commands\UploadData', 
+        'App\Console\Commands\UploadDataJn'
     ];
 
     /**

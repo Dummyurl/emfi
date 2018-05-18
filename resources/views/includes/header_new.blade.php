@@ -89,7 +89,7 @@
                         </ul>
                     </li>
                     <li class="{{ \Request::is(getLangName().'/about') ? 'active':'' }} dropdown">
-                        <a href="{{ url(getLangName().'/about')}}#why_emfi">{{ __('header.about') }}</a>
+                        <a href="{{ url(getLangName().'/about')}}">{{ __('header.about') }}</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ url(getLangName().'/about')}}#why_emfi">{{ __('header.why_emfi') }}</a></li>
                             <li><a href="{{ url(getLangName().'/about')}}#team">{{ __('header.team') }}</a></li>

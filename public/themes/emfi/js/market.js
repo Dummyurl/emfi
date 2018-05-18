@@ -84,6 +84,7 @@ function drawBarChart(data_values, elementID, chartType) {
         legend: {position: 'none'},
         hAxis:
                 {
+                    format:"0.00",
                     textStyle: {color: '#001a34'},
                     gridlines: {color: "#ccc"},
                     baselineColor: '#ccc',
@@ -91,6 +92,7 @@ function drawBarChart(data_values, elementID, chartType) {
                 },
         vAxis: 
         {
+
             textStyle: {color: '#001a34'},
             gridlines: {color: "#ccc"},
         }

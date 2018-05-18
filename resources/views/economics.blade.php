@@ -39,7 +39,7 @@ foreach($country_benchmarkes as $r)
                     <select id="country-combo">
                         @foreach($countries as $cnt)
                             <option {{ $cnt->id == $countryObj->id ? 'selected="selected"':'' }} value="{{ $cnt->slug }}">
-                                {{ $cnt->country_name }}
+                                {{ ucwords(strtolower($cnt->country_name)) }}
                             </option>
                         @endforeach
                     </select>
@@ -189,14 +189,14 @@ foreach($country_benchmarkes as $cnt)
                 @if(in_array($countryObj->id, $tickerIDs) && $tickerType == 2)
                     {{ strtoupper($key) }}
                 @else
-                    {{ $countryObj->country_name }}    
+                    {{ ucfirst(strtolower($countryObj->country_name)) }}
                 @endif
             </span> 
             <div style="display: none;" id="hid-main-chart-title-{{ $counter}}">
                 @if(in_array($countryObj->id, $tickerIDs) && $tickerType == 2)
                     {{ strtoupper($key) }}
                 @else
-                    {{ $countryObj->country_name }}
+                    {{ ucfirst(strtolower($countryObj->country_name)) }}
                 @endif                
             </div>
         </div>
@@ -258,7 +258,7 @@ foreach($country_benchmarkes as $cnt)
                                         @if(in_array($cnt['country_id'],$tickerIDs) && $cnt['ticker_type'] == 2)
                                         {{ strtoupper($cnt['ticker_name']) }} 
                                         @else
-                                        {{ $cnt['country_title'] }}
+                                        {{ ucwords(strtolower($cnt['country_title'])) }}
                                         @endif
                                     </option>    
                                     @endif
@@ -546,7 +546,7 @@ foreach($country_benchmarkes as $cnt)
                    generateLineGraph2();
                    
                    $('html, body').animate({
-                            scrollTop: $("#secondChartPart").offset().top
+                            scrollTop: $("#secondChartPart").offset().top - 67
                    }, 600);
                 }
            });     

@@ -404,8 +404,8 @@ function drawBenchmarkChart(data_values, chartType)
     elementID = "curve_chart-"+chartType;
     $columnTitle = $("#country-combo option:selected").text();
 
-    $labelHTML = $("#hid-main-chart-title-"+chartType).html() +"<br /><span>"+ $("select#benchmark-dropdown-"+chartType+" option:selected").text()+"</span>";
-    $("#main-chart-title-"+chartType).html($.trim($labelHTML));    
+    $labelHTML = $.trim($("#hid-main-chart-title-"+chartType).html())+"<br/><span>"+$.trim($("select#benchmark-dropdown-"+chartType+" option:selected").text())+"</span>";
+    $("#main-chart-title-"+chartType).html($.trim($labelHTML));
 
     // alert("Size: "+$("#main-chart-title-"+chartType).size());
     // alert($("#main-chart-title-"+chartType).html());        
