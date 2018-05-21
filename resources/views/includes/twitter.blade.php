@@ -45,7 +45,7 @@
             </div>
             @else
                 <div class="col-md-12">
-                    {{ __('market.no_tweets') }} !
+                    {{ __('market.no_tweets') }}
                 </div>
             @endif
         </div>

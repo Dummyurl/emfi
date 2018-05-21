@@ -6,6 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>{{ $page_title or 'EMFI'}}</title>
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
         <!-- Bootstrap -->
         <link href="{{ asset('themes/emfi/css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('themes/emfi/css/owl.carousel.min.css') }}" rel="stylesheet">

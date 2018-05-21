@@ -7,7 +7,7 @@
 	  ?>
         <div class="container">
             <div class="title_belt">
-              <h2> {{ $page_title }} </h2>
+              <h2> {{ $page_title_name }} </h2>
             </div>
             <div class="service_inner clearfix">
               <div class="col-md-6">

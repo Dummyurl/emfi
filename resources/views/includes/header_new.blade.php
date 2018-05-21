@@ -1,6 +1,5 @@
-<div class="nav_wrapper">
 @if(session("is_close_disclaimer") != 1)
-    <div class="disclaimer_show" style="background:rgba(5, 27, 52, 0.85);color:#fff">
+    <div class="disclaimer_block">
         <div class="row disclaimer ftr_txt">
             <!-- <div class="col-md-12">
                 <span title="Close" class="pull-right close_disclaimer" style="color:white;cursor: pointer;">X</span>
@@ -15,6 +14,7 @@
         </div>
     </div>
 @endif
+<div class="nav_wrapper">
     <nav class="navbar navbar-default navbar-static-top" id="myNavigation">
         <div class="container">
             <ul class="rightlinks">
@@ -42,7 +42,7 @@
                 
                 <li> 
                         <a href="https://login.emfiprime.com/login" class="login_btn">
-                            {{ __('header.login') }}
+                            {{ __('header.login') }}                        
                         </a>
                 </li>
             </ul>

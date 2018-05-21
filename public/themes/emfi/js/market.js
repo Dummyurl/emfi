@@ -80,7 +80,6 @@ function drawBarChart(data_values, elementID, chartType) {
         bars: 'horizontal', // Required for Material Bar Charts.
         colors: ['#001a34'],
         backgroundColor: {fill: 'transparent'},
-
         legend: {position: 'none'},
         hAxis:
                 {
@@ -92,7 +91,6 @@ function drawBarChart(data_values, elementID, chartType) {
                 },
         vAxis: 
         {
-
             textStyle: {color: '#001a34'},
             gridlines: {color: "#ccc"},
         }
@@ -159,6 +157,7 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
     }  
     vAxisFormat ='0';
     vAxisFormat = GetDecimalFormat($("select#price-dropdown").val());
+
     var formatedData = [];
     formatedData.push(["", {label:$columnTitle, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}, {label: $columnTitle2, type:'number'}, {label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);    
     for(var i in data_values.benchmark_history_data)
@@ -213,25 +212,25 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
 
     // console.log(formatedData);
     
-//    var data = new google.visualization.DataTable();
-//    data.addColumn('date', 'Month');
-//    data.addColumn('number', "Average Temperature");
-//    data.addColumn('number', "Average Hours of Daylight");
-//
-//    data.addRows([
-//      [new Date(2014, 0),  -.5,  5.7],
-//      [new Date(2014, 1),   .4,  8.7],
-//      [new Date(2014, 2),   .5,   12],
-//      [new Date(2014, 3),  2.9, 15.3],
-//      [new Date(2014, 4),  6.3, 18.6],
-//      [new Date(2014, 5),    9, 20.9],
-//      [new Date(2014, 6), 10.6, 19.8],
-//      [new Date(2014, 7), 10.3, 16.6],
-//      [new Date(2014, 8),  7.4, 13.3],
-//      [new Date(2014, 9),  4.4,  9.9],
-//      [new Date(2014, 10), 1.1,  6.6],
-//      [new Date(2014, 11), -.2,  4.5]
-//    ]);    
+    //    var data = new google.visualization.DataTable();
+    //    data.addColumn('date', 'Month');
+    //    data.addColumn('number', "Average Temperature");
+    //    data.addColumn('number', "Average Hours of Daylight");
+    //
+    //    data.addRows([
+    //      [new Date(2014, 0),  -.5,  5.7],
+    //      [new Date(2014, 1),   .4,  8.7],
+    //      [new Date(2014, 2),   .5,   12],
+    //      [new Date(2014, 3),  2.9, 15.3],
+    //      [new Date(2014, 4),  6.3, 18.6],
+    //      [new Date(2014, 5),    9, 20.9],
+    //      [new Date(2014, 6), 10.6, 19.8],
+    //      [new Date(2014, 7), 10.3, 16.6],
+    //      [new Date(2014, 8),  7.4, 13.3],
+    //      [new Date(2014, 9),  4.4,  9.9],
+    //      [new Date(2014, 10), 1.1,  6.6],
+    //      [new Date(2014, 11), -.2,  4.5]
+    //    ]);    
 
     var data = google.visualization.arrayToDataTable(formatedData);
 
@@ -256,16 +255,16 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
     //     data.addRow([data_values.benchmark_history_data[i][0], $val1, $val2]); 
     // }             
 
-//   var classicOptions = {
-//        title: '',
-//        // Gives each series an axis that matches the vAxes number below.
-//        series: {
-//          0: {targetAxisIndex: 0},
-//          1: {targetAxisIndex: 1}
-//        },
-//      };
+    //   var classicOptions = {
+    //        title: '',
+    //        // Gives each series an axis that matches the vAxes number below.
+    //        series: {
+    //          0: {targetAxisIndex: 0},
+    //          1: {targetAxisIndex: 1}
+    //        },
+    //      };
 
-    // alert()
+        // alert()
 
     var options = 
     {
@@ -316,10 +315,15 @@ function drawBenchmarkChart(data_values, elementID, fromBenchMark)
         vAxis: 
         {
             format:vAxisFormat,
-            textStyle: {color: '#666666'},
+            textStyle: {color: '#001a34'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
         }, 
+        vAxes: {
+              0: { textStyle:{color: '#001a34'} },
+              1: { textStyle:{color: '#666666'} }
+        },
+
         chartArea:{left:80,top:40,right:80,width:"100%",height:"80%"}
     };
     var chart = new google.visualization.LineChart(document.getElementById(elementID));
@@ -345,8 +349,9 @@ function drawChart(data_values, elementID, fromBenchMark)
         $(".market-chart-title-security").html(global_line_graph_text);
     }               
     
-    //
+    // 
     vAxisFormat = '0';
+
     if (counter > 0)
     {
         vAxisFormat = GetDecimalFormat($("select#price-dropdown").val());
@@ -431,7 +436,7 @@ function drawChart(data_values, elementID, fromBenchMark)
         },
         vAxis: {
             format:vAxisFormat,
-            textStyle: {color: '#666666'},
+            textStyle: {color: '#001a34'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
             // viewWindowMode:'explicit',
@@ -550,6 +555,7 @@ function drawRelvalChart(data_values)
     relvalPrice =     $("#price-dropdown-4").val();
     var vAxisFormat = '0';
     vAxisFormat = GetDecimalFormat(relvalPrice);
+
     for(j = 1;j<=1000;j++)
     {
         data.addColumn('number', '');
@@ -575,22 +581,23 @@ function drawRelvalChart(data_values)
 
         for(k = cnt+1;k<=1000;k++)
         {
-            prices.push(null);
+            prices.push(null);            
             prices.push('');
             prices.push('');
         }
+
         data.addRow(prices);
-    }
+    }        
 
 
     var options = {        
         curveType: 'function',
         annotations: 
-        {
+        {            
             textStyle: 
             {
                     fontSize: 10,
-                    color: 'red',
+                    color: 'red',                                        
             }
         },        
         tooltip: {isHtml: true},

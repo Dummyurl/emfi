@@ -1127,23 +1127,28 @@ class PagesController extends Controller {
         $data = [];
 
         if ($type == 'capital') {
-            $data['page_title'] = 'EMFI: Asset Management';
+            $data['page_title'] = 'EMFI: Capital';
+            $data['page_title_name'] = 'Asset Management';
             $view = 'services.asset_management';
         }
         elseif ($type == 'wealth') {
-            $data['page_title'] = "EMFI: Wealth Management";
+            $data['page_title'] = "EMFI: Wealth";
+            $data['page_title_name'] = "Wealth Management";
             $view = 'services.wealth_management';
         }
         elseif ($type == 'securities') {
-            $data['page_title'] = 'EMFI: Investment Banking';
+            $data['page_title'] = 'EMFI: Securities';
+            $data['page_title_name'] = 'Investment Banking';
             $view = 'services.investment_banking';
         }
         elseif ($type == 'prime') {
-            $data['page_title'] = 'EMFI: Investment Banking';
+            $data['page_title'] = 'EMFI: Prime';
+            $data['page_title_name'] = 'Investment Banking';
             $view = 'services.prime_brokerage';
         }
         elseif ($type == 'analytics') {
-            $data['page_title'] = 'EMFI: Data Analytics';
+            $data['page_title'] = 'EMFI: Analytics';
+            $data['page_title_name'] = 'Data Analytics';
             $view = 'services.data_analytics';
         }
 

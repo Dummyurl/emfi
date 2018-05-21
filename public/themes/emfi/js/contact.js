@@ -28,7 +28,7 @@ window. onload = function () {
  }
 };
 
-function init2(){
+    function init2(){
     var london = new google.maps.LatLng(51.522117, -0.150337);
     var zurich = new google.maps.LatLng(47.379165, 8.545277);
     var element_london = 'map';
@@ -62,11 +62,12 @@ function init1(location, element){
                 });
 }
 
+
 $(document).ready(function () {
     $('#contact_form_id').submit(function()
     {
-        if (true)
-            {
+        // if (true)
+            //{
                 $('#AjaxLoaderDiv').fadeIn('slow');
                 $.ajax({
                     type: "POST",
@@ -80,8 +81,9 @@ $(document).ready(function () {
                         $('#AjaxLoaderDiv').fadeOut('slow');
                         if (result.status == 1)
                         {
-                            $.bootstrapGrowl(result.msg, {type: 'success', delay: 4000});
-                            window.location.reload();    
+                            $.bootstrapGrowl(result.msg, {type: 'success', delay: 10000});
+                            // window.location.reload();    
+                            $('#contact_form_id')[0].reset();
                         }   
                         else
                         {
@@ -93,7 +95,7 @@ $(document).ready(function () {
                         $.bootstrapGrowl("Internal server error !", {type: 'danger', delay: 4000});
                     }
                 });
-            }
+            //}
             
             return false;
     });

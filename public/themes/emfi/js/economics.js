@@ -128,7 +128,7 @@ function drawRegression(data_values)
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
         },
-        chartArea:{left:60,top:40,right:50,width:"100%",height:"80%"},
+        chartArea:{left:60,top:40,right:200,width:"100%",height:"80%"},
         colors: ['#001a34', '#666666'],
         auraColor: ['#11abc3', '#c7c3af'],        
         series: 
@@ -217,8 +217,6 @@ function fillBanchMark(data, elementID)
 function generateLineGraph(chartType)
 {
     $benchmark = $("select#benchmark-dropdown-"+chartType).val();
-
-
     $priceID = $("select#price-dropdown-"+chartType).val();
     $month_id = $('select#period-month-'+chartType).val();
     $duration = $('select#duration-dropdown-'+chartType).val();
@@ -272,6 +270,7 @@ function drawChart(data_values, elementID, chartType)
     vAxisFormat ='0';
     vAxisFormat = GetDecimalFormat($("#price-dropdown-1").val());
     hAxisFormat = "0.0";
+
     if (counter > 0)
     {
         if(chartType == 1)
@@ -405,7 +404,7 @@ function drawBenchmarkChart(data_values, chartType)
     $columnTitle = $("#country-combo option:selected").text();
 
     $labelHTML = $.trim($("#hid-main-chart-title-"+chartType).html())+"<br/><span>"+$.trim($("select#benchmark-dropdown-"+chartType+" option:selected").text())+"</span>";
-    $("#main-chart-title-"+chartType).html($.trim($labelHTML));
+    $("#main-chart-title-"+chartType).html($.trim($labelHTML));    
 
     // alert("Size: "+$("#main-chart-title-"+chartType).size());
     // alert($("#main-chart-title-"+chartType).html());        
@@ -414,7 +413,6 @@ function drawBenchmarkChart(data_values, chartType)
     hAxisFormat = "0.0";
 
     var formatedData = [];
-
     formatedData.push([{label:'', type:'number'}, {label:$columnTitle, type:'number'},{label: 'tooltip', role: 'tooltip', 'p': {'html': true}},{label: $("select#benchmark-dropdown-"+chartType+" option:selected").text(), type:'number'},{label: 'tooltip', role: 'tooltip', 'p': {'html': true}}]);
     
     // console.log("ID: "+$("#duration-dropdown-"+chartType).val());
@@ -501,6 +499,7 @@ function drawAreaChart(data_values) {
     var tmpValues = [];
     vAxisFormat ='0';
     vAxisFormat = GetDecimalFormat($("#price-dropdown-11").val());
+    
     if(data_values.length > 0)
     {
         formatedData.push(["", ""]);
@@ -661,6 +660,7 @@ function drawChart2(data_values, elementID)
     vAxisFormat ='0';
     vAxisFormat = GetDecimalFormat($("#price-dropdown-10").val());
     hAxisFormat = "0.0";
+
     if (counter > 0)
     {
         $columnTitle = $columnTitle + " "+$("select#price-dropdown-10 option:selected").data("title");
@@ -671,7 +671,7 @@ function drawChart2(data_values, elementID)
         {
 
            var d = new Date(data_values[i]['created']);
-           var $created = d;
+           var $created = d;           
 
             if ($("select#price-dropdown-10").val() != 1)
             {                
@@ -740,7 +740,7 @@ function drawChart2(data_values, elementID)
         vAxis: 
         {
             format:vAxisFormat,
-            textStyle: {color: '#666666'},
+            textStyle: {color: '#001a34'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
             // viewWindowMode:'explicit',
@@ -862,7 +862,11 @@ function drawBenchmarkChart2(data_values)
             textStyle: {color: '#666666'},
             gridlines: {color: "#ccc"},
             baselineColor: {color: "#ccc"},
-        }, 
+        },
+        vAxes: {
+              0: { textStyle:{color: '#001a34'} },
+              1: { textStyle:{color: '#666666'} }
+        },
         chartArea:{left:60,top:40,right:60,width:"100%",height:"80%"}
     };    
 
