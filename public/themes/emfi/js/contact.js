@@ -31,10 +31,13 @@ window. onload = function () {
     function init2(){
     var london = new google.maps.LatLng(51.522117, -0.150337);
     var zurich = new google.maps.LatLng(47.379165, 8.545277);
+    var newyork = new google.maps.LatLng(40.7128, -74.0060);
     var element_london = 'map';
     var element_zurich = 'map2';
+    var element_newyork = 'map3';
     init1(london, element_london);
     init1(zurich, element_zurich);
+    init1(newyork, element_newyork);
 }
 
 function init1(location, element){

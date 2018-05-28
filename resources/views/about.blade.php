@@ -59,7 +59,7 @@
       <div class="row">
         <div class="col-md-6 col-md-push-6 bgcover imgcol  about-img1"></div>
         <div class="col-md-6 col-md-pull-6 txtcol">
-          <h2>{{ __('about.why_emfi') }}?</h2>
+          <h2>{{ __('about.why_emfi') }}</h2>
           <p>{{ __('about.why_emfi_1') }}.</p>
           <p>{{ __('about.why_emfi_2') }}.</p>
           <p>{{ __('about.why_emfi_3') }}.</p>
@@ -88,73 +88,17 @@
 </section>
 <section class="team_member">
   <div class="container" id="team">
-  <h2>Team</h2>
+  <h2>{{ __('header.team') }}</h2>
     <div class="row">
+    @foreach($teams as $team)
     <div class="col-md-4 col-sm-6">
       <div class="team_block">
         <figure><img src="/themes/emfi/images/no-image-male.png" alt="Frank Sinatra - Project Manager"></figure>
-        <h3>Frank Sinatra</h3>
-        <h4>Project Manager</h4>
-        <a href="#">LinkedIn Profile</a></div>
+        <h3>{{ $team['name'] }}</h3>
+        <h4>{{ $team['post'] }}</h4>
+        <a href="{{ $team['linkedin'] }}">LinkedIn Profile</a></div>
     </div>
-    <div class="col-md-4 col-sm-6">
-      <div class="team_block">
-        <figure><img src="/themes/emfi/images/no-image-male.png" alt="Frank Sinatra - Project Manager"></figure>
-        <h3>Frank Sinatra</h3>
-        <h4>Project Manager</h4>
-        <a href="#">LinkedIn Profile</a></div>
-    </div>
-    <div class="col-md-4 col-sm-6">
-      <div class="team_block">
-        <figure><img src="/themes/emfi/images/no-image-male.png" alt="Frank Sinatra - Project Manager"></figure>
-        <h3>Frank Sinatra</h3>
-        <h4>Project Manager</h4>
-        <a href="#">LinkedIn Profile</a></div>
-    </div>
-    
-    <div class="col-md-4 col-sm-6">
-      <div class="team_block">
-        <figure><img src="/themes/emfi/images/no-image-male.png" alt="Frank Sinatra - Project Manager"></figure>
-        <h3>Frank Sinatra</h3>
-        <h4>Project Manager</h4>
-        <a href="#">LinkedIn Profile</a></div>
-    </div>
-    <div class="col-md-4 col-sm-6">
-      <div class="team_block">
-        <figure><img src="/themes/emfi/images/no-image-male.png" alt="Frank Sinatra - Project Manager"></figure>
-        <h3>Frank Sinatra</h3>
-        <h4>Project Manager</h4>
-        <a href="#">LinkedIn Profile</a></div>
-    </div>
-    <div class="col-md-4 col-sm-6">
-      <div class="team_block">
-        <figure><img src="/themes/emfi/images/no-image-male.png" alt="Frank Sinatra - Project Manager"></figure>
-        <h3>Frank Sinatra</h3>
-        <h4>Project Manager</h4>
-        <a href="#">LinkedIn Profile</a></div>
-    </div>
-    
-    <div class="col-md-4 col-sm-6">
-      <div class="team_block">
-        <figure><img src="/themes/emfi/images/no-image-male.png" alt="Frank Sinatra - Project Manager"></figure>
-        <h3>Frank Sinatra</h3>
-        <h4>Project Manager</h4>
-        <a href="#">LinkedIn Profile</a></div>
-    </div>
-    <div class="col-md-4 col-sm-6">
-      <div class="team_block">
-        <figure><img src="/themes/emfi/images/no-image-male.png" alt="Frank Sinatra - Project Manager"></figure>
-        <h3>Frank Sinatra</h3>
-        <h4>Project Manager</h4>
-        <a href="#">LinkedIn Profile</a></div>
-    </div>
-    <div class="col-md-4 col-sm-6">
-      <div class="team_block">
-        <figure><img src="/themes/emfi/images/no-image-male.png" alt="Frank Sinatra - Project Manager"></figure>
-        <h3>Frank Sinatra</h3>
-        <h4>Project Manager</h4>
-        <a href="#">LinkedIn Profile</a></div>
-    </div>
+    @endforeach
   </div>
   </div>
 </section>
@@ -294,6 +238,20 @@
               Switzerland
               </address>
               <a href="mailto:zurich@emfisecurities.com">zurich@emfisecurities.com</a> </div>
+          </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="col-lg-12">
+          <div class="inner_block office_2">
+            <div class="txt_block col-lg-3 col-lg-push-1">
+              <h2>NEW YORK</h2>
+              <address>
+              <strong>EMFI</strong> Group<br>
+              598 9th Ave<br>
+              New York, NY 10036<br>
+              United States
+              </address>
+              <a href="mailto:zurich@emfisecurities.com">newyork@emfi.eu</a> </div>
           </div>
         </div>
       </div>

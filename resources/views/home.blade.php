@@ -27,7 +27,7 @@
                                     <div class="col-md-6">
                                         <div class="text_right">
                                                 {!! $slider['description'] !!}
-                                            <!-- <a href="#">Continue Reading <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a> -->
+                                            <a href="https://login.emfiprime.com/login">Continue Reading <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
                                         </div>
                                     </div>
                                 </div>

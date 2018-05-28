@@ -107,7 +107,7 @@
                             <li><a href="{{ url(getLangName().'/wealth')}}">{{ __('header.wealth_management') }}</a></li>
                             <li><a href="{{ url(getLangName().'/securities')}}">{{ __('header.investment_banking') }}</a></li>
                             <li><a href="{{ url(getLangName().'/prime')}}">{{ __('header.prime_brokerage') }}</a></li>
-                            <li><a href="{{ url(getLangName().'/analytics')}}">{{ __('header.data_analytics') }}</a></li>
+                            <?php /* <li><a href="{{ url(getLangName().'/analytics')}}">{{ __('header.data_analytics') }}</a></li> */?>
                         </ul>
                     </li>
                     <?php /*

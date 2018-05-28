@@ -1,7 +1,7 @@
 <?php
 	return [
 	'contact_us'=>'Contact Us',
-	'help_you'=>'How can we help you?',
+	'help_you'=> ucfirst('How Can We Help You'),
 	'any_qtn'=>"If you have any questions, don't hesitate to contact us",
 	'first_name'=>"First Name*",
 	'last_name'=>"Last Name*",
@@ -26,6 +26,7 @@
 	'wealth_management' => 'Wealth Management',
 	'investment_banking' => 'Capital Markets',
 	'prime_brokerage' => 'Prime Brokerage',
-	'data_analytics' => 'Data Analytics',            
+	'data_analytics' => 'Data Analytics',         
+	'emfi_group' => 'EMFI Group',         
 	];
 ?>

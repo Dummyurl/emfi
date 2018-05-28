@@ -35,6 +35,19 @@ class Custom
         $data = ['en'=>'English','es'=>'Spanish'];
         return $data;
     }
+    public static function getTeamData()
+    {
+        $record[1] = ['name'=>'Usman Sheikh','post'=>'Chief Executive','linkedin'=>'https://www.linkedin.com/in/emfiusman/'];
+        $record[2] = ['name'=>'Mansoor Razzaq','post'=>'Asset Management','linkedin'=>'https://www.linkedin.com/in/mansoor-razzaq-5011a2/'];
+        $record[3] = ['name'=>'Gabriel De Jesus Sierra','post'=>'Wealth Management','linkedin'=>'https://www.linkedin.com/in/gabriel-de-jesus-sierra-28751485/'];
+        $record[4] = ['name'=>'Daniel Kushner','post'=>'Compliance','linkedin'=>'https://www.linkedin.com/in/daniel-kushner-a1814332/'];
+        $record[5] = ['name'=>'Imran Ashraf','post'=>'Finance','linkedin'=>'https://www.linkedin.com/in/imran-ashraf-cheema-9455b7/'];
+        $record[6] = ['name'=>'Patricio Diaz','post'=>'Business Development','linkedin'=>'https://www.linkedin.com/in/diazpatricio/'];
+        $record[7] = ['name'=>'Ruth Benitez','post'=>'Client Integration','linkedin'=>'#'];
+        $record[8] = ['name'=>'Henry Travieso','post'=>'Operations','linkedin'=>'https://www.linkedin.com/in/henry-travieso-49a95b2/'];
+        $record[9] = ['name'=>'Luisa Gastambide','post'=>'Marketing / HR','linkedin'=>'https://www.linkedin.com/in/luisa-gastambide-5174a511/'];
+        return $record;
+    }
 }
 
 if (!function_exists('mime_content_type')) {

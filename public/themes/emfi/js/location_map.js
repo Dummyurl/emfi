@@ -3,6 +3,11 @@
     var element_london = 'map';
     init1(london, element_london);
 }
+function init3(){
+    var newyork = new google.maps.LatLng(40.7128, -74.0060);
+    var element_newyork = 'map';
+    init1(newyork, element_newyork);
+}
 function init1(location, element){
     var mapOptions = {
             zoom: 16,

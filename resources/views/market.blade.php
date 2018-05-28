@@ -130,7 +130,7 @@
                 <div id="bar_chart" class="bar_chart" style="width: 100%; height: 400px"> </div>
             </div>
             <div class="col-lg-6">
-                <div class="sub_title title_r"><h3>{{ __('market.laggers') }}</h3></div>
+                <div class="sub_title"><h3>{{ __('market.laggers') }}</h3></div>
                 <div id="bar_chart2" class="bar_chart" style="width: 100%; height: 400px"> </div>
             </div>
         </div>

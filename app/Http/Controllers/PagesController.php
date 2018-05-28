@@ -37,7 +37,7 @@ class PagesController extends Controller {
         }
 
         $data = array();
-        $data['page_title'] = "EMFI: Home Page";
+        $data['page_title'] = "EMFI Group";
         $locale = session('locale');
         if (empty($locale))
         {
@@ -118,7 +118,7 @@ class PagesController extends Controller {
     {
         $defaultCountry = $country;
         $data = array();
-        $data['page_title'] = "EMFI: Countries";
+        $data['page_title'] = "EMFI Group";
         $data['selectedMenu'] = "countries";
         $locale = session('locale');
         if (empty($locale)) {
@@ -375,7 +375,7 @@ class PagesController extends Controller {
 
     public function contact(Request $request, $type = '') {
         $data = array();
-        $data['page_title'] = "EMFI: Contact";
+        $data['page_title'] = "EMFI Group";
         $data['type'] = $type;
         $locale = session('locale');
         if (empty($locale)) {
@@ -388,13 +388,14 @@ class PagesController extends Controller {
 
     public function about(Request $request) {
         $data = array();
-        $data['page_title'] = "EMFI: About";
+        $data['page_title'] = "EMFI Group";
         $locale = session('locale');
         if (empty($locale)) {
             $locale = 'en';
         }
 
         app()->setLocale($locale);
+        $data['teams'] = \App\Custom::getTeamData();
         return view('about', $data);
     }
 
@@ -478,7 +479,7 @@ class PagesController extends Controller {
         app()->setLocale($locale);
 
         $data = array();
-        $data['page_title'] = "EMFI: Markets";
+        $data['page_title'] = "EMFI Group";
         // $data['tweets'] = getLatestTweets();
         $from = "@emfisecurities";
         $data['tweets'] = getPeopleTweets($from);
@@ -1138,12 +1139,12 @@ class PagesController extends Controller {
         }
         elseif ($type == 'securities') {
             $data['page_title'] = 'EMFI: Securities';
-            $data['page_title_name'] = 'Investment Banking';
+            $data['page_title_name'] = 'Capital Markets';
             $view = 'services.investment_banking';
         }
         elseif ($type == 'prime') {
             $data['page_title'] = 'EMFI: Prime';
-            $data['page_title_name'] = 'Investment Banking';
+            $data['page_title_name'] = 'Prime Brokerage';
             $view = 'services.prime_brokerage';
         }
         elseif ($type == 'analytics') {
@@ -1152,7 +1153,7 @@ class PagesController extends Controller {
             $view = 'services.data_analytics';
         }
 
-        $view = 'services.asset_management';
+        //$view = 'services.asset_management';
 
         $locale = session('locale');
         if (empty($locale))

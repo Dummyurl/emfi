@@ -1,0 +1,71 @@
+<?php
+
+	return [
+		//*********** Asset Management  ********** //
+	'ass_title'=>'Asset Management',
+	'ass_sub_title'=>'EMFI Capital LLC',
+	'our_services'=>'Our Services',
+	'ass_our_services_1'=>'EMFI Capital provides extensive insight and expertise across the traditional asset classes and investment styles.',
+	'ass_our_services_2'=>'We offer a range of active and passive investment styles and capabilities across both traditional and alternative asset classes.',
+	'ass_our_services_3'=>'We also offer alternative investments through our partners, which encompass single and multi-manager hedge funds, real estate, infrastructure and private equity.',
+	'ass_our_services_4'=>'Our deep investment knowledge means we can provide you with the understanding and flexibility you need to meet your investment goals.',
+	'our_approach'=>'Our Approach',
+	'ass_our_approach_1'=>'EMFI Capital offers discretionary programs designed to provide you with the opportunity to entrust the management of your assets to the investment management professionals who specialize in asset allocation, security selection and sophisticated risk management.',
+	'ass_our_approach_2'=>'The portfolios include stocks, bonds, mutual funds and exchange traded funds and are designed to align with your investment objectives and risk tolerance.',
+	'ass_our_approach_3'=>"The team leverages all of EMFI's global resources to deliver a comprehensive investment solution to help you pursue your goals.",
+	'ass_our_approach_4'=>'If you are looking for a multi-asset approach, our traditional and alternative offerings can be combined to create a custom solution. We can also support you with investment and risk advisory services.',
+	'our_clients'=>'Our Clients',
+	'ass_our_clients_1'=>'EMFI Capital offers investment capabilities for private clients, intermediaries and institutional investors.',
+	'ass_our_clients_2'=>'Our strategies and services are offered to a broad range of clients including corporate, pension plans, insurance companies, and financial institutions.',
+	'ass_our_clients_3'=>'We also provide dedicated advisory and investment solutions for sovereign clients such as governments and central banks.',
+	'ass_our_clients_4'=>"Working together with clients, we believe the combination of our local focus and global reach puts EMFI Capital in a unique position to create meaningful solutions to our clients' most pressing investment challenges.",
+	
+		//*********** Wealth Management  ********** //
+	'wlt_sub_title'=>"EMFI Wealth AG",
+	'wlt_our_services_1'=>"EMFI Wealth offers a variety of investment advisory programs—including both non-discretionary and discretionary offerings—to help you meet your unique needs.",
+	'wlt_our_services_2'=>"Building an investment plan and an optimal asset allocation strategy to meet your unique needs requires careful consideration and often, outside expertise. Our Financial Advisors are committed to helping you with this process, allowing you to spend more time on the activities you truly enjoy.",
+	'wlt_our_services_3'=>"We also offer alternative investments through our partners, which encompass single and multi-manager hedge funds, real estate, infrastructure and private equity.",
+	'wlt_our_services_4'=>"With the investment advisory programs available at EMFI Wealth, you can enjoy these important features, depending upon the program you select:",
+	'wlt_our_services_41'=>"Advice and guidance from EMFI Financial Advisor",
+	'wlt_our_services_42'=>"Personalized asset allocation and consulting",
+	'wlt_our_services_43'=>"Asset management from in-house and third-party investment management firms",
+	'wlt_our_approach_1'=>"EMFI takes a holistic wealth management approach to carefully understanding your overall financial situation, unique needs and goals, and deliver an optimal investment solution to meet them.",
+	'wlt_our_approach_2'=>"EMFI Wealth approach is based on the trusted relationship of our Financial Advisors and their clients. Our experienced Advisors are committed to understanding clients' needs and delivering insightful, informed advice to help them realize their dreams.",
+	'wlt_our_approach_3'=>"Consider partnering with investment professionals whose experience, insights and relationship you trust. We are committed to learning about your individual needs and offering custom investment solutions to help you address them.",
+	'wlt_our_clients_1'=>"EMFI Wealth offers high net worth and affluent individuals around the world a complete range of tailored advice and investment services.",
+	'wlt_our_clients_2'=>"Our capabilities and resources are fully aligned, and we are committed to being proactive and responsive to your needs.",
+	'wlt_our_clients_3'=>"Our breadth of offerings, intellectual capital and investment expertise empower us to partner with you to create a custom asset allocation and work with you to adapt your portfolio to the changing market environment and personal life events.",
+	'wlt_our_clients_4'=>"At EMFI Wealth, we not only leverage our internal capabilities, including our Capital Markets and Asset Management, but also look outside the firm to third-party partners, finding the appropriate solutions to address your needs.",
+	
+		//*********** Investment Management  ********** //
+	'inv_sub_title'=>'EMFI Securities Limited',
+	'inv_our_services_1'=>"EMFI Securities provides corporate, institutional, and wealth management clients with expert advice, innovative financial solutions, outstanding execution and comprehensive access to the world's capital markets.",
+	'inv_our_services_2'=>'EMFI Securities is an active participant in capital markets flow activities, including sales, trading and market-making across a range of securities.',
+	'inv_our_services_3'=>'From cash equities to credit, we give our clients access to the products and liquidity they need. Not only do we help our clients to spot market trends, we also help our clients to act on them.',
+	'inv_our_services_4'=>'We offer bespoke solutions for public and private clients. Whether for portfolio building, hedging, yield enhancement, or disposal, we help our clients to manage their assets worldwide.',
+	'inv_our_approach_1'=>'From distribution to managing risk and providing liquidity, we help clients realize their financial goals.',
+	'inv_our_approach_2'=>"We don't just offer our clients a wide range of sales, trading, execution and clearing services; we try to make such services simple, intuitive and flexible for our clients to use.",
+	'inv_our_approach_3'=>"We give our clients access to industry-leading technology and electronic platforms with the speed and flexibility to succeed in today's markets.",
+	'inv_our_approach_4'=>"Whatever our clients' investment and trading strategies, we help them to engage effectively with the markets that matter most to them.",
+	'inv_our_clients_1'=>"EMFI Securities provides access to global capital markets to corporate and institutional clients.",
+	'inv_our_clients_2'=>"We recognize that our clients have an intimate understanding of their own business. We complement their insights by offering them access to some of the best minds in capital markets, financing as well as transactional expertise.",
+	'inv_our_clients_3'=>"Client needs vary, but our focus is constant – to provide nimble, innovative and bespoke access to solutions, from market and insight tools, to trading strategies and execution.",
+	'inv_our_clients_4'=>"We work with our clients to understand their business needs and provide ideas that help power growth.",
+
+		//*********** Prime Management  ********** //
+	'prm_sub_title'=>'EMFI Prime Limited',
+	'prm_our_services_1'=>'EMFI Prime offers top-tier services tailored to your exact requirements, and designed to optimize opportunity and minimize risk.',
+	'prm_our_services_2'=>'Through our partners, we offer global clearing, custody, flexible financing solutions, full accounting support, plus access to our execution platform.',
+	'prm_our_services_3'=>'EMFI Prime provides a flexible and scalable technology platform to our client base in multiple time zones worldwide.',
+	'prm_our_services_4'=>'Customizable reports and data can be generated in multiple file formats, while our interactive tools allow clients to closely analyze their multi-asset class portfolios and make timely investment decisions.',
+	'prm_our_approach_1'=>"Working with you as your 'prime partners' we're committed to delivering the benefits of our relationships and technology to help your business succeed.",
+	'prm_our_approach_2'=>'Our relationship with custodians and sub-custodians means that we can efficiently provide core services – such as clearing and settlement capabilities – alongside a range of complementary services.',
+	'prm_our_approach_3'=>'Our service provides timely settlement and clearing of securities and cash balances for all transactions in most time-zones and all major currencies, whether you have executed the transaction through us or with a third party.',
+	'prm_our_approach_4'=>'We call upon our breadth and depth of expertise to provide innovative ideas that are tailor-made. Behind the scenes, we continue to refine our service offerings by learning from each and every client situation.',
+	'prm_our_clients_1'=>'When asset management firms, broker dealers and intermediaries need front-to-back prime brokerage and financing services, they can turn to us.',
+	'prm_our_clients_2'=>'Long term or short, straightforward or complex, we have the understanding and ability to shape the right solution for our clients.',
+	'prm_our_clients_3'=>"Combining our clients' insight with our transactional expertise, we work alongside our clients on specialized and structured solutions.",
+	'prm_our_clients_4'=>'We will walk you through every aspect of on-boarding, from documentation to connectivity, ensuring your introduction to EMFI Prime is comprehensive and efficient.',
+	];
+
+?>

@@ -126,6 +126,25 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="office_details">
+                    <h3>NEW YORK</h3>
+                    <address>
+                        <strong>EMFI</strong> Group<br>
+                        598 9th Ave<br>
+                        New York, NY 10036<br>
+                        United States
+                    </address>
+                    <a href="mailto:zurich@emfisecurities.com">newyork@emfi.eu</a>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="office_map map_mrgn_l">
+                    <div id="map3" class="map"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 

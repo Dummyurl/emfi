@@ -1,7 +1,7 @@
 <?php
 	return [
 	'contact_us'=>'Contáctenos',
-	'help_you'=>'como podemos ayudarte?',
+	'help_you'=>ucfirst('Como podemos Ayudarte'),
 	'any_qtn'=>"Si tiene alguna pregunta o inquietud, por favor contáctese con nosotros",
 	'first_name'=>"Nombre",
 	'last_name'=>"Apellido",
@@ -27,6 +27,7 @@
 	'careers' => 'Carreras',
 	'locations' => 'Ubicaciones',
 	'service' => 'Servicio',
+	'emfi_group' => 'Grupo EMFI', 
 	
     ];
 ?>
