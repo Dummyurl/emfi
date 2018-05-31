@@ -88,7 +88,7 @@
 </section>
 <section class="team_member">
   <div class="container" id="team">
-  <h2>{{ __('header.team') }}</h2>
+  <h2>{{ __('about.team') }}</h2>
     <div class="row">
     @foreach($teams as $team)
     <div class="col-md-4 col-sm-6">
@@ -96,18 +96,19 @@
         <figure><img src="/themes/emfi/images/no-image-male.png" alt="Frank Sinatra - Project Manager"></figure>
         <h3>{{ $team['name'] }}</h3>
         <h4>{{ $team['post'] }}</h4>
-        <a href="{{ $team['linkedin'] }}">LinkedIn Profile</a></div>
+        <a href="{{ $team['linkedin'] }}" target="_blank"><i aria-hidden="true" class="fa fa-linkedin"></i></a></div>
     </div>
     @endforeach
-  </div>
-  </div>
+    </div>
+    </div>
+    
 </section>
 <section class="info_block_new">
   <div id="clients">
     <div class="container">
       <div class="row">
         <div class="col-md-6 col-md-push-6 bgcover about-img1 inner_1"></div>
-        <div class="col-md-6 col-md-pull-6 txtcol inner_1">
+        <div class="col-md-6 col-md-pull-6 txtcol inner_1 clients-section">
           <div class="info_content_left">
             <div class="text-justify">
               <h2>{{ __('about.clients') }}</h2>
@@ -166,21 +167,10 @@
         <div class="col-md-6 col-md-pull-6 txtcol inner_3">
           <div class="content_left">
             <div class="text-justify">
-              <h2>{{ __('about.clients') }}</h2>
-              <p>{{ __('about.client_desc') }}.</p>
-            </div>
-            <div class="btns">
-              <ul class="clearfix">
-                <li><p><a href="#">{{ __('about.client_link_1') }}</a></p></li>
-                <li><p><a href="#">{{ __('about.client_link_2') }}</a></p></li>
-                <li><p><a href="#">{{ __('about.client_link_3') }}</a></p></li>
-                <li><p><a href="#">{{ __('about.client_link_4') }}</a></p></li>
-                <li><p><a href="#">{{ __('about.client_link_5') }}</a></p></li>
-                <li><p><a href="#">{{ __('about.client_link_6') }}</a></p></li>
-                <li><p><a href="#">{{ __('about.client_link_7') }}</a></p></li>
-                <li><p><a href="#">{{ __('about.client_link_8') }}</a></p></li>
-                <li><p><a href="#">{{ __('about.client_link_9') }}</a></p></li>
-              </ul>
+              <h2>{{ __('about.candidates') }}</h2>
+              <p>{{ __('about.candidates_desc_1') }}</p>
+              <p>{{ __('about.candidates_desc_2') }}</p>
+              <p>{{ __('about.candidates_desc_3') }} <a href="{{ url(getLangName().'/contact/careers')}}">here</a>.</p>
             </div>
           </div>
         </div>
@@ -191,7 +181,7 @@
       <div class="col-md-6 bgcover imgcol about-img2 inner_4"> </div>
         <div class="col-md-6 txtcol inner_4">
           <div class="content_right clearfix">
-            <h2>{{ __('about.candidates') }}</h2>
+            <h2>{{ __('about.our_value') }}</h2>
             <div class="text-justify">
               <h3>{{ __('about.value_tit_5') }}</h3>
               <p>{{ __('about.value_desc_5') }}.</p>
@@ -216,42 +206,42 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="inner_block office_1">
-            <div class="txt_block col-lg-3 col-lg-push-1">
+            <div class="txt_block col-lg-3 col-md-4 col-sm-5 col-lg-push-1">
               <h2>{{ __('about.london') }}</h2>
               <address>
-              <strong>EMFI</strong> SECURITIES<br>
+              <strong>EMFI</strong> Group Limited<br><br>
               32 Devonshire Pl<br>
               London, W1G 6JL<br>
               United Kingdom
               </address>
-              <a href="mailto:lndon@emfisecurities.com">lndon@emfisecurities.com</a> </div>
+              <a href="mailto:london@emfi.eu">london@emfi.eu</a> </div>
           </div>
         </div>
         <div class="col-lg-12">
           <div class="inner_block office_2">
-            <div class="txt_block col-lg-3 col-lg-push-8">
-              <h2>ZÜRICH</h2>
+            <div class="txt_block col-lg-3 col-md-4 col-sm-5 col-lg-push-8">
+              <h2>ZURICH</h2>
               <address>
-              <strong>EMFI</strong> SECURITIES<br>
+              <strong>EMFI</strong> Group Limited<br><br>
               Leonhardstrasse 1<br>
               8001 Zürich<br>
               Switzerland
               </address>
-              <a href="mailto:zurich@emfisecurities.com">zurich@emfisecurities.com</a> </div>
+              <a href="mailto:zurich@emfi.eu">zurich@emfi.eu</a> </div>
           </div>
         </div>
         <div class="clearfix">&nbsp;</div>
         <div class="col-lg-12">
-          <div class="inner_block office_2">
-            <div class="txt_block col-lg-3 col-lg-push-1">
+          <div class="inner_block office_3 ">
+            <div class="txt_block col-lg-3 col-md-4 col-sm-5 col-lg-push-1">
               <h2>NEW YORK</h2>
               <address>
-              <strong>EMFI</strong> Group<br>
+              <strong>EMFI</strong> Group Limited<br><br>
               598 9th Ave<br>
               New York, NY 10036<br>
               United States
               </address>
-              <a href="mailto:zurich@emfisecurities.com">newyork@emfi.eu</a> </div>
+              <a href="mailto:newyork@emfi.eu">newyork@emfi.eu</a> </div>
           </div>
         </div>
       </div>

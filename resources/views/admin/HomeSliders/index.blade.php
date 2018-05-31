@@ -180,7 +180,11 @@
                     $country.empty();
                     $country.append('<option>Select Security</option>');
                     $.each(result, function(k, v) {
-                        $country.append('<option value="' + k + '">' + v + '</option>');
+                        
+                        if(v.benchmark_family == 'B10'){
+                            $country.append('<option selected="selected" value="' + k + '">' + v.security_name + '</option>');
+                        }
+                        $country.append('<option value="' + k + '">' + v.security_name + '</option>');
                     });
                         $country.change();
                 $('#AjaxLoaderDiv').fadeOut('slow');
@@ -231,8 +235,6 @@
 				toolbarGroups: [
 							{"name":"basicstyles","groups":["basicstyles"]},
 							{"name":"paragraph","groups":["list","blocks"]},
-							{"name":"styles","groups":["styles"]},
-							{"name":"about","groups":["about"]}
 						],
 			});
 		});

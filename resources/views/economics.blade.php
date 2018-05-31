@@ -303,7 +303,7 @@ foreach($country_benchmarkes as $cnt)
                         <td>
 
                             <?php 
-                                $cssClassName = trim(strtolower($row['benchmark_family'])) == "b10" ? ' b10':'';
+                                $cssClassName = trim(strtolower($row['benchmark_family'])) == "b10" && $row['ticker_type'] == 1 ? ' b10':'';
                             ?>
 
                             <a data-market="{{ $row['market_id'] }}" class="generate-bond-chart{{ $cssClassName }}" href="javascript:void(0);" data-id="{{ $row['id'] }}" title="View Graph">
@@ -464,8 +464,7 @@ foreach($country_benchmarkes as $cnt)
 
 </div>
 
-
-@include('includes.twitter',['tweet_sub_title' => $countryObj->country_name])
+@include('includes.twitter',['tweet_sub_title' => ucfirst(strtolower($countryObj->country_name)) ])
 
 @stop
 @section('scripts')

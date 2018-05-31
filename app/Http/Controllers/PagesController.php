@@ -23,6 +23,24 @@ class PagesController extends Controller {
 
     public function home(Request $request) {
 
+        if($request->get("action") == "cookie")
+        {
+            $check_performance = $request->get("check_performance");
+            $check_user_preference = $request->get("check_user_preference");
+
+            if($check_performance == 1)
+                session(["check_performance" => 0]);
+            else
+                session(["check_performance" => 1]);
+
+            if($check_user_preference == 1)
+                session(["check_user_preference" => 0]);                
+            else
+                session(["check_user_preference" => 1]);                
+
+            return ['status' => 1];            
+        }
+
         $close_disclaimer = $request->get("close_disclaimer");
         if($close_disclaimer == 1)
         {
@@ -37,7 +55,7 @@ class PagesController extends Controller {
         }
 
         $data = array();
-        $data['page_title'] = "EMFI Group";
+        $data['page_title'] = "Home | EMFI Group";
         $locale = session('locale');
         if (empty($locale))
         {
@@ -118,7 +136,7 @@ class PagesController extends Controller {
     {
         $defaultCountry = $country;
         $data = array();
-        $data['page_title'] = "EMFI Group";
+        $data['page_title'] = ucfirst($country)." | EMFI Group";
         $data['selectedMenu'] = "countries";
         $locale = session('locale');
         if (empty($locale)) {
@@ -165,7 +183,7 @@ class PagesController extends Controller {
                 app()->setLocale($locale);
 
                 $data = array();
-                $data['page_title'] = "EMFI: Markets";
+                $data['page_title'] = ucfirst($country)." | EMFI Group";
                 // $data['tweets'] = getLatestTweets();
                 $from = "@emfisecurities";
                 $data['tweets'] = getPeopleTweets($from);
@@ -252,7 +270,7 @@ class PagesController extends Controller {
             $data = [];
             $data['selectedMenu'] = "countries";
             $data['last_update_date'] = getLastUpdateDate();
-            $data['page_title'] = "EMFI: Countries";
+            $data['page_title'] = "Countries | EMFI Group";
             $data['markets'] = MarketType::getArrayList();
             $data['countries'] = Country::where("country_type", 2)->orderBy("title")->get()->toArray();
             $data['countries'] = json_encode($data['countries']);
@@ -281,7 +299,7 @@ class PagesController extends Controller {
 
         // dd($treeMapData);
 
-        $treeMapData[] = $r;
+        //$treeMapData[] = $r;
 
         if($data['countryObj']->id == 1)
         {
@@ -344,7 +362,7 @@ class PagesController extends Controller {
         $data = [];
         $data['selectedMenu'] = "countries";
         $data['last_update_date'] = getLastUpdateDate();
-        $data['page_title'] = "EMFI: Countries";
+        $data['page_title'] = "South America | EMFI Group";
         $data['markets'] = MarketType::getArrayList();
         $data['countries'] = Country::where("country_type", 2)->orderBy("title")->get()->toArray();
         $data['countries'] = json_encode($data['countries']);
@@ -353,11 +371,13 @@ class PagesController extends Controller {
 
         if($currentRegion == "caribbean")
         {
+            $data['page_title'] = "The Caribbean | EMFI Group";
             $defaultCode = "029";
             $region_id = 5;
         }
         else if($currentRegion == "centralamerica")
         {
+            $data['page_title'] = "Central America | EMFI Group";
             $defaultCode = "013";
             $region_id = 7;
         }
@@ -375,7 +395,7 @@ class PagesController extends Controller {
 
     public function contact(Request $request, $type = '') {
         $data = array();
-        $data['page_title'] = "EMFI Group";
+        $data['page_title'] = "Contact | EMFI Group";
         $data['type'] = $type;
         $locale = session('locale');
         if (empty($locale)) {
@@ -388,7 +408,7 @@ class PagesController extends Controller {
 
     public function about(Request $request) {
         $data = array();
-        $data['page_title'] = "EMFI Group";
+        $data['page_title'] = "About | EMFI Group";
         $locale = session('locale');
         if (empty($locale)) {
             $locale = 'en';
@@ -479,7 +499,7 @@ class PagesController extends Controller {
         app()->setLocale($locale);
 
         $data = array();
-        $data['page_title'] = "EMFI Group";
+        $data['page_title'] = "Markets | EMFI Group";
         // $data['tweets'] = getLatestTweets();
         $from = "@emfisecurities";
         $data['tweets'] = getPeopleTweets($from);
@@ -556,7 +576,7 @@ class PagesController extends Controller {
         }
         $pageID = "TERMS_OF_USES";
         $data = array();
-        $data['page_title'] = "EMFI: Terms Of Uses";
+        $data['page_title'] = "Terms Of Use | EMFI Group";
         app()->setLocale($locale);
         $content = \App\Models\CmsPage::where('page_constant', $pageID)->first();
         if (!$content) {
@@ -565,7 +585,22 @@ class PagesController extends Controller {
         $data['content'] = $content;
         return view('terms_of_uses', $data);
     }
-
+    public function scam_alert() {
+        $locale = session('locale');
+        if (empty($locale)) {
+            $locale = 'en';
+        }
+        $pageID = "SCAM_ALERT";
+        $data = array();
+        $data['page_title'] = "Scam Alert | EMFI Group";
+        app()->setLocale($locale);
+        $content = \App\Models\CmsPage::where('page_constant', $pageID)->first();
+        if (!$content) {
+            return abort(404);
+        }
+        $data['content'] = $content;
+        return view('scam_alert', $data);
+    }
     public function privacy_statements() {
         $locale = session('locale');
         if (empty($locale)) {
@@ -573,7 +608,7 @@ class PagesController extends Controller {
         }
         $pageID = "PRIVACY_STATEMENTS";
         $data = array();
-        $data['page_title'] = "EMFI: Privacy Statements";
+        $data['page_title'] = "Privacy Policy | EMFI Group";
         app()->setLocale($locale);
         $content = \App\Models\CmsPage::where('page_constant', $pageID)->first();
         if (!$content) {
@@ -590,7 +625,7 @@ class PagesController extends Controller {
         }
         $pageID = "COOKIES";
         $data = array();
-        $data['page_title'] = "EMFI: Cookies";
+        $data['page_title'] = "Cookies Policy | EMFI Group";
 
         app()->setLocale($locale);
 
@@ -1056,8 +1091,10 @@ class PagesController extends Controller {
             $html .= '<p>Thank you !</p>';
 
 
-            $params["to"] = $toEmail;
+            // $params["to"] = $toEmail;
             // $params["to"] = 'ashoksadhu16@gmail.com';
+            $params["to"] = 'contact@emfi.eu';
+            
             $params["from"] = $email;
             $params["subject"] = "EMFI: Contact Details";
             $params["body"] = $html;
@@ -1128,27 +1165,27 @@ class PagesController extends Controller {
         $data = [];
 
         if ($type == 'capital') {
-            $data['page_title'] = 'EMFI: Capital';
+            $data['page_title'] = 'Asset Management | EMFI Group';
             $data['page_title_name'] = 'Asset Management';
             $view = 'services.asset_management';
         }
         elseif ($type == 'wealth') {
-            $data['page_title'] = "EMFI: Wealth";
+            $data['page_title'] = "Wealth Management | EMFI Group";
             $data['page_title_name'] = "Wealth Management";
             $view = 'services.wealth_management';
         }
         elseif ($type == 'securities') {
-            $data['page_title'] = 'EMFI: Securities';
+            $data['page_title'] = 'Capital Markets | EMFI Group';
             $data['page_title_name'] = 'Capital Markets';
             $view = 'services.investment_banking';
         }
         elseif ($type == 'prime') {
-            $data['page_title'] = 'EMFI: Prime';
+            $data['page_title'] = 'Prime Brokerage | EMFI Group';
             $data['page_title_name'] = 'Prime Brokerage';
             $view = 'services.prime_brokerage';
         }
         elseif ($type == 'analytics') {
-            $data['page_title'] = 'EMFI: Analytics';
+            $data['page_title'] = 'Data Analytics | EMFI Group';
             $data['page_title_name'] = 'Data Analytics';
             $view = 'services.data_analytics';
         }

@@ -13,6 +13,11 @@ is_first = 1;
 is_bond_first = 1;
 is_first_benchmark = 1;
 
+function resetRelValChart()
+{
+    $("#scatter_chart").html("");
+}
+
 function resetFields(chartType)
 {
    if(chartType == 1)
@@ -52,6 +57,9 @@ function drawRegression(data_values)
     var tmpValues = [];
     vAxisFormat ='0';
     vAxisFormat = GetDecimalFormat($("#price-dropdown-12").val());
+    var total_rows = 0;
+
+
     if(counter > 0)
     {
         formatedData.push([{label:'', type:'number'}, {label:$("#price-dropdown-3 option:selected").text(), type:'number'},{label: 'tooltip', role: 'tooltip', 'p': {'html': true}},{'type': 'string', 'role': 'style'}]);
@@ -68,24 +76,42 @@ function drawRegression(data_values)
                 $style = 'point {fill-color: #FF0000;}';
             }
 
-            tmpValues.push(parseFloat(data_values[i]['main_price']));
+                tmpValues.push(parseFloat(data_values[i]['main_price']));
 
-            formatedData.push(
-                [
-                    {v:parseFloat(data_values[i]['main_price']), f:data_values[i]['created_format']}, 
-                    {v:parseFloat(data_values[i]['main_price2']), f:data_values[i]['created_format']},
-                    html,
-                    $style
-                ]
-            );
+            if(data_values[i]['main_price'] > 0 &&  data_values[i]['main_price2'] > 0)
+            {
+
+                formatedData.push(
+                    [
+                        {v:parseFloat(data_values[i]['main_price']), f:data_values[i]['created_format']}, 
+                        {v:parseFloat(data_values[i]['main_price2']), f:data_values[i]['created_format']},
+                        html,
+                        $style
+                    ]
+                );
+
+                total_rows++;           
+            } 
             j++;
         }
+
+        if(total_rows == 0)
+        {
+            resetRelValChart();
+            return false;
+        }
+
+
     }    
     else
     {
-        formatedData.push(["", ""]);
-        formatedData.push(["", 0]);
+        resetRelValChart();
+        return false;        
     }
+
+
+
+
     
     $minVal = 0;
     $maxVal = 5;
@@ -394,6 +420,93 @@ function drawChart(data_values, elementID, chartType)
     };
     var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
     chart.draw(data, options);
+
+    google.visualization.events.addListener(chart, 'select', function() {
+
+
+         var selection = chart.getSelection();
+         var select_val;
+         var message = '';
+         var number_of_row = 0;
+
+          for (var i = 0; i < selection.length; i++) 
+          {
+            var item = selection[i];
+            if (item.row != null && item.column != null) 
+            {
+              var str = data.getFormattedValue(item.row, item.column);
+              message += '{row:' + item.row + ',column:' + item.column + '} = ' + str + '\n';
+              select_val = data.getValue(item.row, item.column);
+              number_of_row = item.row;
+            } else if (item.row != null) {
+              var str = data.getFormattedValue(item.row, 0);
+              message += '{row:' + item.row + ', column:none}; value (col 0) = ' + str + '\n';
+            } else if (item.column != null) {
+              var str = data.getFormattedValue(0, item.column);
+              message += '{row:none, column:' + item.column + '}; value (row 0) = ' + str + '\n';
+            }
+          }
+
+          if(message == '') 
+          {
+            message = 'nothing';
+          }
+
+
+        if(chartType == 1)
+        {
+            var mainCounter = 0;
+            for (var i in data_values)
+            {
+                $price = data_values[i]['price'];
+                if($price == select_val && number_of_row == mainCounter)
+                {
+                   global_market_id = data_values[i]['market_id'];
+                   global_secure_id_2 = data_values[i]['security_id'];
+                   global_secure_id_2_text = data_values[i]['tooltip'];
+
+                   resetFields(3);
+                   $("#price-dropdown-10").val(3);
+
+                   $(".market-chart-title-2").html(global_secure_id_2_text);
+                   generateLineGraph2();                   
+
+                    $('html, body').animate({
+                            scrollTop: $("#secondChartPart").offset().top - 67
+                    }, 600);                   
+                }   
+
+                mainCounter++;
+            }
+        }   
+        else if(chartType == 2)
+        {
+            var mainCounter = 0;
+            for (var i in data_values)
+            {
+                $price = data_values[i]['price'];
+                if($price == select_val && number_of_row == mainCounter)
+                {
+                   global_market_id = data_values[i]['market_id'];
+                   global_secure_id_2 = data_values[i]['security_id'];
+                   global_secure_id_2_text = data_values[i]['tooltip'];
+
+                   resetFields(3);
+                   $("#price-dropdown-10").val(3);
+
+                   $(".market-chart-title-2").html(global_secure_id_2_text);
+                   generateLineGraph2();                   
+
+                    $('html, body').animate({
+                            scrollTop: $("#secondChartPart").offset().top - 67
+                    }, 600);                                       
+                }   
+
+                mainCounter++;
+            }
+}
+
+    });    
 }
 
 function drawBenchmarkChart(data_values, chartType)
@@ -490,6 +603,85 @@ function drawBenchmarkChart(data_values, chartType)
     };
     var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
     chart.draw(data, options);
+    google.visualization.events.addListener(chart, 'select', function() {
+
+
+         var selection = chart.getSelection();
+         var select_val;
+         var message = '';
+         var number_of_row = 0;
+
+          for (var i = 0; i < selection.length; i++) 
+          {
+            var item = selection[i];
+            if (item.row != null && item.column != null) 
+            {
+              var str = data.getFormattedValue(item.row, item.column);
+              message += '{row:' + item.row + ',column:' + item.column + '} = ' + str + '\n';
+              select_val = data.getValue(item.row, item.column);
+              number_of_row = item.row;
+            } else if (item.row != null) {
+              var str = data.getFormattedValue(item.row, 0);
+              message += '{row:' + item.row + ', column:none}; value (col 0) = ' + str + '\n';
+            } else if (item.column != null) {
+              var str = data.getFormattedValue(0, item.column);
+              message += '{row:none, column:' + item.column + '}; value (row 0) = ' + str + '\n';
+            }
+          }
+
+          if(message == '') 
+          {
+            message = 'nothing';
+          }
+
+          // alert(select_val +" => "+ number_of_row);
+          
+           var mainCounter = 0;
+           data_values1 = data_values.benchmark_history_data;
+           for (var i in data_values1)
+           {
+                $price = data_values1[i]['price1'];
+                $price2 = data_values1[i]['price2'];
+
+                // console.log($price + " => "+mainCounter);
+
+                if($price == select_val && number_of_row == mainCounter)
+                {
+                   global_market_id = data_values1[i]['market_id'];
+                   global_secure_id_2 = data_values1[i]['security_id'];
+                   global_secure_id_2_text = data_values1[i]['tooltip'];
+
+                   resetFields(3);
+                   $("#price-dropdown-10").val(3);
+
+                   $(".market-chart-title-2").html(global_secure_id_2_text);
+                   generateLineGraph2();                   
+
+                    $('html, body').animate({
+                            scrollTop: $("#secondChartPart").offset().top - 67
+                    }, 600);                   
+                }   
+                else if($price2 == select_val && number_of_row == mainCounter)
+                {
+                   global_market_id = data_values1[i]['market_id2'];
+                   global_secure_id_2 = data_values1[i]['security_id2'];
+                   global_secure_id_2_text = data_values1[i]['tooltip2'];
+
+                   resetFields(3);
+                   $("#price-dropdown-10").val(3);
+
+                   $(".market-chart-title-2").html(global_secure_id_2_text);
+                   generateLineGraph2();                   
+
+                    $('html, body').animate({
+                            scrollTop: $("#secondChartPart").offset().top - 67
+                    }, 600);                   
+                }   
+
+                mainCounter++;
+           }          
+    });    
+
 }
 
 function drawAreaChart(data_values) {

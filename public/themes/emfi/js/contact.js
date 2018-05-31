@@ -30,17 +30,23 @@ window. onload = function () {
 
     function init2(){
     var london = new google.maps.LatLng(51.522117, -0.150337);
-    var zurich = new google.maps.LatLng(47.379165, 8.545277);
-    var newyork = new google.maps.LatLng(40.7128, -74.0060);
+    var zurich = new google.maps.LatLng(47.3717306, 8.5364392);
+    var newyork = new google.maps.LatLng(40.7588461, -73.9919443);
+    
+    var london_address = '<b> EMFI Securities Limited</b> <br><br> 32 Devonshire Pl<br>London, W1G 6JL<br> United Kingdom';
+    var zurich_address = '<b>EMFI Wealth AG</b> <br><br>Bahnhofstrasse 58<br>8001 Zurich<br>Switzerland';
+    var newyork_address = '<b>EMFI Capital LLC</b> <br><br> 598 9th Ave,<br>New York, NY 10036 <br>United States';
+
     var element_london = 'map';
     var element_zurich = 'map2';
     var element_newyork = 'map3';
-    init1(london, element_london);
-    init1(zurich, element_zurich);
-    init1(newyork, element_newyork);
+
+    init1(london, element_london, london_address);
+    init1(zurich, element_zurich, zurich_address);
+    init1(newyork, element_newyork, newyork_address);
 }
 
-function init1(location, element){
+function init1(location, element, address){
     var mapOptions = {
             zoom: 16,
             center: location,
@@ -54,7 +60,10 @@ function init1(location, element){
     }]
     };
     var mapElement = document.getElementById(element);
-
+    var infowindow = new google.maps.InfoWindow({
+                        content: address,
+                        size: new google.maps.Size(150,50)
+                    });
     var map = new google.maps.Map(mapElement, mapOptions);
 
     var marker = new google.maps.Marker({
@@ -63,6 +72,10 @@ function init1(location, element){
                 icon: '/themes/emfi/images/map-pin.png',
                 title: 'EMFI Securities'
                 });
+    google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map,marker);
+    });
+
 }
 
 

@@ -30,7 +30,10 @@ class ApiController extends Controller
         $title = "";
         if($market_id == 5)
         {
-            $query = "SELECT id,security_name FROM securities WHERE `benchmark_family` = 'B10' AND market_id = 5 AND  country_id = ".$country_id." ORDER BY id DESC LIMIT 1";
+
+            $query = "SELECT securities.id, securities.security_name  FROM securities, tickers 
+                        WHERE tickers.id = securities.ticker_id AND securities.`benchmark_family` = 'B10' AND securities.market_id = 5 AND securities.country_id = ".$country_id."  AND tickers.ticker_type = 1 ORDER BY securities.id DESC LIMIT 1";
+            // $query = "SELECT id,security_name FROM securities WHERE `benchmark_family` = 'B10' AND market_id = 5 AND  country_id = ".$country_id." ORDER BY id DESC LIMIT 1";
 
         }
         else
@@ -75,6 +78,8 @@ class ApiController extends Controller
             }            
         }        
 
+        // echo "<pre>";print_r($relval_chart);exit;
+
         // dd($relval_chart);
 
         $status = 1;
@@ -113,6 +118,8 @@ class ApiController extends Controller
                 $data[$i]['security_name'] = $r['security_name'];
                 $data[$i]['created_format'] = $r['created_format'];
                 $data[$i]['country_code'] = $r['country_code'];
+                $data[$i]['security_id'] = $r['security_id'];
+                $data[$i]['security_name'] = $r['security_name'];
                 
 
                 $i++;
@@ -121,7 +128,13 @@ class ApiController extends Controller
             $i = 0;
             foreach($data as $r)
             {
-                $finalArray[$r['category']][] = ['price' => $r['price'], 'country_title' => $r['country_title'], 'country_code' => $r['country_code']];
+                $finalArray[$r['category']][] = 
+                [   'price' => $r['price'], 
+                    'country_title' => $r['country_title'], 
+                    'country_code' => $r['country_code'],
+                    'security_id' => $r['security_id'],
+                    'security_name' => $r['security_name']
+                ];
             }       
 
 //            echo "<pre>";
@@ -533,6 +546,7 @@ class ApiController extends Controller
         $data           = callCustomSP($history_data);
         $returnData['history_data'] = $data;
         $returnData['benchmark_history_data'] = [];
+
         
         $returnData['regression_data'] = $regression_data;
         $returnData['areachart_data'] = $areachart_data;
@@ -864,6 +878,8 @@ class ApiController extends Controller
                 $price = $row['last_price'];
                 $category = $row['dur_adj_mid'];                                
                 $extraTitle = $row['security_name'];
+                $sub_security_id = $row['security_id'];
+                $sub_market_id = $row['market_id'];
                 
 
                 if($price_id == 2)
@@ -894,6 +910,8 @@ class ApiController extends Controller
                 $rows[$i]['category'] = $category;
                 $rows[$i]['price'] = $price;
                 $rows[$i]['tooltip'] = $extraTitle;
+                $rows[$i]['security_id'] = $sub_security_id;
+                $rows[$i]['market_id'] = $sub_market_id;
                 $rows[$i]['date_difference'] = $row['date_difference'];
                 $i++;
             }    
@@ -919,6 +937,9 @@ class ApiController extends Controller
                     $dataKeys[$i]['date_difference'] = $row['date_difference'];
                     $dataKeys[$i]['price1'] = $row['price'];
                     $dataKeys[$i]['tooltip'] = $row['tooltip'];                        
+                    $dataKeys[$i]['tooltip'] = $row['tooltip'];
+                    $dataKeys[$i]['market_id'] = $row['market_id'];
+                    $dataKeys[$i]['security_id'] = $row['security_id'];                        
                     $dataKeys[$i]['title2'] = "";                    
                     $dataKeys[$i]['price2'] = NULL;                                                            
                     $i++;
@@ -955,6 +976,9 @@ class ApiController extends Controller
                     $dataKeys[$i]['title2'] = $category;
                     $dataKeys[$i]['price2'] = $price;
                     $dataKeys[$i]['tooltip2'] = $row['security_name'];
+
+                    $dataKeys[$i]['market_id2'] = $row['market_id'];
+                    $dataKeys[$i]['security_id2'] = $row['security_id'];
 
                     if(!isset($dataKeys[$i]['title1']))
                     {

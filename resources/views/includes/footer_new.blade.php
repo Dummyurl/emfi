@@ -8,16 +8,16 @@
                         <li><a href="{{ url(getLangName())}}">{{ __('footer.home') }}</a></li>
                         <li><a href="{{ url(getLangName().'/about')}}">{{ __('footer.about') }}</a></li>
                         <li><a href="{{ url(getLangName().'/contact')}}">{{ __('footer.contact') }}</a></li>
-                        <li><a href="https://login.emfiprime.com/login" >{{ __('footer.login') }}</a></li>
+                        <li><a href="{{ \Config('app.login_link')}}" >{{ __('footer.login') }}</a></li>
                     </ul>
                 </div>
                 <div class="footer_block">
                     <h3>{{ __('footer.legal_info') }}</h3>
                     <ul>
-                        <li><a href="{{ url(getLangName().'/terms-of-uses') }}">{{ __('footer.scam') }}</a></li>
-                        <li><a href="{{ url(getLangName().'/cookies') }}">{{ __('footer.cookies') }}</a></li>
-                        <li><a href="{{ url(getLangName().'/privacy-statements') }}">{{ __('footer.privacy_statements') }}</a></li>
-                        <li><a href="{{ url(getLangName().'/terms-of-uses') }}">{{ __('footer.terms_of_uses') }}</a></li>
+                        <li><a href="{{ url(getLangName().'/scam-alert') }}">{{ __('footer.scam') }}</a></li>
+                        <li><a href="{{ url(getLangName().'/cookies-policy') }}">{{ __('footer.cookies') }}</a></li>
+                        <li><a href="{{ url(getLangName().'/privacy-policy') }}">{{ __('footer.privacy_statements') }}</a></li>
+                        <li><a href="{{ url(getLangName().'/terms-of-use') }}">{{ __('footer.terms_of_uses') }}</a></li>
                     </ul>
                 </div>
                 <div class="footer_block">
@@ -36,11 +36,11 @@
                         <li><a target="_blank" href="https://www.facebook.com/EMFISecurities/" class="rounded_full"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                         <li><a target="_blank" href="https://twitter.com/EmfiSecurities" class="rounded_full"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
                         <li><a target="_blank" href="https://www.linkedin.com/company/emfi-securities-limited/" class="rounded_full"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                        <li><a href="{{ url(getLangName().'/contact/enquiry')}}" class="rounded_full"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ url(getLangName().'/contact')}}" class="rounded_full"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
                         
                     </ul>
                 </div>
-                <p class="ftr_txt">&copy; {{ date('Y') }} {{ __('footer.copy_rights') }}. <br>{{ __('footer.copy_rights_1') }}.<br>{{ __('footer.copy_rights_2') }}.<br>{{ __('footer.copy_rights_3') }}.</p>
+                <p class="ftr_txt">&copy; {{ date('Y') }} {{ __('footer.copy_rights') }}. <br>{{ __('footer.copy_rights_1') }}.<br>{{ __('footer.copy_rights_3') }}.</p>
             </div>
         </div>
     </div>

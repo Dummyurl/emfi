@@ -43,16 +43,18 @@ Route::get('espanol/prime', 'PagesController@services');
 Route::get('espanol/analytics', 'PagesController@services');
 
 
-Route::get('english/terms-of-uses', 'PagesController@terms_of_uses');
-Route::get('english/privacy-statements', 'PagesController@privacy_statements');
-Route::get('english/cookies', 'PagesController@cookies');
+Route::get('english/scam-alert', 'PagesController@scam_alert');
+Route::get('english/terms-of-use', 'PagesController@terms_of_uses');
+Route::get('english/privacy-policy', 'PagesController@privacy_statements');
+Route::get('english/cookies-policy', 'PagesController@cookies');
 
 Route::get('espanol/about', 'PagesController@about');
 Route::get('espanol/contact', 'PagesController@contact');
 Route::get('espanol/services/{type}', 'PagesController@services');
-Route::get('espanol/terms-of-uses', 'PagesController@terms_of_uses');
-Route::get('espanol/privacy-statements', 'PagesController@privacy_statements');
-Route::get('espanol/cookies', 'PagesController@cookies');
+Route::get('espanol/scam-alert', 'PagesController@scam_alert');
+Route::get('espanol/terms-of-use', 'PagesController@terms_of_uses');
+Route::get('espanol/privacy-policy', 'PagesController@privacy_statements');
+Route::get('espanol/cookies-policy', 'PagesController@cookies');
 
 Route::get('change-language/{locale}', 'PagesController@change_locale');
 

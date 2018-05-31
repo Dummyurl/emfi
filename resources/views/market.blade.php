@@ -324,11 +324,23 @@
                             </select>
                         </div>
                         <div class="col-md-4">
+                            <?php 
+                                if($selected_market ==4 ){
+                            ?>
+                            <select id="price-dropdown">
+                                <option value="1" data-title="Yield">Yield</option>
+                            </select>
+                            <?php
+                                } else {
+                            ?>
                             <select id="price-dropdown">
                                 <option value="1" data-title="Price">Price</option>
                                 <option value="2" data-title="Yield">Yield</option>
                                 <option value="3" data-title="Spread" {!! ($selected_market == 5) ? 'selected="selected"':'' !!}>Spread</option>
                             </select>
+                            <?php 
+                                }
+                            ?>
                         </div>
                         <div class="col-md-4 pull-right">
                             <select id="benchmark-dropdown">

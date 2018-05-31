@@ -914,10 +914,14 @@ class HomeSlidersController extends Controller
         $market_id  = $request->get("market_id");
         $arr_security = array();
         if(!empty($country_id)){
-            $arr_security = Securities::where('country_id', $country_id)->pluck('security_name','id')->all();
+            $arr_security_w = Securities::where('country_id', $country_id)->get();
+            
+            foreach ($arr_security_w as $key => $value) {
+                $arr_security[$value->id]['security_name'] = $value->security_name;
+                $arr_security[$value->id]['benchmark_family'] = $value->benchmark_family;
+            }
         } else if(is_array($market_id) && !empty($market_id)){
             $arr_security = Securities::where('country_id', $country_id)->whereIn('market_id', $market_id)->pluck('security_name','id')->all();
-            // $arr_security = Securities::whereIn('market_id', [1,2])->pluck('security_name','id')->all();
         }
         return $arr_security;
     }

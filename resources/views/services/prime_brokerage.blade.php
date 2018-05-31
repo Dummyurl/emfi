@@ -48,7 +48,8 @@
                             <div class="slider_content">
                                 <div class="col-md-6">
                                   <div class="chart_left"> 
-                                    <div class="service_img"><img src="http://demo.phpdots.com/themes/emfi/images/service-img.jpg" alt="EMFI Securities- services"></div>
+                                    <div class="service_img" style="background: transparent url('{{ asset('/themes/emfi/images/service-img.jpg') }}') no-repeat center top;">                                        
+                                    </div>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
@@ -78,7 +79,8 @@
                             <div class="slider_content">
                                 <div class="col-md-6">
                                   <div class="chart_left"> 
-                                    <div class="service_img"><img src="http://demo.phpdots.com/themes/emfi/images/service-img.jpg" alt="EMFI Securities- services"></div>
+                                    <div class="service_img" style="background: transparent url('{{ asset('themes/emfi/images/service-img.jpg') }}') no-repeat center top;">                                        
+                                    </div>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
@@ -108,7 +110,7 @@
                             <div class="slider_content">
                                 <div class="col-md-6">
                                   <div class="chart_left"> 
-                                    <div class="service_img"><img src="http://demo.phpdots.com/themes/emfi/images/service-img.jpg" alt="EMFI Securities- services"></div>
+                                    <div class="service_img" style="background: transparent url('{{ asset('themes/emfi/images/service-img.jpg') }}') no-repeat center top;"></div>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
@@ -136,12 +138,12 @@
                 <div class="office_details">
                     <h3>LONDON</h3>
                     <address>
-                        <strong>EMFI</strong> SECURITIES<br>
+                        <strong>EMFI</strong> Prime Limited<br><br>
                         32 Devonshire Pl<br>
                         London, W1G 6JL<br>
                         United Kingdom
                     </address>
-                    <a href="mailto:lndon@emfisecurities.com">prime@emfi.eu</a>
+                    <a href="mailto:prime@emfi.eu">prime@emfi.eu</a>
               </div>
                 </div>
             <div class="col-md-8">

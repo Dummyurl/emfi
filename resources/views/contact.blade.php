@@ -93,12 +93,12 @@
                 <div class="office_details">
                     <h3>{{ __('about.london') }}</h3>
                     <address>
-                        <strong>EMFI</strong> SECURITIES<br>
+                        <strong>EMFI</strong> Group Limited<br><br>
                         32 Devonshire Pl<br>
                         London, W1G 6JL<br>
                         United Kingdom
                     </address>
-                    <a href="mailto:lndon@emfisecurities.com">lndon@emfisecurities.com</a>
+                    <a href="mailto:london@emfi.eu">london@emfi.eu</a>
                 </div>
             </div>
             <div class="col-md-8">
@@ -110,14 +110,14 @@
         <div class="row">
             <div class="col-md-4 col-md-push-8">
                 <div class="office_details">
-                    <h3>ZÜRICH</h3>
+                    <h3>ZURICH</h3>
                     <address>
-                        <strong>EMFI</strong> SECURITIES<br>
+                        <strong>EMFI</strong> Group Limited<br><br>
                         Leonhardstrasse 1<br>
                         8001 Zürich<br>
                         Switzerland
                     </address>
-                    <a href="mailto:zurich@emfisecurities.com">zurich@emfisecurities.com</a>
+                    <a href="mailto:zurich@emfi.eu">zurich@emfi.eu</a>
                 </div>
             </div>
             <div class="col-md-8 col-md-pull-4">
@@ -131,12 +131,12 @@
                 <div class="office_details">
                     <h3>NEW YORK</h3>
                     <address>
-                        <strong>EMFI</strong> Group<br>
+                        <strong>EMFI</strong> Group Limited<br><br>
                         598 9th Ave<br>
                         New York, NY 10036<br>
                         United States
                     </address>
-                    <a href="mailto:zurich@emfisecurities.com">newyork@emfi.eu</a>
+                    <a href="mailto:newyork@emfi.eu">newyork@emfi.eu</a>
                 </div>
             </div>
             <div class="col-md-8">

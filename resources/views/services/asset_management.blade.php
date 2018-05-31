@@ -11,7 +11,7 @@
             </div>
             <div class="service_inner clearfix">
               <div class="col-md-6">
-                <div class="service_img"><img src="http://demo.phpdots.com/themes/emfi/images/service-img.jpg" alt="EMFI Securities- services"></div>
+                <div class="service_img"><img src='{{ asset("/themes/emfi/images/service-img.jpg")}}' alt="EMFI Securities- services"></div>
               </div>
               <div class="col-md-6">
                 <div class="text_right">
@@ -43,7 +43,9 @@
                             <div class="slider_content">
                                 <div class="col-md-6">
                                   <div class="chart_left"> 
-                                    <div class="service_img"><img src="http://demo.phpdots.com/themes/emfi/images/service-img.jpg" alt="EMFI Securities- services"></div>
+                                      <div class="service_img" style="background: transparent url('{{asset('/themes/emfi/images/service-img.jpg')}}') no-repeat center top;">
+                                      <!-- <img src="http://demo.phpdots.com/themes/emfi/images/service-img.jpg" alt="EMFI Securities- services"> -->
+                                    </div>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
@@ -73,7 +75,9 @@
                             <div class="slider_content">
                                 <div class="col-md-6">
                                   <div class="chart_left"> 
-                                    <div class="service_img"><img src="http://demo.phpdots.com/themes/emfi/images/service-img.jpg" alt="EMFI Securities- services"></div>
+                                      <div class="service_img" style="background: transparent url('{{asset('/themes/emfi/images/service-img.jpg')}}') no-repeat center top;">
+                                      <!-- <img src="http://demo.phpdots.com/themes/emfi/images/service-img.jpg" alt="EMFI Securities- services"> -->
+                                    </div>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
@@ -103,7 +107,9 @@
                             <div class="slider_content">
                                 <div class="col-md-6">
                                   <div class="chart_left"> 
-                                    <div class="service_img"><img src="http://demo.phpdots.com/themes/emfi/images/service-img.jpg" alt="EMFI Securities- services"></div>
+                                      <div class="service_img" style="background: transparent url('{{asset('/themes/emfi/images/service-img.jpg')}}') no-repeat center top;">
+                                      <!-- <img src="http://demo.phpdots.com/themes/emfi/images/service-img.jpg" alt="EMFI Securities- services"> -->
+                                    </div>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
@@ -131,12 +137,12 @@
                 <div class="office_details">
                     <h3>NEW YORK</h3>
                     <address>
-                        <strong>EMFI</strong> Capital LLC<br>
+                        <strong>EMFI</strong> Capital LLC<br><br>
                         598 9th Ave<br>
                         New York, NY 10036<br>
                         United States
                     </address>
-                    <a href="mailto:lndon@emfisecurities.com">capital@emfi.eu</a>
+                    <a href="mailto:capital@emfi.eu">capital@emfi.eu</a>
               </div>
                 </div>
             <div class="col-md-8">
@@ -151,5 +157,5 @@
 @section('scripts')
 <script src="{{ asset('themes/frontend/js/home.js') }}"></script>
 <script src="{{ asset('themes/emfi/js/location_map.js') }}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4se7HxOqOpUPcelVjD7Odc_BBP4qdqHE&libraries=places&callback=init3"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4se7HxOqOpUPcelVjD7Odc_BBP4qdqHE&libraries=places&callback=assetmanagement"></script>
 @stop 

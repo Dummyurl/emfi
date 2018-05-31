@@ -5,8 +5,9 @@
                 <span title="Close" class="pull-right close_disclaimer" style="color:white;cursor: pointer;">X</span>
             </div> -->
             <div class="container">
-                <h4>{{ __('footer.disclaimer') }}</h4>
-                <p class="text-justify">{{ __('footer.disclaimer_desc') }}.</p>
+                <!-- <h4>//{{ __('footer.disclaimer') }}</h4> -->
+                <p>{{ __('footer.disclaimer_desc_1') }} <a href="{{ url(getLangName().'/cookies-policy')  }}">Cookies Policy</a>. {{ __('footer.disclaimer_desc_2') }} <a href="{{ url(getLangName().'/privacy-policy') }}">Privacy Policy</a>, <a href="{{ url(getLangName().'/terms-of-use') }}">Terms of Uses</a> and <a href="{{ url(getLangName().'/scam-alert') }}">Scam Alert</a> {{ __('footer.disclaimer_desc_3') }}  
+                </p>
                 <div class="row">
                     <a href="#" title="Close" class="pull-right close_disclaimer"> OK </a>
                 </div>
@@ -41,7 +42,7 @@
                 </li>
                 
                 <li> 
-                        <a href="https://login.emfiprime.com/login" class="login_btn">
+                        <a href="{{ \Config('app.login_link')}}" class="login_btn">
                             {{ __('header.login') }}                        
                         </a>
                 </li>
@@ -99,7 +100,7 @@
                         </ul>
                     </li>
                     <li class="{{ \Request::is(getLangName().'/contact',getLangName().'/contact/*') ? 'active':'' }} dropdown">
-                        <a href="{{ url(getLangName().'/contact/enquiry')}}">{{ __('header.contact') }}</a>
+                        <a href="{{ url(getLangName().'/contact')}}">{{ __('header.contact') }}</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ url(getLangName().'/contact/enquiry')}}">{{ __('header.enquiry') }}</a></li>
                             <li><a href="{{ url(getLangName().'/contact/feedback')}}">{{ __('header.feedback') }}</a></li>

@@ -9,6 +9,7 @@ var global_line_graph_text;
 var global_historical_data;
 var global_gainer_data = [];
 var global_loser_data = [];
+var rel_val_securities = [];
 
 function prepend(value, array) {
     var newArray = array.slice();
@@ -563,6 +564,8 @@ function drawRelvalChart(data_values)
         data.addColumn({type: 'string', role: 'annotation', 'p': {'html': true}});
     }    
 
+    rel_val_securities = []; 
+
     for(var i in data_values)
     {
         var prices = [];
@@ -577,6 +580,10 @@ function drawRelvalChart(data_values)
             var html = data_values[i][j]['country_code'];
             prices.push(html);
             cnt++;
+
+            // rel_val_securities[i][data_values[i][j]['country_code']][0] = data_values[i][j]['security_name'];
+            // rel_val_securities[i][data_values[i][j]['country_code']] = [data_values[i][j]['security_id'], data_values[i][j]['security_name']];
+            // console.log(prices);
         }  
 
         for(k = cnt+1;k<=1000;k++)
@@ -625,6 +632,93 @@ function drawRelvalChart(data_values)
 
     var chart = new google.visualization.ScatterChart(document.getElementById(elementID));
     chart.draw(data, options);
+
+    google.visualization.events.addListener(chart, 'select', function() {
+
+
+         var selection = chart.getSelection();
+         var select_country_code;
+         var message = '';
+         var number_of_row = 0;
+          for (var i = 0; i < selection.length; i++) 
+          {
+            var item = selection[i];
+            if (item.row != null && item.column != null) 
+            {
+              var str = data.getFormattedValue(item.row, item.column);
+              message += '{row:' + item.row + ',column:' + item.column + '} = ' + str + '\n';
+              select_country_code = data.getValue(item.row, item.column);
+              number_of_row = item.row;
+            } else if (item.row != null) {
+              var str = data.getFormattedValue(item.row, 0);
+              message += '{row:' + item.row + ', column:none}; value (col 0) = ' + str + '\n';
+            } else if (item.column != null) {
+              var str = data.getFormattedValue(0, item.column);
+              message += '{row:none, column:' + item.column + '}; value (row 0) = ' + str + '\n';
+            }
+          }
+
+          if(message == '') 
+          {
+            message = 'nothing';
+          }
+
+          // alert('You selected ' + message);
+          // alert(select_country_code);
+          // alert(select_country_code +" => "+rel_val_securities[number_of_row][select_country_code][0]);
+
+          var mainCounter = 0;
+          var tmp_security = 0;
+          var tmp_security_name = "";
+          for(var i in data_values)
+          {
+                for(j in data_values[i])
+                {   
+                    if(data_values[i][j]['country_code'] == select_country_code && number_of_row == mainCounter)
+                    {
+                        tmp_security = data_values[i][j]['security_id'];
+                        tmp_security_name = data_values[i][j]['security_name'];
+                    }
+                    else if(data_values[i][j]['price'] == select_country_code && number_of_row == mainCounter)
+                    {
+                        tmp_security = data_values[i][j]['security_id'];
+                        tmp_security_name = data_values[i][j]['security_name'];
+                    }
+                }  
+
+                mainCounter++
+          }                 
+
+          if(tmp_security > 0)
+          {
+                global_line_graph_text = tmp_security_name;
+                global_line_graph_id = tmp_security;
+                $("#benchmark-dropdown").html('<option value="">Add Benchmark</option>');
+                generateLineGraph();                
+                $('html, body').animate({
+                        scrollTop: $("#linegraph-data").offset().top - 50
+                }, 600);                        
+          }
+
+        // alert(select_country_code + " => "+tmp_security);
+
+        // var category;
+        // var select_country_code;
+        
+        // category = '';
+        
+        // for (var i = 0; i < selection.length; i++) 
+        // {
+        //     var item = selection[i];
+        //     category = data.getValue(chart.getSelection()[0].row, 0);
+        //     select_country_code = data.getValue(chart.getSelection()[0].row, 3);
+        //     console.log(chart.getSelection()[0]);
+        // }       
+
+        // alert(" selected: "+category+" "+select_country_code);
+
+    });        
+
 }
 
 

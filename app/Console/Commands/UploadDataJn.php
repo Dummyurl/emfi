@@ -45,6 +45,7 @@ class UploadDataJn extends Command
         // "C:\xampp\htdocs\Laravel\emfi\public\data_upload";
         $filename = 'data.csv';
         $filename = 'Data-Jn.csv';
+        $filename = 'Data - 20180529.csv';
         $uploadPath = public_path().DIRECTORY_SEPARATOR.'data_upload' . DIRECTORY_SEPARATOR . 'csv_files'.DIRECTORY_SEPARATOR;
         $path_filename = $uploadPath.$filename;
         
@@ -82,10 +83,10 @@ class UploadDataJn extends Command
                     }
                 } else
                 {
-                    /*if($i < 712){
-                        $i++;
-                        continue;
-                    }*/
+                    // if($i < 23793){
+                    //     $i++;
+                    //     continue;
+                    // }
                     $hdata = [];
                     $idata['created'] = ($data[$fields['dates']] == "#N/A N/A" || !isset($data[$fields['dates']])) ? '' : str_replace(',','',$data[$fields['dates']]);
                     if(isset($data[$fields['dates']]) && !empty($data[$fields['dates']])){
@@ -110,12 +111,15 @@ class UploadDataJn extends Command
                     $hdata = $idata;
                     $idata['yld_ytm_mid'] = ($data[$fields['yld_ytm_mid']] == "#N/A N/A" || !isset($data[$fields['yld_ytm_mid']])) ? '' : str_replace(',','',$data[$fields['yld_ytm_mid']]);
 
-                    $idata['z_sprd_mid'] = (trim($data[$fields['z_sprd_mid']]) == "#N/A N/A" || !isset($data[$fields['z_sprd_mid']])) ? '' : str_replace(',','',$data[$fields['z_sprd_mid']]);
+                    $idata['z_sprd_mid'] = (trim($data[$fields['z_sprd_mid']]) == "#N/A N/A" || !isset($data[$fields['z_sprd_mid']])) ? null : str_replace(',','',$data[$fields['z_sprd_mid']]);
 
                     $idata['dur_adj_mid'] = ($data[$fields['dur_adj_mid']] == "#N/A N/A" || !isset($data[$fields['dur_adj_mid']])) ? '' : str_replace(',','',$data[$fields['dur_adj_mid']]);
 
                     $idata['CUSIP'] = ($data[$fields['cusip']] == "#N/A N/A" || !isset($data[$fields['cusip']])) ? "" : $data[$fields['cusip']] ;
                     // Update if any record exists Or Create a new Security
+                    // print_r($idata);
+                    // exit();
+
                     if (!empty($idata) && is_array($idata))
                     {
                         $security = \App\Models\Securities::where('CUSIP',$idata['CUSIP'])->first();
@@ -126,16 +130,22 @@ class UploadDataJn extends Command
                             $hdata['current_oecd_member_cor_class'] = $security->current_oecd_member_cor_class;
                             $market_id = $security->market_id;
                         }
+
+
                         if ($security->market_id == 5)
                         {
                             $hdata['DUR_ADJ_MID'] = $idata['dur_adj_mid'];
                             $hdata['YLD_YTM_MID'] = $idata['yld_ytm_mid'];
-                            $hdata['Z_SPRD_MID'] = $idata['z_sprd_mid'];
+                            if($idata['z_sprd_mid'] > 0){
+                                $hdata['Z_SPRD_MID'] = $idata['z_sprd_mid'];
+                            }
                             \DB::table('bond_historical_data')->insert($hdata);
                         } else
                         {
                             $hdata['YLD_YTM_MID'] = $idata['yld_ytm_mid'];
-                            $hdata['Z_SPRD_MID'] = $idata['z_sprd_mid'];
+                            if($idata['z_sprd_mid'] > 0){
+                                $hdata['Z_SPRD_MID'] = $idata['z_sprd_mid'];
+                            }
                             \DB::table('historical_data')->insert($hdata);
                         }
                     }
